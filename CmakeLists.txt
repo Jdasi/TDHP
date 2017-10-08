@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.2.0)
+project(TDHP)
+
+set(CMAKE_CXX_STANDARD 14)
+
+set(SFML_ROOT ${CMAKE_SOURCE_DIR}/SFML/)
+set(SFML_STATIC_LIBRARIES 1)
+
+set(CMAKE_MODULE_PATH "${SFML_ROOT}/cmake/Modules;${CMAKE_MODULE_PATH}")
+
+find_package(SFML 2 REQUIRED system window graphics network audio)
+
+add_executable(TDHP
+    src/main.cpp
+    src/JTime.cpp
+    src/JTime.h
+    src/SimpleTimer.cpp
+    src/SimpleTimer.h
+)
+
+target_include_directories(TDHP
+    PRIVATE
+        src
+        ${SFML_INCLUDE_DIR}
+)
+
+target_link_libraries(TDHP ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
