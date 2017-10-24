@@ -11,11 +11,18 @@ set(CMAKE_MODULE_PATH "${SFML_ROOT}/cmake/Modules;${CMAKE_MODULE_PATH}")
 find_package(SFML 2 REQUIRED system window graphics network audio)
 
 add_executable(TDHP
+    src/AssetManager.cpp
+    src/AssetManager.h
+    src/Constants.h
+    src/Game.cpp
+    src/Game.h
+    src/JHelper.h
     src/main.cpp
     src/JTime.cpp
     src/JTime.h
     src/SimpleTimer.cpp
     src/SimpleTimer.h
+    src/Vector2i.h
 )
 
 target_include_directories(TDHP

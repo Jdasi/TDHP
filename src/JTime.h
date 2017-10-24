@@ -6,16 +6,16 @@
 class JTime
 {
 public:
-    static float get_unscaled_delta_time();
-    static float get_unscaled_time();
+    static float getUnscaledDeltaTime();
+    static float getUnscaledTime();
     
-    static float get_delta_time();
-    static float get_time();
+    static float getDeltaTime();
+    static float getTime();
 
-    static float get_time_scale();
-    static void set_time_scale(float _time_scale);
+    static float getTimeScale();
+    static void setTimeScale(float _time_scale);
 
-    void tick();
+    static void tick();
 
 private:
     static float unscaled_delta_time;
@@ -26,6 +26,6 @@ private:
 
     static float time_scale;
 
-    SimpleTimer timer;
+    static SimpleTimer timer;
 
 };

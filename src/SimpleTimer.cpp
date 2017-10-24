@@ -12,7 +12,7 @@ void SimpleTimer::reset()
 }
 
 
-float SimpleTimer::get_time_difference() const
+float SimpleTimer::getTimeDifference() const
 {
     auto now = std::chrono::system_clock::now();
     std::chrono::duration<float> elapsed_seconds = now - start;
