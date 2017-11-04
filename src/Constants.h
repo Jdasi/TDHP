@@ -31,7 +31,7 @@ constexpr int GRID_AREA                 = GRID_SIZE_X * GRID_SIZE_Y;
 // ======================================================================================
 // COMMON PATH STRINGS
 // ======================================================================================
-const std::string RESOURCES_PATH        { "../Resources/" };
+const std::string RESOURCES_PATH        { "Resources/" };
 const std::string FONTS_PATH            { RESOURCES_PATH + "Fonts/" };
 const std::string TEXTURES_PATH         { RESOURCES_PATH + "Images/" };
 const std::string AUDIO_PATH            { RESOURCES_PATH + "Audio/" };
