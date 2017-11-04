@@ -1,8 +1,8 @@
-#include <SFML/Graphics.hpp>
-
 #include "JHelper.h"
 #include "Constants.h"
 #include "AssetManager.h"
+
+#include <SFML/Graphics.hpp>
 
 
 AssetManager::AssetManager()
@@ -30,7 +30,6 @@ sf::Font* AssetManager::loadFont(const std::string& _file)
 }
 
 
-
 sf::Texture* AssetManager::loadTexture(const std::string& _file)
 {
     auto entry = JHelper::findInVectorPair(textures, _file);
@@ -48,7 +47,6 @@ sf::Texture* AssetManager::loadTexture(const std::string& _file)
 
     return p_texture;
 }
-
 
 
 sf::SoundBuffer* AssetManager::loadSoundBuffer(const std::string& _file)

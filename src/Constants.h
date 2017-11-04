@@ -1,4 +1,7 @@
 #pragma once
+
+#include <SFML/Graphics.hpp>
+
 #include <string>
 
 /*! \file Constants.h
@@ -24,9 +27,17 @@ constexpr float WINDOW_BOTTOM_BOUNDARY  = WINDOW_HEIGHT - WINDOW_MARGIN_Y;
 // ======================================================================================
 // GAMEPLAY SETTINGS
 // ======================================================================================
-const int GRID_SIZE_X                   = 50; // Width (in tiles) of the playing grid.
-const int GRID_SIZE_Y                   = 50; // Height (in tiles) of the playing grid.
-constexpr int GRID_AREA                 = GRID_SIZE_X * GRID_SIZE_Y;
+const int GRID_SIZE_X                   = 20; // Width (in tiles) of the playing grid.
+const int GRID_SIZE_Y                   = 20; // Height (in tiles) of the playing grid.
+constexpr int GRID_SIZE                 = GRID_SIZE_X * GRID_SIZE_Y;
+const float TILE_PADDING                = 2;
+
+constexpr float PANE_WIDTH              = WINDOW_RIGHT_BOUNDARY - WINDOW_LEFT_BOUNDARY;
+constexpr float PANE_HEIGHT             = WINDOW_BOTTOM_BOUNDARY - WINDOW_TOP_BOUNDARY;
+const sf::Vector2f PANE_SIZE            ({ PANE_WIDTH, PANE_HEIGHT });
+
+const sf::Color WALKABLE_COLOR          = sf::Color(0, 0, 0, 255);
+const sf::Color BLOCKED_COLOR           = sf::Color(255, 255, 255, 255);
 
 // ======================================================================================
 // COMMON PATH STRINGS
@@ -42,7 +53,7 @@ const std::string AUDIO_PATH            { RESOURCES_PATH + "Audio/" };
 const std::string DEFAULT_FONT          { "arial.ttf" };
 
 // ======================================================================================
-// TEXTURE STRINGS
+// IMAGE STRINGS
 // ======================================================================================
 
 

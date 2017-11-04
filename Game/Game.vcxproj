@@ -144,18 +144,27 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
   <ItemGroup>
     <ClCompile Include="..\src\AssetManager.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
+    <ClCompile Include="..\src\SpriteGrid.cpp" />
+    <ClCompile Include="..\src\JHelper.cpp" />
     <ClCompile Include="..\src\JTime.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\NavManager.cpp" />
+    <ClCompile Include="..\src\NavNode.cpp" />
     <ClCompile Include="..\src\SimpleTimer.cpp" />
+    <ClCompile Include="..\src\HeatMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h" />
     <ClInclude Include="..\src\Constants.h" />
     <ClInclude Include="..\src\Game.h" />
+    <ClInclude Include="..\src\SpriteGrid.h" />
     <ClInclude Include="..\src\JHelper.h" />
     <ClInclude Include="..\src\JTime.h" />
+    <ClInclude Include="..\src\NavManager.h" />
+    <ClInclude Include="..\src\NavNode.h" />
     <ClInclude Include="..\src\SimpleTimer.h" />
     <ClInclude Include="..\src\Vector2i.h" />
+    <ClInclude Include="..\src\HeatMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

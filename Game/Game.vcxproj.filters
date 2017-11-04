@@ -28,6 +28,21 @@
     <ClCompile Include="..\src\Game.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\NavManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\NavNode.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\JHelper.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpriteGrid.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\HeatMap.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -49,6 +64,18 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\NavManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\NavNode.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpriteGrid.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\HeatMap.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AssetManager.h"
+#include "NavManager.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -19,14 +20,17 @@ private:
     void tick();
     void draw();
 
+    void updateDebugDisplay();
     void processEvents(sf::Window& _window);
 
     sf::RenderWindow window;
     AssetManager asset_manager;
+    NavManager nav_manager;
 
-    sf::Text delta_time_display;
-    sf::Text time_display;
+    sf::Text debug_display;
+    sf::RectangleShape cursor;
 
     bool exit;
+    float update_timer;
 
 };
