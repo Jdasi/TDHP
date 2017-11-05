@@ -2,9 +2,10 @@
 
 #include "NavNode.h"
 #include "HeatMap.h"
-#include "SpriteGrid.h"
+#include "TileGrid.h"
 
 #include <vector>
+#include <memory>
 
 class NavManager
 {
@@ -12,16 +13,19 @@ public:
     NavManager();
     ~NavManager() = default;
 
-    void colorTileAtPos(const sf::Vector2f& _pos);
+    HeatMap* createHeatMap(const sf::Color& _hot_color, const sf::Color& _cold_color,
+        const float _paint_hardness, const float _decay_rate);
+
+    void toggleTileWalkable(const sf::Vector2f& _pos);
 
     void tick();
     void draw(sf::RenderWindow& _window);
 
 private:
     std::vector<NavNode> nav_nodes;
-    std::vector<HeatMap> heat_maps;
+    std::vector<std::unique_ptr<HeatMap>> heat_maps;
 
     sf::RectangleShape border;
-    SpriteGrid grid;
+    TileGrid grid;
 
 };

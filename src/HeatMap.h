@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpriteGrid.h"
+#include "TileGrid.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -9,7 +9,7 @@
 class HeatMap
 {
 public:
-    HeatMap();
+    HeatMap(const int _size_x, const int _size_y, const int _padding);
     ~HeatMap() = default;
 
     bool isActive() const;
@@ -20,7 +20,9 @@ public:
 
     void setPaintHardness(const float _hardness);
     void setDecayRate(const float _decay_rate);
-    void paint(const sf::Vector2i& _pos, int _radius);
+    void setColors(const sf::Color& _hot_color, const sf::Color& _cold_color);
+
+    void paint(const sf::Vector2f& _pos, int _radius);
 
     void tick();
     void draw(sf::RenderWindow& _window);
@@ -31,9 +33,13 @@ private:
     bool active;
     bool visible;
 
+    sf::Color hot_color;
+    sf::Color cold_color;
+
     float paint_hardness;
     float decay_rate;
+
     std::vector<float> weightings;
-    SpriteGrid grid;
+    TileGrid grid;
 
 };

@@ -144,7 +144,9 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
   <ItemGroup>
     <ClCompile Include="..\src\AssetManager.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
-    <ClCompile Include="..\src\SpriteGrid.cpp" />
+    <ClCompile Include="..\src\JMath.cpp" />
+    <ClCompile Include="..\src\Tile.cpp" />
+    <ClCompile Include="..\src\TileGrid.cpp" />
     <ClCompile Include="..\src\JHelper.cpp" />
     <ClCompile Include="..\src\JTime.cpp" />
     <ClCompile Include="..\src\main.cpp" />
@@ -157,7 +159,11 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\AssetManager.h" />
     <ClInclude Include="..\src\Constants.h" />
     <ClInclude Include="..\src\Game.h" />
-    <ClInclude Include="..\src\SpriteGrid.h" />
+    <ClInclude Include="..\src\GameData.h" />
+    <ClInclude Include="..\src\JMath.h" />
+    <ClInclude Include="..\src\ListenerSubject.h" />
+    <ClInclude Include="..\src\Tile.h" />
+    <ClInclude Include="..\src\TileGrid.h" />
     <ClInclude Include="..\src\JHelper.h" />
     <ClInclude Include="..\src\JTime.h" />
     <ClInclude Include="..\src\NavManager.h" />

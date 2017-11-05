@@ -37,10 +37,16 @@
     <ClCompile Include="..\src\JHelper.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\SpriteGrid.cpp">
+    <ClCompile Include="..\src\HeatMap.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\HeatMap.cpp">
+    <ClCompile Include="..\src\TileGrid.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\JMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Tile.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,11 +78,23 @@
     <ClInclude Include="..\src\NavNode.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\SpriteGrid.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\HeatMap.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameData.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TileGrid.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\JMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Tile.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListenerSubject.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include "AssetManager.h"
 #include "NavManager.h"
+#include "GameData.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -27,10 +28,15 @@ private:
     AssetManager asset_manager;
     NavManager nav_manager;
 
+    GameData game_data;
+
+    // DEBUG.
     sf::Text debug_display;
     sf::RectangleShape cursor;
 
-    bool exit;
     float update_timer;
+    bool painting;
+
+    HeatMap* debug_heat_map;
 
 };

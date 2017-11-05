@@ -15,25 +15,34 @@ NavManager::NavManager()
 }
 
 
-void NavManager::colorTileAtPos(const sf::Vector2f& _pos)
+HeatMap* NavManager::createHeatMap(const sf::Color& _hot_color, const sf::Color& _cold_color,
+    const float _paint_hardness, const float _decay_rate)
 {
-    //for (sf::RectangleShape& tile : tiles)
-    //{
-    //    if (!tile.getGlobalBounds().contains(_pos))
-    //        continue;
+    std::unique_ptr<HeatMap> heat_map = std::make_unique<HeatMap>(GRID_SIZE_X, GRID_SIZE_Y, TILE_PADDING);
+    HeatMap* heat_map_ptr = heat_map.get();
 
-    //    tile.setFillColor(BLOCKED_COLOR);
-    //    break;
-    //}
+    heat_map->setColors(sf::Color::Red, sf::Color(255, 0, 0, 0));
+    heat_map->setPaintHardness(_paint_hardness);
+    heat_map->setDecayRate(_decay_rate);
+
+    heat_maps.push_back(std::move(heat_map));
+    return heat_map_ptr;
+}
+
+
+void NavManager::toggleTileWalkable(const sf::Vector2f& _pos)
+{
+    // TODO: toggle ..
+    grid.setTileColor(_pos, BLOCKED_COLOR);
 }
 
 
 void NavManager::tick()
 {
-    for (HeatMap heat_map : heat_maps)
+    for (auto& heat_map : heat_maps)
     {
-        if (heat_map.isActive())
-            heat_map.tick();
+        if (heat_map->isActive())
+            heat_map->tick();
     }
 }
 
@@ -43,9 +52,9 @@ void NavManager::draw(sf::RenderWindow& _window)
     _window.draw(border);
     grid.draw(_window);
 
-    for (HeatMap heat_map : heat_maps)
+    for (auto& heat_map : heat_maps)
     {
-        if (heat_map.isVisible())
-            heat_map.draw(_window);
+        if (heat_map->isVisible())
+            heat_map->draw(_window);
     }
 }

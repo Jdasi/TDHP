@@ -1,15 +1,8 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include <algorithm>
-
-namespace sf
-{
-    class Text;
-    class Color;
-    class Shape;
-}
-
-#include "Vector2i.h"
 
 /* Various functions that don't belong in one specific place and are useful
  * in many areas.
@@ -17,7 +10,7 @@ namespace sf
 namespace JHelper
 {
     int calculateIndex(const unsigned int _x, const unsigned int _y, const unsigned int _size_x);
-    int calculateIndex(const Vector2i& _pos, const unsigned int _size_x);
+    int calculateIndex(const sf::Vector2i& _pos, const unsigned int _size_x);
 
 
     template <typename T>

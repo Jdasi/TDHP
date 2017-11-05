@@ -2,19 +2,25 @@
 #include "Constants.h"
 #include "JTime.h"
 
+#include <iostream>
+
 
 Game::Game()
     : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME)
     , asset_manager()
-    , exit(false)
+    , nav_manager()
+    , debug_heat_map(nullptr)
+    , painting(false)
 {
     init();
+
+    debug_heat_map = nav_manager.createHeatMap(sf::Color::Red, sf::Color::Cyan, 200, 1);
 }
 
 
 void Game::run()
 {
-    while (!exit)
+    while (!game_data.exit)
     {
         JTime::tick();
 
@@ -60,6 +66,11 @@ void Game::tick()
     }
 
     cursor.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
+
+    if (painting)
+    {
+        debug_heat_map->paint(cursor.getPosition(), 3);
+    }
 }
 
 
@@ -89,25 +100,38 @@ void Game::updateDebugDisplay()
 
 void Game::processEvents(sf::Window& _window)
 {
-    sf::Event event;
-    while (_window.pollEvent(event))
+    sf::Event sf_event;
+    while (_window.pollEvent(sf_event))
     {
         // Close window: exit
-        if (event.type == sf::Event::Closed)
-            exit = true;
+        if (sf_event.type == sf::Event::Closed)
+            game_data.exit = true;
 
         // Escape key: exit
-        if (event.type == sf::Event::KeyPressed &&
-            event.key.code == sf::Keyboard::Escape)
+        if (sf_event.type == sf::Event::KeyPressed &&
+            sf_event.key.code == sf::Keyboard::Escape)
         {
-            exit = true;
+            game_data.exit = true;
         }
 
-        if (event.type == sf::Event::MouseButtonPressed)
+        if (sf_event.type == sf::Event::MouseButtonPressed)
         {
-            if (event.mouseButton.button == sf::Mouse::Left)
+            if (sf_event.mouseButton.button == sf::Mouse::Left)
             {
-                nav_manager.colorTileAtPos(cursor.getPosition());
+                painting = true;
+            }
+
+            if (sf_event.mouseButton.button == sf::Mouse::Right)
+            {
+                nav_manager.toggleTileWalkable(cursor.getPosition());
+            }
+        }
+
+        if (sf_event.type == sf::Event::MouseButtonReleased)
+        {
+            if (sf_event.mouseButton.button == sf::Mouse::Left)
+            {
+                painting = false;
             }
         }
     }
