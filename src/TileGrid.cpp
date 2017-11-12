@@ -33,29 +33,31 @@ int TileGrid::getProduct() const
 
 void TileGrid::setTileAlpha(const int _tile_index, const float _alpha)
 {
-    if (!validIndex(_tile_index))
+    if (!JHelper::validIndex(_tile_index, tiles.size()))
         return;
 
     auto& tile = tiles[_tile_index];
     auto& color = tile.getFillColor();
+
     tile.setFillColor(sf::Color(color.r, color.g, color.b, _alpha));
 }
 
 
 void TileGrid::modifyTileAlpha(const int _tile_index, const float _amount)
 {
-    if (!validIndex(_tile_index))
+    if (!JHelper::validIndex(_tile_index, tiles.size()))
         return;
 
     auto& tile = tiles[_tile_index];
     auto& color = tile.getFillColor();
+
     tile.setFillColor(sf::Color(color.r, color.g, color.b, color.a + _amount));
 }
 
 
 void TileGrid::setTileColor(const int _tile_index, const sf::Color& _color)
 {
-    if (!validIndex(_tile_index))
+    if (!JHelper::validIndex(_tile_index, tiles.size()))
         return;
 
     tiles[_tile_index].setFillColor(_color);
@@ -80,6 +82,7 @@ void TileGrid::init(const sf::Color& _initial_color)
 
     float rect_width = (PANE_WIDTH - ((size_x - 1) * padding)) / size_x;
     float rect_height = (PANE_HEIGHT - ((size_y - 1) * padding)) / size_y;
+
     sf::Vector2f rect({ rect_width, rect_height });
 
     for (int y_cycles = 0; y_cycles < size_y; ++y_cycles)
@@ -95,15 +98,6 @@ void TileGrid::init(const sf::Color& _initial_color)
                 WINDOW_TOP_BOUNDARY + (y_cycles * (rect.y + padding)) });
         }
     }
-}
-
-
-bool TileGrid::validIndex(const int _tile_index)
-{
-    if (_tile_index < 0 || _tile_index >= tiles.size())
-        return false;
-
-    return true;
 }
 
 

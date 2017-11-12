@@ -12,7 +12,7 @@ GameManager::GameManager(GameData* _gd)
     , debug_heat_map(nullptr)
     , painting(false)
 {
-    debug_heat_map = gd->nav_manager->createHeatMap(sf::Color::Red, 200, 20);
+    debug_heat_map = gd->nav_manager->createHeatMap(sf::Color::Red, 200, 15);
 }
 
 

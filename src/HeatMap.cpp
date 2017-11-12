@@ -1,6 +1,7 @@
 #include "HeatMap.h"
 #include "JTime.h"
 #include "JMath.h"
+#include "JHelper.h"
 
 
 HeatMap::HeatMap(const int _size_x, const int _size_y, const int _padding)
@@ -50,18 +51,36 @@ void HeatMap::setDecayRate(const float _decay_rate)
 }
 
 
-void HeatMap::paint(const sf::Vector2f& _pos, int _radius)
+void HeatMap::paint(const sf::Vector2f& _pos, const int _radius)
 {
-    int tile_index = grid.posToTileIndex(_pos);
-    if (tile_index == TileGrid::INVALID_TILE)
+    int center_tile = grid.posToTileIndex(_pos);
+    if (center_tile == TileGrid::INVALID_TILE)
         return;
 
-    auto& weighting = weightings[tile_index];
+    int size_x = grid.getSizeX();
+    int size_y = grid.getSizeY();
 
-    weighting += paint_hardness * JTime::getUnscaledDeltaTime();
-    weighting = JMath::clampf(weighting, 0, 255);
+    sf::Vector2i coords = JHelper::calculateCoords(center_tile, size_x);
 
-    grid.setTileAlpha(tile_index, weighting);
+    // Paint everything including and around coords.
+    for (int row = coords.y - _radius; row <= coords.y + _radius; ++row)
+    {
+        for (int col = coords.x - _radius; col <= coords.x + _radius; ++col)
+        {
+            if ((col < 0 || col >= size_x) || (row < 0 || row >= size_y))
+                continue;
+
+            int curr = JHelper::calculateIndex(col, row, size_x);
+            int diff = abs(col - coords.x) + abs(row - coords.y);
+
+            auto& weighting = weightings[curr];
+
+            weighting += (paint_hardness / (diff + 1)) * JTime::getUnscaledDeltaTime();
+            weighting = JMath::clampf(weighting, 0, 255);
+
+            grid.setTileAlpha(curr, weighting);
+        }
+    }
 }
 
 

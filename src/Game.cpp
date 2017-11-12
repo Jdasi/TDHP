@@ -4,7 +4,7 @@
 
 
 Game::Game()
-    : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME)
+    : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close)
     , input_handler(nullptr)
     , asset_manager(nullptr)
     , nav_manager(nullptr)

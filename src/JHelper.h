@@ -11,6 +11,8 @@ namespace JHelper
 {
     int calculateIndex(const unsigned int _x, const unsigned int _y, const unsigned int _size_x);
     int calculateIndex(const sf::Vector2i& _pos, const unsigned int _size_x);
+    sf::Vector2i calculateCoords(const unsigned int _index, const unsigned int _size_x);
+    bool validIndex(const int _index, const int _array_size);
 
 
     template <typename T>

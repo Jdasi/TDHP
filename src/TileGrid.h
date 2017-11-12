@@ -33,7 +33,6 @@ public:
 
 private:
     void init(const sf::Color& _initial_color);
-    bool validIndex(const int _tile_index);
 
     int size_x;
     int size_y;

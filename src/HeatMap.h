@@ -22,7 +22,7 @@ public:
     void setDecayRate(const float _decay_rate);
     void setColor(const sf::Color& _color);
 
-    void paint(const sf::Vector2f& _pos, int _radius);
+    void paint(const sf::Vector2f& _pos, const int _radius);
 
     void tick();
     void draw(sf::RenderWindow& _window);

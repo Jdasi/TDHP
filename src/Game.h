@@ -8,7 +8,6 @@
 #include "AssetManager.h"
 #include "NavManager.h"
 #include "GameManager.h"
-
 #include "GameData.h"
 
 class Game
