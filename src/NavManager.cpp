@@ -3,6 +3,8 @@
 #include "Constants.h"
 #include "Level.h"
 
+#include <iostream>
+
 
 NavManager::NavManager()
     : grid(nullptr)
@@ -68,7 +70,7 @@ void NavManager::toggleTileWalkable(const sf::Vector2f& _pos)
 
 void NavManager::toggleTileWalkable(const int _index)
 {
-    if (JHelper::validIndex(_index, grid->getSizeX()))
+    if (!JHelper::validIndex(_index, nav_nodes.size()))
         return;
 
     auto& nav_node = nav_nodes[_index];
