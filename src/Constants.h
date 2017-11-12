@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
 #include <string>
+
+#include <SFML/Graphics.hpp>
 
 /*! \file Constants.h
 @brief   Constants that are used throughout the game. 
@@ -27,9 +27,6 @@ constexpr float WINDOW_BOTTOM_BOUNDARY  = WINDOW_HEIGHT - WINDOW_MARGIN_Y;
 // ======================================================================================
 // GAMEPLAY SETTINGS
 // ======================================================================================
-const int GRID_SIZE_X                   = 20; // Width (in tiles) of the playing grid.
-const int GRID_SIZE_Y                   = 20; // Height (in tiles) of the playing grid.
-constexpr int GRID_SIZE                 = GRID_SIZE_X * GRID_SIZE_Y;
 const float TILE_PADDING                = 2;
 
 constexpr float PANE_WIDTH              = WINDOW_RIGHT_BOUNDARY - WINDOW_LEFT_BOUNDARY;

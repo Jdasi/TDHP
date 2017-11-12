@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Tile.h"
+#include <vector>
 
 #include <SFML/Graphics.hpp>
 
-#include <vector>
+#include "Tile.h"
 
 class TileGrid
 {

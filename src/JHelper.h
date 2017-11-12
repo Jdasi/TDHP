@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
 #include <algorithm>
+
+#include <SFML/Graphics.hpp>
 
 /* Various functions that don't belong in one specific place and are useful
  * in many areas.

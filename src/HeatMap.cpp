@@ -4,14 +4,23 @@
 #include "JHelper.h"
 
 
-HeatMap::HeatMap(const int _size_x, const int _size_y, const int _padding)
+HeatMap::HeatMap(const int _size_x, const int _size_y, const float _padding)
     : active(true)
     , visible(true)
     , paint_hardness(0)
     , decay_rate(0)
-    , grid(_size_x, _size_y, _padding, sf::Color::Transparent)
+    , grid(nullptr)
 {
+    resetGrid(_size_x, _size_y, _padding);
+}
+
+
+void HeatMap::resetGrid(const int _size_x, const int _size_y, const float _padding)
+{
+    weightings.clear();
     weightings.assign(_size_x * _size_y, 0);
+
+    grid = std::make_unique<TileGrid>(_size_x, _size_y, _padding, sf::Color::Transparent);
 }
 
 
@@ -53,12 +62,12 @@ void HeatMap::setDecayRate(const float _decay_rate)
 
 void HeatMap::paint(const sf::Vector2f& _pos, const int _radius)
 {
-    int center_tile = grid.posToTileIndex(_pos);
+    int center_tile = grid->posToTileIndex(_pos);
     if (center_tile == TileGrid::INVALID_TILE)
         return;
 
-    int size_x = grid.getSizeX();
-    int size_y = grid.getSizeY();
+    int size_x = grid->getSizeX();
+    int size_y = grid->getSizeY();
 
     sf::Vector2i coords = JHelper::calculateCoords(center_tile, size_x);
 
@@ -78,7 +87,7 @@ void HeatMap::paint(const sf::Vector2f& _pos, const int _radius)
             weighting += (paint_hardness / (diff + 1)) * JTime::getUnscaledDeltaTime();
             weighting = JMath::clampf(weighting, 0, 255);
 
-            grid.setTileAlpha(curr, weighting);
+            grid->setTileAlpha(curr, weighting);
         }
     }
 }
@@ -89,10 +98,10 @@ void HeatMap::setColor(const sf::Color& _color)
     color = _color;
 
     // Reset weightings.
-    for (int i = 0; i < weightings.size(); ++i)
+    for (unsigned int i = 0; i < weightings.size(); ++i)
     {
-        grid.setTileColor(i, _color);
-        grid.setTileAlpha(i, 0);
+        grid->setTileColor(i, _color);
+        grid->setTileAlpha(i, 0);
 
         weightings[i] = 0;
     }
@@ -107,7 +116,7 @@ void HeatMap::tick()
 
 void HeatMap::draw(sf::RenderWindow& _window)
 {
-    grid.draw(_window);
+    grid->draw(_window);
 }
 
 
@@ -116,7 +125,7 @@ void HeatMap::decay()
     if (decay_rate <= 0)
         return;
 
-    for (int i = 0; i < weightings.size(); ++i)
+    for (unsigned int i = 0; i < weightings.size(); ++i)
     {
         float& weighting = weightings[i];
 
@@ -126,6 +135,6 @@ void HeatMap::decay()
         }
 
         weighting = JMath::clampf(weighting, 0, 255);
-        grid.setTileAlpha(i, weighting);
+        grid->setTileAlpha(i, weighting);
     }
 }

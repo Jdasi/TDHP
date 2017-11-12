@@ -1,8 +1,8 @@
+#include <SFML/Graphics.hpp>
+
 #include "JHelper.h"
 #include "Constants.h"
 #include "AssetManager.h"
-
-#include <SFML/Graphics.hpp>
 
 
 AssetManager::AssetManager()

@@ -1,7 +1,5 @@
 #include <string>
 
-#include <SFML/Graphics.hpp>
-
 #include "GameManager.h"
 #include "GameData.h"
 #include "InputHandler.h"

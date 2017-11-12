@@ -1,11 +1,13 @@
 #pragma once
 
+#include <vector>
+#include <memory>
+
 #include "NavNode.h"
 #include "HeatMap.h"
 #include "TileGrid.h"
 
-#include <vector>
-#include <memory>
+struct Level;
 
 class NavManager
 {
@@ -13,10 +15,12 @@ public:
     NavManager();
     ~NavManager() = default;
 
+    void parseLevel(const Level& _level);
     HeatMap* createHeatMap(const sf::Color& _color,
         const float _paint_hardness, const float _decay_rate);
 
     void toggleTileWalkable(const sf::Vector2f& _pos);
+    void toggleTileWalkable(const int _index);
     void paintOnHeatMap(const int _heatmap_index, const sf::Vector2f& _pos, const int _radius);
 
     void tick();
@@ -28,6 +32,6 @@ private:
     std::vector<std::unique_ptr<HeatMap>> heat_maps;
 
     sf::RectangleShape border;
-    TileGrid grid;
+    std::unique_ptr<TileGrid> grid;
 
 };
