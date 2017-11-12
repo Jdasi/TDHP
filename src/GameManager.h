@@ -1,10 +1,6 @@
 #pragma once
 
-namespace sf
-{
-    class RenderWindow;
-    class Event;
-}
+#include <SFML/Graphics.hpp>
 
 struct GameData;
 class HeatMap;
@@ -19,8 +15,33 @@ public:
     void draw(sf::RenderWindow& _window);
 
 private:
+    enum ContextType : int
+    {
+        NAV,
+        GAME,
+        HEATMAP_0,
+        HEATMAP_1,
+        HEATMAP_2,
+        HEATMAP_3,
+        HEATMAP_4,
+        HEATMAP_5,
+        HEATMAP_6,
+        HEATMAP_7
+    };
+
+    void init();
+
+    void handleContextSelection();
+    void evaluateContextChange(const sf::Keyboard::Key& _key);
+    void processContext();
+
+    std::string contextToString(const ContextType& _context);
+    void updateContextDisplay();
+
     GameData* gd;
-    HeatMap* debug_heat_map;
+
+    sf::Text context_display;
+    ContextType current_context;
 
     bool painting;
 

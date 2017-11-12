@@ -17,6 +17,7 @@ public:
         const float _paint_hardness, const float _decay_rate);
 
     void toggleTileWalkable(const sf::Vector2f& _pos);
+    void paintOnHeatMap(const int _heatmap_index, const sf::Vector2f& _pos, const int _radius);
 
     void tick();
     void drawBaseLayer(sf::RenderWindow& _window);

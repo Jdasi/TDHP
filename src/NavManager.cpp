@@ -43,6 +43,15 @@ void NavManager::toggleTileWalkable(const sf::Vector2f& _pos)
 }
 
 
+void NavManager::paintOnHeatMap(const int _heatmap_index, const sf::Vector2f& _pos, const int _radius)
+{
+    if (!JHelper::validIndex(_heatmap_index, heat_maps.size()))
+        return;
+
+    heat_maps[_heatmap_index]->paint(_pos, _radius);
+}
+
+
 void NavManager::tick()
 {
     for (auto& heat_map : heat_maps)
