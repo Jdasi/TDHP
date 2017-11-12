@@ -20,7 +20,7 @@ public:
 
     void setPaintHardness(const float _hardness);
     void setDecayRate(const float _decay_rate);
-    void setColors(const sf::Color& _hot_color, const sf::Color& _cold_color);
+    void setColor(const sf::Color& _color);
 
     void paint(const sf::Vector2f& _pos, int _radius);
 
@@ -33,8 +33,7 @@ private:
     bool active;
     bool visible;
 
-    sf::Color hot_color;
-    sf::Color cold_color;
+    sf::Color color;
 
     float paint_hardness;
     float decay_rate;

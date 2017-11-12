@@ -5,7 +5,7 @@
 class NavNode
 {
 public:
-    NavNode() = default;
+    NavNode();
     ~NavNode() = default;
 
     const sf::Vector2i& getCoords() const;
@@ -14,6 +14,7 @@ public:
 
     bool isWalkable() const;
     void setWalkable(const bool _walkable);
+    void toggleWalkable();
 
     int getGCost() const;
     void setGCost(const int _g);

@@ -52,19 +52,29 @@ void HeatMap::setDecayRate(const float _decay_rate)
 
 void HeatMap::paint(const sf::Vector2f& _pos, int _radius)
 {
-    float dt = JTime::getUnscaledDeltaTime();
-    grid.modifyTileAlpha(_pos, paint_hardness * dt);
+    int tile_index = grid.posToTileIndex(_pos);
+    if (tile_index == TileGrid::INVALID_TILE)
+        return;
+
+    auto& weighting = weightings[tile_index];
+
+    weighting += paint_hardness * JTime::getUnscaledDeltaTime();
+    weighting = JMath::clampf(weighting, 0, 255);
+
+    grid.setTileAlpha(tile_index, weighting);
 }
 
 
-void HeatMap::setColors(const sf::Color& _hot_color, const sf::Color& _cold_color)
+void HeatMap::setColor(const sf::Color& _color)
 {
-    hot_color = _hot_color;
-    cold_color = _cold_color;
+    color = _color;
 
+    // Reset weightings.
     for (int i = 0; i < weightings.size(); ++i)
     {
-        grid.setTileColor(i, _cold_color);
+        grid.setTileColor(i, _color);
+        grid.setTileAlpha(i, 0);
+
         weightings[i] = 0;
     }
 }

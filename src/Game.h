@@ -1,10 +1,15 @@
 #pragma once
 
-#include "AssetManager.h"
-#include "NavManager.h"
-#include "GameData.h"
+#include <memory>
 
 #include <SFML/Graphics.hpp>
+
+#include "InputHandler.h"
+#include "AssetManager.h"
+#include "NavManager.h"
+#include "GameManager.h"
+
+#include "GameData.h"
 
 class Game
 {
@@ -16,6 +21,7 @@ public:
 
 private:
     void init();
+    void initSystems();
     void initTextObjects();
 
     void tick();
@@ -25,18 +31,16 @@ private:
     void processEvents(sf::Window& _window);
 
     sf::RenderWindow window;
-    AssetManager asset_manager;
-    NavManager nav_manager;
+
+    std::unique_ptr<InputHandler> input_handler;
+    std::unique_ptr<AssetManager> asset_manager;
+    std::unique_ptr<NavManager> nav_manager;
+    std::unique_ptr<GameManager> game_manager;
 
     GameData game_data;
 
     // DEBUG.
     sf::Text debug_display;
-    sf::RectangleShape cursor;
-
     float update_timer;
-    bool painting;
-
-    HeatMap* debug_heat_map;
 
 };

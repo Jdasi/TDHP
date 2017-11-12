@@ -42,17 +42,6 @@ void TileGrid::setTileAlpha(const int _tile_index, const float _alpha)
 }
 
 
-void TileGrid::setTileAlpha(const sf::Vector2f& _pos, const float _alpha)
-{
-    Tile* tile = getOverlappingTile(_pos);
-    if (!tile)
-        return;
-
-    auto& color = tile->getFillColor();
-    tile->setFillColor(sf::Color(color.r, color.g, color.b, _alpha));
-}
-
-
 void TileGrid::modifyTileAlpha(const int _tile_index, const float _amount)
 {
     if (!validIndex(_tile_index))
@@ -64,33 +53,12 @@ void TileGrid::modifyTileAlpha(const int _tile_index, const float _amount)
 }
 
 
-void TileGrid::modifyTileAlpha(const sf::Vector2f& _pos, const float _amount)
-{
-    Tile* tile = getOverlappingTile(_pos);
-    if (!tile)
-        return;
-
-    auto& color = tile->getFillColor();
-    tile->setFillColor(sf::Color(color.r, color.g, color.b, color.a + _amount));
-}
-
-
 void TileGrid::setTileColor(const int _tile_index, const sf::Color& _color)
 {
     if (!validIndex(_tile_index))
         return;
 
     tiles[_tile_index].setFillColor(_color);
-}
-
-
-void TileGrid::setTileColor(const sf::Vector2f& _pos, const sf::Color& _color)
-{
-    Tile* tile = getOverlappingTile(_pos);
-    if (!tile)
-        return;
-
-    tile->setFillColor(_color);
 }
 
 
@@ -139,16 +107,19 @@ bool TileGrid::validIndex(const int _tile_index)
 }
 
 
-// If any tile contains _pos, it is returned. Otherwise returns nullptr.
-Tile* TileGrid::getOverlappingTile(const sf::Vector2f& _pos)
+int TileGrid::posToTileIndex(const sf::Vector2f& _pos)
 {
+    int index = 0;
     for (auto& tile : tiles)
     {
         if (!tile.getGlobalBounds().contains(_pos))
+        {
+            ++index;
             continue;
+        }
 
-        return &tile;
+        return index;
     }
 
-    return nullptr;
+    return ReturnType::INVALID_TILE;
 }

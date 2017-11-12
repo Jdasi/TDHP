@@ -1,5 +1,6 @@
 #include "JTime.h"
 
+
 float JTime::unscaled_delta_time = 0;
 float JTime::unscaled_time = 0;
 float JTime::delta_time = 0;

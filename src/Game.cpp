@@ -2,19 +2,15 @@
 #include "Constants.h"
 #include "JTime.h"
 
-#include <iostream>
-
 
 Game::Game()
     : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME)
-    , asset_manager()
-    , nav_manager()
-    , debug_heat_map(nullptr)
-    , painting(false)
+    , input_handler(nullptr)
+    , asset_manager(nullptr)
+    , nav_manager(nullptr)
+    , game_manager(nullptr)
 {
     init();
-
-    debug_heat_map = nav_manager.createHeatMap(sf::Color::Red, sf::Color::Cyan, 200, 1);
 }
 
 
@@ -26,6 +22,8 @@ void Game::run()
 
         tick();
         draw();
+
+        input_handler->lateTick();
     }
 
     window.close();
@@ -36,17 +34,29 @@ void Game::init()
 {
     window.setVerticalSyncEnabled(true);
 
+    initSystems();
     initTextObjects();
+}
 
-    cursor.setSize(sf::Vector2f(10, 10));
-    cursor.setFillColor(sf::Color::Yellow);
-    cursor.setOrigin(sf::Vector2f(5, 5));
+
+void Game::initSystems()
+{
+    input_handler = std::make_unique<InputHandler>(&window);
+    game_data.input = input_handler.get();
+
+    asset_manager = std::make_unique<AssetManager>();
+    game_data.asset_manager = asset_manager.get();
+
+    nav_manager = std::make_unique<NavManager>();
+    game_data.nav_manager = nav_manager.get();
+
+    game_manager = std::make_unique<GameManager>(&game_data);
 }
 
 
 void Game::initTextObjects()
 {
-    sf::Font* default_font = asset_manager.loadFont(DEFAULT_FONT);
+    sf::Font* default_font = asset_manager->loadFont(DEFAULT_FONT);
 
     debug_display.setFont(*default_font);
     debug_display.setCharacterSize(12);
@@ -57,6 +67,12 @@ void Game::tick()
 {
     processEvents(window);
 
+    if (input_handler->getKeyDown(sf::Keyboard::Escape))
+    {
+        game_data.exit = true;
+        return;
+    }
+
     update_timer += JTime::getUnscaledDeltaTime();
 
     if (update_timer >= 0.1f)
@@ -65,12 +81,8 @@ void Game::tick()
         updateDebugDisplay();
     }
 
-    cursor.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
-
-    if (painting)
-    {
-        debug_heat_map->paint(cursor.getPosition(), 3);
-    }
+    nav_manager->tick();
+    game_manager->tick();
 }
 
 
@@ -79,8 +91,10 @@ void Game::draw()
     window.clear();
 
     window.draw(debug_display);
-    nav_manager.draw(window);
-    window.draw(cursor);
+
+    nav_manager->drawBaseLayer(window);
+    nav_manager->drawHeatMaps(window);
+    game_manager->draw(window);
 
     window.display();
 }
@@ -107,32 +121,6 @@ void Game::processEvents(sf::Window& _window)
         if (sf_event.type == sf::Event::Closed)
             game_data.exit = true;
 
-        // Escape key: exit
-        if (sf_event.type == sf::Event::KeyPressed &&
-            sf_event.key.code == sf::Keyboard::Escape)
-        {
-            game_data.exit = true;
-        }
-
-        if (sf_event.type == sf::Event::MouseButtonPressed)
-        {
-            if (sf_event.mouseButton.button == sf::Mouse::Left)
-            {
-                painting = true;
-            }
-
-            if (sf_event.mouseButton.button == sf::Mouse::Right)
-            {
-                nav_manager.toggleTileWalkable(cursor.getPosition());
-            }
-        }
-
-        if (sf_event.type == sf::Event::MouseButtonReleased)
-        {
-            if (sf_event.mouseButton.button == sf::Mouse::Left)
-            {
-                painting = false;
-            }
-        }
+        input_handler->processEvent(sf_event);
     }
 }

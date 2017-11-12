@@ -9,6 +9,11 @@
 class TileGrid
 {
 public:
+    enum ReturnType : int
+    {
+        INVALID_TILE = -1
+    };
+
     TileGrid(const int _size_x, const int _size_y, const float _padding,
         const sf::Color& _initial_color);
 
@@ -18,21 +23,17 @@ public:
     int getSizeY() const;
     int getProduct() const;
 
+    int posToTileIndex(const sf::Vector2f& _pos);
+
     void setTileAlpha(const int _tile_index, const float _alpha);
-    void setTileAlpha(const sf::Vector2f& _pos, const float _alpha);
-
     void modifyTileAlpha(const int _tile_index, const float _amount);
-    void modifyTileAlpha(const sf::Vector2f& _pos, const float _amount);
-
     void setTileColor(const int _tile_index, const sf::Color& _color);
-    void setTileColor(const sf::Vector2f& _pos, const sf::Color& _color);
 
     void draw(sf::RenderWindow& _window);
 
 private:
     void init(const sf::Color& _initial_color);
     bool validIndex(const int _tile_index);
-    Tile* getOverlappingTile(const sf::Vector2f& _pos);
 
     int size_x;
     int size_y;

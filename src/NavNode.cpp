@@ -1,6 +1,15 @@
 #include "NavNode.h"
 
 
+NavNode::NavNode()
+    : walkable(true)
+    , g_cost(0)
+    , h_cost(0)
+    , parent(nullptr)
+{
+}
+
+
 const sf::Vector2i& NavNode::getCoords() const
 {
     return grid_coords;
@@ -28,6 +37,12 @@ bool NavNode::isWalkable() const
 void NavNode::setWalkable(const bool _walkable)
 {
     walkable = _walkable;
+}
+
+
+void NavNode::toggleWalkable()
+{
+    setWalkable(!isWalkable());
 }
 
 

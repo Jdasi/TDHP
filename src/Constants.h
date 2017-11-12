@@ -37,7 +37,7 @@ constexpr float PANE_HEIGHT             = WINDOW_BOTTOM_BOUNDARY - WINDOW_TOP_BO
 const sf::Vector2f PANE_SIZE            ({ PANE_WIDTH, PANE_HEIGHT });
 
 const sf::Color WALKABLE_COLOR          = sf::Color(0, 0, 0, 255);
-const sf::Color BLOCKED_COLOR           = sf::Color(255, 255, 255, 255);
+const sf::Color UNWALKABLE_COLOR        = sf::Color(255, 255, 255, 255);
 
 // ======================================================================================
 // COMMON PATH STRINGS

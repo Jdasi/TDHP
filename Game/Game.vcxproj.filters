@@ -49,6 +49,12 @@
     <ClCompile Include="..\src\Tile.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\GameManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\InputHandler.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -95,6 +101,12 @@
     </ClInclude>
     <ClInclude Include="..\src\ListenerSubject.h">
       <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\InputHandler.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

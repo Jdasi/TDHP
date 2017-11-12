@@ -2,7 +2,6 @@
 
 #include "SimpleTimer.h"
 
-
 class JTime
 {
 public:
