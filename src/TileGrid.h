@@ -25,8 +25,8 @@ public:
 
     int posToTileIndex(const sf::Vector2f& _pos);
 
-    void setTileAlpha(const int _tile_index, const float _alpha);
-    void modifyTileAlpha(const int _tile_index, const float _amount);
+    void setTileAlpha(const int _tile_index, const int _alpha);
+    void modifyTileAlpha(const int _tile_index, const int _amount);
     void setTileColor(const int _tile_index, const sf::Color& _color);
 
     void draw(sf::RenderWindow& _window);

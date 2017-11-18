@@ -28,6 +28,25 @@ void NavNode::setCoords(const int _x, const int _y)
 }
 
 
+const sf::Vector2f& NavNode::getWorldPos() const
+{
+    return world_pos;
+}
+
+
+void NavNode::setWorldPos(const sf::Vector2f& _pos)
+{
+    world_pos = _pos;
+}
+
+
+void NavNode::setWorldPos(const float _x, const float _y)
+{
+    world_pos.x = _x;
+    world_pos.y = _y;
+}
+
+
 bool NavNode::isWalkable() const
 {
     return walkable;

@@ -110,7 +110,8 @@ void HeatMap::setColor(const sf::Color& _color)
 
 void HeatMap::tick()
 {
-    decay();
+    if (decay_rate > 0)
+        decay();
 }
 
 
@@ -122,9 +123,6 @@ void HeatMap::draw(sf::RenderWindow& _window)
 
 void HeatMap::decay()
 {
-    if (decay_rate <= 0)
-        return;
-
     for (unsigned int i = 0; i < weightings.size(); ++i)
     {
         float& weighting = weightings[i];

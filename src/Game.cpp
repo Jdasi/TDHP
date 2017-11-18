@@ -49,7 +49,7 @@ void Game::initSystems()
     game_data.asset_manager = asset_manager.get();
 
     nav_manager = std::make_unique<NavManager>();
-    nav_manager->parseLevel(FileIO::loadLevel("level1.txt"));
+    nav_manager->parseLevel(FileIO::loadLevel("level3.txt"));
     game_data.nav_manager = nav_manager.get();
 
     game_manager = std::make_unique<GameManager>(&game_data);

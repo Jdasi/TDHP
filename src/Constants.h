@@ -14,15 +14,15 @@
 // ======================================================================================
 const std::string WINDOW_NAME           { "Tower Defence Heatmap Pathfinding" };
 
-const int WINDOW_WIDTH                  = 800; // Width of the screen.
-const int WINDOW_HEIGHT                 = 600; // Height of the screen.
+const int WINDOW_WIDTH                  = 1024; // Width of the screen.
+const int WINDOW_HEIGHT                 = 768; // Height of the screen.
 const int WINDOW_MARGIN_X               = 100; // Margin from horizontal screen edges.
 const int WINDOW_MARGIN_Y               = 50; // Margin from vertical screen edges.
 
-constexpr float WINDOW_LEFT_BOUNDARY    = WINDOW_MARGIN_X;
-constexpr float WINDOW_RIGHT_BOUNDARY   = WINDOW_WIDTH - WINDOW_LEFT_BOUNDARY;
-constexpr float WINDOW_TOP_BOUNDARY     = WINDOW_MARGIN_Y;
-constexpr float WINDOW_BOTTOM_BOUNDARY  = WINDOW_HEIGHT - WINDOW_MARGIN_Y;
+constexpr int WINDOW_LEFT_BOUNDARY    = WINDOW_MARGIN_X;
+constexpr int WINDOW_RIGHT_BOUNDARY   = WINDOW_WIDTH - WINDOW_LEFT_BOUNDARY;
+constexpr int WINDOW_TOP_BOUNDARY     = WINDOW_MARGIN_Y;
+constexpr int WINDOW_BOTTOM_BOUNDARY  = WINDOW_HEIGHT - WINDOW_MARGIN_Y;
 
 // ======================================================================================
 // GAMEPLAY SETTINGS

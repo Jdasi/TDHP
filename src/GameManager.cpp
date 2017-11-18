@@ -103,6 +103,7 @@ void GameManager::processContext()
         {
             if (painting)
             {
+                // Only affect the current selected heatmap.
                 int heatmap_index = current_context - HEATMAP_0;
                 gd->nav_manager->paintOnHeatMap(heatmap_index, gd->input->getMousePos(), 3);
             }

@@ -31,7 +31,7 @@ int TileGrid::getProduct() const
 }
 
 
-void TileGrid::setTileAlpha(const int _tile_index, const float _alpha)
+void TileGrid::setTileAlpha(const int _tile_index, const int _alpha)
 {
     if (!JHelper::validIndex(_tile_index, tiles.size()))
         return;
@@ -43,7 +43,7 @@ void TileGrid::setTileAlpha(const int _tile_index, const float _alpha)
 }
 
 
-void TileGrid::modifyTileAlpha(const int _tile_index, const float _amount)
+void TileGrid::modifyTileAlpha(const int _tile_index, const int _amount)
 {
     if (!JHelper::validIndex(_tile_index, tiles.size()))
         return;

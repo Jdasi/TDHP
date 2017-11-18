@@ -9,7 +9,7 @@
 NavManager::NavManager()
     : grid(nullptr)
 {
-    border.setPosition({ WINDOW_LEFT_BOUNDARY, WINDOW_TOP_BOUNDARY });
+    border.setPosition({ static_cast<float>(WINDOW_LEFT_BOUNDARY), static_cast<float>(WINDOW_TOP_BOUNDARY) });
     border.setSize(PANE_SIZE);
     border.setFillColor(sf::Color::Blue);
     border.setOutlineThickness(5.0f);
@@ -64,6 +64,7 @@ void NavManager::toggleTileWalkable(const sf::Vector2f& _pos)
     if (tile_index == TileGrid::INVALID_TILE)
         return;
 
+    std::cout << "Tile clicked: " << tile_index << std::endl;
     toggleTileWalkable(tile_index);
 }
 
