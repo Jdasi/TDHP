@@ -1,15 +1,19 @@
 #pragma once
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 
-struct GameData;
-class HeatMap;
+#include "NavManager.h"
+#include "Level.h"
 
-class GameManager
+struct GameData;
+
+class Simulation
 {
 public:
-    GameManager(GameData* _gd);
-    ~GameManager() = default;
+    Simulation(GameData* _gd);
+    ~Simulation() = default;
 
     void tick();
     void draw(sf::RenderWindow& _window);
@@ -30,6 +34,8 @@ private:
     };
 
     void init();
+    void initSystems();
+    void initObjects();
 
     void handleContextSelection();
     void evaluateContextChange(const sf::Keyboard::Key& _key);
@@ -38,10 +44,17 @@ private:
     std::string contextToString(const ContextType& _context);
     void updateContextDisplay();
 
-    GameData* gd;
+    bool posInSimulationArea(const sf::Vector2f& _pos);
+    int posToTileIndex(const sf::Vector2f& _pos);
 
-    sf::Text context_display;
+    std::unique_ptr<NavManager> nav_manager;
+    Level current_level;
+
+    GameData* gd;
     ContextType current_context;
+
+    sf::RectangleShape border;
+    sf::Text context_display;
 
     bool painting;
 

@@ -1,15 +1,16 @@
 #include <string>
+#include <iostream>
 
-#include "GameManager.h"
+#include "Simulation.h"
 #include "GameData.h"
 #include "InputHandler.h"
 #include "AssetManager.h"
-#include "NavManager.h"
 #include "Constants.h"
 #include "JHelper.h"
+#include "FileIO.h"
 
 
-GameManager::GameManager(GameData* _gd)
+Simulation::Simulation(GameData* _gd)
     : gd(_gd)
     , current_context(ContextType::NAV)
     , painting(false)
@@ -18,8 +19,10 @@ GameManager::GameManager(GameData* _gd)
 }
 
 
-void GameManager::tick()
+void Simulation::tick()
 {
+    nav_manager->tick();
+
     painting = gd->input->getMouseButton(sf::Mouse::Left);
 
     handleContextSelection();
@@ -27,28 +30,55 @@ void GameManager::tick()
 }
 
 
-void GameManager::draw(sf::RenderWindow& _window)
+void Simulation::draw(sf::RenderWindow& _window)
 {
+    _window.draw(border);
+
+    nav_manager->drawBaseLayer(_window);
+    nav_manager->drawHeatMaps(_window);
+
     _window.draw(context_display);
 }
 
 
-void GameManager::init()
+void Simulation::init()
 {
+    initSystems();
+    initObjects();
+}
+
+
+void Simulation::initSystems()
+{
+    nav_manager = std::make_unique<NavManager>();
+    gd->nav_manager = nav_manager.get();
+
+    current_level = FileIO::loadLevel("level3.txt");
+    gd->nav_manager->parseLevel(current_level);
+
     gd->nav_manager->createHeatMap(sf::Color::Red, 200, 15);
     gd->nav_manager->createHeatMap(sf::Color::Green, 200, 15);
+}
 
+
+void Simulation::initObjects()
+{
     sf::Font* default_font = gd->asset_manager->loadFont(DEFAULT_FONT);
 
     context_display.setFont(*default_font);
     context_display.setCharacterSize(16);
     context_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 16);
 
+    border.setPosition({ static_cast<float>(WINDOW_LEFT_BOUNDARY), static_cast<float>(WINDOW_TOP_BOUNDARY) });
+    border.setSize(PANE_SIZE);
+    border.setFillColor(sf::Color::Blue);
+    border.setOutlineThickness(5.0f);
+
     updateContextDisplay();
 }
 
 
-void GameManager::handleContextSelection()
+void Simulation::handleContextSelection()
 {
     evaluateContextChange(sf::Keyboard::Key::Num1);
     evaluateContextChange(sf::Keyboard::Key::Num2);
@@ -63,7 +93,7 @@ void GameManager::handleContextSelection()
 }
 
 
-void GameManager::evaluateContextChange(const sf::Keyboard::Key& _key)
+void Simulation::evaluateContextChange(const sf::Keyboard::Key& _key)
 {
     if (!gd->input->getKeyDown(_key))
         return;
@@ -81,7 +111,7 @@ void GameManager::evaluateContextChange(const sf::Keyboard::Key& _key)
 }
 
 
-void GameManager::processContext()
+void Simulation::processContext()
 {
     switch (current_context)
     {
@@ -89,7 +119,14 @@ void GameManager::processContext()
         {
             if (gd->input->getMouseButtonDown(sf::Mouse::Left))
             {
-                gd->nav_manager->toggleTileWalkable(gd->input->getMousePos());
+                auto mouse_pos = gd->input->getMousePos();
+                if (!posInSimulationArea(mouse_pos))
+                {
+                    break;
+                }
+
+                int tile_index = posToTileIndex(mouse_pos);
+                gd->nav_manager->toggleTileWalkable(tile_index);
             }
         } break;
 
@@ -103,9 +140,17 @@ void GameManager::processContext()
         {
             if (painting)
             {
+                auto mouse_pos = gd->input->getMousePos();
+                if (!posInSimulationArea(mouse_pos))
+                {
+                    break;
+                }
+
+                int tile_index = posToTileIndex(mouse_pos);
+                
                 // Only affect the current selected heatmap.
                 int heatmap_index = current_context - HEATMAP_0;
-                gd->nav_manager->paintOnHeatMap(heatmap_index, gd->input->getMousePos(), 3);
+                gd->nav_manager->paintOnHeatMap(heatmap_index, tile_index, 3);
             }
         } break;
 
@@ -114,7 +159,7 @@ void GameManager::processContext()
 }
 
 
-std::string GameManager::contextToString(const ContextType& _context)
+std::string Simulation::contextToString(const ContextType& _context)
 {
     std::string str = "Context: ";
 
@@ -144,8 +189,38 @@ std::string GameManager::contextToString(const ContextType& _context)
 }
 
 
-void GameManager::updateContextDisplay()
+void Simulation::updateContextDisplay()
 {
     context_display.setString(contextToString(current_context));
     JHelper::centerSFOrigin(context_display);
+}
+
+
+bool Simulation::posInSimulationArea(const sf::Vector2f& _pos)
+{
+    if (_pos.x < WINDOW_LEFT_BOUNDARY ||
+        _pos.x >= WINDOW_RIGHT_BOUNDARY ||
+        _pos.y < WINDOW_TOP_BOUNDARY ||
+        _pos.y >= WINDOW_BOTTOM_BOUNDARY)
+    {
+        std::cout << "Mouse outside Simulation area" << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+
+int Simulation::posToTileIndex(const sf::Vector2f& _pos)
+{
+    float tile_width = PANE_WIDTH / current_level.width;
+    float tile_height = PANE_HEIGHT / current_level.height;
+
+    float offsetx = _pos.x - WINDOW_MARGIN_X;
+    int ix = static_cast<int>(offsetx) / tile_width;
+
+    float offsety = _pos.y - WINDOW_MARGIN_Y;
+    int iy = static_cast<int>(offsety) / tile_height;
+
+    return JHelper::calculateIndex(ix, iy, current_level.width);
 }

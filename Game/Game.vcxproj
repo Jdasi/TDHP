@@ -142,12 +142,12 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Application.cpp" />
     <ClCompile Include="..\src\AssetManager.cpp" />
     <ClCompile Include="..\src\FileIO.cpp" />
-    <ClCompile Include="..\src\GameManager.cpp" />
-    <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\JMath.cpp" />
+    <ClCompile Include="..\src\Simulation.cpp" />
     <ClCompile Include="..\src\Tile.cpp" />
     <ClCompile Include="..\src\TileGrid.cpp" />
     <ClCompile Include="..\src\JHelper.cpp" />
@@ -159,16 +159,16 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\HeatMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Application.h" />
     <ClInclude Include="..\src\AssetManager.h" />
     <ClInclude Include="..\src\Constants.h" />
     <ClInclude Include="..\src\FileIO.h" />
-    <ClInclude Include="..\src\GameManager.h" />
-    <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\GameData.h" />
     <ClInclude Include="..\src\InputHandler.h" />
     <ClInclude Include="..\src\JMath.h" />
     <ClInclude Include="..\src\Level.h" />
     <ClInclude Include="..\src\ListenerSubject.h" />
+    <ClInclude Include="..\src\Simulation.h" />
     <ClInclude Include="..\src\Tile.h" />
     <ClInclude Include="..\src\TileGrid.h" />
     <ClInclude Include="..\src\JHelper.h" />

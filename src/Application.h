@@ -6,22 +6,21 @@
 
 #include "InputHandler.h"
 #include "AssetManager.h"
-#include "NavManager.h"
-#include "GameManager.h"
+#include "Simulation.h"
 #include "GameData.h"
 
-class Game
+class Application
 {
 public:
-    Game();
-    ~Game() = default;
+    Application();
+    ~Application() = default;
 
-    void run();
+    void main();
 
 private:
     void init();
     void initSystems();
-    void initTextObjects();
+    void initObjects();
 
     void tick();
     void draw();
@@ -33,8 +32,7 @@ private:
 
     std::unique_ptr<InputHandler> input_handler;
     std::unique_ptr<AssetManager> asset_manager;
-    std::unique_ptr<NavManager> nav_manager;
-    std::unique_ptr<GameManager> game_manager;
+    std::unique_ptr<Simulation> simulation;
 
     GameData game_data;
 

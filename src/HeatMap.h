@@ -10,10 +10,10 @@
 class HeatMap
 {
 public:
-    HeatMap(const int _size_x, const int _size_y, const float _padding);
+    HeatMap(const int _size_x, const int _size_y);
     ~HeatMap() = default;
 
-    void resetGrid(const int _size_x, const int _size_y, const float _padding);
+    void resetGrid(const int _size_x, const int _size_y);
 
     bool isActive() const;
     void setActive(const bool _active);
@@ -25,7 +25,7 @@ public:
     void setDecayRate(const float _decay_rate);
     void setColor(const sf::Color& _color);
 
-    void paint(const sf::Vector2f& _pos, const int _radius);
+    void paint(const int _tile_index, const int _radius);
 
     void tick();
     void draw(sf::RenderWindow& _window);

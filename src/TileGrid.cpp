@@ -3,11 +3,9 @@
 #include "Constants.h"
 
 
-TileGrid::TileGrid(const int _size_x, const int _size_y, const float _padding,
-    const sf::Color& _initial_color)
+TileGrid::TileGrid(const int _size_x, const int _size_y, const sf::Color& _initial_color)
     : size_x(_size_x)
     , size_y(_size_y)
-    , padding(_padding)
 {
     init(_initial_color);
 }
@@ -80,8 +78,8 @@ void TileGrid::init(const sf::Color& _initial_color)
 {
     tiles.assign(size_x * size_y, Tile());
 
-    float rect_width = (PANE_WIDTH - ((size_x - 1) * padding)) / size_x;
-    float rect_height = (PANE_HEIGHT - ((size_y - 1) * padding)) / size_y;
+    float rect_width = PANE_WIDTH / size_x;
+    float rect_height = PANE_HEIGHT / size_y;
 
     sf::Vector2f rect({ rect_width, rect_height });
 
@@ -94,8 +92,8 @@ void TileGrid::init(const sf::Color& _initial_color)
             tile.setCoords(sf::Vector2i(x_cycles, y_cycles));
             tile.setSize(rect);
             tile.setFillColor(_initial_color);
-            tile.setPosition({ WINDOW_LEFT_BOUNDARY + (x_cycles * (rect.x + padding)),
-                WINDOW_TOP_BOUNDARY + (y_cycles * (rect.y + padding)) });
+            tile.setPosition({ WINDOW_LEFT_BOUNDARY + (x_cycles * (rect.x)),
+                WINDOW_TOP_BOUNDARY + (y_cycles * (rect.y)) });
         }
     }
 }

@@ -25,9 +25,6 @@
     <ClCompile Include="..\src\JTime.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Game.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\NavManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -49,14 +46,17 @@
     <ClCompile Include="..\src\Tile.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\GameManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\InputHandler.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="..\src\FileIO.cpp">
       <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Application.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Simulation.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,9 +76,6 @@
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Constants.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Game.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\NavManager.h">
@@ -105,9 +102,6 @@
     <ClInclude Include="..\src\ListenerSubject.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\GameManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\InputHandler.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -115,6 +109,12 @@
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Level.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Application.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Simulation.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

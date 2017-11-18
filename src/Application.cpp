@@ -1,21 +1,19 @@
-#include "Game.h"
+#include "Application.h"
 #include "Constants.h"
 #include "JTime.h"
-#include "FileIO.h"
 
 
-Game::Game()
+Application::Application()
     : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close)
     , input_handler(nullptr)
     , asset_manager(nullptr)
-    , nav_manager(nullptr)
-    , game_manager(nullptr)
+    , simulation(nullptr)
 {
     init();
 }
 
 
-void Game::run()
+void Application::main()
 {
     while (!game_data.exit)
     {
@@ -31,16 +29,16 @@ void Game::run()
 }
 
 
-void Game::init()
+void Application::init()
 {
     window.setVerticalSyncEnabled(true);
 
     initSystems();
-    initTextObjects();
+    initObjects();
 }
 
 
-void Game::initSystems()
+void Application::initSystems()
 {
     input_handler = std::make_unique<InputHandler>(&window);
     game_data.input = input_handler.get();
@@ -48,15 +46,11 @@ void Game::initSystems()
     asset_manager = std::make_unique<AssetManager>();
     game_data.asset_manager = asset_manager.get();
 
-    nav_manager = std::make_unique<NavManager>();
-    nav_manager->parseLevel(FileIO::loadLevel("level3.txt"));
-    game_data.nav_manager = nav_manager.get();
-
-    game_manager = std::make_unique<GameManager>(&game_data);
+    simulation = std::make_unique<Simulation>(&game_data);
 }
 
 
-void Game::initTextObjects()
+void Application::initObjects()
 {
     sf::Font* default_font = asset_manager->loadFont(DEFAULT_FONT);
 
@@ -65,7 +59,7 @@ void Game::initTextObjects()
 }
 
 
-void Game::tick()
+void Application::tick()
 {
     processEvents(window);
 
@@ -83,26 +77,22 @@ void Game::tick()
         updateDebugDisplay();
     }
 
-    nav_manager->tick();
-    game_manager->tick();
+    simulation->tick();
 }
 
 
-void Game::draw()
+void Application::draw()
 {
     window.clear();
 
     window.draw(debug_display);
-
-    nav_manager->drawBaseLayer(window);
-    nav_manager->drawHeatMaps(window);
-    game_manager->draw(window);
+    simulation->draw(window);
 
     window.display();
 }
 
 
-void Game::updateDebugDisplay()
+void Application::updateDebugDisplay()
 {
     std::string debug_str;
 
@@ -114,7 +104,7 @@ void Game::updateDebugDisplay()
 }
 
 
-void Game::processEvents(sf::Window& _window)
+void Application::processEvents(sf::Window& _window)
 {
     sf::Event sf_event;
     while (_window.pollEvent(sf_event))

@@ -14,8 +14,7 @@ public:
         INVALID_TILE = -1
     };
 
-    TileGrid(const int _size_x, const int _size_y, const float _padding,
-        const sf::Color& _initial_color);
+    TileGrid(const int _size_x, const int _size_y, const sf::Color& _initial_color);
 
     ~TileGrid() = default;
 
@@ -36,7 +35,6 @@ private:
 
     int size_x;
     int size_y;
-    float padding;
 
     std::vector<Tile> tiles;
 

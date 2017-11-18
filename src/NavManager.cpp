@@ -9,10 +9,6 @@
 NavManager::NavManager()
     : grid(nullptr)
 {
-    border.setPosition({ static_cast<float>(WINDOW_LEFT_BOUNDARY), static_cast<float>(WINDOW_TOP_BOUNDARY) });
-    border.setSize(PANE_SIZE);
-    border.setFillColor(sf::Color::Blue);
-    border.setOutlineThickness(5.0f);
 }
 
 
@@ -22,7 +18,7 @@ void NavManager::parseLevel(const Level& _level)
     int height = _level.height;
 
     nav_nodes.assign(width * height, NavNode());
-    grid = std::make_unique<TileGrid>(width, height, TILE_PADDING, WALKABLE_COLOR);
+    grid = std::make_unique<TileGrid>(width, height, WALKABLE_COLOR);
 
     for (int row = 0; row < height; ++row)
     {
@@ -38,7 +34,7 @@ void NavManager::parseLevel(const Level& _level)
 
     for (auto& heat_map : heat_maps)
     {
-        heat_map->resetGrid(width, height, TILE_PADDING);
+        heat_map->resetGrid(width, height);
     }
 }
 
@@ -46,7 +42,7 @@ void NavManager::parseLevel(const Level& _level)
 HeatMap* NavManager::createHeatMap(const sf::Color& _color,
     const float _paint_hardness, const float _decay_rate)
 {
-    auto heat_map = std::make_unique<HeatMap>(grid->getSizeX(), grid->getSizeY(), TILE_PADDING);
+    auto heat_map = std::make_unique<HeatMap>(grid->getSizeX(), grid->getSizeY());
     HeatMap* heat_map_ptr = heat_map.get();
 
     heat_map->setColor(_color);
@@ -55,17 +51,6 @@ HeatMap* NavManager::createHeatMap(const sf::Color& _color,
 
     heat_maps.push_back(std::move(heat_map));
     return heat_map_ptr;
-}
-
-
-void NavManager::toggleTileWalkable(const sf::Vector2f& _pos)
-{
-    int tile_index = grid->posToTileIndex(_pos);
-    if (tile_index == TileGrid::INVALID_TILE)
-        return;
-
-    std::cout << "Tile clicked: " << tile_index << std::endl;
-    toggleTileWalkable(tile_index);
 }
 
 
@@ -81,12 +66,12 @@ void NavManager::toggleTileWalkable(const int _index)
 }
 
 
-void NavManager::paintOnHeatMap(const int _heatmap_index, const sf::Vector2f& _pos, const int _radius)
+void NavManager::paintOnHeatMap(const int _heatmap_index, const int _tile_index, const int _radius)
 {
     if (!JHelper::validIndex(_heatmap_index, heat_maps.size()))
         return;
 
-    heat_maps[_heatmap_index]->paint(_pos, _radius);
+    heat_maps[_heatmap_index]->paint(_tile_index, _radius);
 }
 
 
@@ -102,7 +87,6 @@ void NavManager::tick()
 
 void NavManager::drawBaseLayer(sf::RenderWindow& _window)
 {
-    _window.draw(border);
     grid->draw(_window);
 }
 

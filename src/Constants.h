@@ -24,15 +24,13 @@ constexpr int WINDOW_RIGHT_BOUNDARY   = WINDOW_WIDTH - WINDOW_LEFT_BOUNDARY;
 constexpr int WINDOW_TOP_BOUNDARY     = WINDOW_MARGIN_Y;
 constexpr int WINDOW_BOTTOM_BOUNDARY  = WINDOW_HEIGHT - WINDOW_MARGIN_Y;
 
-// ======================================================================================
-// GAMEPLAY SETTINGS
-// ======================================================================================
-const float TILE_PADDING                = 2;
-
 constexpr float PANE_WIDTH              = WINDOW_RIGHT_BOUNDARY - WINDOW_LEFT_BOUNDARY;
 constexpr float PANE_HEIGHT             = WINDOW_BOTTOM_BOUNDARY - WINDOW_TOP_BOUNDARY;
 const sf::Vector2f PANE_SIZE            ({ PANE_WIDTH, PANE_HEIGHT });
 
+// ======================================================================================
+// GAMEPLAY SETTINGS
+// ======================================================================================
 const sf::Color WALKABLE_COLOR          = sf::Color(0, 0, 0, 255);
 const sf::Color UNWALKABLE_COLOR        = sf::Color(255, 255, 255, 255);
 

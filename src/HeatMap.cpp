@@ -4,23 +4,23 @@
 #include "JHelper.h"
 
 
-HeatMap::HeatMap(const int _size_x, const int _size_y, const float _padding)
+HeatMap::HeatMap(const int _size_x, const int _size_y)
     : active(true)
     , visible(true)
     , paint_hardness(0)
     , decay_rate(0)
     , grid(nullptr)
 {
-    resetGrid(_size_x, _size_y, _padding);
+    resetGrid(_size_x, _size_y);
 }
 
 
-void HeatMap::resetGrid(const int _size_x, const int _size_y, const float _padding)
+void HeatMap::resetGrid(const int _size_x, const int _size_y)
 {
     weightings.clear();
     weightings.assign(_size_x * _size_y, 0);
 
-    grid = std::make_unique<TileGrid>(_size_x, _size_y, _padding, sf::Color::Transparent);
+    grid = std::make_unique<TileGrid>(_size_x, _size_y, sf::Color::Transparent);
 }
 
 
@@ -60,16 +60,12 @@ void HeatMap::setDecayRate(const float _decay_rate)
 }
 
 
-void HeatMap::paint(const sf::Vector2f& _pos, const int _radius)
+void HeatMap::paint(const int _tile_index, const int _radius)
 {
-    int center_tile = grid->posToTileIndex(_pos);
-    if (center_tile == TileGrid::INVALID_TILE)
-        return;
-
     int size_x = grid->getSizeX();
     int size_y = grid->getSizeY();
 
-    sf::Vector2i coords = JHelper::calculateCoords(center_tile, size_x);
+    sf::Vector2i coords = JHelper::calculateCoords(_tile_index, size_x);
 
     // Paint everything including and around coords.
     for (int row = coords.y - _radius; row <= coords.y + _radius; ++row)

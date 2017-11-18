@@ -19,9 +19,8 @@ public:
     HeatMap* createHeatMap(const sf::Color& _color,
         const float _paint_hardness, const float _decay_rate);
 
-    void toggleTileWalkable(const sf::Vector2f& _pos);
     void toggleTileWalkable(const int _index);
-    void paintOnHeatMap(const int _heatmap_index, const sf::Vector2f& _pos, const int _radius);
+    void paintOnHeatMap(const int _heatmap_index, const int _tile_index, const int _radius);
 
     void tick();
     void drawBaseLayer(sf::RenderWindow& _window);
@@ -29,9 +28,8 @@ public:
 
 private:
     std::vector<NavNode> nav_nodes; // Base layer.
-    std::vector<std::unique_ptr<HeatMap>> heat_maps;
-
-    sf::RectangleShape border;
     std::unique_ptr<TileGrid> grid;
+
+    std::vector<std::unique_ptr<HeatMap>> heat_maps;
 
 };
