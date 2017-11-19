@@ -127,6 +127,7 @@ void Simulation::processContext()
 
                 int tile_index = posToTileIndex(mouse_pos);
                 gd->nav_manager->toggleTileWalkable(tile_index);
+                std::cout << "Math tile index: " << tile_index << std::endl;
             }
         } break;
 
@@ -203,7 +204,7 @@ bool Simulation::posInSimulationArea(const sf::Vector2f& _pos)
         _pos.y < WINDOW_TOP_BOUNDARY ||
         _pos.y >= WINDOW_BOTTOM_BOUNDARY)
     {
-        std::cout << "Mouse outside Simulation area" << std::endl;
+        std::cout << "Pos outside Simulation area" << std::endl;
         return false;
     }
 

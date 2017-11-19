@@ -74,12 +74,18 @@ void TileGrid::draw(sf::RenderWindow& _window)
 }
 
 
+/* Tiles are squished to fit inside the PANE, and are set to have their origins
+ * in the center, to allow for other sprites to be more easily layered on top.
+ */
 void TileGrid::init(const sf::Color& _initial_color)
 {
     tiles.assign(size_x * size_y, Tile());
 
     float rect_width = PANE_WIDTH / size_x;
     float rect_height = PANE_HEIGHT / size_y;
+
+    float half_rect_x = rect_width / 2;
+    float half_rect_y = rect_height / 2;
 
     sf::Vector2f rect({ rect_width, rect_height });
 
@@ -91,9 +97,11 @@ void TileGrid::init(const sf::Color& _initial_color)
 
             tile.setCoords(sf::Vector2i(x_cycles, y_cycles));
             tile.setSize(rect);
+            tile.setOrigin(half_rect_x, half_rect_y);
             tile.setFillColor(_initial_color);
-            tile.setPosition({ WINDOW_LEFT_BOUNDARY + (x_cycles * (rect.x)),
-                WINDOW_TOP_BOUNDARY + (y_cycles * (rect.y)) });
+            tile.setPosition({
+                WINDOW_LEFT_BOUNDARY + (x_cycles * (rect.x)) + half_rect_x,
+                WINDOW_TOP_BOUNDARY + (y_cycles * (rect.y)) + half_rect_y });
         }
     }
 }
@@ -114,4 +122,14 @@ int TileGrid::posToTileIndex(const sf::Vector2f& _pos)
     }
 
     return ReturnType::INVALID_TILE;
+}
+
+
+sf::Vector2f TileGrid::tileIndexToPos(const int _tile_index)
+{
+    sf::Vector2f pos;
+    if (!JHelper::validIndex(_tile_index, tiles.size()))
+        return pos;
+
+    return tiles[_tile_index].getPosition();
 }

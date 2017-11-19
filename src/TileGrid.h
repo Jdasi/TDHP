@@ -23,6 +23,7 @@ public:
     int getProduct() const;
 
     int posToTileIndex(const sf::Vector2f& _pos);
+    sf::Vector2f tileIndexToPos(const int _tile_index);
 
     void setTileAlpha(const int _tile_index, const int _alpha);
     void modifyTileAlpha(const int _tile_index, const int _amount);

@@ -25,6 +25,8 @@ void NavManager::parseLevel(const Level& _level)
         for (int col = 0; col < width; ++col)
         {
             int index = JHelper::calculateIndex(col, row, width);
+            nav_nodes[index].setWorldPos(grid->tileIndexToPos(index));
+
             switch (_level.data[index])
             {
                 case 'W': toggleTileWalkable(index); break;
@@ -51,6 +53,16 @@ HeatMap* NavManager::createHeatMap(const sf::Color& _color,
 
     heat_maps.push_back(std::move(heat_map));
     return heat_map_ptr;
+}
+
+
+void NavManager::toggleTileWalkable(const sf::Vector2f& _pos)
+{
+    int tile_index = grid->posToTileIndex(_pos);
+    if (tile_index == TileGrid::INVALID_TILE)
+        return;
+
+    toggleTileWalkable(tile_index);
 }
 
 
