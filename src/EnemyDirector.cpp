@@ -3,14 +3,17 @@
 #include "EnemyDirector.h"
 #include "AssetManager.h"
 #include "NavManager.h"
+#include "HeatmapManager.h"
 #include "JHelper.h"
 #include "JMath.h"
 #include "Level.h"
 
 
-EnemyDirector::EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_manager, Level* _level)
+EnemyDirector::EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_manager,
+    HeatmapManager* _heatmap_manager, Level* _level)
     : asset_manager(_asset_manager)
     , nav_manager(_nav_manager)
+    , heatmap_manager(_heatmap_manager)
     , current_level(_level)
 {
     initEnemies();
@@ -112,5 +115,5 @@ void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
 void EnemyDirector::onDeath(const sf::Vector2f& _pos)
 {
     int tile_index = JHelper::posToTileIndex(_pos, *current_level);
-    nav_manager->splashOnHeatMap(0, tile_index, 3);
+    heatmap_manager->splashOnHeatmap(0, tile_index, 3);
 }

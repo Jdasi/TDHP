@@ -22,7 +22,7 @@ Simulation::Simulation(GameData* _gd)
 void Simulation::tick()
 {
     // Systems.
-    nav_manager->tick();
+    heatmap_manager->tick();
     enemy_director->tick();
     tower_manager->tick();
 
@@ -38,9 +38,8 @@ void Simulation::draw(sf::RenderWindow& _window)
 {
     _window.draw(border);
 
-    nav_manager->drawBaseLayer(_window);
-    nav_manager->drawHeatMaps(_window);
-
+    nav_manager->draw(_window);
+    heatmap_manager->draw(_window);
     enemy_director->draw(_window);
     tower_manager->draw(_window);
 
@@ -57,16 +56,19 @@ void Simulation::init()
 
 void Simulation::initSystems()
 {
-    nav_manager = std::make_unique<NavManager>();
-
     current_level = FileIO::loadLevel("level3.txt");
+
+    heatmap_manager = std::make_unique<HeatmapManager>(
+        current_level.width, current_level.height);
+
+    nav_manager = std::make_unique<NavManager>(heatmap_manager.get());
     nav_manager->parseLevel(current_level);
 
-    nav_manager->createHeatMap(sf::Color::Red, 200, 15);
-    nav_manager->createHeatMap(sf::Color::Green, 200, 15);
+    heatmap_manager->createHeatmap(sf::Color::Red, 200, 15);
+    heatmap_manager->createHeatmap(sf::Color::Green, 200, 15);
 
     enemy_director = std::make_unique<EnemyDirector>(gd->asset_manager,
-        nav_manager.get(), &current_level);
+        nav_manager.get(), heatmap_manager.get(), &current_level);
 
     tower_manager = std::make_unique<TowerManager>(gd->asset_manager,
         nav_manager.get(), enemy_director.get(), &current_level);
@@ -195,7 +197,7 @@ void Simulation::processHeatmapContext()
 
         // Only affect the current selected heatmap.
         int heatmap_index = current_context - HEATMAP_0;
-        nav_manager->paintOnHeatMap(heatmap_index, tile_index, 3);
+        heatmap_manager->paintOnHeatmap(heatmap_index, tile_index, 3);
     }
 }
 

@@ -12,13 +12,15 @@
 
 class AssetManager;
 class NavManager;
+class HeatmapManager;
 struct GameData;
 struct Level;
 
 class EnemyDirector : public EnemyListener
 {
 public:
-    EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_manager, Level* _level);
+    EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_manager,
+        HeatmapManager* _heatmap_manager, Level* _level);
     ~EnemyDirector() = default;
 
     void tick();
@@ -29,15 +31,14 @@ public:
 
 private:
     void initEnemies();
-
     void spawnEnemy(const sf::Vector2f& _pos);
 
     // Events.
-
     void onDeath(const sf::Vector2f& _pos) override;
 
     AssetManager* asset_manager;
     NavManager* nav_manager;
+    HeatmapManager* heatmap_manager;
     Level* current_level;
 
     sf::Texture* enemy_texture;

@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "HeatmapManager.h"
 #include "NavManager.h"
 #include "EnemyDirector.h"
 #include "TowerManager.h"
@@ -50,13 +51,12 @@ private:
     std::string contextToString(const ContextType& _context);
     void updateContextDisplay();
 
-
-
+    std::unique_ptr<HeatmapManager> heatmap_manager;
     std::unique_ptr<NavManager> nav_manager;
     std::unique_ptr<EnemyDirector> enemy_director;
     std::unique_ptr<TowerManager> tower_manager;
-    Level current_level;
 
+    Level current_level;
     GameData* gd;
     ContextType current_context;
 

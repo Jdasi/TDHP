@@ -6,8 +6,8 @@
 #include <iostream>
 
 
-NavManager::NavManager()
-    : grid(nullptr)
+NavManager::NavManager(HeatmapManager* _heatmap_manager)
+    : heatmap_manager(_heatmap_manager)
 {
 }
 
@@ -33,26 +33,12 @@ void NavManager::parseLevel(const Level& _level)
             }
         }
     }
-
-    for (auto& heat_map : heat_maps)
-    {
-        heat_map->resetGrid(width, height);
-    }
 }
 
 
-HeatMap* NavManager::createHeatMap(const sf::Color& _color,
-    const float _paint_hardness, const float _decay_rate)
+void NavManager::draw(sf::RenderWindow& _window)
 {
-    auto heat_map = std::make_unique<HeatMap>(grid->getSizeX(), grid->getSizeY());
-    HeatMap* heat_map_ptr = heat_map.get();
-
-    heat_map->setColor(_color);
-    heat_map->setPaintHardness(_paint_hardness);
-    heat_map->setDecayRate(_decay_rate);
-
-    heat_maps.push_back(std::move(heat_map));
-    return heat_map_ptr;
+    grid->draw(_window);
 }
 
 
@@ -87,24 +73,6 @@ void NavManager::toggleTileWalkable(const int _index)
 }
 
 
-void NavManager::paintOnHeatMap(const int _heatmap_index, const int _tile_index, const int _radius)
-{
-    if (!JHelper::validIndex(_heatmap_index, heat_maps.size()))
-        return;
-
-    heat_maps[_heatmap_index]->paint(_tile_index, _radius);
-}
-
-
-void NavManager::splashOnHeatMap(const int _heatmap_index, const int _tile_index, const int _radius)
-{
-    if (!JHelper::validIndex(_heatmap_index, heat_maps.size()))
-        return;
-
-    heat_maps[_heatmap_index]->splash(_tile_index, _radius);
-}
-
-
 sf::Vector2f NavManager::getTileWorldPos(const int _tile_index)
 {
     sf::Vector2f pos;
@@ -112,30 +80,4 @@ sf::Vector2f NavManager::getTileWorldPos(const int _tile_index)
         return pos;
 
     return nav_nodes[_tile_index].getWorldPos();
-}
-
-
-void NavManager::tick()
-{
-    for (auto& heat_map : heat_maps)
-    {
-        if (heat_map->isActive())
-            heat_map->tick();
-    }
-}
-
-
-void NavManager::drawBaseLayer(sf::RenderWindow& _window)
-{
-    grid->draw(_window);
-}
-
-
-void NavManager::drawHeatMaps(sf::RenderWindow& _window)
-{
-    for (auto& heat_map : heat_maps)
-    {
-        if (heat_map->isVisible())
-            heat_map->draw(_window);
-    }
 }

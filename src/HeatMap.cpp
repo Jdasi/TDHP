@@ -1,10 +1,10 @@
-#include "HeatMap.h"
+#include "Heatmap.h"
 #include "JTime.h"
 #include "JMath.h"
 #include "JHelper.h"
 
 
-HeatMap::HeatMap(const int _size_x, const int _size_y)
+Heatmap::Heatmap(const int _size_x, const int _size_y)
     : active(true)
     , visible(true)
     , paint_hardness(0)
@@ -15,7 +15,7 @@ HeatMap::HeatMap(const int _size_x, const int _size_y)
 }
 
 
-void HeatMap::resetGrid(const int _size_x, const int _size_y)
+void Heatmap::resetGrid(const int _size_x, const int _size_y)
 {
     weightings.clear();
     weightings.assign(_size_x * _size_y, 0);
@@ -24,55 +24,55 @@ void HeatMap::resetGrid(const int _size_x, const int _size_y)
 }
 
 
-bool HeatMap::isActive() const
+bool Heatmap::isActive() const
 {
     return active;
 }
 
 
-void HeatMap::setActive(const bool _active)
+void Heatmap::setActive(const bool _active)
 {
     active = _active;
 }
 
 
-bool HeatMap::isVisible() const
+bool Heatmap::isVisible() const
 {
     return visible;
 }
 
 
-void HeatMap::setVisible(const bool _visible)
+void Heatmap::setVisible(const bool _visible)
 {
     visible = _visible;
 }
 
 
-void HeatMap::setPaintHardness(const float _hardness)
+void Heatmap::setPaintHardness(const float _hardness)
 {
     paint_hardness = _hardness;
 }
 
 
-void HeatMap::setDecayRate(const float _decay_rate)
+void Heatmap::setDecayRate(const float _decay_rate)
 {
     decay_rate = _decay_rate;
 }
 
 
-void HeatMap::paint(const int _tile_index, const int _radius)
+void Heatmap::paint(const int _tile_index, const int _radius)
 {
     paintWithModifier(_tile_index, _radius, JTime::getUnscaledDeltaTime());
 }
 
 
-void HeatMap::splash(const int _tile_index, const int _radius)
+void Heatmap::splash(const int _tile_index, const int _radius)
 {
     paintWithModifier(_tile_index, _radius, 1);
 }
 
 
-void HeatMap::setColor(const sf::Color& _color)
+void Heatmap::setColor(const sf::Color& _color)
 {
     color = _color;
 
@@ -87,20 +87,20 @@ void HeatMap::setColor(const sf::Color& _color)
 }
 
 
-void HeatMap::tick()
+void Heatmap::tick()
 {
     if (decay_rate > 0)
         decay();
 }
 
 
-void HeatMap::draw(sf::RenderWindow& _window)
+void Heatmap::draw(sf::RenderWindow& _window)
 {
     grid->draw(_window);
 }
 
 
-void HeatMap::paintWithModifier(const int _tile_index, const int _radius, const float _modifier)
+void Heatmap::paintWithModifier(const int _tile_index, const int _radius, const float _modifier)
 {
     int size_x = grid->getSizeX();
     int size_y = grid->getSizeY();
@@ -129,7 +129,7 @@ void HeatMap::paintWithModifier(const int _tile_index, const int _radius, const 
 }
 
 
-void HeatMap::decay()
+void Heatmap::decay()
 {
     for (unsigned int i = 0; i < weightings.size(); ++i)
     {

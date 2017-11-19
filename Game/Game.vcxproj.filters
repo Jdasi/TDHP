@@ -37,7 +37,7 @@
     <ClCompile Include="..\src\JHelper.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\HeatMap.cpp">
+    <ClCompile Include="..\src\Heatmap.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="..\src\TileGrid.cpp">
@@ -73,6 +73,9 @@
     <ClCompile Include="..\src\EnemyDirector.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\HeatmapManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -99,7 +102,7 @@
     <ClInclude Include="..\src\NavNode.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\HeatMap.h">
+    <ClInclude Include="..\src\Heatmap.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameData.h">
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="..\src\EnemyListener.h">
       <Filter>Listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\HeatmapManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

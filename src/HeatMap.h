@@ -7,11 +7,11 @@
 
 #include "TileGrid.h"
 
-class HeatMap
+class Heatmap
 {
 public:
-    HeatMap(const int _size_x, const int _size_y);
-    ~HeatMap() = default;
+    Heatmap(const int _size_x, const int _size_y);
+    ~Heatmap() = default;
 
     void resetGrid(const int _size_x, const int _size_y);
 
