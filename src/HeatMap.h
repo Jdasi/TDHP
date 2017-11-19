@@ -26,11 +26,15 @@ public:
     void setColor(const sf::Color& _color);
 
     void paint(const int _tile_index, const int _radius);
+    void splash(const int _tile_index, const int _radius);
 
     void tick();
     void draw(sf::RenderWindow& _window);
 
 private:
+    void paintWithModifier(const int _tile_index, const int _radius,
+        const float _modifier = 1);
+
     void decay();
 
     bool active;

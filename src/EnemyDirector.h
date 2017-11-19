@@ -8,13 +8,14 @@
 
 #include "Enemy.h"
 #include "Constants.h"
+#include "EnemyListener.h"
 
 class AssetManager;
 class NavManager;
 struct GameData;
 struct Level;
 
-class EnemyDirector
+class EnemyDirector : public EnemyListener
 {
 public:
     EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_manager, Level* _level);
@@ -30,6 +31,10 @@ private:
     void initEnemies();
 
     void spawnEnemy(const sf::Vector2f& _pos);
+
+    // Events.
+
+    void onDeath(const sf::Vector2f& _pos) override;
 
     AssetManager* asset_manager;
     NavManager* nav_manager;

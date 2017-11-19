@@ -4,6 +4,8 @@
 
 #include <SFML/Graphics.hpp>
 
+struct Level;
+
 /* Various functions that don't belong in one specific place and are useful
  * in many areas.
  */
@@ -14,6 +16,8 @@ namespace JHelper
     sf::Vector2i calculateCoords(const unsigned int _index, const unsigned int _size_x);
     bool validIndex(const int _index, const int _array_size);
 
+    bool posInSimulationArea(const sf::Vector2f& _pos);
+    int posToTileIndex(const sf::Vector2f& _pos, const Level& _level);
 
     template <typename T>
     void centerSFOrigin(T& _sfml_object)

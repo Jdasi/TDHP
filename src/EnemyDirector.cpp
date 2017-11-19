@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "EnemyDirector.h"
 #include "AssetManager.h"
 #include "NavManager.h"
@@ -73,8 +75,9 @@ void EnemyDirector::initEnemies()
 
     for (auto& enemy : enemies)
     {
-        enemy.setTexture(*enemy_texture);
+        enemy.attachListener(this);
 
+        enemy.setTexture(*enemy_texture);
         enemy.setScale(current_level->tile_width / texture_size.x,
             current_level->tile_height / texture_size.y);
 
@@ -103,4 +106,11 @@ void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
         // We're done here.
         return;
     }
+}
+
+
+void EnemyDirector::onDeath(const sf::Vector2f& _pos)
+{
+    int tile_index = JHelper::posToTileIndex(_pos, *current_level);
+    nav_manager->splashOnHeatMap(0, tile_index, 3);
 }

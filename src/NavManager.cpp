@@ -96,6 +96,15 @@ void NavManager::paintOnHeatMap(const int _heatmap_index, const int _tile_index,
 }
 
 
+void NavManager::splashOnHeatMap(const int _heatmap_index, const int _tile_index, const int _radius)
+{
+    if (!JHelper::validIndex(_heatmap_index, heat_maps.size()))
+        return;
+
+    heat_maps[_heatmap_index]->splash(_tile_index, _radius);
+}
+
+
 sf::Vector2f NavManager::getTileWorldPos(const int _tile_index)
 {
     sf::Vector2f pos;

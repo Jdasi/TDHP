@@ -168,6 +168,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\Constants.h" />
     <ClInclude Include="..\src\Enemy.h" />
     <ClInclude Include="..\src\EnemyDirector.h" />
+    <ClInclude Include="..\src\EnemyListener.h" />
     <ClInclude Include="..\src\FileIO.h" />
     <ClInclude Include="..\src\GameData.h" />
     <ClInclude Include="..\src\InputHandler.h" />

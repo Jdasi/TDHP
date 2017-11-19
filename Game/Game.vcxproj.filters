@@ -13,6 +13,9 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{6d9451ca-aaa7-4435-8623-c21cceeb0cd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Listeners">
+      <UniqueIdentifier>{4e2794d5-f7bd-49b6-8ded-28406ac5b36b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="..\src\EnemyDirector.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EnemyListener.h">
+      <Filter>Listeners</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

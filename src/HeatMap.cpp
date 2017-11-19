@@ -62,30 +62,13 @@ void HeatMap::setDecayRate(const float _decay_rate)
 
 void HeatMap::paint(const int _tile_index, const int _radius)
 {
-    int size_x = grid->getSizeX();
-    int size_y = grid->getSizeY();
+    paintWithModifier(_tile_index, _radius, JTime::getUnscaledDeltaTime());
+}
 
-    sf::Vector2i coords = JHelper::calculateCoords(_tile_index, size_x);
 
-    // Paint everything including and around coords.
-    for (int row = coords.y - _radius; row <= coords.y + _radius; ++row)
-    {
-        for (int col = coords.x - _radius; col <= coords.x + _radius; ++col)
-        {
-            if ((col < 0 || col >= size_x) || (row < 0 || row >= size_y))
-                continue;
-
-            int curr = JHelper::calculateIndex(col, row, size_x);
-            int diff = abs(col - coords.x) + abs(row - coords.y);
-
-            auto& weighting = weightings[curr];
-
-            weighting += (paint_hardness / (diff + 1)) * JTime::getUnscaledDeltaTime();
-            weighting = JMath::clampf(weighting, 0, 255);
-
-            grid->setTileAlpha(curr, weighting);
-        }
-    }
+void HeatMap::splash(const int _tile_index, const int _radius)
+{
+    paintWithModifier(_tile_index, _radius, 1);
 }
 
 
@@ -114,6 +97,35 @@ void HeatMap::tick()
 void HeatMap::draw(sf::RenderWindow& _window)
 {
     grid->draw(_window);
+}
+
+
+void HeatMap::paintWithModifier(const int _tile_index, const int _radius, const float _modifier)
+{
+    int size_x = grid->getSizeX();
+    int size_y = grid->getSizeY();
+
+    sf::Vector2i coords = JHelper::calculateCoords(_tile_index, size_x);
+
+    // Paint everything including and around coords.
+    for (int row = coords.y - _radius; row <= coords.y + _radius; ++row)
+    {
+        for (int col = coords.x - _radius; col <= coords.x + _radius; ++col)
+        {
+            if ((col < 0 || col >= size_x) || (row < 0 || row >= size_y))
+                continue;
+
+            int curr = JHelper::calculateIndex(col, row, size_x);
+            int diff = abs(col - coords.x) + abs(row - coords.y);
+
+            auto& weighting = weightings[curr];
+
+            weighting += (paint_hardness / (diff + 1)) * _modifier;
+            weighting = JMath::clampf(weighting, 0, 255);
+
+            grid->setTileAlpha(curr, weighting);
+        }
+    }
 }
 
 

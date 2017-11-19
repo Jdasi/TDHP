@@ -38,5 +38,9 @@ void Enemy::kill()
         return;
 
     alive = false;
-    // some callback event here to paint heatmap ..
+    
+    for (auto& listener : listeners)
+    {
+        listener->onDeath(getPosition());
+    }
 }

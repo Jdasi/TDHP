@@ -152,12 +152,12 @@ void Simulation::processNavContext()
     if (gd->input->getMouseButtonDown(sf::Mouse::Left))
     {
         auto mouse_pos = gd->input->getMousePos();
-        if (!posInSimulationArea(mouse_pos))
+        if (!JHelper::posInSimulationArea(mouse_pos))
         {
             return;
         }
 
-        int tile_index = posToTileIndex(mouse_pos);
+        int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
         nav_manager->toggleTileWalkable(tile_index);
         std::cout << "Math tile index: " << tile_index << std::endl;
     }
@@ -169,12 +169,12 @@ void Simulation::processGameContext()
     if (gd->input->getMouseButtonDown(sf::Mouse::Left))
     {
         auto mouse_pos = gd->input->getMousePos();
-        if (!posInSimulationArea(mouse_pos))
+        if (!JHelper::posInSimulationArea(mouse_pos))
         {
             return;
         }
 
-        int tile_index = posToTileIndex(mouse_pos);
+        int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
         tower_manager->buildTowerOnTile(tile_index);
         std::cout << "Math tile index: " << tile_index << std::endl;
     }
@@ -186,12 +186,12 @@ void Simulation::processHeatmapContext()
     if (painting)
     {
         auto mouse_pos = gd->input->getMousePos();
-        if (!posInSimulationArea(mouse_pos))
+        if (!JHelper::posInSimulationArea(mouse_pos))
         {
             return;
         }
 
-        int tile_index = posToTileIndex(mouse_pos);
+        int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
 
         // Only affect the current selected heatmap.
         int heatmap_index = current_context - HEATMAP_0;
@@ -234,31 +234,4 @@ void Simulation::updateContextDisplay()
 {
     context_display.setString(contextToString(current_context));
     JHelper::centerSFOrigin(context_display);
-}
-
-
-bool Simulation::posInSimulationArea(const sf::Vector2f& _pos)
-{
-    if (_pos.x < WINDOW_LEFT_BOUNDARY ||
-        _pos.x >= WINDOW_RIGHT_BOUNDARY ||
-        _pos.y < WINDOW_TOP_BOUNDARY ||
-        _pos.y >= WINDOW_BOTTOM_BOUNDARY)
-    {
-        std::cout << "Pos outside Simulation area" << std::endl;
-        return false;
-    }
-
-    return true;
-}
-
-
-int Simulation::posToTileIndex(const sf::Vector2f& _pos)
-{
-    float offsetx = _pos.x - WINDOW_MARGIN_X;
-    int ix = static_cast<int>(offsetx) / current_level.tile_width;
-
-    float offsety = _pos.y - WINDOW_MARGIN_Y;
-    int iy = static_cast<int>(offsety) / current_level.tile_height;
-
-    return JHelper::calculateIndex(ix, iy, current_level.width);
 }

@@ -50,8 +50,7 @@ private:
     std::string contextToString(const ContextType& _context);
     void updateContextDisplay();
 
-    bool posInSimulationArea(const sf::Vector2f& _pos);
-    int posToTileIndex(const sf::Vector2f& _pos);
+
 
     std::unique_ptr<NavManager> nav_manager;
     std::unique_ptr<EnemyDirector> enemy_director;

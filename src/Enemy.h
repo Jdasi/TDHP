@@ -2,7 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 
-class Enemy final : public sf::Sprite
+#include "EnemyListener.h"
+#include "ListenerSubject.h"
+
+class Enemy final : public sf::Sprite, public ListenerSubject<EnemyListener>
 {
 public:
     Enemy();
