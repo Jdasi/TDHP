@@ -56,6 +56,15 @@ HeatMap* NavManager::createHeatMap(const sf::Color& _color,
 }
 
 
+bool NavManager::isTileWalkable(const int _index) const
+{
+    if (!JHelper::validIndex(_index, nav_nodes.size()))
+        return false;
+
+    return nav_nodes[_index].isWalkable();
+}
+
+
 void NavManager::toggleTileWalkable(const sf::Vector2f& _pos)
 {
     int tile_index = grid->posToTileIndex(_pos);
@@ -84,6 +93,16 @@ void NavManager::paintOnHeatMap(const int _heatmap_index, const int _tile_index,
         return;
 
     heat_maps[_heatmap_index]->paint(_tile_index, _radius);
+}
+
+
+sf::Vector2f NavManager::getTileWorldPos(const int _tile_index)
+{
+    sf::Vector2f pos;
+    if (!JHelper::validIndex(_tile_index, nav_nodes.size()))
+        return pos;
+
+    return nav_nodes[_tile_index].getWorldPos();
 }
 
 

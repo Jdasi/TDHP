@@ -5,6 +5,8 @@
 #include <SFML/Graphics.hpp>
 
 #include "NavManager.h"
+#include "EnemyDirector.h"
+#include "TowerManager.h"
 #include "Level.h"
 
 struct GameData;
@@ -41,6 +43,10 @@ private:
     void evaluateContextChange(const sf::Keyboard::Key& _key);
     void processContext();
 
+    void processNavContext();
+    void processGameContext();
+    void processHeatmapContext();
+
     std::string contextToString(const ContextType& _context);
     void updateContextDisplay();
 
@@ -48,6 +54,8 @@ private:
     int posToTileIndex(const sf::Vector2f& _pos);
 
     std::unique_ptr<NavManager> nav_manager;
+    std::unique_ptr<EnemyDirector> enemy_director;
+    std::unique_ptr<TowerManager> tower_manager;
     Level current_level;
 
     GameData* gd;

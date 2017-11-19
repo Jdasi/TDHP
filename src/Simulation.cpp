@@ -21,8 +21,12 @@ Simulation::Simulation(GameData* _gd)
 
 void Simulation::tick()
 {
+    // Systems.
     nav_manager->tick();
+    enemy_director->tick();
+    tower_manager->tick();
 
+    // State.
     painting = gd->input->getMouseButton(sf::Mouse::Left);
 
     handleContextSelection();
@@ -36,6 +40,9 @@ void Simulation::draw(sf::RenderWindow& _window)
 
     nav_manager->drawBaseLayer(_window);
     nav_manager->drawHeatMaps(_window);
+
+    enemy_director->draw(_window);
+    tower_manager->draw(_window);
 
     _window.draw(context_display);
 }
@@ -51,13 +58,20 @@ void Simulation::init()
 void Simulation::initSystems()
 {
     nav_manager = std::make_unique<NavManager>();
-    gd->nav_manager = nav_manager.get();
 
     current_level = FileIO::loadLevel("level3.txt");
-    gd->nav_manager->parseLevel(current_level);
+    nav_manager->parseLevel(current_level);
 
-    gd->nav_manager->createHeatMap(sf::Color::Red, 200, 15);
-    gd->nav_manager->createHeatMap(sf::Color::Green, 200, 15);
+    nav_manager->createHeatMap(sf::Color::Red, 200, 15);
+    nav_manager->createHeatMap(sf::Color::Green, 200, 15);
+
+    enemy_director = std::make_unique<EnemyDirector>(gd->asset_manager,
+        nav_manager.get(), &current_level);
+
+    tower_manager = std::make_unique<TowerManager>(gd->asset_manager,
+        nav_manager.get(), enemy_director.get(), &current_level);
+
+
 }
 
 
@@ -65,16 +79,20 @@ void Simulation::initObjects()
 {
     sf::Font* default_font = gd->asset_manager->loadFont(DEFAULT_FONT);
 
+    // Debug context display.
     context_display.setFont(*default_font);
     context_display.setCharacterSize(16);
     context_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 16);
 
-    border.setPosition({ static_cast<float>(WINDOW_LEFT_BOUNDARY), static_cast<float>(WINDOW_TOP_BOUNDARY) });
+    updateContextDisplay();
+
+    // Border.
     border.setSize(PANE_SIZE);
     border.setFillColor(sf::Color::Blue);
     border.setOutlineThickness(5.0f);
 
-    updateContextDisplay();
+    border.setPosition({ static_cast<float>(WINDOW_LEFT_BOUNDARY),
+        static_cast<float>(WINDOW_TOP_BOUNDARY) });
 }
 
 
@@ -115,47 +133,69 @@ void Simulation::processContext()
 {
     switch (current_context)
     {
-        case NAV:
-        {
-            if (gd->input->getMouseButtonDown(sf::Mouse::Left))
-            {
-                auto mouse_pos = gd->input->getMousePos();
-                if (!posInSimulationArea(mouse_pos))
-                {
-                    break;
-                }
-
-                int tile_index = posToTileIndex(mouse_pos);
-                gd->nav_manager->toggleTileWalkable(tile_index);
-                std::cout << "Math tile index: " << tile_index << std::endl;
-            }
-        } break;
-
-        case GAME:
-        {
-
-        } break;
+        case NAV: { processNavContext(); } break;
+        case GAME: { processGameContext(); } break;
 
         case HEATMAP_0: case HEATMAP_1: case HEATMAP_2: case HEATMAP_3:
         case HEATMAP_4: case HEATMAP_5: case HEATMAP_6: case HEATMAP_7:
         {
-            if (painting)
-            {
-                auto mouse_pos = gd->input->getMousePos();
-                if (!posInSimulationArea(mouse_pos))
-                {
-                    break;
-                }
-
-                int tile_index = posToTileIndex(mouse_pos);
-                
-                // Only affect the current selected heatmap.
-                int heatmap_index = current_context - HEATMAP_0;
-                gd->nav_manager->paintOnHeatMap(heatmap_index, tile_index, 3);
-            }
+            processHeatmapContext();
         } break;
 
         default: {}
+    }
+}
+
+
+void Simulation::processNavContext()
+{
+    if (gd->input->getMouseButtonDown(sf::Mouse::Left))
+    {
+        auto mouse_pos = gd->input->getMousePos();
+        if (!posInSimulationArea(mouse_pos))
+        {
+            return;
+        }
+
+        int tile_index = posToTileIndex(mouse_pos);
+        nav_manager->toggleTileWalkable(tile_index);
+        std::cout << "Math tile index: " << tile_index << std::endl;
+    }
+}
+
+
+void Simulation::processGameContext()
+{
+    if (gd->input->getMouseButtonDown(sf::Mouse::Left))
+    {
+        auto mouse_pos = gd->input->getMousePos();
+        if (!posInSimulationArea(mouse_pos))
+        {
+            return;
+        }
+
+        int tile_index = posToTileIndex(mouse_pos);
+        tower_manager->buildTowerOnTile(tile_index);
+        std::cout << "Math tile index: " << tile_index << std::endl;
+    }
+}
+
+
+void Simulation::processHeatmapContext()
+{
+    if (painting)
+    {
+        auto mouse_pos = gd->input->getMousePos();
+        if (!posInSimulationArea(mouse_pos))
+        {
+            return;
+        }
+
+        int tile_index = posToTileIndex(mouse_pos);
+
+        // Only affect the current selected heatmap.
+        int heatmap_index = current_context - HEATMAP_0;
+        nav_manager->paintOnHeatMap(heatmap_index, tile_index, 3);
     }
 }
 
@@ -214,14 +254,11 @@ bool Simulation::posInSimulationArea(const sf::Vector2f& _pos)
 
 int Simulation::posToTileIndex(const sf::Vector2f& _pos)
 {
-    float tile_width = PANE_WIDTH / current_level.width;
-    float tile_height = PANE_HEIGHT / current_level.height;
-
     float offsetx = _pos.x - WINDOW_MARGIN_X;
-    int ix = static_cast<int>(offsetx) / tile_width;
+    int ix = static_cast<int>(offsetx) / current_level.tile_width;
 
     float offsety = _pos.y - WINDOW_MARGIN_Y;
-    int iy = static_cast<int>(offsety) / tile_height;
+    int iy = static_cast<int>(offsety) / current_level.tile_height;
 
     return JHelper::calculateIndex(ix, iy, current_level.width);
 }

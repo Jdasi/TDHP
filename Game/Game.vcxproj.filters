@@ -58,6 +58,18 @@
     <ClCompile Include="..\src\Simulation.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\TowerManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Tower.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Enemy.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EnemyDirector.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -116,6 +128,18 @@
     </ClInclude>
     <ClInclude Include="..\src\Simulation.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TowerManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Tower.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Enemy.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EnemyDirector.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

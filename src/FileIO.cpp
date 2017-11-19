@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "FileIO.h"
+#include "Constants.h"
 
 
 Level FileIO::loadLevel(const std::string& _file_name)
@@ -28,6 +29,9 @@ Level FileIO::loadLevel(const std::string& _file_name)
             level.data.push_back(elem);
         }
     }
+
+    level.tile_width = PANE_WIDTH / level.width;
+    level.tile_height = PANE_HEIGHT / level.height;
 
     return level;
 }

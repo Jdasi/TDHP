@@ -144,6 +144,8 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
   <ItemGroup>
     <ClCompile Include="..\src\Application.cpp" />
     <ClCompile Include="..\src\AssetManager.cpp" />
+    <ClCompile Include="..\src\Enemy.cpp" />
+    <ClCompile Include="..\src\EnemyDirector.cpp" />
     <ClCompile Include="..\src\FileIO.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\JMath.cpp" />
@@ -157,11 +159,15 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\NavNode.cpp" />
     <ClCompile Include="..\src\SimpleTimer.cpp" />
     <ClCompile Include="..\src\HeatMap.cpp" />
+    <ClCompile Include="..\src\Tower.cpp" />
+    <ClCompile Include="..\src\TowerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Application.h" />
     <ClInclude Include="..\src\AssetManager.h" />
     <ClInclude Include="..\src\Constants.h" />
+    <ClInclude Include="..\src\Enemy.h" />
+    <ClInclude Include="..\src\EnemyDirector.h" />
     <ClInclude Include="..\src\FileIO.h" />
     <ClInclude Include="..\src\GameData.h" />
     <ClInclude Include="..\src\InputHandler.h" />
@@ -176,6 +182,8 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\NavManager.h" />
     <ClInclude Include="..\src\NavNode.h" />
     <ClInclude Include="..\src\SimpleTimer.h" />
+    <ClInclude Include="..\src\Tower.h" />
+    <ClInclude Include="..\src\TowerManager.h" />
     <ClInclude Include="..\src\Vector2i.h" />
     <ClInclude Include="..\src\HeatMap.h" />
   </ItemGroup>
