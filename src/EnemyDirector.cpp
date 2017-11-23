@@ -3,6 +3,8 @@
 #include "EnemyDirector.h"
 #include "AssetManager.h"
 #include "NavManager.h"
+#include "InputHandler.h"
+#include "GameData.h"
 #include "HeatmapManager.h"
 #include "JHelper.h"
 #include "JMath.h"
@@ -20,7 +22,7 @@ EnemyDirector::EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_mana
 }
 
 
-void EnemyDirector::tick()
+void EnemyDirector::tick(GameData* _gd)
 {
     for (auto& enemy : enemies)
     {
@@ -29,6 +31,10 @@ void EnemyDirector::tick()
 
         enemy.tick();
     }
+
+    // DEBUG.
+    if (_gd->input->getKeyDown(sf::Keyboard::Key::V))
+        spawnEnemy(sf::Vector2f(WINDOW_LEFT_BOUNDARY, WINDOW_HEIGHT / 2));
 }
 
 
@@ -86,9 +92,6 @@ void EnemyDirector::initEnemies()
 
         JHelper::centerSFOrigin(enemy);
     }
-
-    // DEBUG.
-    spawnEnemy(sf::Vector2f(WINDOW_LEFT_BOUNDARY, WINDOW_HEIGHT / 2));
 }
 
 

@@ -23,7 +23,7 @@ void Simulation::tick()
 {
     // Systems.
     heatmap_manager->tick();
-    enemy_director->tick();
+    enemy_director->tick(gd);
     tower_manager->tick();
 
     // State.

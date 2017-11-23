@@ -23,7 +23,7 @@ public:
         HeatmapManager* _heatmap_manager, Level* _level);
     ~EnemyDirector() = default;
 
-    void tick();
+    void tick(GameData* _gd);
     void draw(sf::RenderWindow& _window);
 
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,
