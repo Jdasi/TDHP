@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "Tower.h"
-#include "JTime.h"
 #include "JHelper.h"
 #include "Constants.h"
 #include "Enemy.h"
@@ -19,6 +18,8 @@ void Tower::draw(sf::RenderWindow& _window)
 {
     _window.draw(tower_sprite);
     _window.draw(engage_radius_display);
+
+    laser.draw(_window);
 }
 
 
@@ -40,6 +41,8 @@ void Tower::shoot(Enemy* _enemy)
         return;
 
     last_shot_timestamp = JTime::getTime();
+    laser.refresh(getPosition(), _enemy->getPosition());
+
     _enemy->kill();
 }
 
