@@ -89,19 +89,19 @@ void TileGrid::init(const sf::Color& _initial_color)
 
     sf::Vector2f rect({ rect_width, rect_height });
 
-    for (int y_cycles = 0; y_cycles < size_y; ++y_cycles)
+    for (int row = 0; row < size_y; ++row)
     {
-        for (int x_cycles = 0; x_cycles < size_x; ++x_cycles)
+        for (int col = 0; col < size_x; ++col)
         {
-            auto& tile = tiles[JHelper::calculateIndex(x_cycles, y_cycles, size_x)];
+            auto& tile = tiles[JHelper::calculateIndex(col, row, size_x)];
 
-            tile.setCoords(sf::Vector2i(x_cycles, y_cycles));
+            tile.setCoords(sf::Vector2i(col, row));
             tile.setSize(rect);
             tile.setOrigin(half_rect_x, half_rect_y);
             tile.setFillColor(_initial_color);
             tile.setPosition({
-                WINDOW_LEFT_BOUNDARY + (x_cycles * (rect.x)) + half_rect_x,
-                WINDOW_TOP_BOUNDARY + (y_cycles * (rect.y)) + half_rect_y });
+                WINDOW_LEFT_BOUNDARY + (col * (rect.x)) + half_rect_x,
+                WINDOW_TOP_BOUNDARY + (row * (rect.y)) + half_rect_y });
         }
     }
 }

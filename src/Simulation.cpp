@@ -40,6 +40,10 @@ void Simulation::draw(sf::RenderWindow& _window)
 
     nav_manager->draw(_window);
     heatmap_manager->draw(_window);
+
+    for (auto& arr : grid_lines)
+        _window.draw(arr);
+
     enemy_director->draw(_window);
     tower_manager->draw(_window);
 
@@ -95,6 +99,40 @@ void Simulation::initObjects()
 
     border.setPosition({ static_cast<float>(WINDOW_LEFT_BOUNDARY),
         static_cast<float>(WINDOW_TOP_BOUNDARY) });
+
+    // Grid lines.
+    float rect_width = PANE_WIDTH / current_level.width;
+    float rect_height = PANE_HEIGHT / current_level.height;
+
+    sf::Color grid_line_color = sf::Color(0, 255, 0, 75);
+
+    for (int col = 1; col < current_level.width; ++col)
+    {
+        auto v_arr = sf::VertexArray(sf::LineStrip, 2);
+        auto x_pos = WINDOW_LEFT_BOUNDARY + (rect_width * col);
+
+        v_arr[0].position = sf::Vector2f(x_pos, WINDOW_TOP_BOUNDARY);
+        v_arr[0].color = grid_line_color;
+
+        v_arr[1].position = sf::Vector2f(x_pos, WINDOW_BOTTOM_BOUNDARY);
+        v_arr[1].color = grid_line_color;
+
+        grid_lines.push_back(v_arr);
+    }
+
+    for (int row = 1; row < current_level.height; ++row)
+    {
+        auto v_arr = sf::VertexArray(sf::LineStrip, 2);
+        auto y_pos = WINDOW_TOP_BOUNDARY + (rect_height * row);
+
+        v_arr[0].position = sf::Vector2f(WINDOW_LEFT_BOUNDARY, y_pos);
+        v_arr[0].color = grid_line_color;
+
+        v_arr[1].position = sf::Vector2f(WINDOW_RIGHT_BOUNDARY, y_pos);
+        v_arr[1].color = grid_line_color;
+
+        grid_lines.push_back(v_arr);
+    }
 }
 
 

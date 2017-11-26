@@ -61,6 +61,7 @@ private:
     ContextType current_context;
 
     sf::RectangleShape border;
+    std::vector<sf::VertexArray> grid_lines;
     sf::Text context_display;
 
     bool painting;
