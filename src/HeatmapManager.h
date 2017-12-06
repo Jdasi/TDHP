@@ -7,10 +7,12 @@
 
 #include "Heatmap.h"
 
+class Level;
+
 class HeatmapManager
 {
 public:
-    HeatmapManager(const int _grid_size_x, const int _grid_size_y);
+    HeatmapManager(Level& _level);
     ~HeatmapManager() = default;
 
     void tick();
@@ -25,7 +27,6 @@ public:
 private:
     std::vector<std::unique_ptr<Heatmap>> heat_maps;
 
-    int grid_size_x;
-    int grid_size_y;
+    Level& level;
 
 };

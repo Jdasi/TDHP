@@ -12,6 +12,7 @@
 
 Game::Game(GameData& _gd)
     : gd(_gd)
+    , current_level(_gd.level_name)
     , current_context(ContextType::NAV)
     , painting(false)
 {
@@ -38,7 +39,7 @@ void Game::draw(sf::RenderWindow& _window)
 {
     _window.draw(border);
 
-    grid->draw(_window);
+    current_level.draw(_window);
     heatmap_manager->draw(_window);
 
     for (auto& arr : grid_lines)
@@ -55,18 +56,17 @@ void Game::init()
 {
     initSystems();
     initObjects();
+
+    ParseCurrentLevel();
 }
 
 
 void Game::initSystems()
 {
-    current_level = FileIO::loadLevel("level3.txt");
-
-    heatmap_manager = std::make_unique<HeatmapManager>(
-        current_level.width, current_level.height);
+    heatmap_manager = std::make_unique<HeatmapManager>(current_level);
 
     nav_manager = std::make_unique<NavManager>(*heatmap_manager.get(),
-        current_level.width, current_level.height);
+        current_level);
 
     heatmap_manager->createHeatmap(sf::Color::Red, 200, 15);
     heatmap_manager->createHeatmap(sf::Color::Green, 200, 15);
@@ -92,7 +92,6 @@ void Game::initObjects()
 
     initBorder();
     initGridLines();
-    initGrid();
 }
 
 
@@ -108,8 +107,8 @@ void Game::initBorder()
 
 void Game::initGridLines()
 {
-    float rect_width = PANE_WIDTH / current_level.width;
-    float rect_height = PANE_HEIGHT / current_level.height;
+    float rect_width = PANE_WIDTH / current_level.getSizeX();
+    float rect_height = PANE_HEIGHT / current_level.getSizeY();
 
     float window_left_boundary_f = static_cast<float>(WINDOW_LEFT_BOUNDARY);
     float window_right_boundary_f = static_cast<float>(WINDOW_RIGHT_BOUNDARY);
@@ -119,7 +118,7 @@ void Game::initGridLines()
     sf::Color grid_line_color = sf::Color(0, 255, 0, 75);
 
     // Vertical lines.
-    for (int col = 1; col < current_level.width; ++col)
+    for (int col = 1; col < current_level.getSizeX(); ++col)
     {
         auto v_arr = sf::VertexArray(sf::LineStrip, 2);
         auto x_pos = WINDOW_LEFT_BOUNDARY + (rect_width * col);
@@ -134,7 +133,7 @@ void Game::initGridLines()
     }
 
     // Horizontal lines.
-    for (int row = 1; row < current_level.height; ++row)
+    for (int row = 1; row < current_level.getSizeY(); ++row)
     {
         auto v_arr = sf::VertexArray(sf::LineStrip, 2);
         auto y_pos = WINDOW_TOP_BOUNDARY + (rect_height * row);
@@ -150,23 +149,20 @@ void Game::initGridLines()
 }
 
 
-void Game::initGrid()
+void Game::ParseCurrentLevel()
 {
-    int width = current_level.width;
-    int height = current_level.height;
+    int width = current_level.getSizeX();
+    int height = current_level.getSizeY();
 
-    grid = std::make_unique<TileGrid>(width, height, WALKABLE_COLOR);
-
-    // Parse current_level.
     for (int row = 0; row < height; ++row)
     {
         for (int col = 0; col < width; ++col)
         {
             int index = JHelper::calculateIndex(col, row, width);
 
-            switch (current_level.data[index])
+            switch (current_level.getLevelTileType(index))
             {
-                case 'W': toggleNavNodeWalkable(index); break;
+                case Level::UNWALKABLE: toggleNavNodeWalkable(index); break;
             }
         }
     }
@@ -253,7 +249,8 @@ void Game::processGameContext()
         }
 
         int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
-        tower_manager->buildTowerAtPos(grid->tileIndexToPos(tile_index));
+        tower_manager->buildTowerAtPos(current_level.getGrid().tileIndexToPos(tile_index));
+
         std::cout << "Math tile index: " << tile_index << std::endl;
     }
 }
@@ -280,13 +277,13 @@ void Game::processHeatmapContext()
 
 void Game::toggleNavNodeWalkable(const int _index)
 {
-    if (!JHelper::validIndex(_index, current_level.product))
+    if (!JHelper::validIndex(_index, current_level.getProduct()))
         return;
 
     nav_manager->toggleTileWalkable(_index);
 
     bool tile_walkable = nav_manager->isTileWalkable(_index);
-    grid->setTileColor(_index, tile_walkable ? WALKABLE_COLOR : UNWALKABLE_COLOR);
+    current_level.getGrid().setTileColor(_index, tile_walkable ? WALKABLE_COLOR : UNWALKABLE_COLOR);
 }
 
 

@@ -42,7 +42,7 @@ private:
 
     void initBorder();
     void initGridLines();
-    void initGrid();
+    void ParseCurrentLevel();
 
     void handleContextSelection();
     void evaluateContextChange(const sf::Keyboard::Key& _key);
@@ -63,7 +63,6 @@ private:
     std::unique_ptr<TowerManager> tower_manager;
 
     Level current_level;
-    std::unique_ptr<TileGrid> grid;
 
     GameData& gd;
     ContextType current_context;

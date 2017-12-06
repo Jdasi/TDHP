@@ -2,21 +2,42 @@
 
 #include <vector>
 
-struct Level
+#include <SFML/Graphics.hpp>
+
+#include "LevelData.h"
+#include "TileGrid.h"
+
+class Level
 {
-    Level()
-        : width(0)
-        , height(0)
-        , product(0)
+public:
+    enum LevelTileType
     {
-    }
+        INVALID,
+        UNDEFINED,
+        WALKABLE,
+        UNWALKABLE,
+        ENEMY_SPAWN,
+        DESTINATION,
+        PLAYER_BASE
+    };
 
-    int width;
-    int height;
-    int product;
+    Level(const std::string& _level_name);
+    ~Level() = default;
 
-    float tile_width;
-    float tile_height;
+    void draw(sf::RenderWindow& _window);
 
-    std::vector<char> data;
+    int getSizeX() const;
+    int getSizeY() const;
+    int getProduct() const;
+
+    float getTileWidth() const;
+    float getTileHeight() const;
+
+    TileGrid& getGrid();
+    LevelTileType getLevelTileType(const int _index);
+
+private:
+    LevelData level_data;
+    TileGrid grid;
+
 };

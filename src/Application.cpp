@@ -47,6 +47,8 @@ void Application::initSystems()
     // Set up game data last as it holds refs to systems.
     game_data = std::make_unique<GameData>(*input_handler.get(),
         *asset_manager.get());
+
+    game_data->level_name = "level3.txt";
 }
 
 

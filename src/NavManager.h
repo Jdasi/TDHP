@@ -5,13 +5,12 @@
 #include "NavNode.h"
 
 class HeatmapManager;
+class Level;
 
 class NavManager
 {
 public:
-    NavManager(HeatmapManager& _heatmap_manager, const int _level_width,
-        const int _level_height);
-
+    NavManager(HeatmapManager& _heatmap_manager, const Level& _level);
     ~NavManager() = default;
 
     bool isTileWalkable(const int _index) const;

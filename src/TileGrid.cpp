@@ -1,11 +1,14 @@
 #include "TileGrid.h"
 #include "JHelper.h"
 #include "Constants.h"
+#include "Level.h"
 
 
-TileGrid::TileGrid(const int _size_x, const int _size_y, const sf::Color& _initial_color)
-    : size_x(_size_x)
-    , size_y(_size_y)
+TileGrid::TileGrid(const Level& _level, const sf::Color& _initial_color)
+    : size_x(_level.getSizeX())
+    , size_y(_level.getSizeY())
+    , tile_width(_level.getTileWidth())
+    , tile_height(_level.getTileHeight())
 {
     init(_initial_color);
 }
@@ -23,13 +26,7 @@ int TileGrid::getSizeY() const
 }
 
 
-int TileGrid::getProduct() const
-{
-    return size_x * size_y;
-}
-
-
-void TileGrid::setTileAlpha(const int _tile_index, const int _alpha)
+void TileGrid::setTileAlpha(const int _tile_index, const float _alpha)
 {
     if (!JHelper::validIndex(_tile_index, tiles.size()))
         return;
@@ -41,7 +38,7 @@ void TileGrid::setTileAlpha(const int _tile_index, const int _alpha)
 }
 
 
-void TileGrid::modifyTileAlpha(const int _tile_index, const int _amount)
+void TileGrid::modifyTileAlpha(const int _tile_index, const float _amount)
 {
     if (!JHelper::validIndex(_tile_index, tiles.size()))
         return;
@@ -75,19 +72,16 @@ void TileGrid::draw(sf::RenderWindow& _window)
 
 
 /* Tiles are squished to fit inside the PANE, and are set to have their origins
- * in the center, to allow for other sprites to be more easily layered on top.
+ * in the center, so that other centered sprites can be easily layered on top.
  */
 void TileGrid::init(const sf::Color& _initial_color)
 {
     tiles.assign(size_x * size_y, Tile());
 
-    float rect_width = PANE_WIDTH / size_x;
-    float rect_height = PANE_HEIGHT / size_y;
+    float half_rect_x = tile_width / 2;
+    float half_rect_y = tile_height / 2;
 
-    float half_rect_x = rect_width / 2;
-    float half_rect_y = rect_height / 2;
-
-    sf::Vector2f rect({ rect_width, rect_height });
+    sf::Vector2f rect({ tile_width, tile_height });
 
     for (int row = 0; row < size_y; ++row)
     {
@@ -109,19 +103,8 @@ void TileGrid::init(const sf::Color& _initial_color)
 
 int TileGrid::posToTileIndex(const sf::Vector2f& _pos)
 {
-    int index = 0;
-    for (auto& tile : tiles)
-    {
-        if (!tile.getGlobalBounds().contains(_pos))
-        {
-            ++index;
-            continue;
-        }
-
-        return index;
-    }
-
-    return ReturnType::INVALID_TILE;
+    int index = JHelper::posToTileIndex(_pos, tile_width, tile_height, size_x);
+    return index;
 }
 
 

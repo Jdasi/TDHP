@@ -90,8 +90,8 @@ void EnemyDirector::initEnemies()
         enemy.attachListener(this);
 
         enemy.setTexture(*enemy_texture);
-        enemy.setScale(current_level.tile_width / texture_size.x,
-            current_level.tile_height / texture_size.y);
+        enemy.setScale(current_level.getTileWidth() / texture_size.x,
+            current_level.getTileHeight() / texture_size.y);
 
         JHelper::centerSFOrigin(enemy);
     }

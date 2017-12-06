@@ -57,7 +57,7 @@ void TowerManager::draw(sf::RenderWindow& _window)
 void TowerManager::buildTowerAtPos(const sf::Vector2f& _pos)
 {
     int index = JHelper::posToTileIndex(_pos, current_level);
-    if (!JHelper::validIndex(index, current_level.product))
+    if (!JHelper::validIndex(index, current_level.getProduct()))
         return;
 
     if (!tileEligibleForBuild(index))
@@ -68,8 +68,8 @@ void TowerManager::buildTowerAtPos(const sf::Vector2f& _pos)
     tower->setPosition(_pos);
     
     auto texture_size = tower_texture->getSize();
-    tower->setScale(current_level.tile_width / texture_size.x,
-        current_level.tile_height / texture_size.y);
+    tower->setScale(current_level.getTileWidth() / texture_size.x,
+        current_level.getTileHeight() / texture_size.y);
 
     towers.push_back(std::move(tower));
 }

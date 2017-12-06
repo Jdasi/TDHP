@@ -1,10 +1,10 @@
 #include "HeatmapManager.h"
 #include "JHelper.h"
+#include "Level.h"
 
 
-HeatmapManager::HeatmapManager(const int _grid_size_x, const int _grid_size_y)
-    : grid_size_x(_grid_size_x)
-    , grid_size_y(_grid_size_y)
+HeatmapManager::HeatmapManager(Level& _level)
+    : level(_level)
 {
 }
 
@@ -32,7 +32,7 @@ void HeatmapManager::draw(sf::RenderWindow& _window)
 Heatmap* HeatmapManager::createHeatmap(const sf::Color& _color,
     const float _paint_hardness, const float _decay_rate)
 {
-    auto heat_map = std::make_unique<Heatmap>(grid_size_x, grid_size_y);
+    auto heat_map = std::make_unique<Heatmap>(level);
     Heatmap* heat_map_ptr = heat_map.get();
 
     heat_map->setColor(_color);

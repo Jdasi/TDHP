@@ -151,6 +151,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\JMath.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
+    <ClCompile Include="..\src\Level.cpp" />
     <ClCompile Include="..\src\Tile.cpp" />
     <ClCompile Include="..\src\TileGrid.cpp" />
     <ClCompile Include="..\src\JHelper.cpp" />
@@ -176,6 +177,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\InputHandler.h" />
     <ClInclude Include="..\src\JMath.h" />
     <ClInclude Include="..\src\Level.h" />
+    <ClInclude Include="..\src\LevelData.h" />
     <ClInclude Include="..\src\ListenerSubject.h" />
     <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\Tile.h" />

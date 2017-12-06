@@ -1,19 +1,18 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 
 #include <SFML/Graphics.hpp>
 
 #include "TileGrid.h"
 
+class Level;
+
 class Heatmap
 {
 public:
-    Heatmap(const int _size_x, const int _size_y);
+    Heatmap(const Level& _level);
     ~Heatmap() = default;
-
-    void resetGrid(const int _size_x, const int _size_y);
 
     bool isActive() const;
     void setActive(const bool _active);
@@ -46,6 +45,6 @@ private:
     float decay_rate;
 
     std::vector<float> weightings;
-    std::unique_ptr<TileGrid> grid;
+    TileGrid grid;
 
 };

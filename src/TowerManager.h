@@ -10,7 +10,7 @@
 class AssetManager;
 class NavManager;
 class EnemyDirector;
-struct Level;
+class Level;
 
 class TowerManager
 {

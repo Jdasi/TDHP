@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class InputHandler;
 class AssetManager;
 class NavManager;
@@ -15,6 +17,8 @@ struct GameData
 
     InputHandler& input;
     AssetManager& asset_manager;
+
+    std::string level_name;
 
     bool exit;
 };

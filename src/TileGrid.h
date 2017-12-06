@@ -6,27 +6,22 @@
 
 #include "Tile.h"
 
+class Level;
+
 class TileGrid
 {
 public:
-    enum ReturnType : int
-    {
-        INVALID_TILE = -1
-    };
-
-    TileGrid(const int _size_x, const int _size_y, const sf::Color& _initial_color);
-
+    TileGrid(const Level& _level, const sf::Color& _initial_color);
     ~TileGrid() = default;
 
     int getSizeX() const;
     int getSizeY() const;
-    int getProduct() const;
 
     int posToTileIndex(const sf::Vector2f& _pos);
     sf::Vector2f tileIndexToPos(const int _tile_index);
 
-    void setTileAlpha(const int _tile_index, const int _alpha);
-    void modifyTileAlpha(const int _tile_index, const int _amount);
+    void setTileAlpha(const int _tile_index, const float _alpha);
+    void modifyTileAlpha(const int _tile_index, const float _amount);
     void setTileColor(const int _tile_index, const sf::Color& _color);
 
     void draw(sf::RenderWindow& _window);
@@ -36,6 +31,9 @@ private:
 
     int size_x;
     int size_y;
+
+    float tile_width;
+    float tile_height;
 
     std::vector<Tile> tiles;
 

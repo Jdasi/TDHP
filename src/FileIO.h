@@ -6,5 +6,5 @@
 
 namespace FileIO
 {
-    Level loadLevel(const std::string& _file_name);
+    LevelData loadLevelData(const std::string& _file_name);
 }

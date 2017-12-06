@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
-struct Level;
+class Level;
 
 /* Various functions that don't belong in one specific place and are useful
  * in many areas.
@@ -17,6 +17,8 @@ namespace JHelper
     bool validIndex(const int _index, const int _array_size);
 
     bool posInSimulationArea(const sf::Vector2f& _pos);
+    int posToTileIndex(const sf::Vector2f& _pos, const float _tile_width,
+        const float _tile_height, const int _level_width);
     int posToTileIndex(const sf::Vector2f& _pos, const Level& _level);
 
     template <typename T>

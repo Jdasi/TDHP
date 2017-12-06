@@ -49,13 +49,20 @@ bool JHelper::posInSimulationArea(const sf::Vector2f& _pos)
 }
 
 
-int JHelper::posToTileIndex(const sf::Vector2f& _pos, const Level& _level)
+int JHelper::posToTileIndex(const sf::Vector2f& _pos, const float _tile_width,
+    const float _tile_height, const int _level_width)
 {
     float offsetx = _pos.x - WINDOW_MARGIN_X;
-    int ix = static_cast<int>(offsetx / _level.tile_width);
+    int ix = static_cast<int>(offsetx / _tile_width);
 
     float offsety = _pos.y - WINDOW_MARGIN_Y;
-    int iy = static_cast<int>(offsety / _level.tile_height);
+    int iy = static_cast<int>(offsety / _tile_height);
 
-    return JHelper::calculateIndex(ix, iy, _level.width);
+    return JHelper::calculateIndex(ix, iy, _level_width);
+}
+
+
+int JHelper::posToTileIndex(const sf::Vector2f& _pos, const Level& _level)
+{
+    return posToTileIndex(_pos, _level.getTileWidth(), _level.getTileHeight(), _level.getSizeX());
 }

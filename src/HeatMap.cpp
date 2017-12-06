@@ -2,25 +2,17 @@
 #include "JTime.h"
 #include "JMath.h"
 #include "JHelper.h"
+#include "Level.h"
 
 
-Heatmap::Heatmap(const int _size_x, const int _size_y)
+Heatmap::Heatmap(const Level& _level)
     : active(true)
     , visible(true)
     , paint_hardness(0)
     , decay_rate(0)
-    , grid(nullptr)
+    , grid(_level, sf::Color::Transparent)
 {
-    resetGrid(_size_x, _size_y);
-}
-
-
-void Heatmap::resetGrid(const int _size_x, const int _size_y)
-{
-    weightings.clear();
-    weightings.assign(_size_x * _size_y, 0);
-
-    grid = std::make_unique<TileGrid>(_size_x, _size_y, sf::Color::Transparent);
+    weightings.assign(_level.getProduct(), 0);
 }
 
 
@@ -79,8 +71,8 @@ void Heatmap::setColor(const sf::Color& _color)
     // Reset weightings.
     for (unsigned int i = 0; i < weightings.size(); ++i)
     {
-        grid->setTileColor(i, _color);
-        grid->setTileAlpha(i, 0);
+        grid.setTileColor(i, _color);
+        grid.setTileAlpha(i, 0);
 
         weightings[i] = 0;
     }
@@ -96,14 +88,14 @@ void Heatmap::tick()
 
 void Heatmap::draw(sf::RenderWindow& _window)
 {
-    grid->draw(_window);
+    grid.draw(_window);
 }
 
 
 void Heatmap::paintWithModifier(const int _tile_index, const int _radius, const float _modifier)
 {
-    int size_x = grid->getSizeX();
-    int size_y = grid->getSizeY();
+    int size_x = grid.getSizeX();
+    int size_y = grid.getSizeY();
 
     sf::Vector2i coords = JHelper::calculateCoords(_tile_index, size_x);
 
@@ -123,7 +115,7 @@ void Heatmap::paintWithModifier(const int _tile_index, const int _radius, const 
             weighting += (paint_hardness / (diff + 1)) * _modifier;
             weighting = JMath::clampf(weighting, 0, 255);
 
-            grid->setTileAlpha(curr, weighting);
+            grid.setTileAlpha(curr, weighting);
         }
     }
 }
@@ -141,6 +133,6 @@ void Heatmap::decay()
         }
 
         weighting = JMath::clampf(weighting, 0, 255);
-        grid->setTileAlpha(i, weighting);
+        grid.setTileAlpha(i, weighting);
     }
 }

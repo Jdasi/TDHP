@@ -5,34 +5,34 @@
 #include "Constants.h"
 
 
-Level FileIO::loadLevel(const std::string& _file_name)
+LevelData FileIO::loadLevelData(const std::string& _file_name)
 {
-    Level level;
+    LevelData ld;
 
     std::ifstream file("Resources/Levels/" + _file_name);
     if (!file.is_open())
     {
         std::cout << "Unable to find level file: " << _file_name.c_str() << std::endl;
-        return level;
+        return ld;
     }
 
-    file >> level.width >> level.height;
-    level.product = level.width * level.height;
+    file >> ld.size_x >> ld.size_y;
+    ld.product = ld.size_x * ld.size_y;
 
-    level.data.reserve(level.product);
+    ld.tile_width = PANE_WIDTH / ld.size_x;
+    ld.tile_height = PANE_HEIGHT / ld.size_y;
+
+    ld.raw_data.reserve(ld.product);
     char elem = 0;
 
-    for (int row = 0; row < level.height; ++row)
+    for (int row = 0; row < ld.size_y; ++row)
     {
-        for (int col = 0; col < level.width; ++col)
+        for (int col = 0; col < ld.size_x; ++col)
         {
             file >> elem;
-            level.data.push_back(elem);
+            ld.raw_data.push_back(elem);
         }
     }
 
-    level.tile_width = PANE_WIDTH / level.width;
-    level.tile_height = PANE_HEIGHT / level.height;
-
-    return level;
+    return ld;
 }

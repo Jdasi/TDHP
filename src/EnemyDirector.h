@@ -13,8 +13,8 @@
 class AssetManager;
 class NavManager;
 class HeatmapManager;
+class Level;
 struct GameData;
-struct Level;
 
 class EnemyDirector : public EnemyListener
 {
