@@ -1,11 +1,11 @@
 #pragma once
 
-#include <vector>
-#include <memory>
+#include <array>
 
 #include <SFML/Graphics.hpp>
 
 #include "Tower.h"
+#include "Constants.h"
 
 class AssetManager;
 class NavManager;
@@ -23,10 +23,14 @@ public:
     void tick();
     void draw(sf::RenderWindow& _window);
 
-    void buildTowerAtPos(const sf::Vector2f& _pos);
+    void toggleTowerAtPos(const sf::Vector2f& _pos);
 
 private:
-    bool tileEligibleForBuild(const int _tile_index) const;
+    void initTowers();
+    void constructTower(const int _tile_index, const sf::Vector2f& _pos);
+    void deconstructTower(const int _tile_index);
+
+    bool towerExists(const int _tile_index) const;
     Enemy* evaluateClosestEnemy(const std::vector<Enemy*>& _enemies,
         const sf::Vector2f& _pos);
 
@@ -35,7 +39,6 @@ private:
     EnemyDirector& enemy_director;
     Level& current_level;
 
-    sf::Texture* tower_texture;
-    std::vector<std::unique_ptr<Tower>> towers;
+    std::array<Tower, MAX_TOWERS> towers;
 
 };

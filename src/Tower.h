@@ -1,22 +1,22 @@
 #pragma once
 
-#include <vector>
-
 #include <SFML/Graphics.hpp>
 
 #include "JTime.h"
+#include "Killable.h"
 
 class Enemy;
 
-class Tower
+class Tower final : public Killable
 {
 public:
-    Tower(const int _tile_index);
+    Tower();
     ~Tower() = default;
 
     void draw(sf::RenderWindow& _window);
 
     int getTileIndex() const;
+    void setTileIndex(const int _tile_index);
 
     bool canShoot() const;
     void shoot(Enemy* _enemy);
@@ -28,6 +28,10 @@ public:
 
     void setScale(const sf::Vector2f& _factors);
     void setScale(const float _x, const float _y);
+
+protected:
+    void onSpawn() override;
+    void onDeath() override;
 
 private:
     struct TowerLaser
@@ -67,6 +71,7 @@ private:
     void initEngageRadiusDisplay();
 
     int tile_index;
+    bool alive;
     float last_shot_timestamp;
 
     sf::Sprite tower_sprite;

@@ -4,7 +4,6 @@
 #include "AssetManager.h"
 #include "NavManager.h"
 #include "EnemyDirector.h"
-#include "Constants.h"
 #include "JHelper.h"
 #include "JMath.h"
 #include "Level.h"
@@ -17,7 +16,7 @@ TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manage
     , enemy_director(_enemy_director)
     , current_level(_current_level)
 {
-    tower_texture = asset_manager.loadTexture("tower.png");
+    initTowers();
 }
 
 
@@ -25,9 +24,12 @@ void TowerManager::tick()
 {
     for (auto& tower : towers)
     {
-        if (tower->canShoot())
+        if (!tower.isAlive())
+            continue;
+
+        if (tower.canShoot())
         {
-            auto& tower_pos = tower->getPosition();
+            auto& tower_pos = tower.getPosition();
             auto& nearby_enemies = enemy_director.getEnemiesNearPosSqr(
                 tower_pos, TOWER_ENGAGE_RADIUS_SQR);
 
@@ -39,7 +41,7 @@ void TowerManager::tick()
 
             Enemy* closest_enemy = evaluateClosestEnemy(nearby_enemies,
                 tower_pos);
-            tower->shoot(closest_enemy);
+            tower.shoot(closest_enemy);
         }
     }
 }
@@ -49,44 +51,90 @@ void TowerManager::draw(sf::RenderWindow& _window)
 {
     for (auto& tower : towers)
     {
-        tower->draw(_window);
+        if (!tower.isAlive())
+            continue;
+
+        tower.draw(_window);
     }
 }
 
 
-void TowerManager::buildTowerAtPos(const sf::Vector2f& _pos)
+void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos)
 {
     int index = JHelper::posToTileIndex(_pos, current_level);
     if (!JHelper::validIndex(index, current_level.getProduct()))
         return;
 
-    if (!tileEligibleForBuild(index))
-        return;
-
-    auto tower = std::make_unique<Tower>(index);
-    tower->setTexture(tower_texture);
-    tower->setPosition(_pos);
-    
-    auto texture_size = tower_texture->getSize();
-    tower->setScale(current_level.getTileWidth() / texture_size.x,
-        current_level.getTileHeight() / texture_size.y);
-
-    towers.push_back(std::move(tower));
+    if (towerExists(index))
+    {
+        deconstructTower(index);
+    }
+    else
+    {
+        if (!nav_manager.isNodeWalkable(index))
+        {
+            constructTower(index, _pos);
+        }
+    }
 }
 
 
-bool TowerManager::tileEligibleForBuild(const int _tile_index) const
+void TowerManager::initTowers()
 {
-    if (nav_manager.isTileWalkable(_tile_index))
-        return false;
+    auto* tower_texture = asset_manager.loadTexture(TOWER_SPRITE);
+    auto texture_size = tower_texture->getSize();
 
     for (auto& tower : towers)
     {
-        if (tower->getTileIndex() == _tile_index)
-            return false;
+        //tower.attachListener(this);
+
+        tower.setTexture(tower_texture);
+        tower.setScale(current_level.getTileWidth() / texture_size.x,
+            current_level.getTileHeight() / texture_size.y);
+    }
+}
+
+
+void TowerManager::constructTower(const int _tile_index, const sf::Vector2f& _pos)
+{
+    for (auto& tower : towers)
+    {
+        if (tower.isAlive())
+            continue;
+
+        tower.spawn();
+        tower.setTileIndex(_tile_index);
+        tower.setPosition(_pos);
+
+        return;
+    }
+}
+
+
+void TowerManager::deconstructTower(const int _tile_index)
+{
+    for (auto& tower : towers)
+    {
+        if (tower.getTileIndex() != _tile_index)
+            continue;
+
+        tower.kill();
+        tower.setTileIndex(-1);
+
+        return;
+    }
+}
+
+
+bool TowerManager::towerExists(const int _tile_index) const
+{
+    for (auto& tower : towers)
+    {
+        if (tower.getTileIndex() == _tile_index)
+            return true;
     }
 
-    return true;
+    return false;
 }
 
 

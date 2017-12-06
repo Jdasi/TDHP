@@ -10,14 +10,16 @@ class Level;
 class NavManager
 {
 public:
-    NavManager(HeatmapManager& _heatmap_manager, const Level& _level);
+    NavManager(HeatmapManager& _heatmap_manager, Level& _level);
     ~NavManager() = default;
 
-    bool isTileWalkable(const int _index) const;
-    void toggleTileWalkable(const int _index);
+    bool isNodeWalkable(const int _index) const;
+    void setNodeWalkable(const int _index, const bool _walkable);
+    void toggleNodeWalkable(const int _index);
 
 private:
     std::vector<NavNode> nav_nodes;
     HeatmapManager& heatmap_manager;
+    Level& level;
 
 };

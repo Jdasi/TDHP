@@ -52,8 +52,6 @@ private:
     void processGameContext();
     void processHeatmapContext();
 
-    void toggleNavNodeWalkable(const int _index);
-
     std::string contextToString(const ContextType& _context);
     void updateContextDisplay();
 

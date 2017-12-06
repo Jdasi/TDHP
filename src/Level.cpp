@@ -64,6 +64,8 @@ Level::LevelTileType Level::getLevelTileType(const int _index)
     {
         case '.': return LevelTileType::WALKABLE;
         case 'W': return LevelTileType::UNWALKABLE;
+        case 'S': return LevelTileType::ENEMY_SPAWN;
+        case 'D': return LevelTileType::ENEMY_DESTINATION;
 
         default: return LevelTileType::UNDEFINED;
     }

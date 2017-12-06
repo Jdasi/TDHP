@@ -34,6 +34,7 @@ const sf::Vector2f PANE_SIZE            ({ PANE_WIDTH, PANE_HEIGHT });
 const sf::Color WALKABLE_COLOR          = sf::Color(0, 0, 0, 255);
 const sf::Color UNWALKABLE_COLOR        = sf::Color(255, 255, 255, 255);
 
+const int MAX_TOWERS                    = 5;
 const float TOWER_SHOT_DELAY            = 1;
 const float TOWER_ENGAGE_RADIUS         = 100;
 const float TOWER_ENGAGE_RADIUS_SQR     = TOWER_ENGAGE_RADIUS * TOWER_ENGAGE_RADIUS;
@@ -59,6 +60,8 @@ const std::string DEFAULT_FONT          { "arial.ttf" };
 // ======================================================================================
 const std::string TOWER_SPRITE          { "tower.png" };
 const std::string ENEMY_SPRITE          { "enemy.png" };
+const std::string SPAWN_SPRITE          { "spawn.png" };
+const std::string DESTINATION_SPRITE    { "destination.png" };
 
 // ======================================================================================
 // AUDIO STRINGS

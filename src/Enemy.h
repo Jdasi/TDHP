@@ -4,8 +4,10 @@
 
 #include "EnemyListener.h"
 #include "ListenerSubject.h"
+#include "Killable.h"
 
-class Enemy final : public sf::Sprite, public ListenerSubject<EnemyListener>
+class Enemy final : public Killable, public sf::Sprite,
+    public ListenerSubject<EnemyListener>
 {
 public:
     Enemy();
@@ -13,11 +15,11 @@ public:
 
     void tick();
 
-    bool isAlive() const;
-    void spawn();
-    void kill();
+protected:
+    void onSpawn() override;
+    void onDeath() override;
 
 private:
-    bool alive;
+
 
 };

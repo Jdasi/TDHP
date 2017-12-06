@@ -159,5 +159,11 @@
     <ClInclude Include="..\src\LevelData.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Waypoint.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Killable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

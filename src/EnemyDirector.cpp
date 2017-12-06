@@ -19,6 +19,7 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     , current_level(_level)
 {
     initEnemies();
+    initDestinationMarker();
 }
 
 
@@ -35,14 +36,24 @@ void EnemyDirector::tick(GameData& _gd)
     // DEBUG.
     if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
     {
-        spawnEnemy(sf::Vector2f(static_cast<float>(WINDOW_LEFT_BOUNDARY),
-            static_cast<float>(WINDOW_HEIGHT) / 2));
+        if (enemy_spawns.size() > 0)
+        {
+            // TODO: pick a random spawn ..
+            spawnEnemy(enemy_spawns[0].pos);
+        }
     }
 }
 
 
 void EnemyDirector::draw(sf::RenderWindow& _window)
 {
+    for (auto& marker : spawn_markers)
+    {
+        _window.draw(marker);
+    }
+
+    _window.draw(destination_marker);
+
     for (auto& enemy : enemies)
     {
         if (!enemy.isAlive())
@@ -52,6 +63,42 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
 
         _window.draw(enemy);
     }
+}
+
+
+void EnemyDirector::addEnemySpawn(const Waypoint& _spawn)
+{
+    if (!nav_manager.isNodeWalkable(_spawn.tile_index))
+        return;
+
+    enemy_spawns.push_back(_spawn);
+
+    auto* texture = asset_manager.loadTexture("spawn.png");
+    auto texture_size = texture->getSize();
+
+    sf::Sprite marker(*texture);
+    marker.setPosition(_spawn.pos);
+    marker.setScale(current_level.getTileWidth() / texture_size.x,
+        current_level.getTileHeight() / texture_size.y);
+
+    JHelper::centerSFOrigin(marker);
+    spawn_markers.push_back(marker);
+}
+
+
+const Waypoint& EnemyDirector::getEnemyDestination() const
+{
+    return enemy_destination;
+}
+
+
+void EnemyDirector::setEnemyDestination(const Waypoint& _destination)
+{
+    if (!nav_manager.isNodeWalkable(_destination.tile_index))
+        return;
+
+    enemy_destination = _destination;
+    destination_marker.setPosition(_destination.pos);
 }
 
 
@@ -82,19 +129,32 @@ std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos
 
 void EnemyDirector::initEnemies()
 {
-    enemy_texture = asset_manager.loadTexture("enemy.png");
-    auto texture_size = enemy_texture->getSize();
+    auto* texture = asset_manager.loadTexture(ENEMY_SPRITE);
+    auto texture_size = texture->getSize();
 
     for (auto& enemy : enemies)
     {
         enemy.attachListener(this);
 
-        enemy.setTexture(*enemy_texture);
+        enemy.setTexture(*texture);
         enemy.setScale(current_level.getTileWidth() / texture_size.x,
             current_level.getTileHeight() / texture_size.y);
 
         JHelper::centerSFOrigin(enemy);
     }
+}
+
+
+void EnemyDirector::initDestinationMarker()
+{
+    auto* texture = asset_manager.loadTexture(DESTINATION_SPRITE);
+    auto texture_size = texture->getSize();
+
+    destination_marker.setTexture(*texture);
+    destination_marker.setScale(current_level.getTileWidth() / texture_size.x,
+        current_level.getTileHeight() / texture_size.y);
+
+    JHelper::centerSFOrigin(destination_marker);
 }
 
 
@@ -105,14 +165,11 @@ void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
     for (auto& enemy : enemies)
     {
         if (enemy.isAlive())
-        {
             continue;
-        }
 
         enemy.spawn();
         enemy.setPosition(_pos);
 
-        // We're done here.
         return;
     }
 }

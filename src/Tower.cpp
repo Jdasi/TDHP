@@ -6,8 +6,9 @@
 #include "Enemy.h"
 
 
-Tower::Tower(const int _tile_index)
-    : tile_index(_tile_index)
+Tower::Tower()
+    : tile_index(0)
+    , alive(false)
     , last_shot_timestamp(0)
 {
     initEngageRadiusDisplay();
@@ -26,6 +27,12 @@ void Tower::draw(sf::RenderWindow& _window)
 int Tower::getTileIndex() const
 {
     return tile_index;
+}
+
+
+void Tower::setTileIndex(const int _tile_index)
+{
+    tile_index = _tile_index;
 }
 
 
@@ -78,6 +85,16 @@ void Tower::setScale(const sf::Vector2f& _factors)
 void Tower::setScale(const float _x, const float _y)
 {
     setScale(sf::Vector2f(_x, _y));
+}
+
+
+void Tower::onSpawn()
+{
+}
+
+
+void Tower::onDeath()
+{
 }
 
 

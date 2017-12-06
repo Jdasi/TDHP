@@ -64,12 +64,11 @@ void Game::init()
 void Game::initSystems()
 {
     heatmap_manager = std::make_unique<HeatmapManager>(current_level);
+    heatmap_manager->createHeatmap(sf::Color::Red, 200, 15);
+    heatmap_manager->createHeatmap(sf::Color::Green, 200, 15);
 
     nav_manager = std::make_unique<NavManager>(*heatmap_manager.get(),
         current_level);
-
-    heatmap_manager->createHeatmap(sf::Color::Red, 200, 15);
-    heatmap_manager->createHeatmap(sf::Color::Green, 200, 15);
 
     enemy_director = std::make_unique<EnemyDirector>(gd.asset_manager,
         *nav_manager.get(), *heatmap_manager.get(), current_level);
@@ -162,7 +161,19 @@ void Game::ParseCurrentLevel()
 
             switch (current_level.getLevelTileType(index))
             {
-                case Level::UNWALKABLE: toggleNavNodeWalkable(index); break;
+                case Level::UNWALKABLE: nav_manager->toggleNodeWalkable(index); break;
+
+                case Level::ENEMY_SPAWN:
+                {
+                    auto tile_pos = current_level.getGrid().tileIndexToPos(index);
+                    enemy_director->addEnemySpawn({ index, tile_pos });
+                } break;
+
+                case Level::ENEMY_DESTINATION:
+                {
+                    auto tile_pos = current_level.getGrid().tileIndexToPos(index);
+                    enemy_director->setEnemyDestination({ index, tile_pos });
+                } break;
             }
         }
     }
@@ -226,14 +237,21 @@ void Game::processNavContext()
     {
         auto mouse_pos = gd.input.getMousePos();
         if (!JHelper::posInSimulationArea(mouse_pos))
-        {
             return;
-        }
         
         int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
-        toggleNavNodeWalkable(tile_index);
+        nav_manager->toggleNodeWalkable(tile_index);
 
         std::cout << "Math tile index: " << tile_index << std::endl;
+    }
+    else if (gd.input.getMouseButtonDown(sf::Mouse::Right))
+    {
+        auto mouse_pos = gd.input.getMousePos();
+        if (!JHelper::posInSimulationArea(mouse_pos))
+            return;
+
+        int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
+        enemy_director->setEnemyDestination({ tile_index, current_level.getGrid().tileIndexToPos(tile_index) });
     }
 }
 
@@ -249,7 +267,7 @@ void Game::processGameContext()
         }
 
         int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
-        tower_manager->buildTowerAtPos(current_level.getGrid().tileIndexToPos(tile_index));
+        tower_manager->toggleTowerAtPos(current_level.getGrid().tileIndexToPos(tile_index));
 
         std::cout << "Math tile index: " << tile_index << std::endl;
     }
@@ -272,18 +290,6 @@ void Game::processHeatmapContext()
         int heatmap_index = current_context - HEATMAP_0;
         heatmap_manager->paintOnHeatmap(heatmap_index, tile_index, 3);
     }
-}
-
-
-void Game::toggleNavNodeWalkable(const int _index)
-{
-    if (!JHelper::validIndex(_index, current_level.getProduct()))
-        return;
-
-    nav_manager->toggleTileWalkable(_index);
-
-    bool tile_walkable = nav_manager->isTileWalkable(_index);
-    current_level.getGrid().setTileColor(_index, tile_walkable ? WALKABLE_COLOR : UNWALKABLE_COLOR);
 }
 
 

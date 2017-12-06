@@ -17,8 +17,7 @@ public:
         WALKABLE,
         UNWALKABLE,
         ENEMY_SPAWN,
-        DESTINATION,
-        PLAYER_BASE
+        ENEMY_DESTINATION
     };
 
     Level(const std::string& _level_name);

@@ -7,8 +7,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "Enemy.h"
-#include "Constants.h"
+#include "Waypoint.h"
 #include "EnemyListener.h"
+#include "Constants.h"
 
 class AssetManager;
 class NavManager;
@@ -26,11 +27,17 @@ public:
     void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
+    void addEnemySpawn(const Waypoint& _spawn);
+
+    const Waypoint& getEnemyDestination() const;
+    void setEnemyDestination(const Waypoint& _destination);
+
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,
         const float _radius_sqr);
 
 private:
     void initEnemies();
+    void initDestinationMarker();
     void spawnEnemy(const sf::Vector2f& _pos);
 
     // Enemy events.
@@ -41,7 +48,12 @@ private:
     HeatmapManager& heatmap_manager;
     Level& current_level;
 
-    sf::Texture* enemy_texture;
     std::array<Enemy, MAX_ENEMIES> enemies;
+
+    std::vector<Waypoint> enemy_spawns;
+    std::vector<sf::Sprite> spawn_markers;
+
+    Waypoint enemy_destination;
+    sf::Sprite destination_marker;
 
 };

@@ -4,41 +4,27 @@
 
 
 Enemy::Enemy()
-    : alive(false)
 {
+
 }
 
 
 void Enemy::tick()
 {
-    // Move towards nav destination?
+    // DEBUG.
     auto& pos = getPosition();
     setPosition(pos.x + (ENEMY_MOVE_SPEED * JTime::getDeltaTime()), pos.y); // Debug
 }
 
 
-bool Enemy::isAlive() const
+void Enemy::onSpawn()
 {
-    return alive;
+
 }
 
 
-void Enemy::spawn()
+void Enemy::onDeath()
 {
-    if (alive)
-        return;
-
-    alive = true;
-}
-
-
-void Enemy::kill()
-{
-    if (!alive)
-        return;
-
-    alive = false;
-    
     for (auto& listener : listeners)
     {
         listener->onDeath(getPosition());
