@@ -19,11 +19,11 @@ struct Level;
 class EnemyDirector : public EnemyListener
 {
 public:
-    EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_manager,
-        HeatmapManager* _heatmap_manager, Level* _level);
+    EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_manager,
+        HeatmapManager& _heatmap_manager, Level& _level);
     ~EnemyDirector() = default;
 
-    void tick(GameData* _gd);
+    void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,
@@ -33,13 +33,13 @@ private:
     void initEnemies();
     void spawnEnemy(const sf::Vector2f& _pos);
 
-    // Events.
+    // Enemy events.
     void onDeath(const sf::Vector2f& _pos) override;
 
-    AssetManager* asset_manager;
-    NavManager* nav_manager;
-    HeatmapManager* heatmap_manager;
-    Level* current_level;
+    AssetManager& asset_manager;
+    NavManager& nav_manager;
+    HeatmapManager& heatmap_manager;
+    Level& current_level;
 
     sf::Texture* enemy_texture;
     std::array<Enemy, MAX_ENEMIES> enemies;

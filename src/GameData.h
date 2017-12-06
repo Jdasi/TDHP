@@ -6,15 +6,15 @@ class NavManager;
 
 struct GameData
 {
-    GameData()
-        : input(nullptr)
-        , asset_manager(nullptr)
+    GameData(InputHandler& _input_manager, AssetManager& _asset_manager)
+        : input(_input_manager)
+        , asset_manager(_asset_manager)
         , exit(false)
     {
     }
 
-    InputHandler* input;
-    AssetManager* asset_manager;
+    InputHandler& input;
+    AssetManager& asset_manager;
 
     bool exit;
 };

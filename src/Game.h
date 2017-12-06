@@ -12,11 +12,11 @@
 
 struct GameData;
 
-class Simulation
+class Game
 {
 public:
-    Simulation(GameData* _gd);
-    ~Simulation() = default;
+    Game(GameData& _gd);
+    ~Game() = default;
 
     void tick();
     void draw(sf::RenderWindow& _window);
@@ -40,6 +40,10 @@ private:
     void initSystems();
     void initObjects();
 
+    void initBorder();
+    void initGridLines();
+    void initGrid();
+
     void handleContextSelection();
     void evaluateContextChange(const sf::Keyboard::Key& _key);
     void processContext();
@@ -47,6 +51,8 @@ private:
     void processNavContext();
     void processGameContext();
     void processHeatmapContext();
+
+    void toggleNavNodeWalkable(const int _index);
 
     std::string contextToString(const ContextType& _context);
     void updateContextDisplay();
@@ -57,7 +63,9 @@ private:
     std::unique_ptr<TowerManager> tower_manager;
 
     Level current_level;
-    GameData* gd;
+    std::unique_ptr<TileGrid> grid;
+
+    GameData& gd;
     ContextType current_context;
 
     sf::RectangleShape border;

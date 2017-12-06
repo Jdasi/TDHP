@@ -6,7 +6,7 @@
 
 #include "InputHandler.h"
 #include "AssetManager.h"
-#include "Simulation.h"
+#include "Game.h"
 #include "GameData.h"
 
 class Application
@@ -32,9 +32,9 @@ private:
 
     std::unique_ptr<InputHandler> input_handler;
     std::unique_ptr<AssetManager> asset_manager;
-    std::unique_ptr<Simulation> simulation;
 
-    GameData game_data;
+    std::unique_ptr<Game> game;
+    std::unique_ptr<GameData> game_data;
 
     // DEBUG.
     sf::Text debug_display;

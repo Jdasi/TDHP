@@ -17,8 +17,9 @@ Level FileIO::loadLevel(const std::string& _file_name)
     }
 
     file >> level.width >> level.height;
+    level.product = level.width * level.height;
 
-    level.data.reserve(level.width * level.height);
+    level.data.reserve(level.product);
     char elem = 0;
 
     for (int row = 0; row < level.height; ++row)

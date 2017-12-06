@@ -10,14 +10,14 @@
 #include "Level.h"
 
 
-TowerManager::TowerManager(AssetManager* _asset_manager, NavManager* _nav_manager,
-    EnemyDirector* _enemy_director, Level* _current_level)
+TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manager,
+    EnemyDirector& _enemy_director, Level& _current_level)
     : asset_manager(_asset_manager)
     , nav_manager(_nav_manager)
     , enemy_director(_enemy_director)
     , current_level(_current_level)
 {
-    tower_texture = asset_manager->loadTexture("tower.png");
+    tower_texture = asset_manager.loadTexture("tower.png");
 }
 
 
@@ -28,7 +28,7 @@ void TowerManager::tick()
         if (tower->canShoot())
         {
             auto& tower_pos = tower->getPosition();
-            auto& nearby_enemies = enemy_director->getEnemiesNearPosSqr(
+            auto& nearby_enemies = enemy_director.getEnemiesNearPosSqr(
                 tower_pos, TOWER_ENGAGE_RADIUS_SQR);
 
             // Nothing to shoot.
@@ -54,18 +54,22 @@ void TowerManager::draw(sf::RenderWindow& _window)
 }
 
 
-void TowerManager::buildTowerOnTile(const int _tile_index)
+void TowerManager::buildTowerAtPos(const sf::Vector2f& _pos)
 {
-    if (!tileEligibleForBuild(_tile_index))
+    int index = JHelper::posToTileIndex(_pos, current_level);
+    if (!JHelper::validIndex(index, current_level.product))
         return;
 
-    auto tower = std::make_unique<Tower>(_tile_index);
+    if (!tileEligibleForBuild(index))
+        return;
+
+    auto tower = std::make_unique<Tower>(index);
     tower->setTexture(tower_texture);
-    tower->setPosition(nav_manager->getTileWorldPos(_tile_index));
+    tower->setPosition(_pos);
     
     auto texture_size = tower_texture->getSize();
-    tower->setScale(current_level->tile_width / texture_size.x,
-        current_level->tile_height / texture_size.y);
+    tower->setScale(current_level.tile_width / texture_size.x,
+        current_level.tile_height / texture_size.y);
 
     towers.push_back(std::move(tower));
 }
@@ -73,7 +77,7 @@ void TowerManager::buildTowerOnTile(const int _tile_index)
 
 bool TowerManager::tileEligibleForBuild(const int _tile_index) const
 {
-    if (nav_manager->isTileWalkable(_tile_index))
+    if (nav_manager.isTileWalkable(_tile_index))
         return false;
 
     for (auto& tower : towers)
@@ -86,6 +90,7 @@ bool TowerManager::tileEligibleForBuild(const int _tile_index) const
 }
 
 
+// TODO: return an enemy interface, rather than the whole enemy ..
 Enemy* TowerManager::evaluateClosestEnemy(const std::vector<Enemy*>& _enemies,
     const sf::Vector2f& _pos)
 {

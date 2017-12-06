@@ -11,8 +11,8 @@
 #include "Level.h"
 
 
-EnemyDirector::EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_manager,
-    HeatmapManager* _heatmap_manager, Level* _level)
+EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_manager,
+    HeatmapManager& _heatmap_manager, Level& _level)
     : asset_manager(_asset_manager)
     , nav_manager(_nav_manager)
     , heatmap_manager(_heatmap_manager)
@@ -22,7 +22,7 @@ EnemyDirector::EnemyDirector(AssetManager* _asset_manager, NavManager* _nav_mana
 }
 
 
-void EnemyDirector::tick(GameData* _gd)
+void EnemyDirector::tick(GameData& _gd)
 {
     for (auto& enemy : enemies)
     {
@@ -33,8 +33,11 @@ void EnemyDirector::tick(GameData* _gd)
     }
 
     // DEBUG.
-    if (_gd->input->getKeyDown(sf::Keyboard::Key::V))
-        spawnEnemy(sf::Vector2f(WINDOW_LEFT_BOUNDARY, WINDOW_HEIGHT / 2));
+    if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
+    {
+        spawnEnemy(sf::Vector2f(static_cast<float>(WINDOW_LEFT_BOUNDARY),
+            static_cast<float>(WINDOW_HEIGHT) / 2));
+    }
 }
 
 
@@ -79,7 +82,7 @@ std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos
 
 void EnemyDirector::initEnemies()
 {
-    enemy_texture = asset_manager->loadTexture("enemy.png");
+    enemy_texture = asset_manager.loadTexture("enemy.png");
     auto texture_size = enemy_texture->getSize();
 
     for (auto& enemy : enemies)
@@ -87,8 +90,8 @@ void EnemyDirector::initEnemies()
         enemy.attachListener(this);
 
         enemy.setTexture(*enemy_texture);
-        enemy.setScale(current_level->tile_width / texture_size.x,
-            current_level->tile_height / texture_size.y);
+        enemy.setScale(current_level.tile_width / texture_size.x,
+            current_level.tile_height / texture_size.y);
 
         JHelper::centerSFOrigin(enemy);
     }
@@ -115,8 +118,9 @@ void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
 }
 
 
+// EnemyListener Event: Called when an enemy is killed.
 void EnemyDirector::onDeath(const sf::Vector2f& _pos)
 {
-    int tile_index = JHelper::posToTileIndex(_pos, *current_level);
-    heatmap_manager->splashOnHeatmap(0, tile_index, 3);
+    int tile_index = JHelper::posToTileIndex(_pos, current_level);
+    heatmap_manager.splashOnHeatmap(0, tile_index, 3);
 }

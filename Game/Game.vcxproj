@@ -150,7 +150,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\HeatmapManager.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\JMath.cpp" />
-    <ClCompile Include="..\src\Simulation.cpp" />
+    <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\Tile.cpp" />
     <ClCompile Include="..\src\TileGrid.cpp" />
     <ClCompile Include="..\src\JHelper.cpp" />
@@ -177,7 +177,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\JMath.h" />
     <ClInclude Include="..\src\Level.h" />
     <ClInclude Include="..\src\ListenerSubject.h" />
-    <ClInclude Include="..\src\Simulation.h" />
+    <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\Tile.h" />
     <ClInclude Include="..\src\TileGrid.h" />
     <ClInclude Include="..\src\JHelper.h" />

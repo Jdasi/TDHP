@@ -8,6 +8,6 @@ public:
     EnemyListener() = default;
     ~EnemyListener() = default;
 
-    virtual void onDeath(const sf::Vector2f& _pos) {};
+    virtual void onDeath(const sf::Vector2f& _pos) {}
 
 };

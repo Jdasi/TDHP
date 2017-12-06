@@ -58,9 +58,6 @@
     <ClCompile Include="..\src\Application.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Simulation.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\TowerManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -75,6 +72,9 @@
     </ClCompile>
     <ClCompile Include="..\src\HeatmapManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Game.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,9 +132,6 @@
     <ClInclude Include="..\src\Application.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Simulation.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\TowerManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -152,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="..\src\HeatmapManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

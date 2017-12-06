@@ -7,7 +7,8 @@ Application::Application()
     : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close)
     , input_handler(nullptr)
     , asset_manager(nullptr)
-    , simulation(nullptr)
+    , game(nullptr)
+    , game_data(nullptr)
 {
     init();
 }
@@ -15,7 +16,7 @@ Application::Application()
 
 void Application::main()
 {
-    while (!game_data.exit)
+    while (!game_data->exit)
     {
         JTime::tick();
 
@@ -41,12 +42,11 @@ void Application::init()
 void Application::initSystems()
 {
     input_handler = std::make_unique<InputHandler>(&window);
-    game_data.input = input_handler.get();
-
     asset_manager = std::make_unique<AssetManager>();
-    game_data.asset_manager = asset_manager.get();
 
-    simulation = std::make_unique<Simulation>(&game_data);
+    // Set up game data last as it holds refs to systems.
+    game_data = std::make_unique<GameData>(*input_handler.get(),
+        *asset_manager.get());
 }
 
 
@@ -56,6 +56,8 @@ void Application::initObjects()
 
     debug_display.setFont(*default_font);
     debug_display.setCharacterSize(12);
+
+    game = std::make_unique<Game>(*game_data.get());
 }
 
 
@@ -65,7 +67,7 @@ void Application::tick()
 
     if (input_handler->getKeyDown(sf::Keyboard::Escape))
     {
-        game_data.exit = true;
+        game_data->exit = true;
         return;
     }
 
@@ -77,7 +79,7 @@ void Application::tick()
         updateDebugDisplay();
     }
 
-    simulation->tick();
+    game->tick();
 }
 
 
@@ -86,7 +88,7 @@ void Application::draw()
     window.clear();
 
     window.draw(debug_display);
-    simulation->draw(window);
+    game->draw(window);
 
     window.display();
 }
@@ -109,9 +111,9 @@ void Application::processEvents(sf::Window& _window)
     sf::Event sf_event;
     while (_window.pollEvent(sf_event))
     {
-        // Close window: exit
+        // Close window = exit program.
         if (sf_event.type == sf::Event::Closed)
-            game_data.exit = true;
+            game_data->exit = true;
 
         input_handler->processEvent(sf_event);
     }

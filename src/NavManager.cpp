@@ -1,44 +1,12 @@
 #include "NavManager.h"
 #include "JHelper.h"
-#include "Constants.h"
-#include "Level.h"
-
-#include <iostream>
 
 
-NavManager::NavManager(HeatmapManager* _heatmap_manager)
+NavManager::NavManager(HeatmapManager& _heatmap_manager, const int _level_width,
+    const int _level_height)
     : heatmap_manager(_heatmap_manager)
 {
-}
-
-
-void NavManager::parseLevel(const Level& _level)
-{
-    int width = _level.width;
-    int height = _level.height;
-
-    nav_nodes.assign(width * height, NavNode());
-    grid = std::make_unique<TileGrid>(width, height, WALKABLE_COLOR);
-
-    for (int row = 0; row < height; ++row)
-    {
-        for (int col = 0; col < width; ++col)
-        {
-            int index = JHelper::calculateIndex(col, row, width);
-            nav_nodes[index].setWorldPos(grid->tileIndexToPos(index));
-
-            switch (_level.data[index])
-            {
-                case 'W': toggleTileWalkable(index); break;
-            }
-        }
-    }
-}
-
-
-void NavManager::draw(sf::RenderWindow& _window)
-{
-    grid->draw(_window);
+    nav_nodes.assign(_level_width * _level_height, NavNode());
 }
 
 
@@ -51,16 +19,6 @@ bool NavManager::isTileWalkable(const int _index) const
 }
 
 
-void NavManager::toggleTileWalkable(const sf::Vector2f& _pos)
-{
-    int tile_index = grid->posToTileIndex(_pos);
-    if (tile_index == TileGrid::INVALID_TILE)
-        return;
-
-    toggleTileWalkable(tile_index);
-}
-
-
 void NavManager::toggleTileWalkable(const int _index)
 {
     if (!JHelper::validIndex(_index, nav_nodes.size()))
@@ -68,16 +26,4 @@ void NavManager::toggleTileWalkable(const int _index)
 
     auto& nav_node = nav_nodes[_index];
     nav_node.toggleWalkable();
-
-    grid->setTileColor(_index, nav_node.isWalkable() ? WALKABLE_COLOR : UNWALKABLE_COLOR);
-}
-
-
-sf::Vector2f NavManager::getTileWorldPos(const int _tile_index)
-{
-    sf::Vector2f pos;
-    if (!JHelper::validIndex(_tile_index, nav_nodes.size()))
-        return pos;
-
-    return nav_nodes[_tile_index].getWorldPos();
 }
