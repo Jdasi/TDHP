@@ -11,7 +11,8 @@
 
 
 NavManager::NavManager(HeatmapManager& _heatmap_manager, const Level& _level)
-    : heatmap_manager(_heatmap_manager)
+    : heuristic_type(HeuristicType::MANHATTAN)
+    , heatmap_manager(_heatmap_manager)
     , size_x(_level.getSizeX())
     , size_y(_level.getSizeY())
 {
@@ -23,7 +24,7 @@ NavManager::NavManager(HeatmapManager& _heatmap_manager, const Level& _level)
         node.setIndex(index);
         node.setCoords(JHelper::calculateCoords(index, size_x));
 
-        evaluateNodeNeighbours(node, false);
+        evaluateNodeNeighbours(node);
 
         ++index;
     }
@@ -78,7 +79,7 @@ NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _go
     NavNode* goal_node = &nav_nodes[goal_index];
 
     start_node->setGCost(0);
-    start_node->setHCost(JHelper::chebyshevDistance(_start, _goal));
+    start_node->setHCost(calculateHeuristic(_start, _goal));
 
     std::vector<NavNode*> open_list;
     std::vector<NavNode*> closed_list;
@@ -115,7 +116,7 @@ NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _go
             if (!neighbour->isWalkable())
                 continue;
 
-            int tentative_g = curr->getGCost() + JHelper::chebyshevDistance(curr->getCoords(), neighbour->getCoords());
+            int tentative_g = curr->getGCost() + calculateHeuristic(curr->getCoords(), neighbour->getCoords());
             bool closed_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
 
             if (closed_contains_neighbour && tentative_g >= neighbour->getGCost())
@@ -125,7 +126,7 @@ NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _go
             if (!open_contains_neighbour || tentative_g < neighbour->getGCost())
             {
                 neighbour->setGCost(tentative_g);
-                neighbour->setHCost(JHelper::chebyshevDistance(neighbour->getCoords(), _goal));
+                neighbour->setHCost(calculateHeuristic(neighbour->getCoords(), _goal));
                 neighbour->setParent(curr);
 
                 if (!open_contains_neighbour)
@@ -138,10 +139,10 @@ NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _go
 }
 
 
-void NavManager::evaluateNodeNeighbours(NavNode& _node, const bool _diagonals)
+void NavManager::evaluateNodeNeighbours(NavNode& _node)
 {
     std::vector<NavNode*> neighbours;
-    neighbours.reserve(8);
+    neighbours.reserve(heuristic_type == HeuristicType::MANHATTAN ? 4 : 8);
 
     auto& coords = _node.getCoords();
 
@@ -157,7 +158,7 @@ void NavManager::evaluateNodeNeighbours(NavNode& _node, const bool _diagonals)
             }
 
             int diff = JHelper::manhattanDistance({ col, row }, coords);
-            if (!_diagonals && diff == 2)
+            if (heuristic_type == HeuristicType::MANHATTAN && diff == 2)
                 continue;
 
             int index = JHelper::calculateIndex(col, row, size_x);
@@ -178,6 +179,18 @@ void NavManager::resetGraph()
         node.setGCost(INF);
         node.setHCost(INF);
         node.setParent(nullptr);
+    }
+}
+
+
+int NavManager::calculateHeuristic(const sf::Vector2i& _a, const sf::Vector2i& _b)
+{
+    switch (heuristic_type)
+    {
+        case MANHATTAN: return JHelper::manhattanDistance(_a, _b);
+        case CHEBYSHEV: return JHelper::chebyshevDistance(_a, _b);
+
+        default: return 0;
     }
 }
 
