@@ -158,21 +158,28 @@ void Game::ParseCurrentLevel()
         for (int col = 0; col < width; ++col)
         {
             int index = JHelper::calculateIndex(col, row, width);
+            auto tile_coords = JHelper::calculateCoords(index, current_level.getSizeX());
 
             switch (current_level.getLevelTileType(index))
             {
-                case Level::UNWALKABLE: nav_manager->toggleNodeWalkable(index); break;
+                case Level::UNWALKABLE:
+                {
+                    nav_manager->toggleNodeWalkable(index);
+
+                    current_level.getGrid().setTileColor(index, nav_manager->isNodeWalkable(index) ?
+                        WALKABLE_COLOR : UNWALKABLE_COLOR);
+                } break;
 
                 case Level::ENEMY_SPAWN:
                 {
                     auto tile_pos = current_level.getGrid().tileIndexToPos(index);
-                    enemy_director->addEnemySpawn({ index, tile_pos });
+                    enemy_director->addEnemySpawn({ index, tile_coords, tile_pos });
                 } break;
 
                 case Level::ENEMY_DESTINATION:
                 {
                     auto tile_pos = current_level.getGrid().tileIndexToPos(index);
-                    enemy_director->setEnemyDestination({ index, tile_pos });
+                    enemy_director->setEnemyDestination({ index, tile_coords, tile_pos });
                 } break;
             }
         }
@@ -239,10 +246,13 @@ void Game::processNavContext()
         if (!JHelper::posInSimulationArea(mouse_pos))
             return;
         
-        int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
-        nav_manager->toggleNodeWalkable(tile_index);
+        int index = JHelper::posToTileIndex(mouse_pos, current_level);
+        nav_manager->toggleNodeWalkable(index);
 
-        std::cout << "Math tile index: " << tile_index << std::endl;
+        current_level.getGrid().setTileColor(index, nav_manager->isNodeWalkable(index) ?
+            WALKABLE_COLOR : UNWALKABLE_COLOR);
+
+        std::cout << "Math tile index: " << index << std::endl;
     }
     else if (gd.input.getMouseButtonDown(sf::Mouse::Right))
     {
@@ -250,8 +260,9 @@ void Game::processNavContext()
         if (!JHelper::posInSimulationArea(mouse_pos))
             return;
 
-        int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
-        enemy_director->setEnemyDestination({ tile_index, current_level.getGrid().tileIndexToPos(tile_index) });
+        int index = JHelper::posToTileIndex(mouse_pos, current_level);
+        auto coords = JHelper::calculateCoords(index, current_level.getSizeX());
+        enemy_director->setEnemyDestination({ index, coords, current_level.getGrid().tileIndexToPos(index) });
     }
 }
 
@@ -312,7 +323,8 @@ std::string Game::contextToString(const ContextType& _context)
         case HEATMAP_0: case HEATMAP_1: case HEATMAP_2: case HEATMAP_3:
         case HEATMAP_4: case HEATMAP_5: case HEATMAP_6: case HEATMAP_7:
         {
-            return str + "Heat Map " + std::to_string(current_context);
+            int heatmap_id = current_context - HEATMAP_0 + 1;
+            return str + "Heat Map " + std::to_string(heatmap_id);
         }
 
         default:

@@ -7,6 +7,18 @@ NavNode::NavNode()
     , h_cost(0)
     , parent(nullptr)
 {
+    neighbours.reserve(8);
+}
+
+
+int NavNode::getIndex() const
+{
+    return index;
+}
+
+void NavNode::setIndex(const int _index)
+{
+    index = _index;
 }
 
 
@@ -85,4 +97,16 @@ NavNode* NavNode::getParent() const
 void NavNode::setParent(NavNode* _parent)
 {
     parent = _parent;
+}
+
+
+const std::vector<NavNode*>& NavNode::getNeighbours() const
+{
+    return neighbours;
+}
+
+
+void NavNode::setNeighbours(const std::vector<NavNode*>& _neighbours)
+{
+    neighbours = _neighbours;
 }

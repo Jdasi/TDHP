@@ -9,9 +9,9 @@ int JHelper::calculateIndex(const unsigned _x, const unsigned _y, const unsigned
 }
 
 
-int JHelper::calculateIndex(const sf::Vector2i & _pos, const unsigned int _size_x)
+int JHelper::calculateIndex(const sf::Vector2i & _coords, const unsigned int _size_x)
 {
-    return calculateIndex(_pos.x, _pos.y, _size_x);
+    return calculateIndex(_coords.x, _coords.y, _size_x);
 }
 
 
@@ -65,4 +65,16 @@ int JHelper::posToTileIndex(const sf::Vector2f& _pos, const float _tile_width,
 int JHelper::posToTileIndex(const sf::Vector2f& _pos, const Level& _level)
 {
     return posToTileIndex(_pos, _level.getTileWidth(), _level.getTileHeight(), _level.getSizeX());
+}
+
+
+int JHelper::manhattanDistance(const sf::Vector2i& _a, const sf::Vector2i& _b)
+{
+    return abs(_a.x - _b.x) + abs(_a.y - _b.y);
+}
+
+
+int JHelper::chebyshevDistance(const sf::Vector2i& _a, const sf::Vector2i& _b)
+{
+    return std::max(abs(_a.x - _b.x), abs(_a.y - _b.y));
 }

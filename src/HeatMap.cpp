@@ -108,7 +108,7 @@ void Heatmap::paintWithModifier(const int _tile_index, const int _radius, const 
                 continue;
 
             int curr = JHelper::calculateIndex(col, row, size_x);
-            int diff = abs(col - coords.x) + abs(row - coords.y);
+            int diff = JHelper::manhattanDistance({ col, row }, coords);
 
             auto& weighting = weightings[curr];
 

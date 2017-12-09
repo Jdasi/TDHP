@@ -12,7 +12,7 @@ class Level;
 namespace JHelper
 {
     int calculateIndex(const unsigned int _x, const unsigned int _y, const unsigned int _size_x);
-    int calculateIndex(const sf::Vector2i& _pos, const unsigned int _size_x);
+    int calculateIndex(const sf::Vector2i& _coords, const unsigned int _size_x);
     sf::Vector2i calculateCoords(const unsigned int _index, const unsigned int _size_x);
     bool validIndex(const int _index, const int _array_size);
 
@@ -21,6 +21,9 @@ namespace JHelper
         const float _tile_height, const int _level_width);
     int posToTileIndex(const sf::Vector2f& _pos, const Level& _level);
 
+    int manhattanDistance(const sf::Vector2i& _a, const sf::Vector2i& _b);
+    int chebyshevDistance(const sf::Vector2i& _a, const sf::Vector2i& _b);
+
     template <typename T>
     void centerSFOrigin(T& _sfml_object)
     {
@@ -28,7 +31,6 @@ namespace JHelper
         _sfml_object.setOrigin(bounds.left + bounds.width / 2.0f,
             bounds.top + bounds.height / 2.0f);
     }
-
 
     template <typename T, typename U>
     auto findInVectorPair(T& _vector, U& _key)

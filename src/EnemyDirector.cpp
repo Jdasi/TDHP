@@ -99,6 +99,9 @@ void EnemyDirector::setEnemyDestination(const Waypoint& _destination)
 
     enemy_destination = _destination;
     destination_marker.setPosition(_destination.pos);
+
+    // DEBUG.
+    nav_manager.findPath(enemy_spawns[0].tile_coords, enemy_destination.tile_coords);
 }
 
 
