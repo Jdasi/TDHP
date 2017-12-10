@@ -187,6 +187,7 @@ void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
 
         enemy.spawn();
         enemy.setPosition(_pos);
+        enemy.setPath(level_path);
 
         return;
     }
@@ -198,4 +199,11 @@ void EnemyDirector::onDeath(const sf::Vector2f& _pos)
 {
     int tile_index = JHelper::posToTileIndex(_pos, current_level);
     heatmap_manager.splashOnHeatmap(0, tile_index, 3);
+}
+
+
+// EnemyListener Event: Called when an enemy finishes traversing its path.
+void EnemyDirector::onPathComplete(Enemy* _caller)
+{
+    _caller->killQuiet();
 }

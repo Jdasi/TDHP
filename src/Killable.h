@@ -31,6 +31,14 @@ public:
         onDeath();
     }
 
+    void killQuiet()
+    {
+        if (!isAlive())
+            return;
+
+        alive = false;
+    }
+
 protected:
     virtual void onSpawn() = 0;
     virtual void onDeath() = 0;

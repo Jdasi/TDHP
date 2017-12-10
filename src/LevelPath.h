@@ -41,6 +41,16 @@ public:
         _window.draw(vis);
     }
 
+    int getNumPoints() const
+    {
+        return num_points;
+    }
+
+    const Waypoint& getWaypoint(const int _index) const
+    {
+        return waypoints[_index];
+    }
+
 private:
     int num_points;
 

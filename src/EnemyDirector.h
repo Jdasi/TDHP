@@ -50,6 +50,7 @@ private:
 
     // Enemy events.
     void onDeath(const sf::Vector2f& _pos) override;
+    void onPathComplete(Enemy* _enemy) override;
 
     AssetManager& asset_manager;
     NavManager& nav_manager;
