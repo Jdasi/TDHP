@@ -17,12 +17,10 @@ int JHelper::calculateIndex(const sf::Vector2i & _coords, const unsigned int _si
 
 sf::Vector2i JHelper::calculateCoords(const unsigned int _index, const unsigned int _size_x)
 {
-    sf::Vector2i coords;
+    int x = _index % _size_x;
+    int y = _index / _size_x;
 
-    coords.x = _index % _size_x;
-    coords.y = _index / _size_x;
-
-    return coords;
+    return sf::Vector2i(x, y);
 }
 
 
@@ -52,10 +50,10 @@ bool JHelper::posInSimulationArea(const sf::Vector2f& _pos)
 int JHelper::posToTileIndex(const sf::Vector2f& _pos, const float _tile_width,
     const float _tile_height, const int _level_width)
 {
-    float offsetx = _pos.x - WINDOW_MARGIN_X;
+    float offsetx = _pos.x - WINDOW_LEFT_BOUNDARY;
     int ix = static_cast<int>(offsetx / _tile_width);
 
-    float offsety = _pos.y - WINDOW_MARGIN_Y;
+    float offsety = _pos.y - WINDOW_TOP_BOUNDARY;
     int iy = static_cast<int>(offsety / _tile_height);
 
     return JHelper::calculateIndex(ix, iy, _level_width);
@@ -65,6 +63,27 @@ int JHelper::posToTileIndex(const sf::Vector2f& _pos, const float _tile_width,
 int JHelper::posToTileIndex(const sf::Vector2f& _pos, const Level& _level)
 {
     return posToTileIndex(_pos, _level.getTileWidth(), _level.getTileHeight(), _level.getSizeX());
+}
+
+
+sf::Vector2f JHelper::tileIndexToPos(const int _tile_index, const float _tile_width,
+    const float _tile_height, const int _level_width)
+{
+    auto coords = calculateCoords(_tile_index, _level_width);
+
+    float half_width = _tile_width / 2;
+    float half_height = _tile_height / 2;
+
+    float x = WINDOW_LEFT_BOUNDARY + static_cast<float>(coords.x * _tile_width) + half_width;
+    float y = WINDOW_TOP_BOUNDARY + static_cast<float>(coords.y * _tile_height) + half_height;
+
+    return sf::Vector2f(x, y);
+}
+
+
+sf::Vector2f JHelper::tileIndexToPos(const int _tile_index, const Level& _level)
+{
+    return tileIndexToPos(_tile_index, _level.getTileWidth(), _level.getTileHeight(), _level.getSizeX());
 }
 
 

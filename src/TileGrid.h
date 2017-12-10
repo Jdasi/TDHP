@@ -23,9 +23,6 @@ public:
     int getSizeX() const;
     int getSizeY() const;
 
-    int posToTileIndex(const sf::Vector2f& _pos);
-    sf::Vector2f tileIndexToPos(const int _tile_index);
-
     void setTileAlpha(const int _tile_index, const float _alpha);
     void modifyTileAlpha(const int _tile_index, const float _amount);
     void setTileColor(const int _tile_index, const sf::Color& _color);

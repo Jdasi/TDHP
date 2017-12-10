@@ -150,15 +150,14 @@ void Game::initGridLines()
 
 void Game::ParseCurrentLevel()
 {
-    int width = current_level.getSizeX();
-    int height = current_level.getSizeY();
+    int size_x = current_level.getSizeX();
+    int size_y = current_level.getSizeY();
 
-    for (int row = 0; row < height; ++row)
+    for (int row = 0; row < size_y; ++row)
     {
-        for (int col = 0; col < width; ++col)
+        for (int col = 0; col < size_x; ++col)
         {
-            int index = JHelper::calculateIndex(col, row, width);
-            auto tile_coords = JHelper::calculateCoords(index, current_level.getSizeX());
+            int index = JHelper::calculateIndex(col, row, size_x);
 
             switch (current_level.getLevelTileType(index))
             {
@@ -166,20 +165,18 @@ void Game::ParseCurrentLevel()
                 {
                     nav_manager->toggleNodeWalkable(index);
 
-                    current_level.getGrid().setTileColor(index, nav_manager->isNodeWalkable(index) ?
+                    current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
                         WALKABLE_COLOR : UNWALKABLE_COLOR);
                 } break;
 
                 case Level::ENEMY_SPAWN:
                 {
-                    auto tile_pos = current_level.getGrid().tileIndexToPos(index);
-                    enemy_director->addEnemySpawn({ index, tile_coords, tile_pos });
+                    enemy_director->addEnemySpawn(index);
                 } break;
 
                 case Level::ENEMY_DESTINATION:
                 {
-                    auto tile_pos = current_level.getGrid().tileIndexToPos(index);
-                    enemy_director->setEnemyDestination({ index, tile_coords, tile_pos });
+                    enemy_director->setEnemyDestination(index);
                 } break;
             }
         }
@@ -249,7 +246,7 @@ void Game::processNavContext()
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
         nav_manager->toggleNodeWalkable(index);
 
-        current_level.getGrid().setTileColor(index, nav_manager->isNodeWalkable(index) ?
+        current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
             WALKABLE_COLOR : UNWALKABLE_COLOR);
 
         std::cout << "Math tile index: " << index << std::endl;
@@ -261,8 +258,7 @@ void Game::processNavContext()
             return;
 
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
-        auto coords = JHelper::calculateCoords(index, current_level.getSizeX());
-        enemy_director->setEnemyDestination({ index, coords, current_level.getGrid().tileIndexToPos(index) });
+        enemy_director->setEnemyDestination(index);
     }
 }
 
@@ -277,10 +273,10 @@ void Game::processGameContext()
             return;
         }
 
-        int tile_index = JHelper::posToTileIndex(mouse_pos, current_level);
-        tower_manager->toggleTowerAtPos(current_level.getGrid().tileIndexToPos(tile_index));
+        int index = JHelper::posToTileIndex(mouse_pos, current_level);
+        tower_manager->toggleTowerAtPos(JHelper::tileIndexToPos(index, current_level));
 
-        std::cout << "Math tile index: " << tile_index << std::endl;
+        std::cout << "Math tile index: " << index << std::endl;
     }
 }
 

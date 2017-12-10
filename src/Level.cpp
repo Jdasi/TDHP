@@ -47,12 +47,6 @@ float Level::getTileHeight() const
 }
 
 
-TileGrid& Level::getGrid()
-{
-    return grid;
-}
-
-
 Level::LevelTileType Level::getLevelTileType(const int _index)
 {
     LevelTileType type = LevelTileType::INVALID;
@@ -69,4 +63,13 @@ Level::LevelTileType Level::getLevelTileType(const int _index)
 
         default: return LevelTileType::UNDEFINED;
     }
+}
+
+
+void Level::setTileColor(const int _index, const sf::Color& _color)
+{
+    if (!JHelper::validIndex(_index, getProduct()))
+        return;
+
+    grid.setTileColor(_index, _color);
 }

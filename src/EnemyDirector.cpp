@@ -68,18 +68,19 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
 }
 
 
-void EnemyDirector::addEnemySpawn(const Waypoint& _spawn)
+void EnemyDirector::addEnemySpawn(const int _tile_index)
 {
-    if (!nav_manager.isNodeWalkable(_spawn.tile_index))
+    if (!nav_manager.isNodeWalkable(_tile_index))
         return;
 
-    enemy_spawns.push_back(_spawn);
+    enemy_spawns.push_back(createWaypoint(_tile_index));
+    auto& waypoint = enemy_spawns[enemy_spawns.size() - 1];
 
     auto* texture = asset_manager.loadTexture("spawn.png");
     auto texture_size = texture->getSize();
 
     sf::Sprite marker(*texture);
-    marker.setPosition(_spawn.pos);
+    marker.setPosition(waypoint.pos);
     marker.setScale(current_level.getTileWidth() / texture_size.x,
         current_level.getTileHeight() / texture_size.y);
 
@@ -94,13 +95,13 @@ const Waypoint& EnemyDirector::getEnemyDestination() const
 }
 
 
-void EnemyDirector::setEnemyDestination(const Waypoint& _destination)
+void EnemyDirector::setEnemyDestination(const int _tile_index)
 {
-    if (!nav_manager.isNodeWalkable(_destination.tile_index))
+    if (!nav_manager.isNodeWalkable(_tile_index))
         return;
 
-    enemy_destination = _destination;
-    destination_marker.setPosition(_destination.pos);
+    enemy_destination = createWaypoint(_tile_index);
+    destination_marker.setPosition(enemy_destination.pos);
 
     // DEBUG.
     nav_manager.findPath(enemy_spawns[0].tile_coords, enemy_destination.tile_coords);
@@ -160,6 +161,15 @@ void EnemyDirector::initDestinationMarker()
         current_level.getTileHeight() / texture_size.y);
 
     JHelper::centerSFOrigin(destination_marker);
+}
+
+
+Waypoint EnemyDirector::createWaypoint(const int _tile_index)
+{
+    auto coords = JHelper::calculateCoords(_tile_index, current_level.getSizeX());
+    auto pos = JHelper::tileIndexToPos(_tile_index, current_level);
+
+    return Waypoint(_tile_index, coords, pos);
 }
 
 

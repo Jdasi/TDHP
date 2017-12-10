@@ -32,10 +32,10 @@ public:
     void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
-    void addEnemySpawn(const Waypoint& _spawn);
+    void addEnemySpawn(const int _tile_index);
 
     const Waypoint& getEnemyDestination() const;
-    void setEnemyDestination(const Waypoint& _destination);
+    void setEnemyDestination(const int _tile_index);
 
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,
         const float _radius_sqr);
@@ -43,6 +43,8 @@ public:
 private:
     void initEnemies();
     void initDestinationMarker();
+
+    Waypoint createWaypoint(const int _tile_index);
     void spawnEnemy(const sf::Vector2f& _pos);
 
     // Enemy events.

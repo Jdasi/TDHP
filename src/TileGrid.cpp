@@ -101,20 +101,3 @@ void TileGrid::init(const sf::Color& _initial_color)
         }
     }
 }
-
-
-int TileGrid::posToTileIndex(const sf::Vector2f& _pos)
-{
-    int index = JHelper::posToTileIndex(_pos, tile_width, tile_height, size_x);
-    return index;
-}
-
-
-sf::Vector2f TileGrid::tileIndexToPos(const int _tile_index)
-{
-    sf::Vector2f pos;
-    if (!JHelper::validIndex(_tile_index, tiles.size()))
-        return pos;
-
-    return tiles[_tile_index].getPosition();
-}

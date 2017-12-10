@@ -35,8 +35,9 @@ public:
     float getTileWidth() const;
     float getTileHeight() const;
 
-    TileGrid& getGrid();
     LevelTileType getLevelTileType(const int _index);
+
+    void setTileColor(const int _index, const sf::Color& _color);
 
 private:
     LevelData level_data;
