@@ -147,7 +147,7 @@ Enemy* TowerManager::evaluateClosestEnemy(const std::vector<Enemy*>& _enemies,
 
     for (auto* enemy : _enemies)
     {
-        float dist = JMath::Vector2DistanceSqr(enemy->getPosition(), _pos);
+        float dist = JMath::vector2DistanceSqr(enemy->getPosition(), _pos);
         if (dist > closest_dist)
         {
             continue;

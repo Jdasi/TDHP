@@ -1,11 +1,8 @@
 #include <algorithm>
-#include <queue>
-#include <limits>
-#include <set>
-#include <list>
 
 #include "NavManager.h"
 #include "JHelper.h"
+#include "JMath.h"
 #include "Level.h"
 #include "Constants.h"
 
@@ -166,18 +163,18 @@ void NavManager::evaluateNodeNeighbours(NavNode& _node)
         }
     }
 
-    _node.setNeighbours(neighbours);
+    _node.setNeighbours(std::move(neighbours));
 }
 
 
 void NavManager::resetGraph()
 {
-    const int INF = std::numeric_limits<int>::infinity();
+    int max_int = JMath::maxInt();
 
     for (auto& node : nav_nodes)
     {
-        node.setGCost(INF);
-        node.setHCost(INF);
+        node.setGCost(max_int);
+        node.setHCost(max_int);
         node.setParent(nullptr);
     }
 }

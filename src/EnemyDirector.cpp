@@ -117,7 +117,7 @@ std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos
             continue;
         }
 
-        float dist = JMath::Vector2DistanceSqr(enemy.getPosition(), _pos);
+        float dist = JMath::vector2DistanceSqr(enemy.getPosition(), _pos);
         if (dist > _radius_sqr)
         {
             continue;
