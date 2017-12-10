@@ -1,5 +1,3 @@
-#include <SFML/Graphics.hpp>
-
 #include "JHelper.h"
 #include "Constants.h"
 #include "AssetManager.h"

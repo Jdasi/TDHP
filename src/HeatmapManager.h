@@ -3,9 +3,13 @@
 #include <vector>
 #include <memory>
 
-#include <SFML/Graphics.hpp>
-
 #include "Heatmap.h"
+
+namespace sf
+{
+    class RenderWindow;
+    class Color;
+}
 
 class Level;
 

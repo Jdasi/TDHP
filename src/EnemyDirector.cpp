@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "EnemyDirector.h"
 #include "AssetManager.h"
 #include "NavManager.h"

@@ -2,9 +2,14 @@
 
 #include <vector>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 #include "TileGrid.h"
+
+namespace sf
+{
+    class RenderWindow;
+}
 
 class Level;
 

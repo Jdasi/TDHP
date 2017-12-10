@@ -1,3 +1,5 @@
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "TileGrid.h"
 #include "JHelper.h"
 #include "Constants.h"

@@ -4,12 +4,17 @@
 #include <vector>
 #include <memory>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "Enemy.h"
 #include "Waypoint.h"
 #include "EnemyListener.h"
 #include "Constants.h"
+
+namespace sf
+{
+    class RenderWindow;
+}
 
 class AssetManager;
 class NavManager;

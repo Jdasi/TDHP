@@ -2,10 +2,13 @@
 
 #include <vector>
 
-#include <SFML/Graphics.hpp>
-
 #include "LevelData.h"
 #include "TileGrid.h"
+
+namespace sf
+{
+    class RenderWindow;
+}
 
 class Level
 {

@@ -2,10 +2,15 @@
 
 #include <array>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include "Tower.h"
 #include "Constants.h"
+
+namespace sf
+{
+    class RenderWindow;
+}
 
 class AssetManager;
 class NavManager;

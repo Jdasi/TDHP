@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 #include "InputHandler.h"
 #include "AssetManager.h"

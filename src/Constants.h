@@ -2,7 +2,8 @@
 
 #include <string>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 /*! \file Constants.h
 @brief   Constants that are used throughout the game. 

@@ -2,9 +2,15 @@
 
 #include <vector>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include "Tile.h"
+
+namespace sf
+{
+    class RenderWindow;
+    class Color;
+}
 
 class Level;
 

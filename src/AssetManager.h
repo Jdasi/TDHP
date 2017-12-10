@@ -4,13 +4,9 @@
 #include <string>
 #include <memory>
 
-#include <SFML/Audio.hpp>
-
-namespace sf
-{
-    class Font;
-    class Texture;
-}
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 
 /* Class which maintains lists of all the assets used by the game.
  * Assets are created when first requested, thereafter a pointer to
