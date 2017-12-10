@@ -55,6 +55,7 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
     }
 
     _window.draw(destination_marker);
+    level_path.draw(_window);
 
     for (auto& enemy : enemies)
     {
@@ -104,7 +105,9 @@ void EnemyDirector::setEnemyDestination(const int _tile_index)
     destination_marker.setPosition(enemy_destination.pos);
 
     // DEBUG.
-    nav_manager.findPath(enemy_spawns[0].tile_coords, enemy_destination.tile_coords);
+    auto& spawn = enemy_spawns[0];
+    auto path = nav_manager.findPath(spawn.tile_coords, enemy_destination.tile_coords);
+    level_path = LevelPath(current_level, path);
 }
 
 

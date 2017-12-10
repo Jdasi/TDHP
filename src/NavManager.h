@@ -3,22 +3,10 @@
 #include <vector>
 
 #include "NavNode.h"
+#include "NavPath.h"
 
 class HeatmapManager;
 class Level;
-
-struct NavPath
-{
-    NavPath()
-        : success(false)
-        , total_cost(0)
-    {
-    }
-
-    std::vector<int> indices;
-    bool success;
-    int total_cost;
-};
 
 class NavManager
 {

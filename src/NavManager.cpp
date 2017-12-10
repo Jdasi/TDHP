@@ -204,6 +204,8 @@ NavPath NavManager::retracePath(NavNode* _start_node, NavNode* _goal_node)
         curr = curr->getParent();
     }
 
+    path.indices.push_back(_start_node->getIndex());
     std::reverse(path.indices.begin(), path.indices.end());
+
     return path;
 }

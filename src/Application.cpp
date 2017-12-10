@@ -48,7 +48,7 @@ void Application::initSystems()
     game_data = std::make_unique<GameData>(*input_handler.get(),
         *asset_manager.get());
 
-    game_data->level_name = "level4.txt";
+    game_data->level_name = "level1.txt";
 }
 
 

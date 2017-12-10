@@ -10,6 +10,7 @@
 #include "Waypoint.h"
 #include "EnemyListener.h"
 #include "Constants.h"
+#include "LevelPath.h"
 
 namespace sf
 {
@@ -62,5 +63,7 @@ private:
 
     Waypoint enemy_destination;
     sf::Sprite destination_marker;
+
+    LevelPath level_path;
 
 };
