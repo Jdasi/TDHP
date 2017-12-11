@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "Tower.h"
 #include "JHelper.h"
 #include "Constants.h"
@@ -7,9 +9,7 @@
 
 
 Tower::Tower()
-    : tile_index(0)
-    , alive(false)
-    , last_shot_timestamp(0)
+    : last_shot_timestamp(0)
 {
     initEngageRadiusDisplay();
 }
@@ -17,22 +17,10 @@ Tower::Tower()
 
 void Tower::draw(sf::RenderWindow& _window)
 {
-    _window.draw(tower_sprite);
+    TDSprite::draw(_window);
+
     _window.draw(engage_radius_display);
-
     laser.draw(_window);
-}
-
-
-int Tower::getTileIndex() const
-{
-    return tile_index;
-}
-
-
-void Tower::setTileIndex(const int _tile_index)
-{
-    tile_index = _tile_index;
 }
 
 
@@ -54,37 +42,9 @@ void Tower::shoot(Enemy* _enemy)
 }
 
 
-void Tower::setTexture(sf::Texture* _texture)
+void Tower::onSetPosition()
 {
-    tower_sprite.setTexture(*_texture);
-}
-
-
-const sf::Vector2f& Tower::getPosition() const
-{
-    return tower_sprite.getPosition();
-}
-
-
-void Tower::setPosition(const sf::Vector2f& _position)
-{
-    tower_sprite.setPosition(_position);
-    engage_radius_display.setPosition(_position);
-}
-
-
-void Tower::setScale(const sf::Vector2f& _factors)
-{
-    tower_sprite.setScale(_factors);
-
-    JHelper::centerSFOrigin(tower_sprite);
-    JHelper::centerSFOrigin(engage_radius_display);
-}
-
-
-void Tower::setScale(const float _x, const float _y)
-{
-    setScale(sf::Vector2f(_x, _y));
+    engage_radius_display.setPosition(getPosition());
 }
 
 
@@ -98,10 +58,41 @@ void Tower::onDeath()
 }
 
 
+Tower::TowerLaser::TowerLaser()
+    : line(sf::LineStrip, 2)
+    , line_color(sf::Color::Cyan)
+    , visible_duration(0.1f)
+    , draw_until_time(0)
+{
+    line[0].color = line_color;
+    line[1].color = line_color;
+}
+
+
+void Tower::TowerLaser::draw(sf::RenderWindow& _window)
+{
+    if (JTime::getTime() > draw_until_time)
+        return;
+
+    _window.draw(line);
+}
+
+
+void Tower::TowerLaser::refresh(const sf::Vector2f& _from, const sf::Vector2f& _to)
+{
+    line[0].position = _from;
+    line[1].position = _to;
+
+    draw_until_time = JTime::getTime() + visible_duration;
+}
+
+
 void Tower::initEngageRadiusDisplay()
 {
     engage_radius_display.setRadius(TOWER_ENGAGE_RADIUS);
     engage_radius_display.setFillColor(sf::Color::Transparent);
     engage_radius_display.setOutlineColor(sf::Color::Green);
     engage_radius_display.setOutlineThickness(1);
+
+    JHelper::centerSFOrigin(engage_radius_display);
 }

@@ -41,6 +41,13 @@ void Enemy::tick()
 }
 
 
+void Enemy::draw(sf::RenderWindow& _window)
+{
+    TDSprite::draw(_window);
+    path.draw(_window);
+}
+
+
 void Enemy::setPath(const LevelPath& _path)
 {
     path_index = 0;
@@ -50,7 +57,6 @@ void Enemy::setPath(const LevelPath& _path)
 
 void Enemy::onSpawn()
 {
-
 }
 
 

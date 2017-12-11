@@ -79,6 +79,12 @@
     <ClCompile Include="..\src\Level.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\TDSprite.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\LevelPath.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -169,6 +175,9 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\NavPath.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TDSprite.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

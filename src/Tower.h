@@ -1,81 +1,48 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
-#include "JTime.h"
+#include "TDSprite.h"
 #include "Killable.h"
+#include "JTime.h"
 
 class Enemy;
 
-class Tower final : public Killable
+class Tower final : public TDSprite, public Killable
 {
 public:
     Tower();
     ~Tower() = default;
 
-    void draw(sf::RenderWindow& _window);
-
-    int getTileIndex() const;
-    void setTileIndex(const int _tile_index);
+    void draw(sf::RenderWindow& _window) override;
 
     bool canShoot() const;
     void shoot(Enemy* _enemy);
-
-    void setTexture(sf::Texture* _texture);
-    
-    const sf::Vector2f& getPosition() const;
-    void setPosition(const sf::Vector2f& _position);
-
-    void setScale(const sf::Vector2f& _factors);
-    void setScale(const float _x, const float _y);
 
 protected:
     void onSpawn() override;
     void onDeath() override;
 
+    void onSetPosition() override;
+
 private:
     struct TowerLaser
     {
+        TowerLaser();
+
+        void draw(sf::RenderWindow& _window);
+        void refresh(const sf::Vector2f& _from, const sf::Vector2f& _to);
+
         sf::VertexArray line;
         sf::Color line_color;
         float visible_duration;
         float draw_until_time;
-
-        TowerLaser()
-            : line(sf::LineStrip, 2)
-            , line_color(sf::Color::Cyan)
-            , visible_duration(0.1f)
-            , draw_until_time(0)
-        {
-            line[0].color = line_color;
-            line[1].color = line_color;
-        }
-
-        void draw(sf::RenderWindow& _window)
-        {
-            if (JTime::getTime() > draw_until_time)
-                return;
-
-            _window.draw(line);
-        }
-
-        void refresh(const sf::Vector2f& _a, const sf::Vector2f& _b)
-        {
-            line[0].position = _a;
-            line[1].position = _b;
-
-            draw_until_time = JTime::getTime() + visible_duration;
-        }
     };
 
     void initEngageRadiusDisplay();
 
-    int tile_index;
-    bool alive;
-    float last_shot_timestamp;
-
-    sf::Sprite tower_sprite;
     sf::CircleShape engage_radius_display;
     TowerLaser laser;
+    float last_shot_timestamp;
 
 };

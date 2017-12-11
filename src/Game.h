@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "HeatmapManager.h"
 #include "NavManager.h"

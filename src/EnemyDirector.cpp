@@ -64,7 +64,7 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
             continue;
         }
 
-        _window.draw(enemy);
+        enemy.draw(_window);
     }
 }
 
@@ -145,11 +145,9 @@ void EnemyDirector::initEnemies()
     {
         enemy.attachListener(this);
 
-        enemy.setTexture(*texture);
+        enemy.setTexture(texture);
         enemy.setScale(current_level.getTileWidth() / texture_size.x,
             current_level.getTileHeight() / texture_size.y);
-
-        JHelper::centerSFOrigin(enemy);
     }
 }
 

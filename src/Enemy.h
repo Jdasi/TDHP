@@ -6,8 +6,9 @@
 #include "ListenerSubject.h"
 #include "Killable.h"
 #include "LevelPath.h"
+#include "TDSprite.h"
 
-class Enemy final : public Killable, public sf::Sprite,
+class Enemy final : public TDSprite, public Killable,
     public ListenerSubject<EnemyListener>
 {
 public:
@@ -15,6 +16,7 @@ public:
     ~Enemy() = default;
 
     void tick();
+    void draw(sf::RenderWindow& _window) override;
 
     void setPath(const LevelPath& _path);
 

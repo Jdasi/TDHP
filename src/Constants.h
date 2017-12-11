@@ -21,7 +21,7 @@ const int WINDOW_MARGIN_X               = 100; // Margin from horizontal screen 
 const int WINDOW_MARGIN_Y               = 50; // Margin from vertical screen edges.
 
 const int WINDOW_LEFT_BOUNDARY          = WINDOW_MARGIN_X;
-const int WINDOW_RIGHT_BOUNDARY         = WINDOW_WIDTH - WINDOW_LEFT_BOUNDARY;
+const int WINDOW_RIGHT_BOUNDARY         = WINDOW_WIDTH - WINDOW_MARGIN_X;
 const int WINDOW_TOP_BOUNDARY           = WINDOW_MARGIN_Y;
 const int WINDOW_BOTTOM_BOUNDARY        = WINDOW_HEIGHT - WINDOW_MARGIN_Y;
 
