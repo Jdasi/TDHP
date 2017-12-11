@@ -11,20 +11,20 @@ HeatmapManager::HeatmapManager(Level& _level)
 
 void HeatmapManager::tick()
 {
-    for (auto& heat_map : heat_maps)
+    for (auto& heatmap : heatmaps)
     {
-        if (heat_map->isActive())
-            heat_map->tick();
+        if (heatmap->isActive())
+            heatmap->tick();
     }
 }
 
 
 void HeatmapManager::draw(sf::RenderWindow& _window)
 {
-    for (auto& heat_map : heat_maps)
+    for (auto& heatmap : heatmaps)
     {
-        if (heat_map->isActive())
-            heat_map->draw(_window);
+        if (heatmap->isActive())
+            heatmap->draw(_window);
     }
 }
 
@@ -32,31 +32,44 @@ void HeatmapManager::draw(sf::RenderWindow& _window)
 Heatmap* HeatmapManager::createHeatmap(const sf::Color& _color,
     const float _paint_hardness, const float _decay_rate)
 {
-    auto heat_map = std::make_unique<Heatmap>(level);
-    Heatmap* heat_map_ptr = heat_map.get();
+    auto heatmap = std::make_unique<Heatmap>(level);
+    auto* heat_map_ptr = heatmap.get();
 
-    heat_map->setColor(_color);
-    heat_map->setPaintHardness(_paint_hardness);
-    heat_map->setDecayRate(_decay_rate);
+    heatmap->setColor(_color);
+    heatmap->setPaintHardness(_paint_hardness);
+    heatmap->setDecayRate(_decay_rate);
 
-    heat_maps.push_back(std::move(heat_map));
+    heatmaps.push_back(std::move(heatmap));
     return heat_map_ptr;
 }
 
 
 void HeatmapManager::paintOnHeatmap(const int _heatmap_index, const int _tile_index, const int _radius)
 {
-    if (!JHelper::validIndex(_heatmap_index, heat_maps.size()))
+    if (!JHelper::validIndex(_heatmap_index, heatmaps.size()))
         return;
 
-    heat_maps[_heatmap_index]->paint(_tile_index, _radius);
+    heatmaps[_heatmap_index]->paint(_tile_index, _radius);
 }
 
 
 void HeatmapManager::splashOnHeatmap(const int _heatmap_index, const int _tile_index, const int _radius)
 {
-    if (!JHelper::validIndex(_heatmap_index, heat_maps.size()))
+    if (!JHelper::validIndex(_heatmap_index, heatmaps.size()))
         return;
 
-    heat_maps[_heatmap_index]->splash(_tile_index, _radius);
+    heatmaps[_heatmap_index]->splash(_tile_index, _radius);
+}
+
+
+int HeatmapManager::getAllWeights(const int _tile_index)
+{
+    int weight = 0;
+
+    for (auto& heatmap : heatmaps)
+    {
+        weight += heatmap->getWeight(_tile_index);
+    }
+
+    return weight;
 }

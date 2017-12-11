@@ -33,11 +33,11 @@ private:
     NavPath retracePath(NavNode* _start_node, NavNode* _goal_node);
 
     std::vector<NavNode> nav_nodes;
-    HeuristicType heuristic_type;
-
     HeatmapManager& heatmap_manager;
 
     int size_x;
     int size_y;
+
+    HeuristicType heuristic_type;
 
 };

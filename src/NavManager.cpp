@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "NavManager.h"
+#include "HeatmapManager.h"
 #include "JHelper.h"
 #include "JMath.h"
 #include "Level.h"
@@ -8,10 +9,10 @@
 
 
 NavManager::NavManager(HeatmapManager& _heatmap_manager, const Level& _level)
-    : heuristic_type(HeuristicType::MANHATTAN)
-    , heatmap_manager(_heatmap_manager)
+    : heatmap_manager(_heatmap_manager)
     , size_x(_level.getSizeX())
     , size_y(_level.getSizeY())
+    , heuristic_type(HeuristicType::MANHATTAN)
 {
     nav_nodes.assign(_level.getProduct(), NavNode());
 
@@ -114,8 +115,9 @@ NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _go
                 continue;
 
             int tentative_g = curr->getGCost() + calculateHeuristic(curr->getCoords(), neighbour->getCoords());
-            bool closed_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
+            tentative_g += heatmap_manager.getAllWeights(curr->getIndex());
 
+            bool closed_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
             if (closed_contains_neighbour && tentative_g >= neighbour->getGCost())
                 continue;
 
@@ -182,13 +184,15 @@ void NavManager::resetGraph()
 
 int NavManager::calculateHeuristic(const sf::Vector2i& _a, const sf::Vector2i& _b)
 {
+    int heuristic = 0;
+
     switch (heuristic_type)
     {
-        case MANHATTAN: return JHelper::manhattanDistance(_a, _b);
-        case CHEBYSHEV: return JHelper::chebyshevDistance(_a, _b);
-
-        default: return 0;
+        case MANHATTAN: heuristic = JHelper::manhattanDistance(_a, _b); break;
+        case CHEBYSHEV: heuristic = JHelper::chebyshevDistance(_a, _b); break;
     }
+
+    return heuristic * HEURISTIC_MODIFIER;
 }
 
 

@@ -22,11 +22,23 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
 {
     initEnemies();
     initDestinationMarker();
+
+    scheduler.invokeRepeating([this](){ updateEnemyPath(); }, 1, 1);
+    scheduler.invokeRepeating([this]()
+    {
+        if (enemy_spawns.size() > 0)
+        {
+            // DEBUG.
+            spawnEnemy(enemy_spawns[0].pos);
+        }
+    }, 1, 1);
 }
 
 
 void EnemyDirector::tick(GameData& _gd)
 {
+    scheduler.update();
+
     for (auto& enemy : enemies)
     {
         if (!enemy.isAlive())
@@ -105,9 +117,7 @@ void EnemyDirector::setEnemyDestination(const int _tile_index)
     destination_marker.setPosition(enemy_destination.pos);
 
     // DEBUG.
-    auto& spawn = enemy_spawns[0];
-    auto path = nav_manager.findPath(spawn.tile_coords, enemy_destination.tile_coords);
-    level_path = LevelPath(current_level, path);
+    updateEnemyPath();
 }
 
 
@@ -189,6 +199,14 @@ void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
 
         return;
     }
+}
+
+
+void EnemyDirector::updateEnemyPath()
+{
+    auto& spawn = enemy_spawns[0];
+    auto path = nav_manager.findPath(spawn.tile_coords, enemy_destination.tile_coords);
+    level_path = LevelPath(current_level, path);
 }
 
 

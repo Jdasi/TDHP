@@ -11,6 +11,7 @@
 #include "EnemyListener.h"
 #include "Constants.h"
 #include "LevelPath.h"
+#include "Scheduler.h"
 
 namespace sf
 {
@@ -48,6 +49,8 @@ private:
     Waypoint createWaypoint(const int _tile_index);
     void spawnEnemy(const sf::Vector2f& _pos);
 
+    void updateEnemyPath();
+
     // Enemy events.
     void onDeath(const sf::Vector2f& _pos) override;
     void onPathComplete(Enemy* _enemy) override;
@@ -66,5 +69,6 @@ private:
     sf::Sprite destination_marker;
 
     LevelPath level_path;
+    Scheduler scheduler;
 
 };

@@ -35,6 +35,8 @@ public:
     void tick();
     void draw(sf::RenderWindow& _window);
 
+    int getWeight(const int _tile_index);
+
 private:
     void paintWithModifier(const int _tile_index, const int _radius,
         const float _modifier = 1);

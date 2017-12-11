@@ -85,6 +85,9 @@
     <ClCompile Include="..\src\LevelPath.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Scheduler.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -179,6 +182,12 @@
     </ClInclude>
     <ClInclude Include="..\src\TDSprite.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ScheduledTask.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Scheduler.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -92,6 +92,15 @@ void Heatmap::draw(sf::RenderWindow& _window)
 }
 
 
+int Heatmap::getWeight(const int _tile_index)
+{
+    if (!JHelper::validIndex(_tile_index, weightings.size()))
+        return 0;
+
+    return static_cast<int>(weightings[_tile_index]);
+}
+
+
 void Heatmap::paintWithModifier(const int _tile_index, const int _radius, const float _modifier)
 {
     int size_x = grid.getSizeX();
