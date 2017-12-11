@@ -39,8 +39,8 @@ void Game::draw(sf::RenderWindow& _window)
 {
     _window.draw(border);
 
-    current_level.draw(_window);
     heatmap_manager->draw(_window);
+    current_level.draw(_window);
 
     for (auto& arr : grid_lines)
         _window.draw(arr);
@@ -96,8 +96,11 @@ void Game::initObjects()
 
 void Game::initBorder()
 {
+    auto* texture = gd.asset_manager.loadTexture("grass.jpg");
+
+    border.setTexture(texture);
     border.setSize(PANE_SIZE);
-    border.setFillColor(sf::Color::Blue);
+    border.setFillColor(sf::Color(255, 255, 255, 100));
     border.setOutlineThickness(5.0f);
     border.setPosition({ static_cast<float>(WINDOW_LEFT_BOUNDARY),
         static_cast<float>(WINDOW_TOP_BOUNDARY) });

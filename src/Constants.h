@@ -32,7 +32,7 @@ const sf::Vector2f PANE_SIZE            ({ PANE_WIDTH, PANE_HEIGHT });
 // ======================================================================================
 // GAMEPLAY SETTINGS
 // ======================================================================================
-const sf::Color WALKABLE_COLOR          = sf::Color(0, 0, 0, 255);
+const sf::Color WALKABLE_COLOR          = sf::Color(0, 0, 0, 0);
 const sf::Color UNWALKABLE_COLOR        = sf::Color(255, 255, 255, 255);
 
 const int MAX_TOWERS                    = 3;

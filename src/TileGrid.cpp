@@ -63,12 +63,12 @@ void TileGrid::setTileColor(const int _tile_index, const sf::Color& _color)
 
 void TileGrid::draw(sf::RenderWindow& _window)
 {
-    for (auto& sprite : tiles)
+    for (auto& tile : tiles)
     {
-        if (sprite.getFillColor().a <= 0)
+        if (tile.getFillColor().a <= 0)
             continue;
 
-        _window.draw(sprite);
+        _window.draw(tile);
     }
 }
 
