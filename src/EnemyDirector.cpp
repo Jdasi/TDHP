@@ -23,13 +23,14 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     initEnemies();
     initDestinationMarker();
 
-    scheduler.invokeRepeating([this](){ updateEnemyPath(); }, 1, 1);
+    //scheduler.invokeRepeating([this](){ updateEnemyPath(); }, 1, 1);
     scheduler.invokeRepeating([this]()
     {
         if (enemy_spawns.size() > 0)
         {
             // DEBUG.
-            spawnEnemy(enemy_spawns[0].pos);
+            auto& spawn = enemy_spawns[rand() % enemy_spawns.size()];
+            spawnEnemy(spawn);
         }
     }, 1, 1);
 }
@@ -45,16 +46,6 @@ void EnemyDirector::tick(GameData& _gd)
             continue;
 
         enemy.tick();
-    }
-
-    // DEBUG.
-    if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
-    {
-        if (enemy_spawns.size() > 0)
-        {
-            // TODO: pick a random spawn ..
-            spawnEnemy(enemy_spawns[0].pos);
-        }
     }
 }
 
@@ -115,9 +106,6 @@ void EnemyDirector::setEnemyDestination(const int _tile_index)
 
     enemy_destination = createWaypoint(_tile_index);
     destination_marker.setPosition(enemy_destination.pos);
-
-    // DEBUG.
-    updateEnemyPath();
 }
 
 
@@ -186,7 +174,7 @@ Waypoint EnemyDirector::createWaypoint(const int _tile_index)
 
 /* Finds the first dead enemy in the pool and respawns them at the passed position.
  */
-void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
+void EnemyDirector::spawnEnemy(const Waypoint& _waypoint)
 {
     for (auto& enemy : enemies)
     {
@@ -194,7 +182,9 @@ void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
             continue;
 
         enemy.spawn();
-        enemy.setPosition(_pos);
+        enemy.setPosition(_waypoint.pos);
+
+        updateEnemyPath(_waypoint);
         enemy.setPath(level_path);
 
         return;
@@ -202,10 +192,9 @@ void EnemyDirector::spawnEnemy(const sf::Vector2f& _pos)
 }
 
 
-void EnemyDirector::updateEnemyPath()
+void EnemyDirector::updateEnemyPath(const Waypoint& _spawn)
 {
-    auto& spawn = enemy_spawns[0];
-    auto path = nav_manager.findPath(spawn.tile_coords, enemy_destination.tile_coords);
+    auto path = nav_manager.findPath(_spawn.tile_coords, enemy_destination.tile_coords);
     level_path = LevelPath(current_level, path);
 }
 

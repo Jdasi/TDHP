@@ -47,9 +47,9 @@ private:
     void initDestinationMarker();
 
     Waypoint createWaypoint(const int _tile_index);
-    void spawnEnemy(const sf::Vector2f& _pos);
+    void spawnEnemy(const Waypoint& _waypoint);
 
-    void updateEnemyPath();
+    void updateEnemyPath(const Waypoint& _spawn);
 
     // Enemy events.
     void onDeath(const sf::Vector2f& _pos) override;

@@ -41,7 +41,7 @@ const float TOWER_ENGAGE_RADIUS         = 100;
 const float TOWER_ENGAGE_RADIUS_SQR     = TOWER_ENGAGE_RADIUS * TOWER_ENGAGE_RADIUS;
 
 const int MAX_ENEMIES                   = 100;
-const float ENEMY_MOVE_SPEED            = 30;
+const float ENEMY_MOVE_SPEED            = 50;
 
 const int HEURISTIC_MODIFIER            = 10;
 
