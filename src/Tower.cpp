@@ -30,6 +30,21 @@ bool Tower::canShoot() const
 }
 
 
+void Tower::engage(Enemy* _enemy)
+{
+    if (_enemy == nullptr)
+        return;
+
+    // Look at the enemy.
+    setRotation(JHelper::calculateLookAngle(getPosition(), _enemy->getPosition()));
+
+    if (!canShoot())
+        return;
+
+    shoot(_enemy);
+}
+
+
 void Tower::shoot(Enemy* _enemy)
 {
     if (!_enemy)
@@ -50,6 +65,7 @@ void Tower::onSetPosition()
 
 void Tower::onSpawn()
 {
+    last_shot_timestamp = JTime::getTime();
 }
 
 

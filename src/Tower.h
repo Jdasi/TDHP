@@ -17,6 +17,7 @@ public:
     void draw(sf::RenderWindow& _window) override;
 
     bool canShoot() const;
+    void engage(Enemy* _enemy);
     void shoot(Enemy* _enemy);
 
 protected:

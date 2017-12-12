@@ -27,22 +27,17 @@ void TowerManager::tick()
         if (!tower.isAlive())
             continue;
 
-        if (tower.canShoot())
-        {
-            auto& tower_pos = tower.getPosition();
-            auto& nearby_enemies = enemy_director.getEnemiesNearPosSqr(
-                tower_pos, TOWER_ENGAGE_RADIUS_SQR);
+        auto& tower_pos = tower.getPosition();
+        auto& nearby_enemies = enemy_director.getEnemiesNearPosSqr(
+            tower_pos, TOWER_ENGAGE_RADIUS_SQR);
 
-            // Nothing to shoot.
-            if (nearby_enemies.size() == 0)
-            {
-                continue;
-            }
+        // Nothing to shoot.
+        if (nearby_enemies.size() == 0)
+            continue;
 
-            Enemy* closest_enemy = evaluateClosestEnemy(nearby_enemies,
-                tower_pos);
-            tower.shoot(closest_enemy);
-        }
+        Enemy* closest_enemy = evaluateClosestEnemy(nearby_enemies,
+            tower_pos);
+        tower.engage(closest_enemy);
     }
 }
 

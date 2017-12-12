@@ -23,6 +23,8 @@ public:
     const sf::Vector2f& getPosition() const;
     void setPosition(const sf::Vector2f& _position);
 
+    void setRotation(const float _angle);
+
     void setScale(const sf::Vector2f& _factors);
     void setScale(const float _x, const float _y);
 

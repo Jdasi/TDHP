@@ -28,6 +28,8 @@ namespace JHelper
     int manhattanDistance(const sf::Vector2i& _a, const sf::Vector2i& _b);
     int chebyshevDistance(const sf::Vector2i& _a, const sf::Vector2i& _b);
 
+    float calculateLookAngle(const sf::Vector2f& _from, const sf::Vector2f& _to);
+
     template <typename T>
     void centerSFOrigin(T& _sfml_object)
     {

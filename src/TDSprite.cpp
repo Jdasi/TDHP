@@ -47,6 +47,12 @@ void TDSprite::setPosition(const sf::Vector2f& _position)
 }
 
 
+void TDSprite::setRotation(const float _angle)
+{
+    sprite.setRotation(_angle);
+}
+
+
 void TDSprite::setScale(const sf::Vector2f& _factors)
 {
     sprite.setScale(_factors);

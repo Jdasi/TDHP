@@ -4,6 +4,8 @@
 
 namespace JMath
 {
+    const float PI = 3.14159265f;
+
     int maxInt();
     float maxFloat();
 

@@ -1,4 +1,5 @@
 #include "JHelper.h"
+#include "JMath.h"
 #include "Constants.h"
 #include "Level.h"
 
@@ -96,4 +97,13 @@ int JHelper::manhattanDistance(const sf::Vector2i& _a, const sf::Vector2i& _b)
 int JHelper::chebyshevDistance(const sf::Vector2i& _a, const sf::Vector2i& _b)
 {
     return std::max(abs(_a.x - _b.x), abs(_a.y - _b.y));
+}
+
+
+float JHelper::calculateLookAngle(const sf::Vector2f& _from, const sf::Vector2f& _to)
+{
+    float dx = _to.x - _from.x;
+    float dy = _to.y - _from.y;
+
+    return ((atan2(dy, dx)) * 180 / JMath::PI) + 90;
 }
