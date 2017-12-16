@@ -7,6 +7,7 @@
 #include "Killable.h"
 #include "LevelPath.h"
 #include "TDSprite.h"
+#include "EnemyType.h"
 
 class Enemy final : public TDSprite, public Killable,
     public ListenerSubject<EnemyListener>
@@ -14,6 +15,8 @@ class Enemy final : public TDSprite, public Killable,
 public:
     Enemy();
     ~Enemy() = default;
+
+    void setType(EnemyType& _type);
 
     void tick();
     void draw(sf::RenderWindow& _window) override;
@@ -27,5 +30,7 @@ protected:
 private:
     LevelPath path;
     int path_index;
+
+    EnemyType* type;
 
 };

@@ -41,8 +41,10 @@ const float TOWER_ENGAGE_RADIUS         = 100;
 const float TOWER_ENGAGE_RADIUS_SQR     = TOWER_ENGAGE_RADIUS * TOWER_ENGAGE_RADIUS;
 
 const int MAX_ENEMIES                   = 100;
-const float ENEMY_MOVE_SPEED            = 50;
 
+// ======================================================================================
+// PATHFINDING SETTINGS
+// ======================================================================================
 const int HEURISTIC_MODIFIER            = 10;
 
 // ======================================================================================
@@ -52,6 +54,12 @@ const std::string RESOURCES_PATH        { "Resources/" };
 const std::string FONTS_PATH            { RESOURCES_PATH + "Fonts/" };
 const std::string TEXTURES_PATH         { RESOURCES_PATH + "Images/" };
 const std::string AUDIO_PATH            { RESOURCES_PATH + "Audio/" };
+const std::string JSON_PATH             { RESOURCES_PATH + "JSON/" };
+
+// ======================================================================================
+// JSON STRINGS
+// ======================================================================================
+const std::string ENEMIES_JSON          { JSON_PATH + "EnemyTypes.json" };
 
 // ======================================================================================
 // FONT STRINGS
@@ -62,7 +70,6 @@ const std::string DEFAULT_FONT          { "arial.ttf" };
 // IMAGE STRINGS
 // ======================================================================================
 const std::string TOWER_SPRITE          { "tower.png" };
-const std::string ENEMY_SPRITE          { "enemy.png" };
 const std::string SPAWN_SPRITE          { "spawn.png" };
 const std::string DESTINATION_SPRITE    { "destination.png" };
 

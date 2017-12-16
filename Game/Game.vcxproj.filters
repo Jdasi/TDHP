@@ -189,5 +189,8 @@
     <ClInclude Include="..\src\Scheduler.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\EnemyType.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

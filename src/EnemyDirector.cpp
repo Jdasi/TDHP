@@ -11,6 +11,7 @@
 #include "JHelper.h"
 #include "JMath.h"
 #include "Level.h"
+#include "FileIO.h"
 
 
 EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_manager,
@@ -136,14 +137,16 @@ std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos
 
 void EnemyDirector::initEnemies()
 {
-    auto* texture = asset_manager.loadTexture(ENEMY_SPRITE);
-    auto texture_size = texture->getSize();
+    enemy_types = FileIO::loadEnemyTypes(asset_manager);
 
     for (auto& enemy : enemies)
     {
         enemy.attachListener(this);
 
-        enemy.setTexture(texture);
+        auto& type = enemy_types[rand() % enemy_types.size()]; // DEBUG.
+        auto texture_size = type.texture->getSize();
+
+        enemy.setType(type);
         enemy.setScale(current_level.getTileWidth() / texture_size.x,
             current_level.getTileHeight() / texture_size.y);
     }

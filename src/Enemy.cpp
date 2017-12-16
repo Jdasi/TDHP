@@ -6,7 +6,17 @@
 
 Enemy::Enemy()
     : path_index(0)
+    , type(nullptr)
 {
+}
+
+
+void Enemy::setType(EnemyType& _type)
+{
+    type = &_type;
+
+    setMaxHealth(type->max_health);
+    setTexture(_type.texture);
 }
 
 
@@ -34,7 +44,7 @@ void Enemy::tick()
     else
     {
         sf::Vector2f dir = JMath::vector2Normalized(waypoint.pos - pos);
-        dir *= ENEMY_MOVE_SPEED * JTime::getDeltaTime();
+        dir *= type->move_speed * JTime::getDeltaTime();
 
         setPosition(pos + dir);
     }
@@ -57,6 +67,8 @@ void Enemy::setPath(const LevelPath& _path)
 
 void Enemy::onSpawn()
 {
+    if (!type)
+        killQuiet();
 }
 
 

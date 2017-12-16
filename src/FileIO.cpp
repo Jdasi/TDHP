@@ -1,8 +1,11 @@
 #include <fstream>
 #include <iostream>
 
+#include <jsoncons/json.hpp>
+
 #include "FileIO.h"
 #include "Constants.h"
+#include "AssetManager.h"
 
 
 LevelData FileIO::loadLevelData(const std::string& _file_name)
@@ -35,4 +38,30 @@ LevelData FileIO::loadLevelData(const std::string& _file_name)
     }
 
     return ld;
+}
+
+
+std::vector<EnemyType> FileIO::loadEnemyTypes(AssetManager& _asset_manager)
+{
+    using jsoncons::json;
+
+    std::vector<EnemyType> types;
+    std::ifstream file(ENEMIES_JSON);
+
+    json file_data;
+    file >> file_data;
+
+    for (const auto& entry : file_data.object_value())
+    {
+        auto slug = entry.name();
+        const auto& data = entry.value();
+
+        sf::Texture* sprite = _asset_manager.loadTexture(data["sprite"].as_string());
+        float speed = static_cast<float>(data["move_speed"].as_double());
+        int health = data["max_health"].as_int();
+
+        types.emplace_back(slug, sprite, speed, health);
+    }
+
+    return types;
 }

@@ -17,10 +17,10 @@ Tower::Tower()
 
 void Tower::draw(sf::RenderWindow& _window)
 {
-    TDSprite::draw(_window);
-
     _window.draw(engage_radius_display);
     laser.draw(_window);
+
+    TDSprite::draw(_window);
 }
 
 

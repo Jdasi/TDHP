@@ -12,6 +12,7 @@
 #include "Constants.h"
 #include "LevelPath.h"
 #include "Scheduler.h"
+#include "EnemyType.h"
 
 namespace sf
 {
@@ -60,6 +61,7 @@ private:
     HeatmapManager& heatmap_manager;
     Level& current_level;
 
+    std::vector<EnemyType> enemy_types;
     std::array<Enemy, MAX_ENEMIES> enemies;
 
     std::vector<Waypoint> enemy_spawns;

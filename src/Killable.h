@@ -4,13 +4,19 @@ class Killable
 {
 public:
     Killable()
-        : alive(false)
+        : max_health(1)
+        , health(0)
     {
+    }
+
+    void setMaxHealth(const int _max_health)
+    {
+        max_health = _max_health;
     }
 
     bool isAlive() const
     {
-        return alive;
+        return health > 0;
     }
 
     void spawn()
@@ -18,16 +24,13 @@ public:
         if (isAlive())
             return;
 
-        alive = true;
+        health = max_health;
         onSpawn();
     }
 
     void kill()
     {
-        if (!isAlive())
-            return;
-
-        alive = false;
+        killQuiet();
         onDeath();
     }
 
@@ -36,7 +39,7 @@ public:
         if (!isAlive())
             return;
 
-        alive = false;
+        health = 0;
     }
 
 protected:
@@ -44,6 +47,7 @@ protected:
     virtual void onDeath() = 0;
 
 private:
-    bool alive;
+    int max_health;
+    int health;
 
 };

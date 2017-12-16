@@ -1,0 +1,24 @@
+{
+    // TODO: array field for which heatmaps an enemy type cares about
+
+	"Light": 
+	{
+		"sprite": "enemy_light.png",
+        "move_speed": 80,
+        "max_health": 30
+	},
+    
+    "Medium": 
+	{
+		"sprite": "enemy_medium.png",
+        "move_speed": 50,
+        "max_health": 50
+	},
+    
+    "Heavy": 
+	{
+		"sprite": "enemy_heavy.png",
+        "move_speed": 20,
+        "max_health": 120
+	}
+}
