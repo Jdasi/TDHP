@@ -16,6 +16,12 @@ TDSprite::TDSprite()
 }
 
 
+void TDSprite::tick(GameData& _gd)
+{
+    // Base class doesn't do anything.
+}
+
+
 void TDSprite::draw(sf::RenderWindow& _window)
 {
     _window.draw(sprite);

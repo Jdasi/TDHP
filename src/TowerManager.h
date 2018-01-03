@@ -6,6 +6,7 @@
 
 #include "Tower.h"
 #include "Constants.h"
+#include "Scheduler.h"
 
 namespace sf
 {
@@ -25,19 +26,19 @@ public:
 
     ~TowerManager() = default;
 
-    void tick();
+    void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
     void toggleTowerAtPos(const sf::Vector2f& _pos);
 
 private:
     void initTowers();
+    void updateTowerTargets();
+
     void constructTower(const int _tile_index, const sf::Vector2f& _pos);
     void deconstructTower(const int _tile_index);
 
     bool towerExists(const int _tile_index) const;
-    Enemy* evaluateClosestEnemy(const std::vector<Enemy*>& _enemies,
-        const sf::Vector2f& _pos);
 
     AssetManager& asset_manager;
     NavManager& nav_manager;
@@ -45,5 +46,7 @@ private:
     Level& level;
 
     std::array<Tower, MAX_TOWERS> towers;
+
+    Scheduler scheduler;
 
 };

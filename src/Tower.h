@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <SFML/Graphics/CircleShape.hpp>
 
 #include "TDSprite.h"
@@ -14,15 +16,15 @@ public:
     Tower();
     ~Tower() = default;
 
+    void tick(GameData& _gd) override;
     void draw(sf::RenderWindow& _window) override;
 
     bool canShoot() const;
-    void engage(Enemy* _enemy);
-    void shoot(Enemy* _enemy);
-
     float getEngageRadiusSqr() const;
 
-protected:
+    void updateNearbyEnemies(const std::vector<Enemy*>& _enemies);
+    
+private:
     void onSpawn() override;
     void onDeath() override;
 
@@ -44,6 +46,10 @@ private:
 
     void initEngageRadius();
 
+    Enemy* evaluateCurrentTarget();
+    void engage(Enemy* _enemy);
+    void shoot(Enemy* _enemy);
+
     sf::CircleShape engage_radius_display;
     TowerLaser laser;
     float last_shot_timestamp;
@@ -52,5 +58,7 @@ private:
 
     float engage_radius;
     float engage_radius_sqr;
+
+    std::vector<Enemy*> nearby_enemies;
 
 };

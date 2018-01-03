@@ -8,6 +8,7 @@ namespace sf
 }
 
 class Level;
+struct GameData;
 
 class TDSprite
 {
@@ -15,6 +16,7 @@ public:
     TDSprite();
     virtual ~TDSprite() = default;
 
+    virtual void tick(GameData& _gd);
     virtual void draw(sf::RenderWindow& _window);
 
     int getTileIndex() const;

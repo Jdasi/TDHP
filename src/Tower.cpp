@@ -4,6 +4,7 @@
 
 #include "Tower.h"
 #include "JHelper.h"
+#include "JMath.h"
 #include "Constants.h"
 #include "Enemy.h"
 
@@ -15,6 +16,16 @@ Tower::Tower()
     , engage_radius_sqr(0)
 {
     initEngageRadius();
+}
+
+
+void Tower::tick(GameData& _gd)
+{
+    Enemy* current_target = evaluateCurrentTarget();
+    if (current_target != nullptr)
+    {
+        engage(current_target);
+    }
 }
 
 
@@ -33,30 +44,9 @@ bool Tower::canShoot() const
 }
 
 
-void Tower::engage(Enemy* _enemy)
+void Tower::updateNearbyEnemies(const std::vector<Enemy*>& _enemies)
 {
-    if (_enemy == nullptr)
-        return;
-
-    // Look at the enemy.
-    setRotation(JHelper::calculateLookAngle(getPosition(), _enemy->getPosition()));
-
-    if (!canShoot())
-        return;
-
-    shoot(_enemy);
-}
-
-
-void Tower::shoot(Enemy* _enemy)
-{
-    if (!_enemy)
-        return;
-
-    last_shot_timestamp = JTime::getTime();
-    laser.refresh(getPosition(), _enemy->getPosition());
-
-    _enemy->kill();
+    nearby_enemies = _enemies;
 }
 
 
@@ -80,6 +70,7 @@ void Tower::onSpawn()
 
 void Tower::onDeath()
 {
+    // Crickets ..
 }
 
 
@@ -115,7 +106,7 @@ void Tower::TowerLaser::refresh(const sf::Vector2f& _from, const sf::Vector2f& _
 void Tower::initEngageRadius()
 {
     // Engage radius is based on the grid scale.
-    engage_radius = 4/*4=magic number to be replaced later*/ * ((getTileWidth() + getTileHeight()) / 2);
+    engage_radius = 4/*magic number to be replaced later*/ * ((getTileWidth() + getTileHeight()) / 2);
     engage_radius_sqr = engage_radius * engage_radius;
 
     engage_radius_display.setRadius(engage_radius);
@@ -124,4 +115,54 @@ void Tower::initEngageRadius()
     engage_radius_display.setOutlineThickness(1);
 
     JHelper::centerSFOrigin(engage_radius_display);
+}
+
+
+Enemy* Tower::evaluateCurrentTarget()
+{
+    Enemy* closest_enemy = nullptr;
+    float closest_dist = JMath::maxFloat();
+
+    auto& pos = getPosition();
+
+    for (auto* enemy : nearby_enemies)
+    {
+        float dist = JMath::vector2DistanceSqr(enemy->getPosition(), pos);
+        if (dist > closest_dist)
+        {
+            continue;
+        }
+
+        closest_enemy = enemy;
+        closest_dist = dist;
+    }
+
+    return closest_enemy;
+}
+
+
+void Tower::engage(Enemy* _enemy)
+{
+    if (_enemy == nullptr)
+        return;
+
+    // Look at the enemy.
+    setRotation(JHelper::calculateLookAngle(getPosition(), _enemy->getPosition()));
+
+    if (!canShoot())
+        return;
+
+    shoot(_enemy);
+}
+
+
+void Tower::shoot(Enemy* _enemy)
+{
+    if (_enemy == nullptr)
+        return;
+
+    last_shot_timestamp = JTime::getTime();
+    laser.refresh(getPosition(), _enemy->getPosition());
+
+    _enemy->kill();
 }

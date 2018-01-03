@@ -25,7 +25,7 @@ void Game::tick()
     // Systems.
     heatmap_manager->tick();
     enemy_director->tick(gd);
-    tower_manager->tick();
+    tower_manager->tick(gd);
 
     // State.
     painting = gd.input.getMouseButton(sf::Mouse::Left);
