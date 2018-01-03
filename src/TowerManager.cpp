@@ -14,7 +14,7 @@ TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manage
     : asset_manager(_asset_manager)
     , nav_manager(_nav_manager)
     , enemy_director(_enemy_director)
-    , current_level(_current_level)
+    , level(_current_level)
 {
     initTowers();
 }
@@ -56,8 +56,8 @@ void TowerManager::draw(sf::RenderWindow& _window)
 
 void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos)
 {
-    int index = JHelper::posToTileIndex(_pos, current_level);
-    if (!JHelper::validIndex(index, current_level.getProduct()))
+    int index = JHelper::posToTileIndex(_pos, level);
+    if (!JHelper::validIndex(index, level.getProduct()))
         return;
 
     if (towerExists(index))
@@ -77,15 +77,11 @@ void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos)
 void TowerManager::initTowers()
 {
     auto* tower_texture = asset_manager.loadTexture(TOWER_SPRITE);
-    auto texture_size = tower_texture->getSize();
 
     for (auto& tower : towers)
     {
         //tower.attachListener(this);
-
         tower.setTexture(tower_texture);
-        tower.setScale(current_level.getTileWidth() / texture_size.x,
-            current_level.getTileHeight() / texture_size.y);
     }
 }
 

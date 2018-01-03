@@ -16,6 +16,18 @@
     <Filter Include="Listeners">
       <UniqueIdentifier>{4e2794d5-f7bd-49b6-8ded-28406ac5b36b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Enemy">
+      <UniqueIdentifier>{53d2ba59-a1a7-44ae-af89-5b7c72d135f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Tower">
+      <UniqueIdentifier>{681f0798-2717-4e3a-99f8-38e7f6bdac87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Level">
+      <UniqueIdentifier>{9a7e7116-0247-40b5-a342-e1bde82bdba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Grid">
+      <UniqueIdentifier>{330d5c59-15d1-4be9-945b-a924c4de7a34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -40,14 +52,8 @@
     <ClCompile Include="..\src\Heatmap.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\TileGrid.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\JMath.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Tile.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="..\src\InputHandler.cpp">
       <Filter>Managers</Filter>
@@ -61,12 +67,6 @@
     <ClCompile Include="..\src\TowerManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Tower.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Enemy.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\EnemyDirector.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -76,17 +76,32 @@
     <ClCompile Include="..\src\Game.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Level.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\TDSprite.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\LevelPath.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Scheduler.cpp">
       <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Enemy.cpp">
+      <Filter>Core\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EnemySpawn.cpp">
+      <Filter>Core\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Tower.cpp">
+      <Filter>Core\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Level.cpp">
+      <Filter>Core\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\LevelPath.cpp">
+      <Filter>Core\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Tile.cpp">
+      <Filter>Core\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TileGrid.cpp">
+      <Filter>Core\Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,14 +135,8 @@
     <ClInclude Include="..\src\GameData.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\TileGrid.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\JMath.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Tile.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ListenerSubject.h">
       <Filter>Utility</Filter>
@@ -138,20 +147,11 @@
     <ClInclude Include="..\src\FileIO.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Level.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Application.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\TowerManager.h">
       <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Tower.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Enemy.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\EnemyDirector.h">
       <Filter>Managers</Filter>
@@ -165,16 +165,7 @@
     <ClInclude Include="..\src\Game.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\LevelData.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Waypoint.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Killable.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\LevelPath.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\NavPath.h">
@@ -189,8 +180,35 @@
     <ClInclude Include="..\src\Scheduler.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Enemy.h">
+      <Filter>Core\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EnemySpawn.h">
+      <Filter>Core\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\EnemyType.h">
-      <Filter>Core</Filter>
+      <Filter>Core\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Tower.h">
+      <Filter>Core\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Level.h">
+      <Filter>Core\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\LevelData.h">
+      <Filter>Core\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\LevelPath.h">
+      <Filter>Core\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Tile.h">
+      <Filter>Core\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TileGrid.h">
+      <Filter>Core\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Waypoint.h">
+      <Filter>Core\Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

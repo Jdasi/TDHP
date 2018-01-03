@@ -146,6 +146,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\AssetManager.cpp" />
     <ClCompile Include="..\src\Enemy.cpp" />
     <ClCompile Include="..\src\EnemyDirector.cpp" />
+    <ClCompile Include="..\src\EnemySpawn.cpp" />
     <ClCompile Include="..\src\FileIO.cpp" />
     <ClCompile Include="..\src\HeatmapManager.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
@@ -174,6 +175,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\Enemy.h" />
     <ClInclude Include="..\src\EnemyDirector.h" />
     <ClInclude Include="..\src\EnemyListener.h" />
+    <ClInclude Include="..\src\EnemySpawn.h" />
     <ClInclude Include="..\src\EnemyType.h" />
     <ClInclude Include="..\src\ScheduledTask.h" />
     <ClInclude Include="..\src\Scheduler.h" />

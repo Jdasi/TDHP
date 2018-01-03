@@ -42,7 +42,7 @@ private:
     AssetManager& asset_manager;
     NavManager& nav_manager;
     EnemyDirector& enemy_director;
-    Level& current_level;
+    Level& level;
 
     std::array<Tower, MAX_TOWERS> towers;
 

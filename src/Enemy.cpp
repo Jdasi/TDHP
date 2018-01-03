@@ -37,7 +37,7 @@ void Enemy::tick()
         {
             for (auto& listener : listeners)
             {
-                listener->onPathComplete(this);
+                listener->onPathComplete(*this);
             }
         }
     }

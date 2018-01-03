@@ -11,6 +11,6 @@ public:
     ~EnemyListener() = default;
 
     virtual void onDeath(const sf::Vector2f& _pos) {}
-    virtual void onPathComplete(Enemy* _caller) {}
+    virtual void onPathComplete(Enemy& _caller) {}
 
 };

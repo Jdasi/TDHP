@@ -7,12 +7,12 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include "Enemy.h"
-#include "Waypoint.h"
+#include "EnemyType.h"
 #include "EnemyListener.h"
+#include "EnemySpawn.h"
 #include "Constants.h"
 #include "LevelPath.h"
 #include "Scheduler.h"
-#include "EnemyType.h"
 
 namespace sf
 {
@@ -47,30 +47,23 @@ private:
     void initEnemies();
     void initDestinationMarker();
 
-    Waypoint createWaypoint(const int _tile_index);
-    void spawnEnemy(const Waypoint& _waypoint);
-
-    void updateEnemyPath(const Waypoint& _spawn);
-
     // Enemy events.
     void onDeath(const sf::Vector2f& _pos) override;
-    void onPathComplete(Enemy* _enemy) override;
+    void onPathComplete(Enemy& _enemy) override;
 
     AssetManager& asset_manager;
     NavManager& nav_manager;
     HeatmapManager& heatmap_manager;
-    Level& current_level;
+    Level& level;
 
     std::vector<EnemyType> enemy_types;
     std::array<Enemy, MAX_ENEMIES> enemies;
 
-    std::vector<Waypoint> enemy_spawns;
-    std::vector<sf::Sprite> spawn_markers;
+    std::vector<EnemySpawn> enemy_spawns; // enemyspawn
 
     Waypoint enemy_destination;
-    sf::Sprite destination_marker;
+    TDSprite destination_marker;
 
-    LevelPath level_path;
     Scheduler scheduler;
 
 };

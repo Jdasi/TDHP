@@ -73,3 +73,12 @@ void Level::setTileColor(const int _index, const sf::Color& _color)
 
     grid.setTileColor(_index, _color);
 }
+
+
+Waypoint Level::createWaypoint(const int _tile_index)
+{
+    auto coords = JHelper::calculateCoords(_tile_index, getSizeX());
+    auto pos = JHelper::tileIndexToPos(_tile_index, *this);
+
+    return Waypoint(_tile_index, coords, pos);
+}

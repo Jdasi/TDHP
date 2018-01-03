@@ -7,6 +7,8 @@ namespace sf
     class RenderWindow;
 }
 
+class Level;
+
 class TDSprite
 {
 public:
@@ -25,14 +27,19 @@ public:
 
     void setRotation(const float _angle);
 
-    void setScale(const sf::Vector2f& _factors);
-    void setScale(const float _x, const float _y);
+    static void init(const Level& _level);
 
 protected:
     virtual void onSetPosition() {}
 
+    float getTileWidth();
+    float getTileHeight();
+
 private:
     int tile_index;
     sf::Sprite sprite;
+
+    static float tile_width;
+    static float tile_height;
 
 };

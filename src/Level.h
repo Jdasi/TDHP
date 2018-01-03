@@ -4,6 +4,7 @@
 
 #include "LevelData.h"
 #include "TileGrid.h"
+#include "Waypoint.h"
 
 namespace sf
 {
@@ -38,6 +39,8 @@ public:
     LevelTileType getLevelTileType(const int _index);
 
     void setTileColor(const int _index, const sf::Color& _color);
+
+    Waypoint createWaypoint(const int _tile_index);
 
 private:
     LevelData level_data;
