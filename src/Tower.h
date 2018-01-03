@@ -20,6 +20,8 @@ public:
     void engage(Enemy* _enemy);
     void shoot(Enemy* _enemy);
 
+    float getEngageRadiusSqr() const;
+
 protected:
     void onSpawn() override;
     void onDeath() override;
@@ -40,10 +42,15 @@ private:
         float draw_until_time;
     };
 
-    void initEngageRadiusDisplay();
+    void initEngageRadius();
 
     sf::CircleShape engage_radius_display;
     TowerLaser laser;
     float last_shot_timestamp;
+
+    float shot_delay;
+
+    float engage_radius;
+    float engage_radius_sqr;
 
 };

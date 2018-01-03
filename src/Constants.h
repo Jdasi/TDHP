@@ -36,10 +36,6 @@ const sf::Color WALKABLE_COLOR          = sf::Color(0, 0, 0, 0);
 const sf::Color UNWALKABLE_COLOR        = sf::Color(255, 255, 255, 255);
 
 const int MAX_TOWERS                    = 3;
-const float TOWER_SHOT_DELAY            = 1;
-const float TOWER_ENGAGE_RADIUS         = 100;
-const float TOWER_ENGAGE_RADIUS_SQR     = TOWER_ENGAGE_RADIUS * TOWER_ENGAGE_RADIUS;
-
 const int MAX_ENEMIES                   = 100;
 
 // ======================================================================================

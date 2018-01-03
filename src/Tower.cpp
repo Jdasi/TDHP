@@ -10,8 +10,11 @@
 
 Tower::Tower()
     : last_shot_timestamp(0)
+    , shot_delay(1)
+    , engage_radius(0)
+    , engage_radius_sqr(0)
 {
-    initEngageRadiusDisplay();
+    initEngageRadius();
 }
 
 
@@ -26,7 +29,7 @@ void Tower::draw(sf::RenderWindow& _window)
 
 bool Tower::canShoot() const
 {
-    return JTime::getTime() > last_shot_timestamp + TOWER_SHOT_DELAY;
+    return JTime::getTime() > last_shot_timestamp + shot_delay;
 }
 
 
@@ -54,6 +57,12 @@ void Tower::shoot(Enemy* _enemy)
     laser.refresh(getPosition(), _enemy->getPosition());
 
     _enemy->kill();
+}
+
+
+float Tower::getEngageRadiusSqr() const
+{
+    return engage_radius_sqr;
 }
 
 
@@ -103,9 +112,13 @@ void Tower::TowerLaser::refresh(const sf::Vector2f& _from, const sf::Vector2f& _
 }
 
 
-void Tower::initEngageRadiusDisplay()
+void Tower::initEngageRadius()
 {
-    engage_radius_display.setRadius(TOWER_ENGAGE_RADIUS);
+    // Engage radius is based on the grid scale.
+    engage_radius = 4/*4=magic number to be replaced later*/ * ((getTileWidth() + getTileHeight()) / 2);
+    engage_radius_sqr = engage_radius * engage_radius;
+
+    engage_radius_display.setRadius(engage_radius);
     engage_radius_display.setFillColor(sf::Color::Transparent);
     engage_radius_display.setOutlineColor(sf::Color::Green);
     engage_radius_display.setOutlineThickness(1);

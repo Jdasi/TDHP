@@ -29,7 +29,7 @@ void TowerManager::tick()
 
         auto& tower_pos = tower.getPosition();
         auto& nearby_enemies = enemy_director.getEnemiesNearPosSqr(
-            tower_pos, TOWER_ENGAGE_RADIUS_SQR);
+            tower_pos, tower.getEngageRadiusSqr());
 
         // Nothing to shoot.
         if (nearby_enemies.size() == 0)

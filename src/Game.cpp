@@ -246,7 +246,7 @@ void Game::processNavContext()
         current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
             WALKABLE_COLOR : UNWALKABLE_COLOR);
 
-        std::cout << "Math tile index: " << index << std::endl;
+        //std::cout << "Math tile index: " << index << std::endl;
     }
     else if (gd.input.getMouseButtonDown(sf::Mouse::Right))
     {
@@ -273,7 +273,7 @@ void Game::processGameContext()
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
         tower_manager->toggleTowerAtPos(JHelper::tileIndexToPos(index, current_level));
 
-        std::cout << "Math tile index: " << index << std::endl;
+        //std::cout << "Math tile index: " << index << std::endl;
     }
 }
 
