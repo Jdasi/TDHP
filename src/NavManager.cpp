@@ -58,7 +58,8 @@ void NavManager::toggleNodeWalkable(const int _index)
 }
 
 
-NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _goal)
+NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _goal,
+    int _heatmap_flags)
 {
     NavPath path;
 
@@ -84,55 +85,8 @@ NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _go
 
     open_list.push_back(start_node);
 
-    while (!open_list.empty())
-    {
-        NavNode* curr = open_list[0];
-        for (NavNode* node : open_list)
-        {
-            if (node->smallerFCost(*curr))
-                curr = node;
-        }
-
-        open_list.erase(std::remove_if(
-            open_list.begin(),
-            open_list.end(),
-            [curr](NavNode* _node) { return _node == curr; }),
-            open_list.end());
-
-        closed_list.push_back(curr);
-
-        if (curr == goal_node)
-        {
-            path = retracePath(start_node, goal_node);
-
-            break;
-        }
-        
-        auto& neighbours = curr->getNeighbours();
-        for (auto* neighbour : neighbours)
-        {
-            if (!neighbour->isWalkable())
-                continue;
-
-            int tentative_g = curr->getGCost() + calculateHeuristic(curr->getCoords(), neighbour->getCoords());
-            tentative_g += heatmap_manager.getAllWeights(curr->getIndex());
-
-            bool closed_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
-            if (closed_contains_neighbour && tentative_g >= neighbour->getGCost())
-                continue;
-
-            bool open_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
-            if (!open_contains_neighbour || tentative_g < neighbour->getGCost())
-            {
-                neighbour->setGCost(tentative_g);
-                neighbour->setHCost(calculateHeuristic(neighbour->getCoords(), _goal));
-                neighbour->setParent(curr);
-
-                if (!open_contains_neighbour)
-                    open_list.push_back(neighbour);
-            }
-        }
-    }
+    processOpenList(_goal, _heatmap_flags, path, start_node, goal_node,
+        open_list, closed_list);
 
     return path;
 }
@@ -193,6 +147,62 @@ int NavManager::calculateHeuristic(const sf::Vector2i& _a, const sf::Vector2i& _
     }
 
     return heuristic * HEURISTIC_MODIFIER;
+}
+
+
+void NavManager::processOpenList(const sf::Vector2i& _goal, int _heatmap_flags,
+    NavPath& path, NavNode* start_node, NavNode* goal_node,
+    std::vector<NavNode*>& open_list, std::vector<NavNode*>& closed_list)
+{
+    while (!open_list.empty())
+    {
+        NavNode* curr = open_list[0];
+        for (NavNode* node : open_list)
+        {
+            if (node->smallerFCost(*curr))
+                curr = node;
+        }
+
+        open_list.erase(std::remove_if(
+                open_list.begin(),
+                open_list.end(),
+                [curr](NavNode* _node) { return _node == curr; }),
+            open_list.end());
+
+        closed_list.push_back(curr);
+
+        if (curr == goal_node)
+        {
+            path = retracePath(start_node, goal_node);
+
+            break;
+        }
+        
+        auto& neighbours = curr->getNeighbours();
+        for (auto* neighbour : neighbours)
+        {
+            if (!neighbour->isWalkable())
+                continue;
+
+            int tentative_g = curr->getGCost() + calculateHeuristic(curr->getCoords(), neighbour->getCoords());
+            tentative_g += heatmap_manager.getWeights(curr->getIndex(), _heatmap_flags);
+
+            bool closed_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
+            if (closed_contains_neighbour && tentative_g >= neighbour->getGCost())
+                continue;
+
+            bool open_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
+            if (!open_contains_neighbour || tentative_g < neighbour->getGCost())
+            {
+                neighbour->setGCost(tentative_g);
+                neighbour->setHCost(calculateHeuristic(neighbour->getCoords(), _goal));
+                neighbour->setParent(curr);
+
+                if (!open_contains_neighbour)
+                    open_list.push_back(neighbour);
+            }
+        }
+    }
 }
 
 

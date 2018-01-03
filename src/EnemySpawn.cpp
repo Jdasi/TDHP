@@ -52,6 +52,10 @@ void EnemySpawn::spawnEnemy()
 
 void EnemySpawn::updateEnemyPath()
 {
-    auto path = nav_manager.findPath(level_position.tile_coords, enemy_destination.tile_coords);
+    auto path = nav_manager.findPath(
+        level_position.tile_coords,
+        enemy_destination.tile_coords,
+        HeatmapFlag::BLOOD);
+
     level_path = LevelPath(level, path);
 }

@@ -6,6 +6,8 @@
 HeatmapManager::HeatmapManager(Level& _level)
     : level(_level)
 {
+    createHeatmap(sf::Color::Red, 200, 15, HeatmapFlag::BLOOD);
+    createHeatmap(sf::Color::Green, 200, 15, HeatmapFlag::ACID);
 }
 
 
@@ -30,9 +32,9 @@ void HeatmapManager::draw(sf::RenderWindow& _window)
 
 
 Heatmap* HeatmapManager::createHeatmap(const sf::Color& _color,
-    const float _paint_hardness, const float _decay_rate)
+    const float _paint_hardness, const float _decay_rate, const HeatmapFlag& _flag)
 {
-    auto heatmap = std::make_unique<Heatmap>(level);
+    auto heatmap = std::make_unique<Heatmap>(level, _flag);
     auto* heat_map_ptr = heatmap.get();
 
     heatmap->setColor(_color);
@@ -64,11 +66,18 @@ void HeatmapManager::splashOnHeatmap(const int _heatmap_index, const int _tile_i
 
 int HeatmapManager::getAllWeights(const int _tile_index)
 {
+    return getWeights(_tile_index, HeatmapFlag::ALL);
+}
+
+
+int HeatmapManager::getWeights(const int _tile_index, const int _flags)
+{
     int weight = 0;
 
     for (auto& heatmap : heatmaps)
     {
-        weight += heatmap->getWeight(_tile_index);
+        if (heatmap->getFlag() & _flags)
+            weight += heatmap->getWeight(_tile_index);
     }
 
     return weight;

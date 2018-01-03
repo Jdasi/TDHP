@@ -210,5 +210,8 @@
     <ClInclude Include="..\src\Waypoint.h">
       <Filter>Core\Level</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\HeatmapFlag.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -66,8 +66,6 @@ void Game::initSystems()
     TDSprite::init(current_level);
 
     heatmap_manager = std::make_unique<HeatmapManager>(current_level);
-    heatmap_manager->createHeatmap(sf::Color::Red, 200, 15);
-    heatmap_manager->createHeatmap(sf::Color::Green, 200, 15);
 
     nav_manager = std::make_unique<NavManager>(*heatmap_manager.get(),
         current_level);

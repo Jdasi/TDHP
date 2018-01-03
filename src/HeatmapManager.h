@@ -22,13 +22,14 @@ public:
     void tick();
     void draw(sf::RenderWindow& _window);
 
-    Heatmap* createHeatmap(const sf::Color& _color,
-        const float _paint_hardness, const float _decay_rate);
+    Heatmap* createHeatmap(const sf::Color& _color, const float _paint_hardness,
+        const float _decay_rate, const HeatmapFlag& _flag);
 
     void paintOnHeatmap(const int _heatmap_index, const int _tile_index, const int _radius);
     void splashOnHeatmap(const int _heatmap_index, const int _tile_index, const int _radius);
 
     int getAllWeights(const int _tile_index);
+    int getWeights(const int _tile_index, const int _flags);
 
 private:
     std::vector<std::unique_ptr<Heatmap>> heatmaps;

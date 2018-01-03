@@ -5,8 +5,9 @@
 #include "Level.h"
 
 
-Heatmap::Heatmap(const Level& _level)
-    : active(true)
+Heatmap::Heatmap(const Level& _level, const HeatmapFlag& _flag)
+    : flag(_flag)
+    , active(true)
     , visible(true)
     , paint_hardness(0)
     , decay_rate(0)
@@ -98,6 +99,12 @@ int Heatmap::getWeight(const int _tile_index)
         return 0;
 
     return static_cast<int>(weightings[_tile_index]);
+}
+
+
+HeatmapFlag Heatmap::getFlag() const
+{
+    return flag;
 }
 
 

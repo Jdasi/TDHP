@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Color.hpp>
 
 #include "TileGrid.h"
+#include "HeatmapFlag.h"
 
 namespace sf
 {
@@ -16,7 +17,7 @@ class Level;
 class Heatmap
 {
 public:
-    Heatmap(const Level& _level);
+    Heatmap(const Level& _level, const HeatmapFlag& _flag);
     ~Heatmap() = default;
 
     bool isActive() const;
@@ -36,12 +37,15 @@ public:
     void draw(sf::RenderWindow& _window);
 
     int getWeight(const int _tile_index);
+    HeatmapFlag getFlag() const;
 
 private:
     void paintWithModifier(const int _tile_index, const int _radius,
         const float _modifier = 1);
 
     void decay();
+
+    HeatmapFlag flag;
 
     bool active;
     bool visible;
