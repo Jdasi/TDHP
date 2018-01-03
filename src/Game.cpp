@@ -189,16 +189,10 @@ void Game::ParseCurrentLevel()
 
 void Game::handleContextSelection()
 {
-    evaluateContextChange(sf::Keyboard::Key::Num1);
-    evaluateContextChange(sf::Keyboard::Key::Num2);
-    evaluateContextChange(sf::Keyboard::Key::Num3);
-    evaluateContextChange(sf::Keyboard::Key::Num4);
-    evaluateContextChange(sf::Keyboard::Key::Num5);
-    evaluateContextChange(sf::Keyboard::Key::Num6);
-    evaluateContextChange(sf::Keyboard::Key::Num7);
-    evaluateContextChange(sf::Keyboard::Key::Num8);
-    evaluateContextChange(sf::Keyboard::Key::Num9);
-    evaluateContextChange(sf::Keyboard::Key::Num0);
+    for (int i = sf::Keyboard::Key::Num0; i <= sf::Keyboard::Key::Num9; ++i)
+    {
+        evaluateContextChange(static_cast<sf::Keyboard::Key>(i));
+    }
 }
 
 

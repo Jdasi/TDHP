@@ -54,7 +54,7 @@ void Enemy::tick()
 void Enemy::draw(sf::RenderWindow& _window)
 {
     TDSprite::draw(_window);
-    path.draw(_window);
+    path.draw(_window, getPosition(), path_index);
 }
 
 

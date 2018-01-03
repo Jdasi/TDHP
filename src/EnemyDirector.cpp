@@ -41,6 +41,10 @@ void EnemyDirector::tick(GameData& _gd)
 {
     scheduler.update();
 
+    // Debug enemy spawn.
+    if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
+        spawnEnemy(enemy_spawns[rand() % enemy_spawns.size()]);
+
     for (auto& enemy : enemies)
     {
         if (!enemy.isAlive())
@@ -59,7 +63,7 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
     }
 
     _window.draw(destination_marker);
-    level_path.draw(_window);
+    //level_path.draw(_window);
 
     for (auto& enemy : enemies)
     {

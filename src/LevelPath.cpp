@@ -8,7 +8,6 @@ LevelPath::LevelPath()
 
 LevelPath::LevelPath(const Level& _level, const NavPath& _path)
     : num_points(_path.indices.size())
-    , vis(sf::PrimitiveType::LineStrip, num_points)
 {
     waypoints.reserve(num_points);
 
@@ -19,24 +18,32 @@ LevelPath::LevelPath(const Level& _level, const NavPath& _path)
 
         waypoints.push_back({index, coords, pos});
     }
-
-    for (int i = 0; i < num_points; ++i)
-    {
-        vis[i].color = sf::Color::Yellow;
-        vis[i].position = waypoints[i].pos;
-    }
 }
 
 
-void LevelPath::draw(sf::RenderWindow& _window)
+void LevelPath::draw(sf::RenderWindow& _window, const sf::Vector2f& _from,
+    const int _from_index = 0)
 {
+    if (_from_index >= waypoints.size())
+        return;
+
+    // Cause the line visualisation to shrink based on _from_index.
+    int line_size = num_points - _from_index + 1;
+    sf::VertexArray vis(sf::PrimitiveType::LineStrip, line_size);
+
+    for (int i = 0; i < line_size; ++i)
+    {
+        vis[i].color = sf::Color::Yellow;
+        vis[i].position = i == 0 ? _from : waypoints[_from_index + i - 1].pos;
+    }
+
     _window.draw(vis);
 }
 
 
 int LevelPath::getNumPoints() const
 {
-    return num_points;
+    return waypoints.size();
 }
 
 
