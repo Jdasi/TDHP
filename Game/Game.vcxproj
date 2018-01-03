@@ -205,6 +205,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\TowerManager.h" />
     <ClInclude Include="..\src\Vector2i.h" />
     <ClInclude Include="..\src\Heatmap.h" />
+    <ClInclude Include="..\src\WeightingType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

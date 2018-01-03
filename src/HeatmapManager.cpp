@@ -8,6 +8,7 @@ HeatmapManager::HeatmapManager(Level& _level)
 {
     createHeatmap(sf::Color::Red, 200, 15, HeatmapFlag::BLOOD);
     createHeatmap(sf::Color::Green, 200, 15, HeatmapFlag::ACID);
+    createHeatmap(sf::Color::White, 200, 15, HeatmapFlag::SMOKE, WeightingType::NEGATIVE);
 }
 
 
@@ -32,9 +33,10 @@ void HeatmapManager::draw(sf::RenderWindow& _window)
 
 
 Heatmap* HeatmapManager::createHeatmap(const sf::Color& _color,
-    const float _paint_hardness, const float _decay_rate, const HeatmapFlag& _flag)
+    const float _paint_hardness, const float _decay_rate, const HeatmapFlag& _flag,
+    const WeightingType& _weighting_type)
 {
-    auto heatmap = std::make_unique<Heatmap>(level, _flag);
+    auto heatmap = std::make_unique<Heatmap>(level, _flag, _weighting_type);
     auto* heat_map_ptr = heatmap.get();
 
     heatmap->setColor(_color);
@@ -76,9 +78,18 @@ int HeatmapManager::getWeights(const int _tile_index, const int _flags)
 
     for (auto& heatmap : heatmaps)
     {
-        if (heatmap->getFlag() & _flags)
-            weight += heatmap->getWeight(_tile_index);
+        if (!(heatmap->getFlag() & _flags))
+            continue;
+
+            int weighting = heatmap->getWeight(_tile_index);
+
+            weight += heatmap->getWeightingType() == WeightingType::POSITIVE ?
+                weighting : -weighting;
     }
+
+    // Weights must not be negative to work correctly with A*.
+    if (weight < 0)
+        weight = 0;
 
     return weight;
 }

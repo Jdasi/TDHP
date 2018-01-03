@@ -6,6 +6,7 @@
 
 #include "TileGrid.h"
 #include "HeatmapFlag.h"
+#include "WeightingType.h"
 
 namespace sf
 {
@@ -17,7 +18,9 @@ class Level;
 class Heatmap
 {
 public:
-    Heatmap(const Level& _level, const HeatmapFlag& _flag);
+    Heatmap(const Level& _level, const HeatmapFlag& _flag,
+        const WeightingType& _weighting_type = WeightingType::POSITIVE);
+
     ~Heatmap() = default;
 
     bool isActive() const;
@@ -39,6 +42,9 @@ public:
     int getWeight(const int _tile_index);
     HeatmapFlag getFlag() const;
 
+    void setWeightingType(const WeightingType& _weighting_type);
+    WeightingType getWeightingType() const;
+
 private:
     void paintWithModifier(const int _tile_index, const int _radius,
         const float _modifier = 1);
@@ -46,6 +52,7 @@ private:
     void decay();
 
     HeatmapFlag flag;
+    WeightingType weighting_type;
 
     bool active;
     bool visible;

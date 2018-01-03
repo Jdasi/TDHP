@@ -28,6 +28,9 @@
     <Filter Include="Core\Grid">
       <UniqueIdentifier>{330d5c59-15d1-4be9-945b-a924c4de7a34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Heatmap">
+      <UniqueIdentifier>{fd1a8ccd-7ae5-437b-8a7b-f1407b1b4289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -48,9 +51,6 @@
     </ClCompile>
     <ClCompile Include="..\src\JHelper.cpp">
       <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Heatmap.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="..\src\JMath.cpp">
       <Filter>Math</Filter>
@@ -103,6 +103,9 @@
     <ClCompile Include="..\src\TileGrid.cpp">
       <Filter>Core\Grid</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Heatmap.cpp">
+      <Filter>Core\Heatmap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -127,9 +130,6 @@
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\src\NavNode.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Heatmap.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameData.h">
@@ -210,8 +210,14 @@
     <ClInclude Include="..\src\Waypoint.h">
       <Filter>Core\Level</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Heatmap.h">
+      <Filter>Core\Heatmap</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\HeatmapFlag.h">
-      <Filter>Core</Filter>
+      <Filter>Core\Heatmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\WeightingType.h">
+      <Filter>Core\Heatmap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,8 +5,10 @@
 #include "Level.h"
 
 
-Heatmap::Heatmap(const Level& _level, const HeatmapFlag& _flag)
+Heatmap::Heatmap(const Level& _level, const HeatmapFlag& _flag,
+    const WeightingType& _weighting_type)
     : flag(_flag)
+    , weighting_type(_weighting_type)
     , active(true)
     , visible(true)
     , paint_hardness(0)
@@ -108,7 +110,20 @@ HeatmapFlag Heatmap::getFlag() const
 }
 
 
-void Heatmap::paintWithModifier(const int _tile_index, const int _radius, const float _modifier)
+void Heatmap::setWeightingType(const WeightingType& _weighting_type)
+{
+    weighting_type = _weighting_type;
+}
+
+
+WeightingType Heatmap::getWeightingType() const
+{
+    return weighting_type;
+}
+
+
+void Heatmap::paintWithModifier(const int _tile_index, const int _radius,
+    const float _modifier)
 {
     int size_x = grid.getSizeX();
     int size_y = grid.getSizeY();
