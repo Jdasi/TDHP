@@ -218,6 +218,7 @@ NavPath NavManager::retracePath(NavNode* _start_node, NavNode* _goal_node)
         curr = curr->getParent();
     }
 
+    path.total_cost = _goal_node->getGCost();
     std::reverse(path.indices.begin(), path.indices.end());
 
     return path;

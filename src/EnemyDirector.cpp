@@ -21,6 +21,8 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     , heatmap_manager(_heatmap_manager)
     , level(_level)
 {
+    enemy_spawns.reserve(MAX_ENEMY_SPAWNS);
+
     initEnemies();
     initDestinationMarker();
 
@@ -38,6 +40,11 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
 void EnemyDirector::tick(GameData& _gd)
 {
     scheduler.update();
+
+    for (auto& spawn : enemy_spawns)
+    {
+        spawn.tick(_gd);
+    }
 
     // Debug enemy spawn on user input.
     if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
@@ -76,8 +83,11 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
 
 void EnemyDirector::addEnemySpawn(const int _tile_index)
 {
-    if (!nav_manager.isNodeWalkable(_tile_index))
+    if (enemy_spawns.size() >= MAX_ENEMY_SPAWNS ||
+        !nav_manager.isNodeWalkable(_tile_index))
+    {
         return;
+    }
 
     enemy_spawns.emplace_back(nav_manager, level, _tile_index, enemy_destination, enemies);
     auto& spawn = enemy_spawns[enemy_spawns.size() - 1];

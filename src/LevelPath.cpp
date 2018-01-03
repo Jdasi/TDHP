@@ -9,6 +9,7 @@ LevelPath::LevelPath()
 LevelPath::LevelPath(const Level& _level, const NavPath& _path)
     : num_points(_path.indices.size())
 {
+    raw_path = _path;
     waypoints.reserve(num_points);
 
     for (auto& index : _path.indices)
@@ -38,6 +39,18 @@ void LevelPath::draw(sf::RenderWindow& _window, const sf::Vector2f& _from,
     }
 
     _window.draw(vis);
+}
+
+
+bool LevelPath::pathSuccessful() const
+{
+    return raw_path.success;
+}
+
+
+int LevelPath::getTotalCost() const
+{
+    return raw_path.total_cost;
 }
 
 

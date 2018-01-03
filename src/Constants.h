@@ -37,6 +37,7 @@ const sf::Color UNWALKABLE_COLOR        = sf::Color(255, 255, 255, 255);
 
 const int MAX_TOWERS                    = 3;
 const int MAX_ENEMIES                   = 100;
+const int MAX_ENEMY_SPAWNS              = 10;
 
 // ======================================================================================
 // PATHFINDING SETTINGS

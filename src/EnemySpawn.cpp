@@ -15,6 +15,21 @@ EnemySpawn::EnemySpawn(NavManager& _nav_manager, Level& _level,
     , enemies(_enemies)
 {
     spawn_marker.setPosition(level_position.pos);
+
+    // Regularly update path influenced by heatmap data.
+    scheduler.invokeRepeating([this]()
+    {
+        if (!level_path_pure.pathSuccessful())
+            calculatePurePath();
+
+        updateEnemyPath();
+    }, 0, 1);
+}
+
+
+void EnemySpawn::tick(GameData& _gd)
+{
+    scheduler.update();
 }
 
 
@@ -34,6 +49,9 @@ void EnemySpawn::setTexture(sf::Texture* _texture)
  */
 void EnemySpawn::spawnEnemy()
 {
+    if (!level_path.pathSuccessful())
+        return;
+
     for (auto& enemy : enemies)
     {
         if (enemy.isAlive())
@@ -42,7 +60,6 @@ void EnemySpawn::spawnEnemy()
         enemy.spawn();
         enemy.setPosition(level_position.pos);
 
-        updateEnemyPath();
         enemy.setPath(level_path);
 
         return;
@@ -50,6 +67,24 @@ void EnemySpawn::spawnEnemy()
 }
 
 
+int EnemySpawn::getPathDifference()
+{
+    return path_difference;
+}
+
+
+// Calculate straight path to destination, ignoring heatmap data.
+void EnemySpawn::calculatePurePath()
+{
+    auto path = nav_manager.findPath(
+        level_position.tile_coords,
+        enemy_destination.tile_coords);
+
+    level_path_pure = LevelPath(level, path);
+}
+
+
+// Update path influenced by heatmap data.
 void EnemySpawn::updateEnemyPath()
 {
     auto path = nav_manager.findPath(
@@ -58,4 +93,5 @@ void EnemySpawn::updateEnemyPath()
         HeatmapFlag::BLOOD);
 
     level_path = LevelPath(level, path);
+    path_difference = level_path.getTotalCost() - level_path_pure.getTotalCost();
 }

@@ -7,6 +7,7 @@
 #include "Constants.h"
 #include "Waypoint.h"
 #include "Enemy.h"
+#include "Scheduler.h"
 
 namespace sf
 {
@@ -15,6 +16,7 @@ namespace sf
 
 class Level;
 class NavManager;
+struct GameData;
 
 class EnemySpawn
 {
@@ -24,13 +26,16 @@ public:
 
     ~EnemySpawn() = default;
 
+    void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
     void setTexture(sf::Texture* _texture);
 
     void spawnEnemy();
+    int getPathDifference();
 
 private:
+    void calculatePurePath();
     void updateEnemyPath();
 
     NavManager& nav_manager;
@@ -41,6 +46,9 @@ private:
     std::array<Enemy, MAX_ENEMIES>& enemies;
 
     LevelPath level_path;
+    LevelPath level_path_pure;
+    int path_difference;
+    Scheduler scheduler;
 
     TDSprite spawn_marker;
 
