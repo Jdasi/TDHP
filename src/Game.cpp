@@ -13,7 +13,7 @@
 Game::Game(GameData& _gd)
     : gd(_gd)
     , current_level(_gd.level_name)
-    , current_context(ContextType::NAV)
+    , current_context(ContextType::GAME)
     , painting(false)
 {
     init();

@@ -23,11 +23,14 @@ public:
     void setTileIndex(const int _tile_index);
 
     void setTexture(sf::Texture* _texture);
+    void setColor(const sf::Color& _color);
 
     const sf::Vector2f& getPosition() const;
     void setPosition(const sf::Vector2f& _position);
 
     void setRotation(const float _angle);
+
+    bool collisionCheck(const sf::Vector2f& _point);
 
     static void init(const Level& _level);
 

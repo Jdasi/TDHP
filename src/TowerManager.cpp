@@ -14,6 +14,7 @@ TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manage
     , nav_manager(_nav_manager)
     , enemy_director(_enemy_director)
     , level(_current_level)
+    , projectile_manager(_asset_manager, _enemy_director)
 {
     initTowers();
 
@@ -26,6 +27,7 @@ TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manage
 
 void TowerManager::tick(GameData& _gd)
 {
+    projectile_manager.tick(_gd);
     scheduler.update();
 
     for (auto& tower : towers)
@@ -40,6 +42,8 @@ void TowerManager::tick(GameData& _gd)
 
 void TowerManager::draw(sf::RenderWindow& _window)
 {
+    projectile_manager.draw(_window);
+
     for (auto& tower : towers)
     {
         if (!tower.isAlive())
@@ -72,10 +76,12 @@ void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos)
 
 void TowerManager::initTowers()
 {
-    auto* tower_texture = asset_manager.loadTexture(TOWER_SPRITE);
+    auto* tower_texture = asset_manager.loadTexture(LASER_TOWER_SPRITE);
 
     for (auto& tower : towers)
     {
+        tower.init(projectile_manager);
+
         //tower.attachListener(this);
         tower.setTexture(tower_texture);
     }

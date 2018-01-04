@@ -92,7 +92,7 @@ void EnemyDirector::addEnemySpawn(const int _tile_index)
     enemy_spawns.emplace_back(nav_manager, level, _tile_index, enemy_destination, enemies);
     auto& spawn = enemy_spawns[enemy_spawns.size() - 1];
 
-    auto* texture = asset_manager.loadTexture("spawn.png");
+    auto* texture = asset_manager.loadTexture(SPAWN_SPRITE);
     spawn.setTexture(texture);
 }
 
@@ -135,6 +135,21 @@ std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos
     }
 
     return nearby_enemies;
+}
+
+
+bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos)
+{
+    for (auto& enemy : enemies)
+    {
+        if (!enemy.isAlive() || !enemy.collisionCheck(_pos))
+            continue;
+
+        enemy.kill();
+        return true;
+    }
+
+    return false;
 }
 
 

@@ -1,6 +1,4 @@
 {
-    // TODO: array field for which heatmaps an enemy type cares about
-
 	"Light": 
 	{
 		"sprite": "enemy_light.png",

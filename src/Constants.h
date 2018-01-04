@@ -38,6 +38,7 @@ const sf::Color UNWALKABLE_COLOR        = sf::Color(255, 255, 255, 255);
 const int MAX_TOWERS                    = 3;
 const int MAX_ENEMIES                   = 100;
 const int MAX_ENEMY_SPAWNS              = 10;
+const int MAX_BULLETS                   = 100;
 
 // ======================================================================================
 // PATHFINDING SETTINGS
@@ -66,7 +67,9 @@ const std::string DEFAULT_FONT          { "arial.ttf" };
 // ======================================================================================
 // IMAGE STRINGS
 // ======================================================================================
-const std::string TOWER_SPRITE          { "tower.png" };
+const std::string LASER_TOWER_SPRITE    { "laser_tower.png" };
+const std::string BULLET_TOWER_SPRITE   { "bullet_tower.png" };
+const std::string BULLET_SPRITE         { "bullet.png" };
 const std::string SPAWN_SPRITE          { "spawn.png" };
 const std::string DESTINATION_SPRITE    { "destination.png" };
 

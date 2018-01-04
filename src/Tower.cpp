@@ -10,12 +10,19 @@
 
 
 Tower::Tower()
-    : last_shot_timestamp(0)
+    : iprojectile_manager(nullptr)
+    , last_shot_timestamp(0)
     , shot_delay(1)
     , engage_radius(0)
     , engage_radius_sqr(0)
 {
     initEngageRadius();
+}
+
+
+void Tower::init(IProjectileManager& _iprojectile_manager)
+{
+    iprojectile_manager = &_iprojectile_manager;
 }
 
 
@@ -32,7 +39,6 @@ void Tower::tick(GameData& _gd)
 void Tower::draw(sf::RenderWindow& _window)
 {
     _window.draw(engage_radius_display);
-    laser.draw(_window);
 
     TDSprite::draw(_window);
 }
@@ -71,35 +77,6 @@ void Tower::onSpawn()
 void Tower::onDeath()
 {
     // Crickets ..
-}
-
-
-Tower::TowerLaser::TowerLaser()
-    : line(sf::LineStrip, 2)
-    , line_color(sf::Color::Cyan)
-    , visible_duration(0.1f)
-    , draw_until_time(0)
-{
-    line[0].color = line_color;
-    line[1].color = line_color;
-}
-
-
-void Tower::TowerLaser::draw(sf::RenderWindow& _window)
-{
-    if (JTime::getTime() > draw_until_time)
-        return;
-
-    _window.draw(line);
-}
-
-
-void Tower::TowerLaser::refresh(const sf::Vector2f& _from, const sf::Vector2f& _to)
-{
-    line[0].position = _from;
-    line[1].position = _to;
-
-    draw_until_time = JTime::getTime() + visible_duration;
 }
 
 
@@ -162,7 +139,9 @@ void Tower::shoot(Enemy* _enemy)
         return;
 
     last_shot_timestamp = JTime::getTime();
-    laser.refresh(getPosition(), _enemy->getPosition());
 
-    _enemy->kill();
+    if (iprojectile_manager != nullptr)
+        iprojectile_manager->requestBullet(getPosition(), _enemy->getPosition());
+
+    //_enemy->kill();
 }

@@ -7,6 +7,7 @@
 #include "Tower.h"
 #include "Constants.h"
 #include "Scheduler.h"
+#include "ProjectileManager.h"
 
 namespace sf
 {
@@ -45,6 +46,7 @@ private:
     EnemyDirector& enemy_director;
     Level& level;
 
+    ProjectileManager projectile_manager;
     std::array<Tower, MAX_TOWERS> towers;
 
     Scheduler scheduler;

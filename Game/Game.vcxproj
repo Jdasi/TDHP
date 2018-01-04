@@ -153,6 +153,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\JMath.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\LevelPath.cpp" />
+    <ClCompile Include="..\src\ProjectileManager.cpp" />
     <ClCompile Include="..\src\Scheduler.cpp" />
     <ClCompile Include="..\src\TDSprite.cpp" />
     <ClCompile Include="..\src\Level.cpp" />
@@ -178,6 +179,8 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\EnemySpawn.h" />
     <ClInclude Include="..\src\EnemyType.h" />
     <ClInclude Include="..\src\HeatmapFlag.h" />
+    <ClInclude Include="..\src\IProjectileManager.h" />
+    <ClInclude Include="..\src\ProjectileManager.h" />
     <ClInclude Include="..\src\ScheduledTask.h" />
     <ClInclude Include="..\src\Scheduler.h" />
     <ClInclude Include="..\src\TDSprite.h" />

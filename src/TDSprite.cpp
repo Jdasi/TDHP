@@ -52,6 +52,12 @@ void TDSprite::setTexture(sf::Texture* _texture)
 }
 
 
+void TDSprite::setColor(const sf::Color& _color)
+{
+    sprite.setColor(_color);
+}
+
+
 const sf::Vector2f& TDSprite::getPosition() const
 {
     return sprite.getPosition();
@@ -68,6 +74,12 @@ void TDSprite::setPosition(const sf::Vector2f& _position)
 void TDSprite::setRotation(const float _angle)
 {
     sprite.setRotation(_angle);
+}
+
+
+bool TDSprite::collisionCheck(const sf::Vector2f& _point)
+{
+    return sprite.getGlobalBounds().contains(_point);
 }
 
 

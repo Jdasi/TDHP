@@ -43,6 +43,8 @@ public:
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,
         const float _radius_sqr);
 
+    bool killEnemyAtPos(const sf::Vector2f& _pos);
+
 private:
     void initEnemies();
     void initDestinationMarker();

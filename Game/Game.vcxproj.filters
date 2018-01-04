@@ -31,6 +31,9 @@
     <Filter Include="Core\Heatmap">
       <UniqueIdentifier>{fd1a8ccd-7ae5-437b-8a7b-f1407b1b4289}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{75816ec0-419e-49a6-a625-a41e98118ba5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -105,6 +108,9 @@
     </ClCompile>
     <ClCompile Include="..\src\Heatmap.cpp">
       <Filter>Core\Heatmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ProjectileManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +224,12 @@
     </ClInclude>
     <ClInclude Include="..\src\WeightingType.h">
       <Filter>Core\Heatmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ProjectileManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\IProjectileManager.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
