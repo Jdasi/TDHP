@@ -42,7 +42,7 @@ private:
 
     void initBorder();
     void initGridLines();
-    void ParseCurrentLevel();
+    void parseCurrentLevel();
 
     void handleContextSelection();
     void evaluateContextChange(const sf::Keyboard::Key& _key);

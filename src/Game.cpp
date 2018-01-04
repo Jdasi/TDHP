@@ -57,7 +57,7 @@ void Game::init()
     initSystems();
     initObjects();
 
-    ParseCurrentLevel();
+    parseCurrentLevel();
 }
 
 
@@ -151,7 +151,7 @@ void Game::initGridLines()
 }
 
 
-void Game::ParseCurrentLevel()
+void Game::parseCurrentLevel()
 {
     int size_x = current_level.getSizeX();
     int size_y = current_level.getSizeY();
@@ -168,6 +168,7 @@ void Game::ParseCurrentLevel()
                 {
                     nav_manager->toggleNodeWalkable(index);
 
+                    // TODO: set unwalkable tile texture here ..
                     current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
                         WALKABLE_COLOR : UNWALKABLE_COLOR);
                 } break;
@@ -262,7 +263,15 @@ void Game::processNavContext()
 
 void Game::processGameContext()
 {
+    int click_type = -1; // Assume no click.
+    
     if (gd.input.getMouseButtonDown(sf::Mouse::Left))
+        click_type = sf::Mouse::Left;
+
+    if (gd.input.getMouseButtonDown(sf::Mouse::Right))
+        click_type = sf::Mouse::Right;
+
+    if (click_type != -1)
     {
         auto mouse_pos = gd.input.getMousePos();
         if (!JHelper::posInSimulationArea(mouse_pos))
@@ -271,7 +280,9 @@ void Game::processGameContext()
         }
 
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
-        tower_manager->toggleTowerAtPos(JHelper::tileIndexToPos(index, current_level));
+        auto pos = JHelper::tileIndexToPos(index, current_level);
+
+        tower_manager->toggleTowerAtPos(pos, click_type);
 
         //std::cout << "Math tile index: " << index << std::endl;
     }

@@ -1,10 +1,9 @@
 #pragma once
 
 #include <array>
-#include <vector>
-#include <memory>
+#include <map>
 
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include "Enemy.h"
 #include "EnemyType.h"
@@ -58,7 +57,7 @@ private:
     HeatmapManager& heatmap_manager;
     Level& level;
 
-    std::vector<EnemyType> enemy_types;
+    std::map<std::string, EnemyType> enemy_types;
     std::array<Enemy, MAX_ENEMIES> enemies;
 
     std::vector<EnemySpawn> enemy_spawns; // enemyspawn

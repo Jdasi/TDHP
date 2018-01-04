@@ -10,9 +10,10 @@ namespace sf
 struct EnemyType
 {
     EnemyType()
-        : texture(nullptr)
+        : slug()
+        , texture(nullptr)
         , move_speed(0)
-        , max_health(1)
+        , max_health(0)
     {
     }
 

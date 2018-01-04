@@ -2,14 +2,16 @@
 	"LaserTower": 
 	{
 		"sprite": "laser_tower.png",
-        "engage_radius": 3,
-        "projectile": "laser"
+        "projectile_slug": "laser",
+        "engage_radius": 3.5,
+        "shot_delay": 1
 	},
     
     "BulletTower": 
 	{
 		"sprite": "bullet_tower.png",
+        "projectile_slug": "laser",
         "engage_radius": 5,
-        "projectile": "bullet"
+        "shot_delay": 1
 	}
 }

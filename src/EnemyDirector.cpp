@@ -161,8 +161,11 @@ void EnemyDirector::initEnemies()
     {
         enemy.attachListener(this);
 
-        auto& type = enemy_types[rand() % enemy_types.size()]; // DEBUG.
-        enemy.setType(type);
+        // Debug random selection.
+        std::array<std::string, 3> slugs { LIGHT_ENEMY_SLUG, MEDIUM_ENEMY_SLUG, HEAVY_ENEMY_SLUG };
+        std::string selection = slugs[rand() % slugs.size()];
+
+        enemy.setType(enemy_types.at(selection));
     }
 }
 

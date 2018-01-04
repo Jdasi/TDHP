@@ -153,6 +153,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\JMath.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\LevelPath.cpp" />
+    <ClCompile Include="..\src\Projectile.cpp" />
     <ClCompile Include="..\src\ProjectileManager.cpp" />
     <ClCompile Include="..\src\Scheduler.cpp" />
     <ClCompile Include="..\src\TDSprite.cpp" />
@@ -167,6 +168,8 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\SimpleTimer.cpp" />
     <ClCompile Include="..\src\Heatmap.cpp" />
     <ClCompile Include="..\src\Tower.cpp" />
+    <ClCompile Include="..\src\TowerBullet.cpp" />
+    <ClCompile Include="..\src\TowerLaser.cpp" />
     <ClCompile Include="..\src\TowerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -180,13 +183,18 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\EnemyType.h" />
     <ClInclude Include="..\src\HeatmapFlag.h" />
     <ClInclude Include="..\src\IProjectileManager.h" />
+    <ClInclude Include="..\src\Projectile.h" />
     <ClInclude Include="..\src\ProjectileManager.h" />
+    <ClInclude Include="..\src\ProjectileRequest.h" />
     <ClInclude Include="..\src\ScheduledTask.h" />
     <ClInclude Include="..\src\Scheduler.h" />
     <ClInclude Include="..\src\TDSprite.h" />
     <ClInclude Include="..\src\Killable.h" />
     <ClInclude Include="..\src\LevelPath.h" />
     <ClInclude Include="..\src\NavPath.h" />
+    <ClInclude Include="..\src\TowerBullet.h" />
+    <ClInclude Include="..\src\TowerLaser.h" />
+    <ClInclude Include="..\src\TowerType.h" />
     <ClInclude Include="..\src\Waypoint.h" />
     <ClInclude Include="..\src\FileIO.h" />
     <ClInclude Include="..\src\GameData.h" />

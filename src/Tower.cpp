@@ -7,12 +7,13 @@
 #include "JMath.h"
 #include "Constants.h"
 #include "Enemy.h"
+#include "ProjectileRequest.h"
 
 
 Tower::Tower()
     : iprojectile_manager(nullptr)
+    , type(nullptr)
     , last_shot_timestamp(0)
-    , shot_delay(1)
     , engage_radius(0)
     , engage_radius_sqr(0)
 {
@@ -23,6 +24,15 @@ Tower::Tower()
 void Tower::init(IProjectileManager& _iprojectile_manager)
 {
     iprojectile_manager = &_iprojectile_manager;
+}
+
+
+void Tower::setType(TowerType& _type)
+{
+    type = &_type;
+
+    setTexture(_type.texture);
+    updateEngageRadius();
 }
 
 
@@ -46,7 +56,7 @@ void Tower::draw(sf::RenderWindow& _window)
 
 bool Tower::canShoot() const
 {
-    return JTime::getTime() > last_shot_timestamp + shot_delay;
+    return JTime::getTime() > last_shot_timestamp + type->shot_delay;
 }
 
 
@@ -70,7 +80,13 @@ void Tower::onSetPosition()
 
 void Tower::onSpawn()
 {
+    if (type == nullptr)
+        killQuiet();
+
     last_shot_timestamp = JTime::getTime();
+    setRotation(0);
+
+    nearby_enemies.clear();
 }
 
 
@@ -82,15 +98,19 @@ void Tower::onDeath()
 
 void Tower::initEngageRadius()
 {
-    // Engage radius is based on the grid scale.
-    engage_radius = 4/*magic number to be replaced later*/ * ((getTileWidth() + getTileHeight()) / 2);
-    engage_radius_sqr = engage_radius * engage_radius;
-
-    engage_radius_display.setRadius(engage_radius);
     engage_radius_display.setFillColor(sf::Color::Transparent);
     engage_radius_display.setOutlineColor(sf::Color::Green);
     engage_radius_display.setOutlineThickness(1);
+}
 
+
+void Tower::updateEngageRadius()
+{
+    // Actual engage radius is based on the grid scale.
+    engage_radius = type->engage_radius * ((getTileWidth() + getTileHeight()) / 2);
+    engage_radius_sqr = engage_radius * engage_radius;
+
+    engage_radius_display.setRadius(engage_radius);
     JHelper::centerSFOrigin(engage_radius_display);
 }
 
@@ -141,7 +161,7 @@ void Tower::shoot(Enemy* _enemy)
     last_shot_timestamp = JTime::getTime();
 
     if (iprojectile_manager != nullptr)
-        iprojectile_manager->requestBullet(getPosition(), _enemy->getPosition());
-
-    //_enemy->kill();
+    {
+        iprojectile_manager->requestProjectile({ type, getPosition(), _enemy });
+    }
 }

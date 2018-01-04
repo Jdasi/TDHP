@@ -28,12 +28,14 @@ public:
         onSpawn();
     }
 
+    // Kill and inform listeners.
     void kill()
     {
         killQuiet();
         onDeath();
     }
 
+    // Kill without informing listeners.
     void killQuiet()
     {
         if (!isAlive())

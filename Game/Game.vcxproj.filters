@@ -34,6 +34,9 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{75816ec0-419e-49a6-a625-a41e98118ba5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Projectile">
+      <UniqueIdentifier>{78646375-bc98-468c-9e67-b1a547b0cc2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -111,6 +114,15 @@
     </ClCompile>
     <ClCompile Include="..\src\ProjectileManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TowerBullet.cpp">
+      <Filter>Core\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TowerLaser.cpp">
+      <Filter>Core\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Projectile.cpp">
+      <Filter>Core\Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +242,21 @@
     </ClInclude>
     <ClInclude Include="..\src\IProjectileManager.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TowerType.h">
+      <Filter>Core\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TowerBullet.h">
+      <Filter>Core\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TowerLaser.h">
+      <Filter>Core\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Projectile.h">
+      <Filter>Core\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ProjectileRequest.h">
+      <Filter>Core\Projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

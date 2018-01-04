@@ -8,6 +8,7 @@
 #include "JTime.h"
 #include "IProjectileManager.h"
 #include "Killable.h"
+#include "TowerType.h"
 
 class Enemy;
 
@@ -18,6 +19,7 @@ public:
     ~Tower() = default;
 
     void init(IProjectileManager& _iprojectile_manager);
+    void setType(TowerType& _type);
 
     void tick(GameData& _gd) override;
     void draw(sf::RenderWindow& _window) override;
@@ -35,17 +37,17 @@ private:
 
 private:
     void initEngageRadius();
+    void updateEngageRadius();
 
     Enemy* evaluateCurrentTarget();
     void engage(Enemy* _enemy);
     void shoot(Enemy* _enemy);
 
     IProjectileManager* iprojectile_manager;
+    TowerType* type;
 
     sf::CircleShape engage_radius_display;
     float last_shot_timestamp;
-
-    float shot_delay;
 
     float engage_radius;
     float engage_radius_sqr;

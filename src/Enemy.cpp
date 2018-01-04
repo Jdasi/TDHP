@@ -67,7 +67,7 @@ void Enemy::setPath(const LevelPath& _path)
 
 void Enemy::onSpawn()
 {
-    if (!type)
+    if (type == nullptr)
         killQuiet();
 }
 

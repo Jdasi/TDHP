@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <map>
 
 #include <SFML/System/Vector2.hpp>
 
@@ -30,16 +31,18 @@ public:
     void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
-    void toggleTowerAtPos(const sf::Vector2f& _pos);
+    void toggleTowerAtPos(const sf::Vector2f& _pos, const int _click_type);
 
 private:
     void initTowers();
     void updateTowerTargets();
 
-    void constructTower(const int _tile_index, const sf::Vector2f& _pos);
+    void constructTower(const int _tile_index, const sf::Vector2f& _pos,
+        const std::string& _tower_slug);
     void deconstructTower(const int _tile_index);
 
     bool towerExists(const int _tile_index) const;
+    std::string clickTypeToTowerSlug(const int _click_type);
 
     AssetManager& asset_manager;
     NavManager& nav_manager;
@@ -47,6 +50,7 @@ private:
     Level& level;
 
     ProjectileManager projectile_manager;
+    std::map<std::string, TowerType> tower_types;
     std::array<Tower, MAX_TOWERS> towers;
 
     Scheduler scheduler;

@@ -1,11 +1,14 @@
 #include <iostream>
 
+#include <SFML/Window/Mouse.hpp>
+
 #include "TowerManager.h"
 #include "AssetManager.h"
 #include "NavManager.h"
 #include "EnemyDirector.h"
 #include "JHelper.h"
 #include "Level.h"
+#include "FileIO.h"
 
 
 TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manager,
@@ -54,7 +57,7 @@ void TowerManager::draw(sf::RenderWindow& _window)
 }
 
 
-void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos)
+void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos, int _click_type)
 {
     int index = JHelper::posToTileIndex(_pos, level);
     if (!JHelper::validIndex(index, level.getProduct()))
@@ -68,7 +71,7 @@ void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos)
     {
         if (!nav_manager.isNodeWalkable(index))
         {
-            constructTower(index, _pos);
+            constructTower(index, _pos, clickTypeToTowerSlug(_click_type));
         }
     }
 }
@@ -76,14 +79,12 @@ void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos)
 
 void TowerManager::initTowers()
 {
-    auto* tower_texture = asset_manager.loadTexture(LASER_TOWER_SPRITE);
+    tower_types = FileIO::loadTowerTypes(asset_manager);
 
     for (auto& tower : towers)
     {
-        tower.init(projectile_manager);
-
         //tower.attachListener(this);
-        tower.setTexture(tower_texture);
+        tower.init(projectile_manager);
     }
 }
 
@@ -104,16 +105,21 @@ void TowerManager::updateTowerTargets()
 }
 
 
-void TowerManager::constructTower(const int _tile_index, const sf::Vector2f& _pos)
+void TowerManager::constructTower(const int _tile_index, const sf::Vector2f& _pos,
+    const std::string& _tower_slug)
 {
     for (auto& tower : towers)
     {
         if (tower.isAlive())
             continue;
 
-        tower.spawn();
         tower.setTileIndex(_tile_index);
         tower.setPosition(_pos);
+        tower.setType(tower_types.at(_tower_slug));
+
+        tower.spawn();
+
+        std::cout << "Tower constructed" << std::endl;
 
         return;
     }
@@ -130,6 +136,8 @@ void TowerManager::deconstructTower(const int _tile_index)
         tower.killQuiet();
         tower.setTileIndex(-1);
 
+        std::cout << "Tower deconstructed" << std::endl;
+
         return;
     }
 }
@@ -144,4 +152,16 @@ bool TowerManager::towerExists(const int _tile_index) const
     }
 
     return false;
+}
+
+
+std::string TowerManager::clickTypeToTowerSlug(const int _click_type)
+{
+    switch (_click_type)
+    {
+        case sf::Mouse::Left: return LASER_TOWER_SLUG;
+        case sf::Mouse::Right: return BULLET_TOWER_SLUG;
+
+        default: return LASER_TOWER_SLUG;
+    }
 }

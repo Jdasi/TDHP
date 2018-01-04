@@ -41,11 +41,11 @@ LevelData FileIO::loadLevelData(const std::string& _file_name)
 }
 
 
-std::vector<EnemyType> FileIO::loadEnemyTypes(AssetManager& _asset_manager)
+std::map<std::string, EnemyType> FileIO::loadEnemyTypes(AssetManager& _asset_manager)
 {
     using jsoncons::json;
 
-    std::vector<EnemyType> types;
+    std::map<std::string, EnemyType> types;
     std::ifstream file(ENEMIES_JSON);
 
     json file_data;
@@ -56,11 +56,38 @@ std::vector<EnemyType> FileIO::loadEnemyTypes(AssetManager& _asset_manager)
         auto slug = entry.name();
         const auto& data = entry.value();
 
-        sf::Texture* sprite = _asset_manager.loadTexture(data["sprite"].as_string());
+        sf::Texture* texture = _asset_manager.loadTexture(data["sprite"].as_string());
         float speed = static_cast<float>(data["move_speed"].as_double());
         int health = data["max_health"].as_int();
 
-        types.emplace_back(slug, sprite, speed, health);
+        types[slug] = EnemyType(slug, texture, speed, health);
+    }
+
+    return types;
+}
+
+
+std::map<std::string, TowerType> FileIO::loadTowerTypes(AssetManager& _asset_manager)
+{
+    using jsoncons::json;
+
+    std::map<std::string, TowerType> types;
+    std::ifstream file(TOWERS_JSON);
+
+    json file_data;
+    file >> file_data;
+
+    for (const auto& entry : file_data.object_value())
+    {
+        auto slug = entry.name();
+        const auto& data = entry.value();
+
+        sf::Texture* texture = _asset_manager.loadTexture(data["sprite"].as_string());
+        std::string projectile_slug = data["projectile_slug"].as_string();
+        float engage_radius = static_cast<float>(data["engage_radius"].as_double());
+        float shot_delay = static_cast<float>(data["shot_delay"].as_double());
+
+        types[slug] = TowerType(slug, texture, projectile_slug, engage_radius, shot_delay);
     }
 
     return types;

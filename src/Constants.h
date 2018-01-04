@@ -40,6 +40,13 @@ const int MAX_ENEMIES                   = 100;
 const int MAX_ENEMY_SPAWNS              = 10;
 const int MAX_BULLETS                   = 100;
 
+const std::string LIGHT_ENEMY_SLUG      { "Light" };
+const std::string MEDIUM_ENEMY_SLUG     { "Medium" };
+const std::string HEAVY_ENEMY_SLUG      { "Heavy" };
+
+const std::string LASER_TOWER_SLUG      { "LaserTower" };
+const std::string BULLET_TOWER_SLUG     { "BulletTower" };
+
 // ======================================================================================
 // PATHFINDING SETTINGS
 // ======================================================================================
@@ -58,6 +65,7 @@ const std::string JSON_PATH             { RESOURCES_PATH + "JSON/" };
 // JSON STRINGS
 // ======================================================================================
 const std::string ENEMIES_JSON          { JSON_PATH + "EnemyTypes.json" };
+const std::string TOWERS_JSON           { JSON_PATH + "TowerTypes.json" };
 
 // ======================================================================================
 // FONT STRINGS
