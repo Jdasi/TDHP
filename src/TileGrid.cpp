@@ -16,6 +16,18 @@ TileGrid::TileGrid(const Level& _level, const sf::Color& _initial_color)
 }
 
 
+void TileGrid::draw(sf::RenderWindow& _window)
+{
+    for (auto& tile : tiles)
+    {
+        if (tile.getFillColor().a <= 0)
+            continue;
+
+        _window.draw(tile);
+    }
+}
+
+
 int TileGrid::getSizeX() const
 {
     return size_x;
@@ -61,14 +73,11 @@ void TileGrid::setTileColor(const int _tile_index, const sf::Color& _color)
 }
 
 
-void TileGrid::draw(sf::RenderWindow& _window)
+void TileGrid::setTileTexture(sf::Texture* _texture)
 {
     for (auto& tile : tiles)
     {
-        if (tile.getFillColor().a <= 0)
-            continue;
-
-        _window.draw(tile);
+        tile.setTexture(_texture);
     }
 }
 

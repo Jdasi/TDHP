@@ -96,7 +96,7 @@ void Game::initObjects()
 
 void Game::initBorder()
 {
-    auto* texture = gd.asset_manager.loadTexture("grass.jpg");
+    auto* texture = gd.asset_manager.loadTexture(FLOOR_TEXTURE);
 
     border.setTexture(texture);
     border.setSize(PANE_SIZE);
@@ -153,6 +153,9 @@ void Game::initGridLines()
 
 void Game::parseCurrentLevel()
 {
+    auto* texture = gd.asset_manager.loadTexture(UNWALKABLE_TEXTURE);
+    current_level.setUnwalkableTexture(texture);
+
     int size_x = current_level.getSizeX();
     int size_y = current_level.getSizeY();
 

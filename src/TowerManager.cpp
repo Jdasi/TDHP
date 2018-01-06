@@ -119,8 +119,6 @@ void TowerManager::constructTower(const int _tile_index, const sf::Vector2f& _po
 
         tower.spawn();
 
-        std::cout << "Tower constructed" << std::endl;
-
         return;
     }
 }
@@ -135,8 +133,6 @@ void TowerManager::deconstructTower(const int _tile_index)
 
         tower.killQuiet();
         tower.setTileIndex(-1);
-
-        std::cout << "Tower deconstructed" << std::endl;
 
         return;
     }

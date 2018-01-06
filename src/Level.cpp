@@ -75,6 +75,12 @@ void Level::setTileColor(const int _index, const sf::Color& _color)
 }
 
 
+void Level::setUnwalkableTexture(sf::Texture* _texture)
+{
+    grid.setTileTexture(_texture);
+}
+
+
 Waypoint Level::createWaypoint(const int _tile_index)
 {
     auto coords = JHelper::calculateCoords(_tile_index, getSizeX());

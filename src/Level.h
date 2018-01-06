@@ -9,6 +9,7 @@
 namespace sf
 {
     class RenderWindow;
+    class Texture;
 }
 
 class Level
@@ -39,6 +40,7 @@ public:
     LevelTileType getLevelTileType(const int _index);
 
     void setTileColor(const int _index, const sf::Color& _color);
+    void setUnwalkableTexture(sf::Texture* _texture);
 
     Waypoint createWaypoint(const int _tile_index);
 

@@ -83,6 +83,7 @@ void ProjectileManager::initLasers()
 void ProjectileManager::initBullets(AssetManager& _asset_manager)
 {
     auto* texture = _asset_manager.loadTexture(BULLET_SPRITE);
+
     for (auto& bullet : bullets)
     {
         bullet.setActiveDuration(3);

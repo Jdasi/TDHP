@@ -12,6 +12,6 @@
 		"sprite": "bullet_tower.png",
         "projectile_slug": "laser",
         "engage_radius": 5,
-        "shot_delay": 1
+        "shot_delay": 0.75
 	}
 }

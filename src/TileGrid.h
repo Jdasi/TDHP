@@ -10,6 +10,7 @@ namespace sf
 {
     class RenderWindow;
     class Color;
+    class Texture;
 }
 
 class Level;
@@ -20,6 +21,8 @@ public:
     TileGrid(const Level& _level, const sf::Color& _initial_color);
     ~TileGrid() = default;
 
+    void draw(sf::RenderWindow& _window);
+
     int getSizeX() const;
     int getSizeY() const;
 
@@ -27,7 +30,7 @@ public:
     void modifyTileAlpha(const int _tile_index, const float _amount);
     void setTileColor(const int _tile_index, const sf::Color& _color);
 
-    void draw(sf::RenderWindow& _window);
+    void setTileTexture(sf::Texture* _texture);
 
 private:
     void init(const sf::Color& _initial_color);
