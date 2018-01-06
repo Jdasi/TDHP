@@ -40,6 +40,7 @@ public:
     void draw(sf::RenderWindow& _window);
 
     int getWeight(const int _tile_index);
+    int getTotalWeight();
     HeatmapFlag getFlag() const;
 
     void setWeightingType(const WeightingType& _weighting_type);
@@ -50,6 +51,7 @@ private:
         const float _modifier = 1);
 
     void decay();
+    void updateTotalWeight();
 
     HeatmapFlag flag;
     WeightingType weighting_type;
@@ -64,5 +66,8 @@ private:
 
     std::vector<float> weightings;
     TileGrid grid;
+    float total_weight;
+
+    bool dirty;
 
 };

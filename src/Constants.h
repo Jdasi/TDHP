@@ -40,6 +40,9 @@ const int MAX_ENEMIES                   = 100;
 const int MAX_ENEMY_SPAWNS              = 10;
 const int MAX_BULLETS                   = 100;
 
+const float MIN_WEIGHTING               = 0;
+const float MAX_WEIGHTING               = 255;
+
 const std::string LIGHT_ENEMY_SLUG      { "Light" };
 const std::string MEDIUM_ENEMY_SLUG     { "Medium" };
 const std::string HEAVY_ENEMY_SLUG      { "Heavy" };

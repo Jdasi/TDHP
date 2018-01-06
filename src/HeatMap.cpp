@@ -3,6 +3,7 @@
 #include "JMath.h"
 #include "JHelper.h"
 #include "Level.h"
+#include "Constants.h"
 
 
 Heatmap::Heatmap(const Level& _level, const HeatmapFlag& _flag,
@@ -14,6 +15,8 @@ Heatmap::Heatmap(const Level& _level, const HeatmapFlag& _flag,
     , paint_hardness(0)
     , decay_rate(0)
     , grid(_level, sf::Color::Transparent)
+    , total_weight(0)
+    , dirty(false)
 {
     weightings.assign(_level.getProduct(), 0);
 }
@@ -77,7 +80,7 @@ void Heatmap::setColor(const sf::Color& _color)
         grid.setTileColor(i, _color);
         grid.setTileAlpha(i, 0);
 
-        weightings[i] = 0;
+        weightings[i] = MIN_WEIGHTING;
     }
 }
 
@@ -101,6 +104,18 @@ int Heatmap::getWeight(const int _tile_index)
         return 0;
 
     return static_cast<int>(weightings[_tile_index]);
+}
+
+
+int Heatmap::getTotalWeight()
+{
+    if (dirty)
+    {
+        dirty = false;
+        updateTotalWeight();
+    }
+
+    return static_cast<int>(total_weight);
 }
 
 
@@ -135,6 +150,7 @@ void Heatmap::paintWithModifier(const int _tile_index, const int _radius,
     {
         for (int col = coords.x - _radius; col <= coords.x + _radius; ++col)
         {
+            // Stop paint from flowing outside the displayed grid.
             if ((col < 0 || col >= size_x) || (row < 0 || row >= size_y))
                 continue;
 
@@ -143,10 +159,15 @@ void Heatmap::paintWithModifier(const int _tile_index, const int _radius,
 
             auto& weighting = weightings[curr];
 
+            if (weighting >= MAX_WEIGHTING)
+                continue;
+
             weighting += (paint_hardness / (diff + 1)) * _modifier;
-            weighting = JMath::clampf(weighting, 0, 255);
+            weighting = JMath::clampf(weighting, MIN_WEIGHTING, MAX_WEIGHTING);
 
             grid.setTileAlpha(curr, weighting);
+
+            dirty = true;
         }
     }
 }
@@ -158,12 +179,25 @@ void Heatmap::decay()
     {
         float& weighting = weightings[i];
 
-        if (weighting > 0)
-        {
-            weighting -= decay_rate * JTime::getDeltaTime();
-        }
+        if (weighting == 0)
+            continue;
 
-        weighting = JMath::clampf(weighting, 0, 255);
+        weighting -= (decay_rate * JTime::getDeltaTime());
+        weighting = JMath::clampf(weighting, MIN_WEIGHTING, MAX_WEIGHTING);
+
         grid.setTileAlpha(i, weighting);
+
+        dirty = true;
+    }
+}
+
+
+void Heatmap::updateTotalWeight()
+{
+    total_weight = 0;
+
+    for (auto& weighting : weightings)
+    {
+        total_weight += weighting;
     }
 }

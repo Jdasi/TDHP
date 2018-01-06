@@ -32,6 +32,8 @@ public:
     int getAllWeights(const int _tile_index);
     int getWeights(const int _tile_index, const int _flags);
 
+    int getHeatmapTotalWeight(const int _heatmap_index);
+
 private:
     std::vector<std::unique_ptr<Heatmap>> heatmaps;
 

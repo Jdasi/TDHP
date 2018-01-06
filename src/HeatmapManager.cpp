@@ -27,7 +27,7 @@ void HeatmapManager::draw(sf::RenderWindow& _window)
 {
     for (auto& heatmap : heatmaps)
     {
-        if (heatmap->isActive())
+        if (heatmap->isVisible())
             heatmap->draw(_window);
     }
 }
@@ -79,7 +79,7 @@ int HeatmapManager::getWeights(const int _tile_index, const int _flags)
 
     for (auto& heatmap : heatmaps)
     {
-        if (!(heatmap->getFlag() & _flags))
+        if (!heatmap->isActive() || !(heatmap->getFlag() & _flags))
             continue;
 
             int weighting = heatmap->getWeight(_tile_index);
@@ -93,4 +93,13 @@ int HeatmapManager::getWeights(const int _tile_index, const int _flags)
         weight = 0;
 
     return weight;
+}
+
+
+int HeatmapManager::getHeatmapTotalWeight(const int _heatmap_index)
+{
+    if (!JHelper::validIndex(_heatmap_index, heatmaps.size()))
+        return 0;
+
+    return heatmaps[_heatmap_index]->getTotalWeight();
 }

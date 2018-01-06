@@ -34,6 +34,9 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
         {
             enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy();
         }
+
+        std::cout << "Total Laser weight: " << heatmap_manager.getHeatmapTotalWeight(0) << "\n"
+                  << "Total Bullet weight: " << heatmap_manager.getHeatmapTotalWeight(1) << "\n\n";
     }, 1, 1);
 }
 
