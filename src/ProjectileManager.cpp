@@ -100,8 +100,8 @@ void ProjectileManager::spawnLaser(const ProjectileRequest& _request)
         if (laser.isActive())
             continue;
 
-        laser.refresh(_request.tower_pos, _request.tower_target->getPosition());
         laser.setOwningType(_request.tower_type);
+        laser.refresh(_request.tower_pos, _request.tower_target->getPosition());
 
         break;
     }
@@ -117,8 +117,8 @@ void ProjectileManager::spawnBullet(const ProjectileRequest& _request)
         if (bullet.isActive())
             continue;
 
-        bullet.refresh(_request.tower_pos, _request.tower_target->getPosition());
         bullet.setOwningType(_request.tower_type);
+        bullet.refresh(_request.tower_pos, _request.tower_target->getPosition());
 
         break;
     }
