@@ -15,6 +15,7 @@ Game::Game(GameData& _gd)
     , current_level(_gd.level_name)
     , current_context(ContextType::GAME)
     , painting(false)
+    , paused(false)
 {
     init();
 }
@@ -22,6 +23,12 @@ Game::Game(GameData& _gd)
 
 void Game::tick()
 {
+    if (gd.input.getKeyDown(sf::Keyboard::Key::P))
+        paused = !paused;
+
+    if (paused)
+        return;
+
     // Systems.
     heatmap_manager->tick();
     enemy_director->tick(gd);
@@ -49,6 +56,9 @@ void Game::draw(sf::RenderWindow& _window)
     tower_manager->draw(_window);
 
     _window.draw(context_display);
+
+    if (paused)
+        _window.draw(pause_display);
 }
 
 
@@ -86,6 +96,16 @@ void Game::initObjects()
     context_display.setFont(*default_font);
     context_display.setCharacterSize(16);
     context_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 16);
+
+    // Pause display.
+    pause_display.setString("PAUSED");
+    pause_display.setFont(*default_font);
+    pause_display.setCharacterSize(28);
+    pause_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    pause_display.setFillColor(sf::Color::Red);
+    pause_display.setOutlineColor(sf::Color::White);
+    pause_display.setOutlineThickness(2);
+    JHelper::centerSFOrigin(pause_display);
 
     updateContextDisplay();
 
