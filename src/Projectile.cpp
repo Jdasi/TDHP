@@ -21,6 +21,18 @@ void Projectile::setActiveDuration(const float _active_duration)
 }
 
 
+ProjectileStats& Projectile::getStats()
+{
+    return stats;
+}
+
+
+void Projectile::setStats(const ProjectileStats& _stats)
+{
+    stats = _stats;
+}
+
+
 void Projectile::refresh(const sf::Vector2f& _from, const sf::Vector2f& _to)
 {
     draw_until_time = JTime::getTime() + active_duration;

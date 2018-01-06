@@ -17,15 +17,6 @@ struct EnemyType
     {
     }
 
-    EnemyType(const std::string& _slug, sf::Texture* _texture,
-        const float _speed, const int _health)
-        : slug(_slug)
-        , texture(_texture)
-        , move_speed(_speed)
-        , max_health(_health)
-    {
-    }
-
     std::string slug;
     sf::Texture* texture;
     float move_speed;

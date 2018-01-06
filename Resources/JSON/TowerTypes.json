@@ -3,6 +3,7 @@
 	{
 		"sprite": "laser_tower.png",
         "projectile_slug": "laser",
+        "projectile_damage": 3,
         "engage_radius": 3.5,
         "shot_delay": 1
 	},
@@ -11,6 +12,8 @@
 	{
 		"sprite": "bullet_tower.png",
         "projectile_slug": "laser",
+        "projectile_speed": 150,
+        "projectile_damage": 5,
         "engage_radius": 5,
         "shot_delay": 0.75
 	}

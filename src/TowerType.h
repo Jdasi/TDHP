@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "ProjectileStats.h"
+
 namespace sf
 {
     class Texture;
@@ -15,17 +17,7 @@ struct TowerType
         , projectile_slug()
         , engage_radius(0)
         , shot_delay(0)
-    {
-    }
-
-    TowerType(const std::string& _slug, sf::Texture* _texture,
-        const std::string& _projectile_slug, const float _engage_radius,
-        const float _shot_delay)
-        : slug(_slug)
-        , texture(_texture)
-        , projectile_slug(_projectile_slug)
-        , engage_radius(_engage_radius)
-        , shot_delay(_shot_delay)
+        , projectile_stats()
     {
     }
 
@@ -34,4 +26,6 @@ struct TowerType
     std::string projectile_slug;
     float engage_radius;
     float shot_delay;
+
+    ProjectileStats projectile_stats;
 };

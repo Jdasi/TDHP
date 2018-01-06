@@ -186,6 +186,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\Projectile.h" />
     <ClInclude Include="..\src\ProjectileManager.h" />
     <ClInclude Include="..\src\ProjectileRequest.h" />
+    <ClInclude Include="..\src\ProjectileStats.h" />
     <ClInclude Include="..\src\ScheduledTask.h" />
     <ClInclude Include="..\src\Scheduler.h" />
     <ClInclude Include="..\src\TDSprite.h" />

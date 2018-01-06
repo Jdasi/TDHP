@@ -101,6 +101,8 @@ void ProjectileManager::spawnLaser(const ProjectileRequest& _request)
             continue;
 
         laser.refresh(_request.tower_pos, _request.tower_target->getPosition());
+        laser.setStats(_request.tower_type->projectile_stats);
+
         break;
     }
 
@@ -116,6 +118,8 @@ void ProjectileManager::spawnBullet(const ProjectileRequest& _request)
             continue;
 
         bullet.refresh(_request.tower_pos, _request.tower_target->getPosition());
+        bullet.setStats(_request.tower_type->projectile_stats);
+
         break;
     }
 }

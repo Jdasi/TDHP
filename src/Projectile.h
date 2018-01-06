@@ -4,6 +4,8 @@
 
 #include <SFML/System/Vector2.hpp>
 
+#include "ProjectileStats.h"
+
 namespace sf
 {
     class RenderWindow;
@@ -21,6 +23,9 @@ public:
     void setActiveDuration(const float _active_duration);
     virtual void setColor(const sf::Color& _color) = 0;
 
+    ProjectileStats& getStats();
+    void setStats(const ProjectileStats& _stats);
+
     void refresh(const sf::Vector2f& _from, const sf::Vector2f& _to);
     bool isActive() const;
 
@@ -32,5 +37,7 @@ protected:
 private:
     float active_duration;
     float draw_until_time;
+
+    ProjectileStats stats;
 
 };

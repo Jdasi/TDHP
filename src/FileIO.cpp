@@ -56,11 +56,14 @@ std::map<std::string, EnemyType> FileIO::loadEnemyTypes(AssetManager& _asset_man
         auto slug = entry.name();
         const auto& data = entry.value();
 
-        sf::Texture* texture = _asset_manager.loadTexture(data["sprite"].as_string());
-        float speed = static_cast<float>(data["move_speed"].as_double());
-        int health = data["max_health"].as_int();
+        EnemyType enemy_type;
 
-        types[slug] = EnemyType(slug, texture, speed, health);
+        enemy_type.slug = slug;
+        enemy_type.texture = _asset_manager.loadTexture(data["sprite"].as_string());
+        enemy_type.move_speed = static_cast<float>(data["move_speed"].as_double());
+        enemy_type.max_health = data["max_health"].as_int();
+
+        types[slug] = enemy_type;
     }
 
     return types;
@@ -82,12 +85,22 @@ std::map<std::string, TowerType> FileIO::loadTowerTypes(AssetManager& _asset_man
         auto slug = entry.name();
         const auto& data = entry.value();
 
-        sf::Texture* texture = _asset_manager.loadTexture(data["sprite"].as_string());
-        std::string projectile_slug = data["projectile_slug"].as_string();
-        float engage_radius = static_cast<float>(data["engage_radius"].as_double());
-        float shot_delay = static_cast<float>(data["shot_delay"].as_double());
+        TowerType tower_type;
 
-        types[slug] = TowerType(slug, texture, projectile_slug, engage_radius, shot_delay);
+        tower_type.slug = slug;
+        tower_type.texture = _asset_manager.loadTexture(data["sprite"].as_string());
+        tower_type.projectile_slug = data["projectile_slug"].as_string();
+
+        if (data.has_key("projectile_speed"))
+        {
+            tower_type.projectile_stats.move_speed = static_cast<float>(data["projectile_speed"].as_double());
+        }
+
+        tower_type.projectile_stats.damage = static_cast<float>(data["projectile_damage"].as_double());
+        tower_type.engage_radius = static_cast<float>(data["engage_radius"].as_double());
+        tower_type.shot_delay = static_cast<float>(data["shot_delay"].as_double());
+
+        types[slug] = tower_type;
     }
 
     return types;

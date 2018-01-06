@@ -258,5 +258,8 @@
     <ClInclude Include="..\src\ProjectileRequest.h">
       <Filter>Core\Projectile</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ProjectileStats.h">
+      <Filter>Core\Projectile</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
