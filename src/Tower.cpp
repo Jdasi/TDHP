@@ -90,7 +90,7 @@ void Tower::onSpawn()
 }
 
 
-void Tower::onDeath()
+void Tower::onDeath(TowerType* _killer_type)
 {
     // Crickets ..
 }

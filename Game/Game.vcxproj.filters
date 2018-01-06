@@ -124,6 +124,9 @@
     <ClCompile Include="..\src\Projectile.cpp">
       <Filter>Core\Projectile</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Killable.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">

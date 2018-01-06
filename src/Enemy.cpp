@@ -72,10 +72,10 @@ void Enemy::onSpawn()
 }
 
 
-void Enemy::onDeath()
+void Enemy::onDeath(TowerType* _killer_type)
 {
     for (auto& listener : listeners)
     {
-        listener->onDeath(getPosition());
+        listener->onDeath(getPosition(), _killer_type);
     }
 }

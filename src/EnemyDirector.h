@@ -42,14 +42,14 @@ public:
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,
         const float _radius_sqr);
 
-    bool killEnemyAtPos(const sf::Vector2f& _pos);
+    bool killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_type = nullptr);
 
 private:
     void initEnemies();
     void initDestinationMarker();
 
     // Enemy events.
-    void onDeath(const sf::Vector2f& _pos) override;
+    void onDeath(const sf::Vector2f& _pos, TowerType* _killer_type) override;
     void onPathComplete(Enemy& _enemy) override;
 
     AssetManager& asset_manager;

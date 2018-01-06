@@ -25,7 +25,7 @@ public:
 
 protected:
     void onSpawn() override;
-    void onDeath() override;
+    void onDeath(TowerType* _killer_type) override;
 
 private:
     LevelPath path;

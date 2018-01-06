@@ -6,9 +6,10 @@
 HeatmapManager::HeatmapManager(Level& _level)
     : level(_level)
 {
-    createHeatmap(sf::Color::Red, 200, 15, HeatmapFlag::BLOOD);
-    createHeatmap(sf::Color::Green, 200, 15, HeatmapFlag::ACID);
-    createHeatmap(sf::Color::White, 200, 15, HeatmapFlag::SMOKE, WeightingType::NEGATIVE);
+    createHeatmap(sf::Color::Blue, 200, 15, HeatmapFlag::LASER_DEATHS);
+    createHeatmap(sf::Color::Red, 200, 15, HeatmapFlag::BULLET_DEATHS);
+    createHeatmap(sf::Color::White, 200, 15, HeatmapFlag::TURRET_SHOTS, WeightingType::NEGATIVE);
+    createHeatmap(sf::Color::Magenta, 200, 15, HeatmapFlag::DEBUG);
 }
 
 

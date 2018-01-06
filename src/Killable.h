@@ -1,52 +1,27 @@
 #pragma once
 
+struct TowerType;
+
 class Killable
 {
 public:
-    Killable()
-        : max_health(1)
-        , health(0)
-    {
-    }
+    Killable();
 
-    void setMaxHealth(const int _max_health)
-    {
-        max_health = _max_health;
-    }
+    void setMaxHealth(const int _max_health);
 
-    bool isAlive() const
-    {
-        return health > 0;
-    }
+    bool isAlive() const;
 
-    void spawn()
-    {
-        if (isAlive())
-            return;
-
-        health = max_health;
-        onSpawn();
-    }
+    void spawn();
 
     // Kill and inform listeners.
-    void kill()
-    {
-        killQuiet();
-        onDeath();
-    }
+    void kill(TowerType* _killer_type = nullptr);
 
     // Kill without informing listeners.
-    void killQuiet()
-    {
-        if (!isAlive())
-            return;
-
-        health = 0;
-    }
+    void killQuiet();
 
 protected:
     virtual void onSpawn() = 0;
-    virtual void onDeath() = 0;
+    virtual void onDeath(TowerType* _killer_type = nullptr) = 0;
 
 private:
     int max_health;

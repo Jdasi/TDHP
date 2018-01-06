@@ -5,6 +5,7 @@
 Projectile::Projectile()
     : active_duration(0)
     , draw_until_time(0)
+    , owning_type(nullptr)
 {
 }
 
@@ -21,20 +22,23 @@ void Projectile::setActiveDuration(const float _active_duration)
 }
 
 
-ProjectileStats& Projectile::getStats()
+TowerType* Projectile::getOwningType()
 {
-    return stats;
+    return owning_type;
 }
 
 
-void Projectile::setStats(const ProjectileStats& _stats)
+void Projectile::setOwningType(TowerType* _owning_type)
 {
-    stats = _stats;
+    owning_type = _owning_type;
 }
 
 
 void Projectile::refresh(const sf::Vector2f& _from, const sf::Vector2f& _to)
 {
+    if (owning_type == nullptr)
+        return;
+
     draw_until_time = JTime::getTime() + active_duration;
 
     onRefresh(_from, _to);

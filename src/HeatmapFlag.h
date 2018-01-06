@@ -3,9 +3,11 @@
 enum HeatmapFlag
 {
     NONE = 0,
-    BLOOD = 1 << 0,
-    ACID = 1 << 1,
-    SMOKE = 1 << 2,
+    LASER_DEATHS = 1 << 0,
+    BULLET_DEATHS = 1 << 1,
+    TURRET_SHOTS = 1 << 2,
+    DEBUG = 1 << 3,
 
-    ALL = BLOOD | ACID | SMOKE
+    TURRETS = LASER_DEATHS | BULLET_DEATHS | TURRET_SHOTS,
+    ALL = LASER_DEATHS | BULLET_DEATHS | TURRET_SHOTS | DEBUG
 };

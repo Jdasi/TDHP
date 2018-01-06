@@ -23,7 +23,7 @@ void ProjectileManager::tick(GameData& _gd)
 
         bullet.tick();
 
-        if (enemy_director.killEnemyAtPos(bullet.getPosition()))
+        if (enemy_director.killEnemyAtPos(bullet.getPosition(), bullet.getOwningType()))
         {
             bullet.destroy();
             break;
@@ -101,12 +101,12 @@ void ProjectileManager::spawnLaser(const ProjectileRequest& _request)
             continue;
 
         laser.refresh(_request.tower_pos, _request.tower_target->getPosition());
-        laser.setStats(_request.tower_type->projectile_stats);
+        laser.setOwningType(_request.tower_type);
 
         break;
     }
 
-    _request.tower_target->kill();
+    _request.tower_target->kill(_request.tower_type);
 }
 
 
@@ -118,7 +118,7 @@ void ProjectileManager::spawnBullet(const ProjectileRequest& _request)
             continue;
 
         bullet.refresh(_request.tower_pos, _request.tower_target->getPosition());
-        bullet.setStats(_request.tower_type->projectile_stats);
+        bullet.setOwningType(_request.tower_type);
 
         break;
     }

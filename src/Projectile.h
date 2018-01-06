@@ -4,7 +4,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include "ProjectileStats.h"
+#include "TowerType.h"
 
 namespace sf
 {
@@ -23,8 +23,8 @@ public:
     void setActiveDuration(const float _active_duration);
     virtual void setColor(const sf::Color& _color) = 0;
 
-    ProjectileStats& getStats();
-    void setStats(const ProjectileStats& _stats);
+    TowerType* getOwningType();
+    void setOwningType(TowerType* _owning_type);
 
     void refresh(const sf::Vector2f& _from, const sf::Vector2f& _to);
     bool isActive() const;
@@ -38,6 +38,6 @@ private:
     float active_duration;
     float draw_until_time;
 
-    ProjectileStats stats;
+    TowerType* owning_type;
 
 };

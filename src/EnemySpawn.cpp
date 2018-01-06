@@ -90,7 +90,7 @@ void EnemySpawn::updateEnemyPath()
     auto path = nav_manager.findPath(
         level_position.tile_coords,
         enemy_destination.tile_coords,
-        HeatmapFlag::BLOOD | HeatmapFlag::SMOKE);
+        HeatmapFlag::TURRETS);
 
     level_path = LevelPath(level, path);
     path_difference = level_path.getTotalCost() - level_path_pure.getTotalCost();

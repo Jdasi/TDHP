@@ -31,7 +31,7 @@ public:
     
 private:
     void onSpawn() override;
-    void onDeath() override;
+    void onDeath(TowerType* _killer_type) override;
 
     void onSetPosition() override;
 

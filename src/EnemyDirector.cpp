@@ -12,6 +12,7 @@
 #include "JMath.h"
 #include "Level.h"
 #include "FileIO.h"
+#include "TowerType.h"
 
 
 EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_manager,
@@ -138,14 +139,14 @@ std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos
 }
 
 
-bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos)
+bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_type)
 {
     for (auto& enemy : enemies)
     {
         if (!enemy.isAlive() || !enemy.collisionCheck(_pos))
             continue;
 
-        enemy.kill();
+        enemy.kill(_killer_type);
         return true;
     }
 
@@ -178,10 +179,21 @@ void EnemyDirector::initDestinationMarker()
 
 
 // EnemyListener Event: Called when an enemy is killed.
-void EnemyDirector::onDeath(const sf::Vector2f& _pos)
+void EnemyDirector::onDeath(const sf::Vector2f& _pos, TowerType* _killer_type)
 {
     int tile_index = JHelper::posToTileIndex(_pos, level);
-    heatmap_manager.splashOnHeatmap(0, tile_index, 3);
+
+    if (_killer_type != nullptr)
+    {
+        if (_killer_type->slug == LASER_TOWER_SLUG)
+        {
+            heatmap_manager.splashOnHeatmap(0, tile_index, 3);
+        }
+        else if (_killer_type->slug == BULLET_TOWER_SLUG)
+        {
+            heatmap_manager.splashOnHeatmap(1, tile_index, 3);
+        }
+    }
 }
 
 

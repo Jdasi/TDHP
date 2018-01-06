@@ -152,6 +152,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\JMath.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
+    <ClCompile Include="..\src\Killable.cpp" />
     <ClCompile Include="..\src\LevelPath.cpp" />
     <ClCompile Include="..\src\Projectile.cpp" />
     <ClCompile Include="..\src\ProjectileManager.cpp" />
