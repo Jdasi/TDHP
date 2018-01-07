@@ -127,6 +127,9 @@
     <ClCompile Include="..\src\Killable.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\HealthBar.cpp">
+      <Filter>Core\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -263,6 +266,9 @@
     </ClInclude>
     <ClInclude Include="..\src\ProjectileStats.h">
       <Filter>Core\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\HealthBar.h">
+      <Filter>Core\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

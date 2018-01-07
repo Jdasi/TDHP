@@ -2,7 +2,7 @@
 	"Light": 
 	{
 		"sprite": "enemy_light.png",
-        "move_speed": 90,
+        "move_speed": 100,
         "max_health": 1
 	},
     
@@ -10,13 +10,13 @@
 	{
 		"sprite": "enemy_medium.png",
         "move_speed": 50,
-        "max_health": 5
+        "max_health": 7
 	},
     
     "Heavy": 
 	{
 		"sprite": "enemy_heavy.png",
         "move_speed": 20,
-        "max_health": 20
+        "max_health": 25
 	}
 }

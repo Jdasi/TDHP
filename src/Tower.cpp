@@ -90,12 +90,6 @@ void Tower::onSpawn()
 }
 
 
-void Tower::onDeath(TowerType* _killer_type)
-{
-    // Crickets ..
-}
-
-
 void Tower::initEngageRadius()
 {
     engage_radius_display.setFillColor(sf::Color::Transparent);

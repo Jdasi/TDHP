@@ -9,5 +9,5 @@ struct ProjectileStats
     }
 
     float move_speed;
-    float damage;
+    int damage;
 };

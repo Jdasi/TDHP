@@ -37,7 +37,7 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
 
         std::cout << "Total Laser weight: " << heatmap_manager.getHeatmapTotalWeight(0) << "\n"
                   << "Total Bullet weight: " << heatmap_manager.getHeatmapTotalWeight(1) << "\n\n";
-    }, 1, 1);
+    }, 1.5f, 1.5f);
 }
 
 
@@ -142,18 +142,29 @@ std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos
 }
 
 
+bool EnemyDirector::damageEnemyAtPos(const sf::Vector2f& _pos, TowerType* _attacker_type)
+{
+    Enemy* enemy = getEnemyAtPos(_pos);
+
+    if (enemy == nullptr)
+        return false;
+
+    enemy->damage(_attacker_type);
+
+    return true;
+}
+
+
 bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_type)
 {
-    for (auto& enemy : enemies)
-    {
-        if (!enemy.isAlive() || !enemy.collisionCheck(_pos))
-            continue;
+    Enemy* enemy = getEnemyAtPos(_pos);
 
-        enemy.kill(_killer_type);
-        return true;
-    }
+    if (enemy == nullptr)
+        return false;
 
-    return false;
+    enemy->kill(_killer_type);
+
+    return true;
 }
 
 
@@ -178,6 +189,20 @@ void EnemyDirector::initDestinationMarker()
 {
     auto* texture = asset_manager.loadTexture(DESTINATION_SPRITE);
     destination_marker.setTexture(texture);
+}
+
+
+Enemy* EnemyDirector::getEnemyAtPos(const sf::Vector2f& _pos)
+{
+    for (auto& enemy : enemies)
+    {
+        if (!enemy.isAlive() || !enemy.collisionCheck(_pos))
+            continue;
+
+        return &enemy;
+    }
+
+    return nullptr;
 }
 
 

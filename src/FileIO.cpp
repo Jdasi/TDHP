@@ -96,7 +96,7 @@ std::map<std::string, TowerType> FileIO::loadTowerTypes(AssetManager& _asset_man
             tower_type.projectile_stats.move_speed = static_cast<float>(data["projectile_speed"].as_double());
         }
 
-        tower_type.projectile_stats.damage = static_cast<float>(data["projectile_damage"].as_double());
+        tower_type.projectile_stats.damage = data["projectile_damage"].as_int();
         tower_type.engage_radius = static_cast<float>(data["engage_radius"].as_double());
         tower_type.shot_delay = static_cast<float>(data["shot_delay"].as_double());
 

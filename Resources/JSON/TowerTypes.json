@@ -3,7 +3,7 @@
 	{
 		"sprite": "laser_tower.png",
         "projectile_slug": "laser",
-        "projectile_damage": 3,
+        "projectile_damage": 4,
         "engage_radius": 3.5,
         "shot_delay": 1
 	},

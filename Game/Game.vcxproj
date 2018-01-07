@@ -148,6 +148,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\EnemyDirector.cpp" />
     <ClCompile Include="..\src\EnemySpawn.cpp" />
     <ClCompile Include="..\src\FileIO.cpp" />
+    <ClCompile Include="..\src\HealthBar.cpp" />
     <ClCompile Include="..\src\HeatmapManager.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\JMath.cpp" />
@@ -182,6 +183,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\EnemyListener.h" />
     <ClInclude Include="..\src\EnemySpawn.h" />
     <ClInclude Include="..\src\EnemyType.h" />
+    <ClInclude Include="..\src\HealthBar.h" />
     <ClInclude Include="..\src\HeatmapFlag.h" />
     <ClInclude Include="..\src\IProjectileManager.h" />
     <ClInclude Include="..\src\Projectile.h" />

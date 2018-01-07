@@ -10,8 +10,12 @@ public:
     void setMaxHealth(const int _max_health);
 
     bool isAlive() const;
+    float getHealthPercentage() const;
 
     void spawn();
+
+    // Damage and inform listeners.
+    void damage(TowerType* _attacker_type = nullptr);
 
     // Kill and inform listeners.
     void kill(TowerType* _killer_type = nullptr);
@@ -20,8 +24,9 @@ public:
     void killQuiet();
 
 protected:
-    virtual void onSpawn() = 0;
-    virtual void onDeath(TowerType* _killer_type = nullptr) = 0;
+    virtual void onSpawn() {};
+    virtual void onDamage(TowerType* _attacker_type = nullptr) {};
+    virtual void onDeath(TowerType* _killer_type = nullptr) {};
 
 private:
     int max_health;

@@ -23,7 +23,7 @@ void ProjectileManager::tick(GameData& _gd)
 
         bullet.tick();
 
-        if (enemy_director.killEnemyAtPos(bullet.getPosition(), bullet.getOwningType()))
+        if (enemy_director.damageEnemyAtPos(bullet.getPosition(), bullet.getOwningType()))
         {
             bullet.destroy();
             break;
@@ -106,7 +106,7 @@ void ProjectileManager::spawnLaser(const ProjectileRequest& _request)
         break;
     }
 
-    _request.tower_target->kill(_request.tower_type);
+    _request.tower_target->damage(_request.tower_type);
 }
 
 

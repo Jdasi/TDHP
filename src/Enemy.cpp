@@ -8,6 +8,7 @@ Enemy::Enemy()
     : path_index(0)
     , type(nullptr)
 {
+    initHealthBar();
 }
 
 
@@ -54,7 +55,11 @@ void Enemy::tick()
 void Enemy::draw(sf::RenderWindow& _window)
 {
     TDSprite::draw(_window);
+
+    // TODO: have a way to toggle the visibility of this ..
     path.draw(_window, getPosition(), path_index);
+
+    health_bar.draw(_window);
 }
 
 
@@ -69,6 +74,14 @@ void Enemy::onSpawn()
 {
     if (type == nullptr)
         killQuiet();
+
+    health_bar.updateHealthPercentage(getHealthPercentage());
+}
+
+
+void Enemy::onDamage(TowerType* _attacker_type)
+{
+    health_bar.updateHealthPercentage(getHealthPercentage());
 }
 
 
@@ -78,4 +91,19 @@ void Enemy::onDeath(TowerType* _killer_type)
     {
         listener->onDeath(getPosition(), _killer_type);
     }
+}
+
+
+void Enemy::onSetPosition()
+{
+    health_bar.updatePosition(getPosition());
+}
+
+
+void Enemy::initHealthBar()
+{
+    float width = getTileWidth();
+    float height = getTileHeight();
+
+    health_bar.configure({ width * 0.9f, height * 0.1f }, -height * 0.5f);
 }

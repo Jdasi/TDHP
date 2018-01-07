@@ -30,9 +30,10 @@ public:
     void updateNearbyEnemies(const std::vector<Enemy*>& _enemies);
     
 private:
+    // Killable events.
     void onSpawn() override;
-    void onDeath(TowerType* _killer_type) override;
 
+    // TDSprite events.
     void onSetPosition() override;
 
 private:
