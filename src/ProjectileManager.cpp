@@ -23,7 +23,9 @@ void ProjectileManager::tick(GameData& _gd)
 
         bullet.tick();
 
-        if (enemy_director.damageEnemyAtPos(bullet.getPosition(), bullet.getOwningType()))
+        auto& bullet_pos = bullet.getPosition();
+        if (enemy_director.damageEnemyAtPos(bullet_pos, bullet.getOwningType()) ||
+            !JHelper::posInSimulationArea(bullet_pos))
         {
             bullet.destroy();
             break;
