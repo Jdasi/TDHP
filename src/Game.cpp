@@ -15,7 +15,7 @@ Game::Game(GameData& _gd)
     , current_level(_gd.level_name)
     , current_context(ContextType::GAME)
     , painting(false)
-    , paused(false)
+    , paused(true)
 {
     init();
 }

@@ -23,7 +23,7 @@ EnemySpawn::EnemySpawn(NavManager& _nav_manager, Level& _level,
             calculatePurePath();
 
         updateEnemyPath();
-    }, 0, 1);
+    }, 0, 0.5f);
 }
 
 
