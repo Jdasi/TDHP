@@ -31,6 +31,7 @@ public:
     void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
+    void removeTowerAtPos(const sf::Vector2f& _pos);
     void toggleTowerAtPos(const sf::Vector2f& _pos, const int _click_type);
 
 private:

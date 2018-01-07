@@ -57,6 +57,19 @@ void TowerManager::draw(sf::RenderWindow& _window)
 }
 
 
+void TowerManager::removeTowerAtPos(const sf::Vector2f& _pos)
+{
+    int index = JHelper::posToTileIndex(_pos, level);
+    if (!JHelper::validIndex(index, level.getProduct()))
+        return;
+
+    if (towerExists(index) && nav_manager.isNodeWalkable(index))
+    {
+        deconstructTower(index);
+    }
+}
+
+
 void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos, int _click_type)
 {
     int index = JHelper::posToTileIndex(_pos, level);

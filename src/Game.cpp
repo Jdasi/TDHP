@@ -270,7 +270,7 @@ void Game::processNavContext()
         current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
             WALKABLE_COLOR : UNWALKABLE_COLOR);
 
-        //std::cout << "Math tile index: " << index << std::endl;
+        tower_manager->removeTowerAtPos(mouse_pos);
     }
     else if (gd.input.getMouseButtonDown(sf::Mouse::Right))
     {
@@ -286,7 +286,8 @@ void Game::processNavContext()
 
 void Game::processGameContext()
 {
-    int click_type = -1; // Assume no click.
+    const int NO_CLICK = -1;
+    int click_type = NO_CLICK; // Assume no click.
     
     if (gd.input.getMouseButtonDown(sf::Mouse::Left))
         click_type = sf::Mouse::Left;
@@ -294,7 +295,7 @@ void Game::processGameContext()
     if (gd.input.getMouseButtonDown(sf::Mouse::Right))
         click_type = sf::Mouse::Right;
 
-    if (click_type != -1)
+    if (click_type != NO_CLICK)
     {
         auto mouse_pos = gd.input.getMousePos();
         if (!JHelper::posInSimulationArea(mouse_pos))
@@ -306,8 +307,6 @@ void Game::processGameContext()
         auto pos = JHelper::tileIndexToPos(index, current_level);
 
         tower_manager->toggleTowerAtPos(pos, click_type);
-
-        //std::cout << "Math tile index: " << index << std::endl;
     }
 }
 
