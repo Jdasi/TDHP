@@ -32,6 +32,8 @@ void Application::main()
 
 void Application::init()
 {
+    srand(static_cast<unsigned int>(time(0)));
+
     window.setVerticalSyncEnabled(true);
 
     initSystems();
