@@ -50,6 +50,9 @@ const std::string HEAVY_ENEMY_SLUG      { "Heavy" };
 const std::string LASER_TOWER_SLUG      { "LaserTower" };
 const std::string BULLET_TOWER_SLUG     { "BulletTower" };
 
+const std::string LASER_PROJ_SLUG       { "laser" };
+const std::string BULLET_PROJ_SLUG      { "bullet" };
+
 // ======================================================================================
 // PATHFINDING SETTINGS
 // ======================================================================================

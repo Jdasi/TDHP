@@ -59,13 +59,13 @@ void ProjectileManager::requestProjectile(const ProjectileRequest& _request)
     if (_request.tower_type == nullptr || _request.tower_target == nullptr)
         return;
 
-    auto& tower_slug = _request.tower_type->slug;
+    auto& projectile_slug = _request.tower_type->projectile_slug;
 
-    if (tower_slug == "LaserTower")
+    if (projectile_slug == LASER_PROJ_SLUG)
     {
         spawnLaser(_request);
     }
-    else if (tower_slug == "BulletTower")
+    else if (projectile_slug == BULLET_PROJ_SLUG)
     {
         spawnBullet(_request);
     }

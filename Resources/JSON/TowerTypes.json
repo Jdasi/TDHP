@@ -11,7 +11,7 @@
     "BulletTower": 
 	{
 		"sprite": "bullet_tower.png",
-        "projectile_slug": "laser",
+        "projectile_slug": "bullet",
         "projectile_speed": 150,
         "projectile_damage": 5,
         "engage_radius": 5,
