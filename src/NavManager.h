@@ -26,14 +26,14 @@ public:
     void toggleNodeWalkable(const int _index);
 
     NavPath findPath(const sf::Vector2i& _start, const sf::Vector2i& _goal,
-        int _heatmap_flags = HeatmapFlag::ALL);
+        const HeatmapFlag& _heatmap_flags = HeatmapFlag::ALL);
 
 private:
     void evaluateNodeNeighbours(NavNode& _node);
     void resetGraph();
 
     int calculateHeuristic(const sf::Vector2i& _a, const sf::Vector2i& _b);
-    void processOpenList(const sf::Vector2i& _goal, int _heatmap_flags,
+    void processOpenList(const sf::Vector2i& _goal, const HeatmapFlag& _heatmap_flags,
         NavPath& path, NavNode* start_node, NavNode* goal_node,
         std::vector<NavNode*>& open_list, std::vector<NavNode*>& closed_list);
 

@@ -35,8 +35,8 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
             enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy();
         }
 
-        std::cout << "Total Laser weight: " << heatmap_manager.getHeatmapTotalWeight(0) << "\n"
-                  << "Total Bullet weight: " << heatmap_manager.getHeatmapTotalWeight(1) << "\n\n";
+        std::cout << "Total Laser weight: " << heatmap_manager.getTotalWeight(HeatmapFlag::LASER_DEATHS) << "\n"
+                  << "Total Bullet weight: " << heatmap_manager.getTotalWeight(HeatmapFlag::BULLET_DEATHS) << "\n\n";
     }, 1.5f, 1.5f);
 }
 
@@ -215,11 +215,11 @@ void EnemyDirector::onDeath(const sf::Vector2f& _pos, TowerType* _killer_type)
     {
         if (_killer_type->slug == LASER_TOWER_SLUG)
         {
-            heatmap_manager.splashOnHeatmap(0, tile_index, 3);
+            heatmap_manager.splashOnHeatmap(HeatmapFlag::LASER_DEATHS, tile_index, 3);
         }
         else if (_killer_type->slug == BULLET_TOWER_SLUG)
         {
-            heatmap_manager.splashOnHeatmap(1, tile_index, 3);
+            heatmap_manager.splashOnHeatmap(HeatmapFlag::BULLET_DEATHS, tile_index, 3);
         }
     }
 }

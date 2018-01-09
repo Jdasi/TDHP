@@ -59,7 +59,7 @@ void NavManager::toggleNodeWalkable(const int _index)
 
 
 NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _goal,
-    int _heatmap_flags)
+    const HeatmapFlag& _heatmap_flags)
 {
     NavPath path;
 
@@ -150,7 +150,7 @@ int NavManager::calculateHeuristic(const sf::Vector2i& _a, const sf::Vector2i& _
 }
 
 
-void NavManager::processOpenList(const sf::Vector2i& _goal, int _heatmap_flags,
+void NavManager::processOpenList(const sf::Vector2i& _goal, const HeatmapFlag& _heatmap_flags,
     NavPath& path, NavNode* start_node, NavNode* goal_node,
     std::vector<NavNode*>& open_list, std::vector<NavNode*>& closed_list)
 {
@@ -185,7 +185,7 @@ void NavManager::processOpenList(const sf::Vector2i& _goal, int _heatmap_flags,
                 continue;
 
             int tentative_g = curr->getGCost() + calculateHeuristic(curr->getCoords(), neighbour->getCoords());
-            tentative_g += heatmap_manager.getWeights(curr->getIndex(), _heatmap_flags);
+            tentative_g += heatmap_manager.getWeight(curr->getIndex(), _heatmap_flags);
 
             bool closed_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
             if (closed_contains_neighbour && tentative_g >= neighbour->getGCost())
