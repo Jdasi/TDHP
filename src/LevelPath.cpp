@@ -23,7 +23,7 @@ LevelPath::LevelPath(const Level& _level, const NavPath& _path)
 
 
 void LevelPath::draw(sf::RenderWindow& _window, const sf::Vector2f& _from,
-    const int _from_index = 0)
+    const unsigned int _from_index = 0)
 {
     if (_from_index >= waypoints.size())
         return;
