@@ -13,7 +13,7 @@ TowerBullet::TowerBullet()
 void TowerBullet::tick()
 {
     float dt = JTime::getDeltaTime();
-    float move_speed = getOwningType()->projectile_stats.move_speed;
+    float move_speed = getOwningType()->projectile_stats.speed;
 
     sprite.setPosition(sprite.getPosition() + (direction * dt * move_speed));
 }

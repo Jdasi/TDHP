@@ -7,6 +7,7 @@ class Killable
 public:
     Killable();
 
+    int getMaxHealth() const;
     void setMaxHealth(const int _max_health);
 
     bool isAlive() const;

@@ -130,6 +130,9 @@
     <ClCompile Include="..\src\HealthBar.cpp">
       <Filter>Core\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\TargetingSystem.cpp">
+      <Filter>Core\Tower</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -264,11 +267,20 @@
     <ClInclude Include="..\src\ProjectileRequest.h">
       <Filter>Core\Projectile</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ProjectileStats.h">
-      <Filter>Core\Projectile</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\HealthBar.h">
       <Filter>Core\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TargetingPrefs.h">
+      <Filter>Core\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ProjectileStats.h">
+      <Filter>Core\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TargetingSystem.h">
+      <Filter>Core\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\WeightedEnemy.h">
+      <Filter>Core\Tower</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

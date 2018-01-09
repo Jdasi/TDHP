@@ -12,6 +12,7 @@
 
 Tower::Tower()
     : iprojectile_manager(nullptr)
+    , enemy_destination(nullptr)
     , type(nullptr)
     , last_shot_timestamp(0)
     , engage_radius(0)
@@ -21,9 +22,10 @@ Tower::Tower()
 }
 
 
-void Tower::init(IProjectileManager& _iprojectile_manager)
+void Tower::init(IProjectileManager& _iprojectile_manager, Waypoint& _enemy_destination)
 {
     iprojectile_manager = &_iprojectile_manager;
+    enemy_destination = &_enemy_destination;
 }
 
 
@@ -38,10 +40,12 @@ void Tower::setType(TowerType& _type)
 
 void Tower::tick(GameData& _gd)
 {
-    Enemy* current_target = evaluateCurrentTarget();
-    if (current_target != nullptr)
+    Enemy* target = targeting_system.evaluateBestTarget(nearby_enemies,
+        type->targeting_prefs, getPosition(), enemy_destination->pos);
+
+    if (target != nullptr)
     {
-        engage(current_target);
+        engage(target);
     }
 }
 
@@ -106,29 +110,6 @@ void Tower::updateEngageRadius()
 
     engage_radius_display.setRadius(engage_radius);
     JHelper::centerSFOrigin(engage_radius_display);
-}
-
-
-Enemy* Tower::evaluateCurrentTarget()
-{
-    Enemy* closest_enemy = nullptr;
-    float closest_dist = JMath::maxFloat();
-
-    auto& pos = getPosition();
-
-    for (auto* enemy : nearby_enemies)
-    {
-        float dist = JMath::vector2DistanceSqr(enemy->getPosition(), pos);
-        if (dist > closest_dist)
-        {
-            continue;
-        }
-
-        closest_enemy = enemy;
-        closest_dist = dist;
-    }
-
-    return closest_enemy;
 }
 
 

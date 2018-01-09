@@ -1,13 +1,17 @@
 #pragma once
 
+#include <string>
+
 struct ProjectileStats
 {
     ProjectileStats()
-        : move_speed(0)
+        : slug()
+        , speed(0)
         , damage(0)
     {
     }
 
-    float move_speed;
+    std::string slug;
+    float speed;
     int damage;
 };

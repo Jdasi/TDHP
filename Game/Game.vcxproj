@@ -158,6 +158,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\Projectile.cpp" />
     <ClCompile Include="..\src\ProjectileManager.cpp" />
     <ClCompile Include="..\src\Scheduler.cpp" />
+    <ClCompile Include="..\src\TargetingSystem.cpp" />
     <ClCompile Include="..\src\TDSprite.cpp" />
     <ClCompile Include="..\src\Level.cpp" />
     <ClCompile Include="..\src\Tile.cpp" />
@@ -192,6 +193,8 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\ProjectileStats.h" />
     <ClInclude Include="..\src\ScheduledTask.h" />
     <ClInclude Include="..\src\Scheduler.h" />
+    <ClInclude Include="..\src\TargetingPrefs.h" />
+    <ClInclude Include="..\src\TargetingSystem.h" />
     <ClInclude Include="..\src\TDSprite.h" />
     <ClInclude Include="..\src\Killable.h" />
     <ClInclude Include="..\src\LevelPath.h" />
@@ -220,6 +223,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\TowerManager.h" />
     <ClInclude Include="..\src\Vector2i.h" />
     <ClInclude Include="..\src\Heatmap.h" />
+    <ClInclude Include="..\src\WeightedEnemy.h" />
     <ClInclude Include="..\src\WeightingType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

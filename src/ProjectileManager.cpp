@@ -1,4 +1,5 @@
 #include "ProjectileManager.h"
+#include "ProjectileStats.h"
 #include "AssetManager.h"
 #include "EnemyDirector.h"
 #include "JTime.h"
@@ -59,7 +60,7 @@ void ProjectileManager::requestProjectile(const ProjectileRequest& _request)
     if (_request.tower_type == nullptr || _request.tower_target == nullptr)
         return;
 
-    auto& projectile_slug = _request.tower_type->projectile_slug;
+    auto& projectile_slug = _request.tower_type->projectile_stats.slug;
 
     if (projectile_slug == LASER_PROJ_SLUG)
     {

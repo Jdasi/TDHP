@@ -101,7 +101,7 @@ void EnemyDirector::addEnemySpawn(const int _tile_index)
 }
 
 
-const Waypoint& EnemyDirector::getEnemyDestination() const
+Waypoint& EnemyDirector::getEnemyDestination()
 {
     return enemy_destination;
 }

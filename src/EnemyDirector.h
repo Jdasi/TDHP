@@ -36,7 +36,7 @@ public:
 
     void addEnemySpawn(const int _tile_index);
 
-    const Waypoint& getEnemyDestination() const;
+    Waypoint& getEnemyDestination();
     void setEnemyDestination(const int _tile_index);
 
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,

@@ -9,8 +9,10 @@
 #include "IProjectileManager.h"
 #include "Killable.h"
 #include "TowerType.h"
+#include "TargetingSystem.h"
 
 class Enemy;
+struct Waypoint;
 
 class Tower final : public TDSprite, public Killable
 {
@@ -18,7 +20,7 @@ public:
     Tower();
     ~Tower() = default;
 
-    void init(IProjectileManager& _iprojectile_manager);
+    void init(IProjectileManager& _iprojectile_manager, Waypoint& _enemy_destination);
     void setType(TowerType& _type);
 
     void tick(GameData& _gd) override;
@@ -40,11 +42,11 @@ private:
     void initEngageRadius();
     void updateEngageRadius();
 
-    Enemy* evaluateCurrentTarget();
     void engage(Enemy* _enemy);
     void shoot(Enemy* _enemy);
 
     IProjectileManager* iprojectile_manager;
+    Waypoint* enemy_destination;
     TowerType* type;
 
     sf::CircleShape engage_radius_display;
@@ -54,5 +56,7 @@ private:
     float engage_radius_sqr;
 
     std::vector<Enemy*> nearby_enemies;
+    TargetingSystem targeting_system;
+
 
 };

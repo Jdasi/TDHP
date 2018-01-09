@@ -17,6 +17,7 @@ public:
     Enemy();
     ~Enemy() = default;
 
+    EnemyType* getType();
     void setType(EnemyType& _type);
 
     void tick();

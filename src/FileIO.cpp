@@ -60,7 +60,7 @@ std::map<std::string, EnemyType> FileIO::loadEnemyTypes(AssetManager& _asset_man
 
         enemy_type.slug = slug;
         enemy_type.texture = _asset_manager.loadTexture(data["sprite"].as_string());
-        enemy_type.move_speed = static_cast<float>(data["move_speed"].as_double());
+        enemy_type.speed = static_cast<float>(data["speed"].as_double());
         enemy_type.max_health = data["max_health"].as_int();
 
         types[slug] = enemy_type;
@@ -87,19 +87,34 @@ std::map<std::string, TowerType> FileIO::loadTowerTypes(AssetManager& _asset_man
 
         TowerType tower_type;
 
+        // General data.
         tower_type.slug = slug;
         tower_type.texture = _asset_manager.loadTexture(data["sprite"].as_string());
-        tower_type.projectile_slug = data["projectile_slug"].as_string();
-
-        if (data.has_key("projectile_speed"))
-        {
-            tower_type.projectile_stats.move_speed = static_cast<float>(data["projectile_speed"].as_double());
-        }
-
-        tower_type.projectile_stats.damage = data["projectile_damage"].as_int();
         tower_type.engage_radius = static_cast<float>(data["engage_radius"].as_double());
         tower_type.shot_delay = static_cast<float>(data["shot_delay"].as_double());
 
+        // Process projectile stats.
+        json proj_data = data["projectile_stats"];
+        auto& projectile_stats = tower_type.projectile_stats;
+
+        projectile_stats.slug = proj_data["slug"].as_string();
+        projectile_stats.damage = proj_data["damage"].as_int();
+
+        if (proj_data.has_key("speed"))
+        {
+            projectile_stats.speed = static_cast<float>(proj_data["speed"].as_double());
+        }
+
+        // Process targeting prefs.
+        json prefs_data = data["targeting_prefs"];
+        auto& targeting_prefs = tower_type.targeting_prefs;
+
+        targeting_prefs.max_health_factor = static_cast<float>(prefs_data["max_health_factor"].as_double());
+        targeting_prefs.speed_factor = static_cast<float>(prefs_data["speed_factor"].as_double());
+        targeting_prefs.self_distance_factor = static_cast<float>(prefs_data["self_distance_factor"].as_double());
+        targeting_prefs.base_distance_factor = static_cast<float>(prefs_data["base_distance_factor"].as_double());
+
+        // Add the type.
         types[slug] = tower_type;
     }
 

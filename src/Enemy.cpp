@@ -12,6 +12,12 @@ Enemy::Enemy()
 }
 
 
+EnemyType* Enemy::getType()
+{
+    return type;
+}
+
+
 void Enemy::setType(EnemyType& _type)
 {
     type = &_type;
@@ -45,7 +51,7 @@ void Enemy::tick()
     else
     {
         sf::Vector2f dir = JMath::vector2Normalized(waypoint.pos - pos);
-        dir *= type->move_speed * JTime::getDeltaTime();
+        dir *= type->speed * JTime::getDeltaTime();
 
         setPosition(pos + dir);
     }

@@ -10,6 +10,12 @@ Killable::Killable()
 }
 
 
+int Killable::getMaxHealth() const
+{
+    return max_health;
+}
+
+
 void Killable::setMaxHealth(const int _max_health)
 {
     max_health = _max_health;

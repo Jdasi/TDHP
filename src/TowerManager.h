@@ -19,6 +19,7 @@ class AssetManager;
 class NavManager;
 class EnemyDirector;
 class Level;
+struct Waypoint;
 
 class TowerManager
 {
@@ -54,6 +55,7 @@ private:
     std::map<std::string, TowerType> tower_types;
     std::array<Tower, MAX_TOWERS> towers;
 
+    Waypoint& enemy_destination;
     Scheduler scheduler;
 
 };

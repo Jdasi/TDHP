@@ -12,13 +12,13 @@ struct EnemyType
     EnemyType()
         : slug()
         , texture(nullptr)
-        , move_speed(0)
+        , speed(0)
         , max_health(0)
     {
     }
 
     std::string slug;
     sf::Texture* texture;
-    float move_speed;
+    float speed;
     int max_health;
 };

@@ -18,6 +18,7 @@ TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manage
     , enemy_director(_enemy_director)
     , level(_current_level)
     , projectile_manager(_asset_manager, _enemy_director)
+    , enemy_destination(enemy_director.getEnemyDestination())
 {
     initTowers();
 
@@ -97,7 +98,7 @@ void TowerManager::initTowers()
     for (auto& tower : towers)
     {
         //tower.attachListener(this);
-        tower.init(projectile_manager);
+        tower.init(projectile_manager, enemy_destination);
     }
 }
 

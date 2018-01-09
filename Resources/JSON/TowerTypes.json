@@ -2,19 +2,39 @@
 	"LaserTower": 
 	{
 		"sprite": "laser_tower.png",
-        "projectile_slug": "laser",
-        "projectile_damage": 4,
         "engage_radius": 3.5,
-        "shot_delay": 1
+        "shot_delay": 1,
+        "projectile_stats":
+        {
+            "slug": "laser",
+            "damage": 4
+        },
+        "targeting_prefs":
+        {
+            "max_health_factor": -10.0,
+            "speed_factor": 10.0,
+            "self_distance_factor": 0,
+            "base_distance_factor": -10.0
+        }
 	},
     
     "BulletTower": 
 	{
 		"sprite": "bullet_tower.png",
-        "projectile_slug": "bullet",
-        "projectile_speed": 150,
-        "projectile_damage": 5,
         "engage_radius": 5,
-        "shot_delay": 0.75
+        "shot_delay": 0.75,
+        "projectile_stats":
+        {
+            "slug": "bullet",
+            "damage": 5,
+            "speed": 150
+        },
+        "targeting_prefs":
+        {
+            "max_health_factor": 5.0,
+            "speed_factor": -10.0,
+            "self_distance_factor": -5.0,
+            "base_distance_factor": 0
+        }
 	}
 }
