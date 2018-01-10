@@ -71,6 +71,5 @@ private:
     sf::Text pause_display;
 
     bool painting;
-    bool paused;
 
 };

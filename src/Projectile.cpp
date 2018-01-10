@@ -47,7 +47,7 @@ void Projectile::refresh(const sf::Vector2f& _from, const sf::Vector2f& _to)
 
 bool Projectile::isActive() const
 {
-    if (JTime::getTime() > draw_until_time)
+    if (JTime::getTime() >= draw_until_time)
         return false;
 
     return true;

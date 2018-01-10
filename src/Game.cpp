@@ -15,18 +15,20 @@ Game::Game(GameData& _gd)
     , current_level(_gd.level_name)
     , current_context(ContextType::GAME)
     , painting(false)
-    , paused(true)
 {
+    // DEBUG: start the game paused.
+    JTime::setTimeScale(0);
+
     init();
 }
 
 
 void Game::tick()
 {
-    if (gd.input.getKeyDown(sf::Keyboard::Key::P))
-        paused = !paused;
+    if (gd.input.getKeyDown(sf::Keyboard::Key::P)) // Flip paused status.
+        JTime::setTimeScale(JTime::getTimeScale() == 1.f ? 0.f : 1.f);
 
-    if (paused)
+    if (JTime::getTimeScale() == 0) // If paused.
         return;
 
     // Systems.
@@ -57,7 +59,7 @@ void Game::draw(sf::RenderWindow& _window)
 
     _window.draw(context_display);
 
-    if (paused)
+    if (JTime::getTimeScale() == 0) // If paused.
         _window.draw(pause_display);
 }
 
