@@ -38,7 +38,7 @@ void Tower::setType(TowerType& _type)
 }
 
 
-void Tower::tick(GameData& _gd)
+void Tower::tick()
 {
     Enemy* target = targeting_system.evaluateBestTarget(nearby_enemies,
         type->targeting_prefs, getPosition(), enemy_destination->pos);

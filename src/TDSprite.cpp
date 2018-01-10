@@ -16,7 +16,7 @@ TDSprite::TDSprite()
 }
 
 
-void TDSprite::tick(GameData& _gd)
+void TDSprite::tick()
 {
     // Base class doesn't do anything.
 }

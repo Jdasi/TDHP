@@ -31,7 +31,7 @@ TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manage
 
 void TowerManager::tick(GameData& _gd)
 {
-    projectile_manager.tick(_gd);
+    projectile_manager.tick();
     scheduler.update();
 
     for (auto& tower : towers)
@@ -39,7 +39,7 @@ void TowerManager::tick(GameData& _gd)
         if (!tower.isAlive())
             continue;
 
-        tower.tick(_gd);
+        tower.tick();
     }
 }
 

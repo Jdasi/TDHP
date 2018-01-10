@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "EnemyDirector.h"
@@ -22,6 +20,7 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     , heatmap_manager(_heatmap_manager)
     , level(_level)
     , enemy_type_manager(_asset_manager)
+    , brain(_heatmap_manager, enemy_type_manager, enemy_spawns)
 {
     enemy_spawns.reserve(MAX_ENEMY_SPAWNS);
 
@@ -36,27 +35,25 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
             EnemyType* random_type = enemy_type_manager.getRandomType();
             enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
         }
-
-        std::cout << "Total Laser weight: " << heatmap_manager.getTotalWeight(HeatmapFlag::LASER_DEATHS) << "\n"
-                  << "Total Bullet weight: " << heatmap_manager.getTotalWeight(HeatmapFlag::BULLET_DEATHS) << "\n\n";
-    }, 1.5f, 1.5f);
+    }, 2.0f, 2.0f);
 }
 
 
 void EnemyDirector::tick(GameData& _gd)
 {
     scheduler.update();
-
-    for (auto& spawn : enemy_spawns)
-    {
-        spawn.tick(_gd);
-    }
+    brain.tick();
 
     // Debug enemy spawn on user input.
     if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
     {
         EnemyType* random_type = enemy_type_manager.getRandomType();
         enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
+    }
+
+    for (auto& spawn : enemy_spawns)
+    {
+        spawn.tick();
     }
 
     for (auto& enemy : enemies)
@@ -81,9 +78,7 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
     for (auto& enemy : enemies)
     {
         if (!enemy.isAlive())
-        {
             continue;
-        }
 
         enemy.draw(_window);
     }
@@ -122,7 +117,8 @@ void EnemyDirector::setEnemyDestination(const int _tile_index)
 }
 
 
-std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos, const float _radius_sqr)
+std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos,
+    const float _radius_sqr)
 {
     std::vector<Enemy*> nearby_enemies;
     nearby_enemies.reserve(MAX_ENEMIES / 2);
@@ -130,15 +126,11 @@ std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos
     for (auto& enemy : enemies)
     {
         if (!enemy.isAlive())
-        {
             continue;
-        }
 
         float dist = JMath::vector2DistanceSqr(enemy.getPosition(), _pos);
         if (dist > _radius_sqr)
-        {
             continue;
-        }
 
         nearby_enemies.push_back(&enemy);
     }

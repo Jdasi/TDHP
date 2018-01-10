@@ -1,19 +1,19 @@
 {
-	"Light": 
+	"Fast":
 	{
 		"sprite": "enemy_light.png",
         "speed": 100,
         "max_health": 1
 	},
     
-    "Medium": 
+    "Normal":
 	{
 		"sprite": "enemy_medium.png",
         "speed": 50,
         "max_health": 7
 	},
     
-    "Heavy": 
+    "Strong":
 	{
 		"sprite": "enemy_heavy.png",
         "speed": 20,

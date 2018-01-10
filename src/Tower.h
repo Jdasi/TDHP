@@ -23,7 +23,7 @@ public:
     void init(IProjectileManager& _iprojectile_manager, Waypoint& _enemy_destination);
     void setType(TowerType& _type);
 
-    void tick(GameData& _gd) override;
+    void tick() override;
     void draw(sf::RenderWindow& _window) override;
 
     bool canShoot() const;

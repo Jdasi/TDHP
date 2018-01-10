@@ -16,7 +16,6 @@ namespace sf
 
 class AssetManager;
 class EnemyDirector;
-struct GameData;
 
 class ProjectileManager : public IProjectileManager
 {
@@ -24,7 +23,7 @@ public:
     ProjectileManager(AssetManager& _asset_manager, EnemyDirector& _enemy_director);
     ~ProjectileManager() = default;
 
-    void tick(GameData& _gd);
+    void tick();
     void draw(sf::RenderWindow& _window);
 
     void requestProjectile(const ProjectileRequest& _request);

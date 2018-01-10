@@ -1,7 +1,6 @@
 #pragma once
 
 #include <array>
-#include <map>
 
 #include <SFML/System/Vector2.hpp>
 
@@ -13,6 +12,7 @@
 #include "Constants.h"
 #include "LevelPath.h"
 #include "Scheduler.h"
+#include "DirectorBrain.h"
 
 namespace sf
 {
@@ -69,5 +69,6 @@ private:
     TDSprite destination_marker;
 
     Scheduler scheduler;
+    DirectorBrain brain;
 
 };

@@ -20,7 +20,7 @@ public:
     EnemyType* getType();
     void setType(EnemyType& _type);
 
-    void tick();
+    void tick() override;
     void draw(sf::RenderWindow& _window) override;
 
     void setPath(const LevelPath& _path);

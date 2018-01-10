@@ -15,7 +15,7 @@ ProjectileManager::ProjectileManager(AssetManager& _asset_manager, EnemyDirector
 }
 
 
-void ProjectileManager::tick(GameData& _gd)
+void ProjectileManager::tick()
 {
     for (auto& bullet : bullets)
     {

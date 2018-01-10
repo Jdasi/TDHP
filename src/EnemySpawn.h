@@ -16,7 +16,6 @@ namespace sf
 
 class Level;
 class NavManager;
-struct GameData;
 
 class EnemySpawn
 {
@@ -26,14 +25,14 @@ public:
 
     ~EnemySpawn() = default;
 
-    void tick(GameData& _gd);
+    void tick();
     void draw(sf::RenderWindow& _window);
 
     void setMarkerTexture(sf::Texture* _texture);
+    void spawnEnemy(EnemyType* _type) const;
 
-    void spawnEnemy(EnemyType* _type);
-
-    int getPathDifference();
+    int getPathCost() const;
+    int getPathDifference() const;
 
 private:
     void calculatePurePath();

@@ -20,6 +20,7 @@ class NavManager;
 class EnemyDirector;
 class Level;
 struct Waypoint;
+struct GameData;
 
 class TowerManager
 {

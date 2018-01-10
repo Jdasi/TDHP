@@ -27,7 +27,7 @@ EnemySpawn::EnemySpawn(NavManager& _nav_manager, Level& _level,
 }
 
 
-void EnemySpawn::tick(GameData& _gd)
+void EnemySpawn::tick()
 {
     scheduler.update();
 }
@@ -49,7 +49,7 @@ void EnemySpawn::setMarkerTexture(sf::Texture* _texture)
 /* Finds the first dead enemy in the pool and respawns them at the passed position.
  * The spawned enemy assumes the characteristics of the passed type.
  */
-void EnemySpawn::spawnEnemy(EnemyType* _type)
+void EnemySpawn::spawnEnemy(EnemyType* _type) const
 {
     if (!level_path.pathSuccessful() || _type == nullptr)
         return;
@@ -70,7 +70,13 @@ void EnemySpawn::spawnEnemy(EnemyType* _type)
 }
 
 
-int EnemySpawn::getPathDifference()
+int EnemySpawn::getPathCost() const
+{
+    return level_path.getTotalCost();
+}
+
+
+int EnemySpawn::getPathDifference() const
 {
     return path_difference;
 }

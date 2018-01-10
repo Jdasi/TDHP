@@ -144,6 +144,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
   <ItemGroup>
     <ClCompile Include="..\src\Application.cpp" />
     <ClCompile Include="..\src\AssetManager.cpp" />
+    <ClCompile Include="..\src\DirectorBrain.cpp" />
     <ClCompile Include="..\src\Enemy.cpp" />
     <ClCompile Include="..\src\EnemyDirector.cpp" />
     <ClCompile Include="..\src\EnemySpawn.cpp" />
@@ -180,6 +181,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\Application.h" />
     <ClInclude Include="..\src\AssetManager.h" />
     <ClInclude Include="..\src\Constants.h" />
+    <ClInclude Include="..\src\DirectorBrain.h" />
     <ClInclude Include="..\src\Enemy.h" />
     <ClInclude Include="..\src\EnemyDirector.h" />
     <ClInclude Include="..\src\EnemyListener.h" />
@@ -227,6 +229,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\Heatmap.h" />
     <ClInclude Include="..\src\WeightedEnemy.h" />
     <ClInclude Include="..\src\WeightingType.h" />
+    <ClInclude Include="..\src\WorkingKnowledge.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
