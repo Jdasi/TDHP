@@ -21,6 +21,7 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     , nav_manager(_nav_manager)
     , heatmap_manager(_heatmap_manager)
     , level(_level)
+    , enemy_type_manager(_asset_manager)
 {
     enemy_spawns.reserve(MAX_ENEMY_SPAWNS);
 
@@ -32,7 +33,8 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     {
         if (enemy_spawns.size() > 0)
         {
-            enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy();
+            EnemyType* random_type = enemy_type_manager.getRandomType();
+            enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
         }
 
         std::cout << "Total Laser weight: " << heatmap_manager.getTotalWeight(HeatmapFlag::LASER_DEATHS) << "\n"
@@ -52,7 +54,10 @@ void EnemyDirector::tick(GameData& _gd)
 
     // Debug enemy spawn on user input.
     if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
-        enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy();
+    {
+        EnemyType* random_type = enemy_type_manager.getRandomType();
+        enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
+    }
 
     for (auto& enemy : enemies)
     {
@@ -97,7 +102,7 @@ void EnemyDirector::addEnemySpawn(const int _tile_index)
     auto& spawn = enemy_spawns[enemy_spawns.size() - 1];
 
     auto* texture = asset_manager.loadTexture(SPAWN_SPRITE);
-    spawn.setTexture(texture);
+    spawn.setMarkerTexture(texture);
 }
 
 
@@ -170,17 +175,9 @@ bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_
 
 void EnemyDirector::initEnemies()
 {
-    enemy_types = FileIO::loadEnemyTypes(asset_manager);
-
     for (auto& enemy : enemies)
     {
         enemy.attachListener(this);
-
-        // Debug random selection.
-        std::array<std::string, 3> slugs { LIGHT_ENEMY_SLUG, MEDIUM_ENEMY_SLUG, HEAVY_ENEMY_SLUG };
-        std::string selection = slugs[rand() % slugs.size()];
-
-        enemy.setType(enemy_types.at(selection));
     }
 }
 

@@ -6,8 +6,9 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "Enemy.h"
-#include "EnemyType.h"
 #include "EnemyListener.h"
+#include "EnemyType.h"
+#include "EnemyTypeManager.h"
 #include "EnemySpawn.h"
 #include "Constants.h"
 #include "LevelPath.h"
@@ -60,10 +61,9 @@ private:
     HeatmapManager& heatmap_manager;
     Level& level;
 
-    std::map<std::string, EnemyType> enemy_types;
+    EnemyTypeManager enemy_type_manager;
     std::array<Enemy, MAX_ENEMIES> enemies;
-
-    std::vector<EnemySpawn> enemy_spawns; // enemyspawn
+    std::vector<EnemySpawn> enemy_spawns;
 
     Waypoint enemy_destination;
     TDSprite destination_marker;

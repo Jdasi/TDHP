@@ -133,6 +133,9 @@
     <ClCompile Include="..\src\TargetingSystem.cpp">
       <Filter>Core\Tower</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\EnemyTypeManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -281,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="..\src\WeightedEnemy.h">
       <Filter>Core\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EnemyTypeManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

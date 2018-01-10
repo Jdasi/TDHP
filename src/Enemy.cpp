@@ -22,7 +22,7 @@ void Enemy::setType(EnemyType& _type)
 {
     type = &_type;
 
-    setMaxHealth(type->max_health);
+    setMaxHealth(_type.max_health);
     setTexture(_type.texture);
 }
 

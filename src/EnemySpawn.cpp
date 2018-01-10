@@ -39,17 +39,18 @@ void EnemySpawn::draw(sf::RenderWindow& _window)
 }
 
 
-void EnemySpawn::setTexture(sf::Texture* _texture)
+void EnemySpawn::setMarkerTexture(sf::Texture* _texture)
 {
     spawn_marker.setTexture(_texture);
 }
 
 
 /* Finds the first dead enemy in the pool and respawns them at the passed position.
+ * The spawned enemy assumes the characteristics of the passed type.
  */
-void EnemySpawn::spawnEnemy()
+void EnemySpawn::spawnEnemy(EnemyType* _type)
 {
-    if (!level_path.pathSuccessful())
+    if (!level_path.pathSuccessful() || _type == nullptr)
         return;
 
     for (auto& enemy : enemies)
@@ -57,9 +58,10 @@ void EnemySpawn::spawnEnemy()
         if (enemy.isAlive())
             continue;
 
+        enemy.setType(*_type);
         enemy.spawn();
-        enemy.setPosition(level_position.pos);
 
+        enemy.setPosition(level_position.pos);
         enemy.setPath(level_path);
 
         return;

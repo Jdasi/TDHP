@@ -29,9 +29,10 @@ public:
     void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
-    void setTexture(sf::Texture* _texture);
+    void setMarkerTexture(sf::Texture* _texture);
 
-    void spawnEnemy();
+    void spawnEnemy(EnemyType* _type);
+
     int getPathDifference();
 
 private:
