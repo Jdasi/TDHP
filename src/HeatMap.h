@@ -51,7 +51,6 @@ private:
         const float _modifier = 1);
 
     void decay();
-    void updateTotalWeight();
 
     HeatmapFlag flag;
     WeightingType weighting_type;
@@ -67,7 +66,5 @@ private:
     std::vector<float> weightings;
     TileGrid grid;
     float total_weight;
-
-    bool dirty;
 
 };

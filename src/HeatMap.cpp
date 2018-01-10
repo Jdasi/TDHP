@@ -16,7 +16,6 @@ Heatmap::Heatmap(const Level& _level, const HeatmapFlag& _flag,
     , decay_rate(0)
     , grid(_level, sf::Color::Transparent)
     , total_weight(0)
-    , dirty(false)
 {
     weightings.assign(_level.getProduct(), 0);
 }
@@ -109,12 +108,6 @@ int Heatmap::getWeight(const int _tile_index)
 
 int Heatmap::getTotalWeight()
 {
-    if (dirty)
-    {
-        dirty = false;
-        updateTotalWeight();
-    }
-
     return static_cast<int>(total_weight);
 }
 
@@ -162,19 +155,29 @@ void Heatmap::paintWithModifier(const int _tile_index, const int _radius,
             if (weighting >= MAX_WEIGHTING)
                 continue;
 
-            weighting += (paint_hardness / (diff + 1)) * _modifier;
-            weighting = JMath::clampf(weighting, MIN_WEIGHTING, MAX_WEIGHTING);
+            // Manual clamp to accurately record change to total_weight.
+            float adjustment = (paint_hardness / (diff + 1)) * _modifier;
+            if (weighting + adjustment > MAX_WEIGHTING)
+            {
+                adjustment = MAX_WEIGHTING - weighting;
+            }
+
+            weighting += adjustment;
+            total_weight += adjustment;
 
             grid.setTileAlpha(curr, weighting);
-
-            dirty = true;
         }
     }
 }
 
 
+/* Decays the entire heatmap based on its decay rate.
+ * Also updates the heatmap's total_weight.
+ */
 void Heatmap::decay()
 {
+    total_weight = 0;
+
     for (unsigned int i = 0; i < weightings.size(); ++i)
     {
         float& weighting = weightings[i];
@@ -185,19 +188,8 @@ void Heatmap::decay()
         weighting -= (decay_rate * JTime::getDeltaTime());
         weighting = JMath::clampf(weighting, MIN_WEIGHTING, MAX_WEIGHTING);
 
-        grid.setTileAlpha(i, weighting);
-
-        dirty = true;
-    }
-}
-
-
-void Heatmap::updateTotalWeight()
-{
-    total_weight = 0;
-
-    for (auto& weighting : weightings)
-    {
         total_weight += weighting;
+
+        grid.setTileAlpha(i, weighting);
     }
 }
