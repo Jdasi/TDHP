@@ -15,7 +15,7 @@ public:
     LevelPath(const Level& _level, const NavPath& _path);
 
     void draw(sf::RenderWindow& _window, const sf::Vector2f& _from,
-        const unsigned int _from_index);
+        const unsigned int _from_index = 0, const sf::Color& _color = sf::Color::Yellow);
 
     bool pathSuccessful() const;
     int getTotalCost() const;

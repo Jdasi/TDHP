@@ -23,7 +23,7 @@ LevelPath::LevelPath(const Level& _level, const NavPath& _path)
 
 
 void LevelPath::draw(sf::RenderWindow& _window, const sf::Vector2f& _from,
-    const unsigned int _from_index = 0)
+    const unsigned int _from_index, const sf::Color& _color)
 {
     if (_from_index >= waypoints.size())
         return;
@@ -34,7 +34,7 @@ void LevelPath::draw(sf::RenderWindow& _window, const sf::Vector2f& _from,
 
     for (int i = 0; i < line_size; ++i)
     {
-        vis[i].color = sf::Color::Yellow;
+        vis[i].color = _color;
         vis[i].position = i == 0 ? _from : waypoints[_from_index + i - 1].pos;
     }
 

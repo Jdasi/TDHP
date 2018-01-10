@@ -36,6 +36,7 @@ void EnemySpawn::tick(GameData& _gd)
 void EnemySpawn::draw(sf::RenderWindow& _window)
 {
     spawn_marker.draw(_window);
+    level_path_pure.draw(_window, level_position.pos, 0, sf::Color::Red);
 }
 
 
