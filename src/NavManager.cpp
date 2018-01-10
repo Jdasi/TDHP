@@ -212,9 +212,25 @@ NavPath NavManager::retracePath(NavNode* _start_node, NavNode* _goal_node)
     path.success = true;
 
     NavNode* curr = _goal_node;
+    sf::Vector2i last_coords = _goal_node->getCoords();
+
     while (curr != _start_node)
     {
-        path.indices.push_back(curr->getIndex());
+        NavNode* next = curr->getParent();
+        bool curr_is_corner = false;
+
+        if (next != nullptr)
+        {
+            sf::Vector2i next_coords = next->getCoords();
+            curr_is_corner = (next_coords.x != last_coords.x && next_coords.y != last_coords.y);
+        }
+
+        if (curr == _goal_node || curr_is_corner)
+        {
+            path.indices.push_back(curr->getIndex());
+            last_coords = curr->getCoords();
+        }
+
         curr = curr->getParent();
     }
 
