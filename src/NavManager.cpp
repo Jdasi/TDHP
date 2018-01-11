@@ -164,9 +164,9 @@ void NavManager::processOpenList(const sf::Vector2i& _goal, const HeatmapFlag& _
         }
 
         open_list.erase(std::remove_if(
-                open_list.begin(),
-                open_list.end(),
-                [curr](NavNode* _node) { return _node == curr; }),
+            open_list.begin(),
+            open_list.end(),
+            [curr](NavNode* _node) { return _node == curr; }),
             open_list.end());
 
         closed_list.push_back(curr);

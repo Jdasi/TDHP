@@ -3,7 +3,7 @@
 	{
 		"sprite": "enemy_light.png",
         "speed": 100,
-        "max_health": 1
+        "max_health": 3
 	},
     
     "Normal":

@@ -127,9 +127,6 @@
     <ClCompile Include="..\src\Killable.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\HealthBar.cpp">
-      <Filter>Core\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\TargetingSystem.cpp">
       <Filter>Core\Tower</Filter>
     </ClCompile>
@@ -138,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="..\src\EnemyManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ValueBar.cpp">
+      <Filter>Core\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -273,9 +273,6 @@
     <ClInclude Include="..\src\ProjectileRequest.h">
       <Filter>Core\Projectile</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\HealthBar.h">
-      <Filter>Core\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\TargetingPrefs.h">
       <Filter>Core\Tower</Filter>
     </ClInclude>
@@ -296,6 +293,9 @@
     </ClInclude>
     <ClInclude Include="..\src\EnemyManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ValueBar.h">
+      <Filter>Core\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

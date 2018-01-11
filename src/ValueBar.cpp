@@ -1,47 +1,55 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "HealthBar.h"
+#include "ValueBar.h"
 #include "JHelper.h"
 
 
-HealthBar::HealthBar()
+ValueBar::ValueBar()
     : y_offset(0)
 {
     init();
 }
 
 
-void HealthBar::draw(sf::RenderWindow& _window)
+void ValueBar::draw(sf::RenderWindow& _window)
 {
     _window.draw(rectangle);
 }
 
 
-void HealthBar::configure(const sf::Vector2f& _size, const float _y_offset)
+void ValueBar::configure(const sf::Vector2f& _size, const float _y_offset,
+    const sf::Color& _color)
 {
     size = _size;
     y_offset = _y_offset;
 
     rectangle.setSize(_size);
     JHelper::centerSFOrigin(rectangle);
+
+    setBarColor(_color);
 }
 
 
-void HealthBar::updatePosition(const sf::Vector2f& _position)
+void ValueBar::setBarColor(const sf::Color& _color)
+{
+    rectangle.setFillColor(_color);
+}
+
+
+void ValueBar::updatePosition(const sf::Vector2f& _position)
 {
     rectangle.setPosition({ _position.x, _position.y + y_offset });
 }
 
 
-void HealthBar::updateHealthPercentage(const float _percentage)
+void ValueBar::updateValuePercentage(const float _percentage)
 {
     rectangle.setSize({ size.x * _percentage, size.y });
 }
 
 
-void HealthBar::init()
+void ValueBar::init()
 {
-    rectangle.setFillColor(sf::Color::Green);
     rectangle.setOutlineColor(sf::Color::White);
     rectangle.setOutlineThickness(1);
 }

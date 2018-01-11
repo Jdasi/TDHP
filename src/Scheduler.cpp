@@ -19,19 +19,28 @@ void Scheduler::update()
 
 
 // Calls the passed function after the specified time in seconds.
-void Scheduler::invoke(const std::function<void()>& _method, const double _time)
+void Scheduler::invoke(const std::function<void()>& _method, const double _time,
+    const std::string& _name)
 {
-    scheduled_tasks.emplace_back(_method, total_time + _time);
+    scheduled_tasks.emplace_back(_method, total_time + _time, _name);
 }
 
 
 void Scheduler::invokeRepeating(const std::function<void()>& _method,
-    const double _start, const double _interval)
+    const double _start, const double _interval, const std::string& _name)
 {
-    scheduled_tasks.emplace_back(_method, total_time + _start, _interval);
+    scheduled_tasks.emplace_back(_method, total_time + _start, _interval, _name);
 }
 
 
+// Cancels any invoke with the passed name.
+void Scheduler::cancelInvoke(const std::string& _name)
+{
+    scheduled_tasks.remove_if([_name](auto& _task) { return _task.name == _name; });
+}
+
+
+// Cancels all invokes on this scheduler.
 void Scheduler::cancelInvokes()
 {
     scheduled_tasks.clear();

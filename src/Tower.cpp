@@ -85,7 +85,10 @@ void Tower::onSetPosition()
 void Tower::onSpawn()
 {
     if (type == nullptr)
+    {
         killQuiet();
+        return;
+    }
 
     last_shot_timestamp = JTime::getTime();
     setRotation(0);

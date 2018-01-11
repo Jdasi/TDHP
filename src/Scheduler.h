@@ -18,10 +18,14 @@ public:
 
     void update();
 
-    void invoke(const std::function<void()>& _method, const double _time);
-    void invokeRepeating(const std::function<void()> & _method,
-        const double _start, const double _interval);
+    void invoke(const std::function<void()>& _method, const double _time,
+        const std::string& _name = "");
 
+    void invokeRepeating(const std::function<void()> & _method,
+        const double _start, const double _interval,
+        const std::string& _name = "");
+
+    void cancelInvoke(const std::string& _name);
     void cancelInvokes();
 
 private:

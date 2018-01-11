@@ -18,7 +18,10 @@ int Killable::getMaxHealth() const
 
 void Killable::setMaxHealth(const int _max_health)
 {
+    float prev_health_percentage = getHealthPercentage();
+
     max_health = _max_health;
+    health = static_cast<int>(_max_health * prev_health_percentage);
 }
 
 

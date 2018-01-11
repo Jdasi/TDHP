@@ -8,7 +8,8 @@
 #include "LevelPath.h"
 #include "TDSprite.h"
 #include "EnemyType.h"
-#include "HealthBar.h"
+#include "ValueBar.h"
+#include "Scheduler.h"
 
 class Enemy final : public TDSprite, public Killable,
     public ListenerSubject<EnemyListener>
@@ -24,6 +25,8 @@ public:
     void draw(sf::RenderWindow& _window) override;
 
     void setPath(const LevelPath& _path);
+    void boostHealth(const int _modifier, const float _duration);
+    void boostSpeed(const float _modifier, const float _duration);
 
 protected:
     // Killable events.
@@ -37,10 +40,17 @@ protected:
 private:
     void initHealthBar();
 
+    void resetHealth();
+    void resetSpeed();
+
     LevelPath path;
     int path_index;
 
     EnemyType* type;
-    HealthBar health_bar;
+    ValueBar health_bar;
+
+    float speed_modifier;
+
+    Scheduler scheduler;
 
 };

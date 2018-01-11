@@ -51,6 +51,16 @@ void EnemyDirector::tick(GameData& _gd)
         enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
     }
 
+    if (_gd.input.getKeyDown(sf::Keyboard::Key::S))
+    {
+        enemy_manager.boostEnemySpeed(2, 3);
+    }
+
+    if (_gd.input.getKeyDown(sf::Keyboard::Key::H))
+    {
+        enemy_manager.boostEnemyHealth(2, 3);
+    }
+
     for (auto& spawn : enemy_spawns)
     {
         spawn.tick();

@@ -8,17 +8,21 @@ namespace sf
     class RenderWindow;
 }
 
-class HealthBar
+class ValueBar
 {
 public:
-    HealthBar();
-    ~HealthBar() = default;
+    ValueBar();
+    ~ValueBar() = default;
 
     void draw(sf::RenderWindow& _window);
 
-    void configure(const sf::Vector2f& _size, const float _y_offset);
+    void configure(const sf::Vector2f& _size, const float _y_offset,
+        const sf::Color& _color = sf::Color::White);
+
+    void setBarColor(const sf::Color& _color);
+
     void updatePosition(const sf::Vector2f& _position);
-    void updateHealthPercentage(const float _percentage);
+    void updateValuePercentage(const float _percentage);
 
 private:
     void init();
