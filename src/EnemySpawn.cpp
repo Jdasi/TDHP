@@ -50,12 +50,13 @@ void EnemySpawn::setMarkerTexture(sf::Texture* _texture)
 /* Finds the first dead enemy in the pool and respawns them at the passed position.
  * The spawned enemy assumes the characteristics of the passed type.
  */
-void EnemySpawn::spawnEnemy(EnemyType* _type) const
+void EnemySpawn::spawnEnemy(EnemyType* _type, const SpawnPathType& _path_type) const
 {
     if (!level_path.pathSuccessful() || _type == nullptr)
         return;
 
-    enemy_manager.spawnEnemy(_type, level_position.pos, level_path);
+    const LevelPath& path = _path_type == INFLUENCED ? level_path : level_path_pure;
+    enemy_manager.spawnEnemy(_type, level_position.pos, path);
 }
 
 

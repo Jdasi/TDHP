@@ -19,16 +19,21 @@ struct EnemyType;
 class EnemySpawn
 {
 public:
+    enum SpawnPathType
+    {
+        INFLUENCED,
+        PURE
+    };
+
     EnemySpawn(NavManager& _nav_manager, Level& _level, const int _tile_index,
         Waypoint& _enemy_destination, EnemyManager& _enemy_manager);
-
     ~EnemySpawn() = default;
 
     void tick();
     void draw(sf::RenderWindow& _window);
 
     void setMarkerTexture(sf::Texture* _texture);
-    void spawnEnemy(EnemyType* _type) const;
+    void spawnEnemy(EnemyType* _type, const SpawnPathType& _path_type = INFLUENCED) const;
 
     int getPathCost() const;
     int getPathDifference() const;
