@@ -109,11 +109,16 @@ Waypoint& EnemyDirector::getEnemyDestination()
 
 void EnemyDirector::setEnemyDestination(const int _tile_index)
 {
-    if (!nav_manager.isNodeWalkable(_tile_index))
+    if (!JHelper::validIndex(_tile_index, level.getProduct()))
         return;
 
     enemy_destination = level.createWaypoint(_tile_index);
     destination_marker.setPosition(enemy_destination.pos);
+
+    for (auto& spawn : enemy_spawns)
+    {
+        spawn.updatePurePath();
+    }
 }
 
 

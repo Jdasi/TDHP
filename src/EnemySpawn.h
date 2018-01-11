@@ -34,8 +34,9 @@ public:
     int getPathCost() const;
     int getPathDifference() const;
 
+    void updatePurePath();
+
 private:
-    void calculatePurePath();
     void updateEnemyPath();
 
     NavManager& nav_manager;

@@ -181,7 +181,7 @@ void NavManager::processOpenList(const sf::Vector2i& _goal, const HeatmapFlag& _
         auto& neighbours = curr->getNeighbours();
         for (auto* neighbour : neighbours)
         {
-            if (!neighbour->isWalkable())
+            if (!neighbour->isWalkable() && neighbour != goal_node)
                 continue;
 
             int tentative_g = curr->getGCost() + calculateHeuristic(curr->getCoords(), neighbour->getCoords());

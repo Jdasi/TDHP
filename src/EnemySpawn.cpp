@@ -20,7 +20,7 @@ EnemySpawn::EnemySpawn(NavManager& _nav_manager, Level& _level,
     scheduler.invokeRepeating([this]()
     {
         if (!level_path_pure.pathSuccessful())
-            calculatePurePath();
+            updatePurePath();
 
         updateEnemyPath();
     }, 0, 0.5f);
@@ -83,7 +83,7 @@ int EnemySpawn::getPathDifference() const
 
 
 // Calculate straight path to destination, ignoring heatmap data.
-void EnemySpawn::calculatePurePath()
+void EnemySpawn::updatePurePath()
 {
     auto path = nav_manager.findPath(
         level_position.tile_coords,
