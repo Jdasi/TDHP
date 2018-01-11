@@ -28,7 +28,6 @@ private:
     void executeScheduledTasks();
 
     std::list<ScheduledTask> scheduled_tasks;
-    SimpleTimer timer;
     double total_time;
 
 };

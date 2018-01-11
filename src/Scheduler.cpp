@@ -1,23 +1,21 @@
 #include "Scheduler.h"
+#include "JTime.h"
+
 
 Scheduler::Scheduler()
     : scheduled_tasks()
-    , timer()
     , total_time(0)
 {
 }
 
 
-
-// Ticks the Scheduler's own timer for the purposes of invoking scheduled functions.
+// Increments the scheduler's time record and processes its scheduled tasks.
 void Scheduler::update()
 {
-    total_time += timer.getTimeDifference();
-    timer.reset();
+    total_time += JTime::getDeltaTime();
 
     executeScheduledTasks();
 }
-
 
 
 // Calls the passed function after the specified time in seconds.
@@ -47,6 +45,7 @@ void Scheduler::cancelInvokes()
 void Scheduler::executeScheduledTasks()
 {
     auto itr = scheduled_tasks.begin();
+
     while (itr != scheduled_tasks.end())
     {
         if (total_time >= itr->timeout)

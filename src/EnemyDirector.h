@@ -1,13 +1,11 @@
 #pragma once
 
-#include <array>
-
 #include <SFML/System/Vector2.hpp>
 
 #include "Enemy.h"
 #include "EnemyListener.h"
 #include "EnemyType.h"
-#include "EnemyTypeManager.h"
+#include "EnemyManager.h"
 #include "EnemySpawn.h"
 #include "Constants.h"
 #include "LevelPath.h"
@@ -47,10 +45,7 @@ public:
     bool killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_type = nullptr);
 
 private:
-    void initEnemies();
     void initDestinationMarker();
-
-    Enemy* getEnemyAtPos(const sf::Vector2f& _pos);
 
     // Enemy events.
     void onDeath(const sf::Vector2f& _pos, TowerType* _killer_type) override;
@@ -61,8 +56,7 @@ private:
     HeatmapManager& heatmap_manager;
     Level& level;
 
-    EnemyTypeManager enemy_type_manager;
-    std::array<Enemy, MAX_ENEMIES> enemies;
+    EnemyManager enemy_manager;
     std::vector<EnemySpawn> enemy_spawns;
 
     Waypoint enemy_destination;

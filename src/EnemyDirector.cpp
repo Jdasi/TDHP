@@ -19,12 +19,12 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     , nav_manager(_nav_manager)
     , heatmap_manager(_heatmap_manager)
     , level(_level)
-    , enemy_type_manager(_asset_manager)
-    , brain(_heatmap_manager, enemy_type_manager, enemy_spawns)
+    , enemy_manager(_asset_manager)
+    , brain(_heatmap_manager, enemy_manager, enemy_spawns)
 {
     enemy_spawns.reserve(MAX_ENEMY_SPAWNS);
+    enemy_manager.addEnemyListener(this);
 
-    initEnemies();
     initDestinationMarker();
 
     // Debug repeating enemy spawn.
@@ -32,7 +32,7 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     {
         if (enemy_spawns.size() > 0)
         {
-            EnemyType* random_type = enemy_type_manager.getRandomType();
+            EnemyType* random_type = enemy_manager.getRandomType();
             enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
         }
     }, 2.0f, 2.0f);
@@ -47,7 +47,7 @@ void EnemyDirector::tick(GameData& _gd)
     // Debug enemy spawn on user input.
     if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
     {
-        EnemyType* random_type = enemy_type_manager.getRandomType();
+        EnemyType* random_type = enemy_manager.getRandomType();
         enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
     }
 
@@ -56,13 +56,7 @@ void EnemyDirector::tick(GameData& _gd)
         spawn.tick();
     }
 
-    for (auto& enemy : enemies)
-    {
-        if (!enemy.isAlive())
-            continue;
-
-        enemy.tick();
-    }
+    enemy_manager.tick();
 }
 
 
@@ -74,14 +68,7 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
     }
 
     destination_marker.draw(_window);
-
-    for (auto& enemy : enemies)
-    {
-        if (!enemy.isAlive())
-            continue;
-
-        enemy.draw(_window);
-    }
+    enemy_manager.draw(_window);
 }
 
 
@@ -93,11 +80,13 @@ void EnemyDirector::addEnemySpawn(const int _tile_index)
         return;
     }
 
-    enemy_spawns.emplace_back(nav_manager, level, _tile_index, enemy_destination, enemies);
+    enemy_spawns.emplace_back(nav_manager, level, _tile_index, enemy_destination, enemy_manager);
     auto& spawn = enemy_spawns[enemy_spawns.size() - 1];
 
     auto* texture = asset_manager.loadTexture(SPAWN_SPRITE);
     spawn.setMarkerTexture(texture);
+
+    spawn.updatePurePath();
 }
 
 
@@ -125,57 +114,19 @@ void EnemyDirector::setEnemyDestination(const int _tile_index)
 std::vector<Enemy*> EnemyDirector::getEnemiesNearPosSqr(const sf::Vector2f& _pos,
     const float _radius_sqr)
 {
-    std::vector<Enemy*> nearby_enemies;
-    nearby_enemies.reserve(MAX_ENEMIES / 2);
-
-    for (auto& enemy : enemies)
-    {
-        if (!enemy.isAlive())
-            continue;
-
-        float dist = JMath::vector2DistanceSqr(enemy.getPosition(), _pos);
-        if (dist > _radius_sqr)
-            continue;
-
-        nearby_enemies.push_back(&enemy);
-    }
-
-    return nearby_enemies;
+    return enemy_manager.getEnemiesNearPosSqr(_pos, _radius_sqr);
 }
 
 
 bool EnemyDirector::damageEnemyAtPos(const sf::Vector2f& _pos, TowerType* _attacker_type)
 {
-    Enemy* enemy = getEnemyAtPos(_pos);
-
-    if (enemy == nullptr)
-        return false;
-
-    enemy->damage(_attacker_type);
-
-    return true;
+    return enemy_manager.damageEnemyAtPos(_pos, _attacker_type);
 }
 
 
 bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_type)
 {
-    Enemy* enemy = getEnemyAtPos(_pos);
-
-    if (enemy == nullptr)
-        return false;
-
-    enemy->kill(_killer_type);
-
-    return true;
-}
-
-
-void EnemyDirector::initEnemies()
-{
-    for (auto& enemy : enemies)
-    {
-        enemy.attachListener(this);
-    }
+    return enemy_manager.killEnemyAtPos(_pos, _killer_type);
 }
 
 
@@ -183,20 +134,6 @@ void EnemyDirector::initDestinationMarker()
 {
     auto* texture = asset_manager.loadTexture(DESTINATION_SPRITE);
     destination_marker.setTexture(texture);
-}
-
-
-Enemy* EnemyDirector::getEnemyAtPos(const sf::Vector2f& _pos)
-{
-    for (auto& enemy : enemies)
-    {
-        if (!enemy.isAlive() || !enemy.collisionCheck(_pos))
-            continue;
-
-        return &enemy;
-    }
-
-    return nullptr;
 }
 
 

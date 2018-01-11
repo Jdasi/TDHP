@@ -1,13 +1,10 @@
 #pragma once
 
-#include <array>
-
-#include <SFML/Graphics/Sprite.hpp>
-
 #include "Constants.h"
 #include "Waypoint.h"
-#include "Enemy.h"
 #include "Scheduler.h"
+#include "LevelPath.h"
+#include "TDSprite.h"
 
 namespace sf
 {
@@ -16,12 +13,14 @@ namespace sf
 
 class Level;
 class NavManager;
+class EnemyManager;
+struct EnemyType;
 
 class EnemySpawn
 {
 public:
     EnemySpawn(NavManager& _nav_manager, Level& _level, const int _tile_index,
-        Waypoint& _enemy_destination, std::array<Enemy, MAX_ENEMIES>& _enemies);
+        Waypoint& _enemy_destination, EnemyManager& _enemy_manager);
 
     ~EnemySpawn() = default;
 
@@ -44,7 +43,7 @@ private:
 
     Waypoint level_position;
     Waypoint& enemy_destination;
-    std::array<Enemy, MAX_ENEMIES>& enemies;
+    EnemyManager& enemy_manager;
 
     LevelPath level_path;
     LevelPath level_path_pure;

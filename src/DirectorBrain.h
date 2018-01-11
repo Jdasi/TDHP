@@ -7,12 +7,12 @@
 
 class HeatmapManager;
 class EnemySpawn;
-class EnemyTypeManager;
+class EnemyManager;
 
 class DirectorBrain
 {
 public:
-    DirectorBrain(HeatmapManager& _heatmap_manager, EnemyTypeManager& _enemy_type_manager,
+    DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
         std::vector<EnemySpawn>& _enemy_spawns);
 
     ~DirectorBrain() = default;
@@ -25,7 +25,7 @@ private:
     void printDecisionPointLog();
 
     HeatmapManager& heatmap_manager;
-    EnemyTypeManager& enemy_type_manager;
+    EnemyManager& enemy_manager;
     std::vector<EnemySpawn>& enemy_spawns;
 
     Scheduler scheduler;

@@ -4,15 +4,16 @@
 #include "EnemySpawn.h"
 #include "Level.h"
 #include "NavManager.h"
+#include "EnemyManager.h"
 
 
 EnemySpawn::EnemySpawn(NavManager& _nav_manager, Level& _level, 
-    const int _tile_index, Waypoint& _enemy_destination, std::array<Enemy, MAX_ENEMIES>& _enemies)
+    const int _tile_index, Waypoint& _enemy_destination, EnemyManager& _enemy_manager)
     : nav_manager(_nav_manager)
     , level(_level)
     , level_position(level.createWaypoint(_tile_index))
     , enemy_destination(_enemy_destination)
-    , enemies(_enemies)
+    , enemy_manager(_enemy_manager)
 {
     spawn_marker.setPosition(level_position.pos);
 
@@ -54,19 +55,7 @@ void EnemySpawn::spawnEnemy(EnemyType* _type) const
     if (!level_path.pathSuccessful() || _type == nullptr)
         return;
 
-    for (auto& enemy : enemies)
-    {
-        if (enemy.isAlive())
-            continue;
-
-        enemy.setType(*_type);
-        enemy.spawn();
-
-        enemy.setPosition(level_position.pos);
-        enemy.setPath(level_path);
-
-        return;
-    }
+    enemy_manager.spawnEnemy(_type, level_position.pos, level_path);
 }
 
 

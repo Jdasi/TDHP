@@ -1,5 +1,6 @@
 #include "SimpleTimer.h"
 
+
 SimpleTimer::SimpleTimer()
 {
     reset();
