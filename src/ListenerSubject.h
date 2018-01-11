@@ -17,7 +17,6 @@ public:
     virtual ~ListenerSubject() = default;
 
 
-
     /* Attach a listener/observer to this subject.
      *
      * This does not take ownership of the passed pointer, so it's up to 
@@ -27,7 +26,6 @@ public:
     {
         listeners.push_back(_listener);
     }
-
 
 
     /* Detach a listener/observer from this object.
@@ -40,7 +38,6 @@ public:
         listeners.erase(std::remove(listeners.begin(), listeners.end(), _listener), 
             listeners.end());
     }
-
 
 
     /* Detatch all attached listeners/observers.

@@ -30,6 +30,7 @@ namespace JHelper
 
     float calculateLookAngle(const sf::Vector2f& _from, const sf::Vector2f& _to);
 
+
     template <typename T>
     void centerSFOrigin(T& _sfml_object)
     {
@@ -37,6 +38,7 @@ namespace JHelper
         _sfml_object.setOrigin(bounds.left + bounds.width / 2.0f,
             bounds.top + bounds.height / 2.0f);
     }
+
 
     template <typename T, typename U>
     auto findInVectorPair(T& _vector, U& _key)

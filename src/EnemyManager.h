@@ -32,7 +32,10 @@ public:
     bool killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_type = nullptr);
 
     void boostEnemyHealth(const int _modifier, const float _duration);
+    void boostEnemyHealth(EnemyType* _type, const int _modifier, const float _duration);
+
     void boostEnemySpeed(const float _modifier, const float _duration);
+    void boostEnemySpeed(EnemyType* _type, const float _modifier, const float _duration);
 
     EnemyType* getEnemyType(const std::string& _slug);
     EnemyType* getFastestType();

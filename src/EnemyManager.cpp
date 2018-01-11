@@ -144,9 +144,17 @@ bool EnemyManager::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_t
 
 void EnemyManager::boostEnemyHealth(const int _modifier, const float _duration)
 {
+    boostEnemyHealth(nullptr, _modifier, _duration);
+}
+
+
+void EnemyManager::boostEnemyHealth(EnemyType* _type, const int _modifier, const float _duration)
+{
+    bool any_type = _type == nullptr;
+
     for (auto& enemy : enemies)
     {
-        if (!enemy.isAlive())
+        if (!enemy.isAlive() || (!any_type && enemy.getType() != _type))
             continue;
 
         enemy.boostHealth(_modifier, _duration);
@@ -156,9 +164,17 @@ void EnemyManager::boostEnemyHealth(const int _modifier, const float _duration)
 
 void EnemyManager::boostEnemySpeed(const float _modifier, const float _duration)
 {
+    boostEnemySpeed(nullptr, _modifier, _duration);
+}
+
+
+void EnemyManager::boostEnemySpeed(EnemyType* _type, const float _modifier, const float _duration)
+{
+    bool any_type = _type == nullptr;
+
     for (auto& enemy : enemies)
     {
-        if (!enemy.isAlive())
+        if (!enemy.isAlive() || (!any_type && enemy.getType() != _type))
             continue;
 
         enemy.boostSpeed(_modifier, _duration);
