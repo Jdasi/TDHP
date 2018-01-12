@@ -2,6 +2,7 @@
 #include "JTime.h"
 #include "JMath.h"
 #include "Constants.h"
+#include "GDebugFlags.h"
 
 
 Enemy::Enemy()
@@ -74,8 +75,8 @@ void Enemy::draw(sf::RenderWindow& _window)
 {
     TDSprite::draw(_window);
 
-    // TODO: have a way to toggle the visibility of this ..
-    path.draw(_window, getPosition(), path_index);
+    if (GDebugFlags::draw_paths)
+        path.draw(_window, getPosition(), path_index);
 
     health_bar.draw(_window);
 }

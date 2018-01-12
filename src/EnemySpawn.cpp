@@ -5,6 +5,7 @@
 #include "Level.h"
 #include "NavManager.h"
 #include "EnemyManager.h"
+#include "GDebugFlags.h"
 
 
 EnemySpawn::EnemySpawn(NavManager& _nav_manager, Level& _level, 
@@ -37,7 +38,9 @@ void EnemySpawn::tick()
 void EnemySpawn::draw(sf::RenderWindow& _window)
 {
     spawn_marker.draw(_window);
-    level_path_pure.draw(_window, level_position.pos, 0, sf::Color::Red);
+
+    if (GDebugFlags::draw_paths)
+        level_path_pure.draw(_window, level_position.pos, 0, sf::Color::Red);
 }
 
 

@@ -25,6 +25,7 @@ private:
     void tick();
     void draw();
 
+    void handleCommonCommands();
     void updateDebugDisplay();
     void processEvents(sf::Window& _window);
 

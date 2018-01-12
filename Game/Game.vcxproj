@@ -83,7 +83,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)libs\jsoncons\include;$(SolutionDir)libs\SFML\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML\lib</AdditionalLibraryDirectories>
@@ -112,7 +112,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)libs\jsoncons\include;$(SolutionDir)libs\SFML\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -150,6 +150,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\EnemySpawn.cpp" />
     <ClCompile Include="..\src\EnemyManager.cpp" />
     <ClCompile Include="..\src\FileIO.cpp" />
+    <ClCompile Include="..\src\GDebugFlags.cpp" />
     <ClCompile Include="..\src\ValueBar.cpp" />
     <ClCompile Include="..\src\HeatmapManager.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
@@ -188,6 +189,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\EnemySpawn.h" />
     <ClInclude Include="..\src\EnemyType.h" />
     <ClInclude Include="..\src\EnemyManager.h" />
+    <ClInclude Include="..\src\GDebugFlags.h" />
     <ClInclude Include="..\src\ValueBar.h" />
     <ClInclude Include="..\src\HeatmapFlag.h" />
     <ClInclude Include="..\src\IProjectileManager.h" />

@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Constants.h"
 #include "JTime.h"
+#include "GDebugFlags.h"
 
 
 Application::Application()
@@ -68,12 +69,7 @@ void Application::initObjects()
 void Application::tick()
 {
     processEvents(window);
-
-    if (input_handler->getKeyDown(sf::Keyboard::Escape))
-    {
-        game_data->exit = true;
-        return;
-    }
+    handleCommonCommands();
 
     update_timer += JTime::getUnscaledDeltaTime();
 
@@ -91,10 +87,31 @@ void Application::draw()
 {
     window.clear();
 
-    window.draw(debug_display);
+    if (GDebugFlags::draw_debug_controls)
+        window.draw(debug_display);
+
     game->draw(window);
 
     window.display();
+}
+
+
+void Application::handleCommonCommands()
+{
+    if (input_handler->getKeyDown(sf::Keyboard::Escape))
+    {
+        game_data->exit = true;
+    }
+
+    if (input_handler->getKeyDown(sf::Keyboard::F1))
+    {
+        GDebugFlags::draw_debug_controls = !GDebugFlags::draw_debug_controls;
+    }
+
+    if (input_handler->getKeyDown(sf::Keyboard::F2))
+    {
+        GDebugFlags::draw_paths = !GDebugFlags::draw_paths;
+    }
 }
 
 

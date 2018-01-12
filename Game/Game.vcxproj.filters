@@ -139,6 +139,9 @@
     <ClCompile Include="..\src\ValueBar.cpp">
       <Filter>Core\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\GDebugFlags.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -296,6 +299,9 @@
     </ClInclude>
     <ClInclude Include="..\src\ValueBar.h">
       <Filter>Core\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GDebugFlags.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

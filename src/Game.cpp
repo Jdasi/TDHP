@@ -8,6 +8,7 @@
 #include "Constants.h"
 #include "JHelper.h"
 #include "FileIO.h"
+#include "GDebugFlags.h"
 
 
 Game::Game(GameData& _gd)
@@ -39,7 +40,9 @@ void Game::tick()
     // State.
     painting = gd.input.getMouseButton(sf::Mouse::Left);
 
-    handleContextSelection();
+    if (GDebugFlags::draw_debug_controls)
+        handleContextSelection();
+
     processContext();
 }
 
@@ -57,7 +60,8 @@ void Game::draw(sf::RenderWindow& _window)
     enemy_director->draw(_window);
     tower_manager->draw(_window);
 
-    _window.draw(context_display);
+    if (GDebugFlags::draw_debug_controls)
+        _window.draw(context_display);
 
     if (JTime::getTimeScale() == 0) // If paused.
         _window.draw(pause_display);
@@ -193,7 +197,6 @@ void Game::parseCurrentLevel()
                 {
                     nav_manager->toggleNodeWalkable(index);
 
-                    // TODO: set unwalkable tile texture here ..
                     current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
                         WALKABLE_COLOR : UNWALKABLE_COLOR);
                 } break;
