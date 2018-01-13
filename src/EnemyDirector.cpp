@@ -31,11 +31,13 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     // Debug repeating enemy spawn.
     scheduler.invokeRepeating([this]()
     {
-        if (enemy_spawns.size() > 0)
-        {
-            EnemyType* random_type = enemy_manager.getRandomType();
-            enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
-        }
+        EnemyType* random_type = enemy_manager.getRandomType();
+        EnemySpawn& spawn = enemy_spawns[rand() % enemy_spawns.size()];
+        
+        if (spawn.enemiesQueued())
+            return;
+
+        spawn.spawnEnemy(random_type);
     }, 2.0f, 2.0f);
 }
 
