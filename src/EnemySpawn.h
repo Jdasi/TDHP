@@ -33,10 +33,17 @@ public:
     void draw(sf::RenderWindow& _window);
 
     void setMarkerTexture(sf::Texture* _texture);
+
+    bool enemiesQueued() const;
+    void clearSpawnQueue();
+
     void spawnEnemy(EnemyType* _type, const SpawnPathType& _path_type = INFLUENCED) const;
+    void queueEnemy(EnemyType* _type, const float _delay, const SpawnPathType& _path_type  = INFLUENCED);
+    void queueEnemy(EnemyType* _type, const float _delay, const LevelPath& _path);
 
     int getPathCost() const;
     int getPathDifference() const;
+    LevelPath getPath() const;
 
     void updatePurePath();
 
@@ -53,8 +60,10 @@ private:
     LevelPath level_path;
     LevelPath level_path_pure;
     int path_difference;
-    Scheduler scheduler;
 
+    Scheduler scheduler;
     TDSprite spawn_marker;
+
+    int enemies_queued;
 
 };

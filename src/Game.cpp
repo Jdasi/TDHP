@@ -218,7 +218,7 @@ void Game::parseCurrentLevel()
 
 void Game::handleContextSelection()
 {
-    for (int i = sf::Keyboard::Key::Num0; i <= sf::Keyboard::Key::Num9; ++i)
+    for (int i = sf::Keyboard::Num0; i <= sf::Keyboard::Num9; ++i)
     {
         evaluateContextChange(static_cast<sf::Keyboard::Key>(i));
     }
@@ -233,7 +233,7 @@ void Game::evaluateContextChange(const sf::Keyboard::Key& _key)
     /* Match selection to the arrangement of number keys on the keyboard.
      * (i.e. shift all numbers one place to the left and make 0 the last selection)
      */
-    int selection = static_cast<int>(_key) - static_cast<int>(sf::Keyboard::Key::Num1);
+    int selection = static_cast<int>(_key) - static_cast<int>(sf::Keyboard::Num1);
 
     if (selection == -1)
         selection = 9;

@@ -47,9 +47,13 @@ void DirectorBrain::updateWorkingKnowledge()
     knowledge.fast_enemies = enemy_manager.getNumAliveOfType(enemy_manager.getFastestType());
     knowledge.strong_enemies = enemy_manager.getNumAliveOfType(enemy_manager.getStrongestType());
     knowledge.basic_enemies = enemy_manager.getNumAliveOfType(enemy_manager.getBasicType());
+    knowledge.enemies_queued = false;
 
     for (auto& spawn : enemy_spawns)
     {
+        if (!knowledge.enemies_queued && spawn.enemiesQueued())
+            knowledge.enemies_queued = true;
+
         knowledge.avg_path_diff += spawn.getPathDifference();
 
         int path_cost = spawn.getPathCost();
@@ -65,6 +69,8 @@ void DirectorBrain::updateWorkingKnowledge()
 
 void DirectorBrain::printDecisionPointLog()
 {
+    std::string enemies_queued_output(knowledge.enemies_queued ? "TRUE" : "FALSE");
+
     std::cout
         << "----------------------------------------------------------\n"
         << "[Brain Decision Point: AT " << JTime::getTime() << "s]\n"
@@ -79,6 +85,7 @@ void DirectorBrain::printDecisionPointLog()
         << "+             Fast Enemies: " << knowledge.fast_enemies     << "\n"
         << "+           Strong Enemies: " << knowledge.strong_enemies   << "\n"
         << "+            Basic Enemies: " << knowledge.basic_enemies    << "\n"
+        << "+           Enemies Queued: " << enemies_queued_output      << "\n"
         << "\n"
         << "--PATH INFO:\n"
         << "+       Cheapest Path Cost: " << knowledge.cheapest_path    << "\n"

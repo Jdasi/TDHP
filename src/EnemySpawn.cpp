@@ -15,6 +15,7 @@ EnemySpawn::EnemySpawn(NavManager& _nav_manager, Level& _level,
     , level_position(level.createWaypoint(_tile_index))
     , enemy_destination(_enemy_destination)
     , enemy_manager(_enemy_manager)
+    , enemies_queued(0)
 {
     spawn_marker.setPosition(level_position.pos);
 
@@ -50,6 +51,19 @@ void EnemySpawn::setMarkerTexture(sf::Texture* _texture)
 }
 
 
+bool EnemySpawn::enemiesQueued() const
+{
+    return enemies_queued > 0;
+}
+
+
+void EnemySpawn::clearSpawnQueue()
+{
+    scheduler.cancelInvoke("QueueEnemy");
+    enemies_queued = 0;
+}
+
+
 /* Finds the first dead enemy in the pool and respawns them at the passed position.
  * The spawned enemy assumes the characteristics of the passed type.
  */
@@ -63,6 +77,27 @@ void EnemySpawn::spawnEnemy(EnemyType* _type, const SpawnPathType& _path_type) c
 }
 
 
+void EnemySpawn::queueEnemy(EnemyType* _type, const float _delay,
+    const SpawnPathType& _path_type)
+{
+    const LevelPath& path = _path_type == INFLUENCED ? level_path : level_path_pure;
+    queueEnemy(_type, _delay, path);
+}
+
+
+void EnemySpawn::queueEnemy(EnemyType* _type, const float _delay, const LevelPath& _path)
+{
+    scheduler.invoke([this, _type, _path]()
+    {
+        enemy_manager.spawnEnemy(_type, level_position.pos, _path);
+
+        --enemies_queued;
+    }, _delay, "QueueEnemy");
+
+    ++enemies_queued;
+}
+
+
 int EnemySpawn::getPathCost() const
 {
     return level_path.getTotalCost();
@@ -72,6 +107,12 @@ int EnemySpawn::getPathCost() const
 int EnemySpawn::getPathDifference() const
 {
     return path_difference;
+}
+
+
+LevelPath EnemySpawn::getPath() const
+{
+    return level_path;
 }
 
 

@@ -46,6 +46,7 @@ public:
 
 private:
     void initDestinationMarker();
+    void handleDebugCommands(GameData& _gd);
 
     // Enemy events.
     void onDeath(const sf::Vector2f& _pos, TowerType* _killer_type) override;

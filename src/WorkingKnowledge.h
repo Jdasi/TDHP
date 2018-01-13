@@ -10,6 +10,7 @@ struct WorkingKnowledge
         , fast_enemies(0)
         , strong_enemies(0)
         , basic_enemies(0)
+        , enemies_queued(0)
         , avg_path_diff(0)
         , cheapest_path(0)
     {
@@ -23,6 +24,7 @@ struct WorkingKnowledge
     int fast_enemies;
     int strong_enemies;
     int basic_enemies;
+    bool enemies_queued;
 
     int avg_path_diff;
     int cheapest_path;

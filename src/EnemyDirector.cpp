@@ -11,6 +11,7 @@
 #include "Level.h"
 #include "FileIO.h"
 #include "TowerType.h"
+#include "GDebugFlags.h"
 
 
 EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_manager,
@@ -44,22 +45,8 @@ void EnemyDirector::tick(GameData& _gd)
     scheduler.update();
     brain.tick();
 
-    // Debug enemy spawn on user input.
-    if (_gd.input.getKeyDown(sf::Keyboard::Key::V))
-    {
-        EnemyType* random_type = enemy_manager.getRandomType();
-        enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
-    }
-
-    if (_gd.input.getKeyDown(sf::Keyboard::Key::S))
-    {
-        enemy_manager.boostEnemySpeed(2, 3);
-    }
-
-    if (_gd.input.getKeyDown(sf::Keyboard::Key::H))
-    {
-        enemy_manager.boostEnemyHealth(2, 3);
-    }
+    if (GDebugFlags::draw_debug_controls)
+        handleDebugCommands(_gd);
 
     for (auto& spawn : enemy_spawns)
     {
@@ -144,6 +131,51 @@ void EnemyDirector::initDestinationMarker()
 {
     auto* texture = asset_manager.loadTexture(DESTINATION_SPRITE);
     destination_marker.setTexture(texture);
+}
+
+
+void EnemyDirector::handleDebugCommands(GameData& _gd)
+{
+    if (_gd.input.getKeyDown(sf::Keyboard::V))
+    {
+        // Spawn a random enemy.
+        EnemyType* random_type = enemy_manager.getRandomType();
+        enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
+    }
+
+    if (_gd.input.getKeyDown(sf::Keyboard::S))
+    {
+        // Boost all enemy speed.
+        enemy_manager.boostEnemySpeed(2, 3);
+    }
+
+    if (_gd.input.getKeyDown(sf::Keyboard::H))
+    {
+        // Boost all enemy health.
+        enemy_manager.boostEnemyHealth(2, 3);
+    }
+
+    if (_gd.input.getKeyDown(sf::Keyboard::M))
+    {
+        // Spawn i of a random type from a single spawn point.
+        EnemyType* random_type = enemy_manager.getRandomType();
+        EnemySpawn& spawn = enemy_spawns[rand() % enemy_spawns.size()];
+        LevelPath path = spawn.getPath();
+
+        for (int i = 0; i < 4; ++i)
+        {
+            spawn.queueEnemy(random_type, i * 0.5f, path);
+        }
+    }
+
+    if (_gd.input.getKeyDown(sf::Keyboard::N))
+    {
+        // Clear all spawn queues.
+        for (auto& spawn : enemy_spawns)
+        {
+            spawn.clearSpawnQueue();
+        }
+    }
 }
 
 
