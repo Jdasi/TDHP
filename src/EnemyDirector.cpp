@@ -84,8 +84,15 @@ void EnemyDirector::addEnemySpawn(const int _tile_index)
 
     auto* texture = asset_manager.loadTexture(SPAWN_SPRITE);
     spawn.setMarkerTexture(texture);
+}
 
-    spawn.updatePurePath();
+
+void EnemyDirector::updateAllPurePaths()
+{
+    for (auto& spawn : enemy_spawns)
+    {
+        spawn.updatePurePath();
+    }
 }
 
 
@@ -103,10 +110,7 @@ void EnemyDirector::setEnemyDestination(const int _tile_index)
     enemy_destination = level.createWaypoint(_tile_index);
     destination_marker.setPosition(enemy_destination.pos);
 
-    for (auto& spawn : enemy_spawns)
-    {
-        spawn.updatePurePath();
-    }
+    updateAllPurePaths();
 }
 
 

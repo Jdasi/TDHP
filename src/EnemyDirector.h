@@ -34,6 +34,7 @@ public:
     void draw(sf::RenderWindow& _window);
 
     void addEnemySpawn(const int _tile_index);
+    void updateAllPurePaths();
 
     Waypoint& getEnemyDestination();
     void setEnemyDestination(const int _tile_index);

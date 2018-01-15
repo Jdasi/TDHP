@@ -83,6 +83,7 @@ void Game::init()
     initObjects();
 
     parseCurrentLevel();
+    enemy_director->updateAllPurePaths();
 }
 
 
@@ -284,6 +285,7 @@ void Game::processNavContext()
         current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
             WALKABLE_COLOR : UNWALKABLE_COLOR);
 
+        enemy_director->updateAllPurePaths();
         tower_manager->removeTowerAtPos(mouse_pos);
     }
     else if (gd.input.getMouseButtonDown(sf::Mouse::Right))
