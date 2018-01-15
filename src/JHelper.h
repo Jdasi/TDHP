@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <string>
 
 #include <SFML/System/Vector2.hpp>
 
@@ -29,6 +30,8 @@ namespace JHelper
     int chebyshevDistance(const sf::Vector2i& _a, const sf::Vector2i& _b);
 
     float calculateLookAngle(const sf::Vector2f& _from, const sf::Vector2f& _to);
+
+    std::string boolToStr(const bool _b);
 
 
     template <typename T>

@@ -37,8 +37,7 @@ private:
     std::unique_ptr<Game> game;
     std::unique_ptr<GameData> game_data;
 
-    // DEBUG.
     sf::Text debug_display;
-    float update_timer;
+    Scheduler scheduler;
 
 };

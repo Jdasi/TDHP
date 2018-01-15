@@ -159,7 +159,7 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
 
     if (_gd.input.getKeyDown(sf::Keyboard::M))
     {
-        // Spawn i of a random type from a single spawn point.
+        // Queue N of a random type from a single spawn point.
         EnemyType* random_type = enemy_manager.getRandomType();
         EnemySpawn& spawn = enemy_spawns[rand() % enemy_spawns.size()];
         LevelPath path = spawn.getPath();

@@ -2,17 +2,27 @@
 #include "JTime.h"
 
 
-Scheduler::Scheduler()
+Scheduler::Scheduler(const TimeUsageType& _time_usage_type)
     : scheduled_tasks()
     , total_time(0)
+    , time_usage_type(_time_usage_type)
 {
+}
+
+
+void Scheduler::setTimeUsageType(const TimeUsageType& _type)
+{
+    time_usage_type = _type;
 }
 
 
 // Increments the scheduler's time record and processes its scheduled tasks.
 void Scheduler::update()
 {
-    total_time += JTime::getDeltaTime();
+    float dt = time_usage_type == TimeUsageType::SCALED ?
+        JTime::getDeltaTime() : JTime::getUnscaledDeltaTime();
+
+    total_time += dt;
 
     executeScheduledTasks();
 }

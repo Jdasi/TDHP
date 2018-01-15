@@ -107,3 +107,9 @@ float JHelper::calculateLookAngle(const sf::Vector2f& _from, const sf::Vector2f&
 
     return ((atan2(dy, dx)) * 180 / JMath::PI) + 90;
 }
+
+
+std::string JHelper::boolToStr(const bool _b)
+{
+    return _b ? "TRUE" : "FALSE";
+}

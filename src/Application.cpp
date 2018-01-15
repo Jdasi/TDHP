@@ -10,6 +10,7 @@ Application::Application()
     , asset_manager(nullptr)
     , game(nullptr)
     , game_data(nullptr)
+    , scheduler(Scheduler::TimeUsageType::UNSCALED)
 {
     init();
 }
@@ -39,6 +40,11 @@ void Application::init()
 
     initSystems();
     initObjects();
+
+    scheduler.invokeRepeating([this]()
+    {
+        updateDebugDisplay();
+    }, 0, 0.1f);
 }
 
 
@@ -68,16 +74,10 @@ void Application::initObjects()
 
 void Application::tick()
 {
+    scheduler.update();
+
     processEvents(window);
     handleCommonCommands();
-
-    update_timer += JTime::getUnscaledDeltaTime();
-
-    if (update_timer >= 0.1f)
-    {
-        update_timer = 0;
-        updateDebugDisplay();
-    }
 
     game->tick();
 }
@@ -110,6 +110,16 @@ void Application::handleCommonCommands()
 
     if (input_handler->getKeyDown(sf::Keyboard::F2))
     {
+        GDebugFlags::draw_game = !GDebugFlags::draw_game;
+    }
+
+    if (input_handler->getKeyDown(sf::Keyboard::F3))
+    {
+        GDebugFlags::draw_heatmaps = !GDebugFlags::draw_heatmaps;
+    }
+
+    if (input_handler->getKeyDown(sf::Keyboard::F4))
+    {
         GDebugFlags::draw_paths = !GDebugFlags::draw_paths;
     }
 }
@@ -121,7 +131,10 @@ void Application::updateDebugDisplay()
 
     debug_str.append("[Delta Time: " + std::to_string(JTime::getUnscaledDeltaTime()) + "] -- ");
     debug_str.append("[Time: " + std::to_string(JTime::getUnscaledTime()) + "] -- ");
-    debug_str.append("[FPS: " + std::to_string(1 / JTime::getUnscaledDeltaTime()) + "]");
+    debug_str.append("[FPS: " + std::to_string(1 / JTime::getUnscaledDeltaTime()) + "] -- ");
+    debug_str.append("[Draw Game: " + JHelper::boolToStr(GDebugFlags::draw_game) + "] -- ");
+    debug_str.append("[Draw Heatmaps: " + JHelper::boolToStr(GDebugFlags::draw_heatmaps) + "] -- ");
+    debug_str.append("[Draw Paths: " + JHelper::boolToStr(GDebugFlags::draw_paths) + "]");
 
     debug_display.setString(debug_str);
 }

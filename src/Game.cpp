@@ -49,16 +49,25 @@ void Game::tick()
 
 void Game::draw(sf::RenderWindow& _window)
 {
-    _window.draw(border);
+    if (GDebugFlags::draw_game)
+        _window.draw(border);
 
-    heatmap_manager->draw(_window);
-    current_level.draw(_window);
+    if (GDebugFlags::draw_heatmaps)
+        heatmap_manager->draw(_window);
+
+    if (GDebugFlags::draw_game)
+        current_level.draw(_window);
 
     for (auto& arr : grid_lines)
+    {
         _window.draw(arr);
+    }
 
-    enemy_director->draw(_window);
-    tower_manager->draw(_window);
+    if (GDebugFlags::draw_game)
+    {
+        enemy_director->draw(_window);
+        tower_manager->draw(_window);
+    }
 
     if (GDebugFlags::draw_debug_controls)
         _window.draw(context_display);
@@ -146,7 +155,7 @@ void Game::initGridLines()
     sf::Color grid_line_color = sf::Color(0, 255, 0, 75);
 
     // Vertical lines.
-    for (int col = 1; col < current_level.getSizeX(); ++col)
+    for (int col = 0; col <= current_level.getSizeX(); ++col)
     {
         auto v_arr = sf::VertexArray(sf::LineStrip, 2);
         auto x_pos = WINDOW_LEFT_BOUNDARY + (rect_width * col);
@@ -161,7 +170,7 @@ void Game::initGridLines()
     }
 
     // Horizontal lines.
-    for (int row = 1; row < current_level.getSizeY(); ++row)
+    for (int row = 0; row <= current_level.getSizeY(); ++row)
     {
         auto v_arr = sf::VertexArray(sf::LineStrip, 2);
         auto y_pos = WINDOW_TOP_BOUNDARY + (rect_height * row);

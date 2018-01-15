@@ -69,7 +69,7 @@ void DirectorBrain::updateWorkingKnowledge()
 
 void DirectorBrain::printDecisionPointLog()
 {
-    std::string enemies_queued_output(knowledge.enemies_queued ? "TRUE" : "FALSE");
+    std::string enemies_queued_output(JHelper::boolToStr(knowledge.enemies_queued));
 
     std::cout
         << "----------------------------------------------------------\n"

@@ -13,9 +13,16 @@
 class Scheduler
 {
 public:
-    Scheduler();
+    enum TimeUsageType
+    {
+        SCALED,
+        UNSCALED
+    };
+
+    Scheduler(const TimeUsageType& _time_usage_type = TimeUsageType::SCALED);
     ~Scheduler() = default;
 
+    void setTimeUsageType(const TimeUsageType& _type);
     void update();
 
     void invoke(const std::function<void()>& _method, const double _time,
@@ -33,5 +40,7 @@ private:
 
     std::list<ScheduledTask> scheduled_tasks;
     double total_time;
+
+    TimeUsageType time_usage_type;
 
 };
