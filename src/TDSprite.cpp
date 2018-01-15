@@ -6,8 +6,7 @@
 #include "Level.h"
 
 
-float TDSprite::tile_width = 0;
-float TDSprite::tile_height = 0;
+Level* TDSprite::current_level = nullptr;
 
 
 TDSprite::TDSprite()
@@ -45,8 +44,8 @@ void TDSprite::setTexture(sf::Texture* _texture)
     auto texture_size = _texture->getSize();
 
     sprite.setTexture(*_texture);
-    sprite.setScale(tile_width / texture_size.x,
-        tile_height / texture_size.y);
+    sprite.setScale(current_level->getTileWidth() / texture_size.x,
+        current_level->getTileHeight() / texture_size.y);
 
     JHelper::centerSFOrigin(sprite);
 }
@@ -83,20 +82,43 @@ bool TDSprite::collisionCheck(const sf::Vector2f& _point)
 }
 
 
-void TDSprite::init(const Level& _level)
+void TDSprite::init(Level& _level)
 {
-    tile_width = _level.getTileWidth();
-    tile_height = _level.getTileHeight();
+    current_level = &_level;
 }
 
 
-float TDSprite::getTileWidth()
+int TDSprite::getLevelSizeX() const
 {
-    return tile_width;
+    if (current_level == nullptr)
+        return 0;
+
+    return current_level->getSizeX();
 }
 
 
-float TDSprite::getTileHeight()
+int TDSprite::getLevelSizeY() const
 {
-    return tile_height;
+    if (current_level == nullptr)
+        return 0;
+
+    return current_level->getSizeY();
+}
+
+
+float TDSprite::getLevelTileWidth() const
+{
+    if (current_level == nullptr)
+        return 0;
+
+    return current_level->getTileWidth();
+}
+
+
+float TDSprite::getLevelTileHeight() const
+{
+    if (current_level == nullptr)
+        return 0;
+
+    return current_level->getTileHeight();
 }

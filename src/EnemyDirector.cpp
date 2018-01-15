@@ -168,9 +168,12 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
         EnemySpawn& spawn = enemy_spawns[rand() % enemy_spawns.size()];
         LevelPath path = spawn.getPath();
 
-        for (int i = 0; i < 4; ++i)
+        float spawn_delay = 2 - (random_type->speed * 0.02f);
+        spawn_delay = JMath::clampf(spawn_delay, 0.5f, 2);
+
+        for (int i = 0; i < 3; ++i)
         {
-            spawn.queueEnemy(random_type, i * 0.5f, path);
+            spawn.queueEnemy(random_type, i * spawn_delay, path);
         }
     }
 

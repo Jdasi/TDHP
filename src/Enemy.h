@@ -25,6 +25,7 @@ public:
     void draw(sf::RenderWindow& _window) override;
 
     void setPath(const LevelPath& _path);
+
     void boostHealth(const int _modifier, const float _duration);
     void boostSpeed(const float _modifier, const float _duration);
 
@@ -40,6 +41,11 @@ protected:
 private:
     void initHealthBar();
 
+    void updateTileIndex();
+    void nextWaypoint();
+    void moveToWaypoint(const Waypoint& _waypoint, const sf::Vector2f& _pos,
+        float _remaining_dist_sqr);
+
     void resetHealth();
     void resetSpeed();
 
@@ -47,10 +53,11 @@ private:
     int path_index;
 
     EnemyType* type;
+
     ValueBar health_bar;
+    Scheduler scheduler;
 
     float speed_modifier;
-
-    Scheduler scheduler;
+    sf::Vector2i coords;
 
 };

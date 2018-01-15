@@ -19,11 +19,11 @@ namespace JHelper
 
     bool posInSimulationArea(const sf::Vector2f& _pos);
     int posToTileIndex(const sf::Vector2f& _pos, const float _tile_width,
-        const float _tile_height, const int _level_width);
+        const float _tile_height, const int _level_size_x);
     int posToTileIndex(const sf::Vector2f& _pos, const Level& _level);
 
     sf::Vector2f tileIndexToPos(const int _tile_index, const float _tile_width,
-        const float _tile_height, const int _level_width);
+        const float _tile_height, const int _level_size_x);
     sf::Vector2f tileIndexToPos(const int _tile_index, const Level& _level);
 
     int manhattanDistance(const sf::Vector2i& _a, const sf::Vector2i& _b);

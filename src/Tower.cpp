@@ -5,7 +5,6 @@
 #include "Tower.h"
 #include "JHelper.h"
 #include "JMath.h"
-#include "Constants.h"
 #include "Enemy.h"
 #include "ProjectileRequest.h"
 
@@ -108,7 +107,9 @@ void Tower::initEngageRadius()
 void Tower::updateEngageRadius()
 {
     // Actual engage radius is based on the grid scale.
-    engage_radius = type->engage_radius * ((getTileWidth() + getTileHeight()) / 2);
+    float grid_scale = (getLevelTileWidth() + getLevelTileHeight()) / 2;
+
+    engage_radius = type->engage_radius * grid_scale;
     engage_radius_sqr = engage_radius * engage_radius;
 
     engage_radius_display.setRadius(engage_radius);

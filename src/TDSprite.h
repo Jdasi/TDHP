@@ -31,19 +31,21 @@ public:
 
     bool collisionCheck(const sf::Vector2f& _point);
 
-    static void init(const Level& _level);
+    static void init(Level& _level);
 
 protected:
     virtual void onSetPosition() {}
 
-    float getTileWidth();
-    float getTileHeight();
+    int getLevelSizeX() const;
+    int getLevelSizeY() const;
+
+    float getLevelTileWidth() const;
+    float getLevelTileHeight() const;
 
 private:
     int tile_index;
     sf::Sprite sprite;
 
-    static float tile_width;
-    static float tile_height;
+    static Level* current_level;
 
 };

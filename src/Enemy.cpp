@@ -1,7 +1,6 @@
 #include "Enemy.h"
 #include "JTime.h"
 #include "JMath.h"
-#include "Constants.h"
 #include "GDebugFlags.h"
 
 
@@ -36,6 +35,8 @@ void Enemy::tick()
     if (path_index >= path.getNumPoints())
         return;
 
+    // updateTileIndex(); -- INFO UNUSED.
+
     auto& waypoint = path.getWaypoint(path_index);
     auto& pos = getPosition();
 
@@ -43,30 +44,11 @@ void Enemy::tick()
 
     if (pos == waypoint.pos || remaining_dist_sqr <= 1)
     {
-        ++path_index;
-
-        if (path_index >= path.getNumPoints())
-        {
-            for (auto& listener : listeners)
-            {
-                listener->onPathComplete(*this);
-            }
-        }
+        nextWaypoint();
     }
     else
     {
-        sf::Vector2f dir = JMath::vector2Normalized(waypoint.pos - pos);
-        dir *= type->speed * speed_modifier * JTime::getDeltaTime();
-
-        // Prevent enemy from overshooting the waypoint.
-        if (JMath::vector2MagnitudeSqr(dir) >= remaining_dist_sqr)
-        {
-            setPosition(waypoint.pos);
-        }
-        else
-        {
-            setPosition(pos + dir);
-        }
+        moveToWaypoint(waypoint, pos, remaining_dist_sqr);
     }
 }
 
@@ -162,12 +144,57 @@ void Enemy::onSetPosition()
 
 void Enemy::initHealthBar()
 {
-    float width = getTileWidth();
-    float height = getTileHeight();
+    float width = getLevelTileWidth();
+    float height = getLevelTileHeight();
 
     // Base health bar size on TDSprite size (aka tile size).
     health_bar.configure({ width * 0.9f, height * 0.1f }, -height * 0.5f);
     health_bar.setBarColor(sf::Color::Green);
+}
+
+
+void Enemy::updateTileIndex()
+{
+    int size_x = getLevelSizeX();
+
+    float width = getLevelTileWidth();
+    float height = getLevelTileHeight();
+
+    int tile_index = JHelper::posToTileIndex(getPosition(), width, height, size_x);
+    setTileIndex(tile_index);
+
+    coords = JHelper::calculateCoords(tile_index, size_x);
+}
+
+
+void Enemy::nextWaypoint()
+{
+    ++path_index;
+
+    if (path_index >= path.getNumPoints())
+    {
+        for (auto& listener : listeners)
+        {
+            listener->onPathComplete(*this);
+        }
+    }
+}
+
+void Enemy::moveToWaypoint(const Waypoint& _waypoint, const sf::Vector2f& _pos,
+    float _remaining_dist_sqr)
+{
+    sf::Vector2f dir = JMath::vector2Normalized(_waypoint.pos - _pos);
+    dir *= type->speed * speed_modifier * JTime::getDeltaTime();
+
+    // Prevent enemy from overshooting the waypoint.
+    if (JMath::vector2MagnitudeSqr(dir) >= _remaining_dist_sqr)
+    {
+        setPosition(_waypoint.pos);
+    }
+    else
+    {
+        setPosition(_pos + dir);
+    }
 }
 
 

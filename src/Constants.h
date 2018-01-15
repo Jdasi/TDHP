@@ -83,7 +83,7 @@ const std::string BULLET_SPRITE         { "bullet.png" };
 const std::string SPAWN_SPRITE          { "spawn.png" };
 const std::string DESTINATION_SPRITE    { "destination.png" };
 
-const std::string FLOOR_TEXTURE         { "grass.jpg" };
+const std::string FLOOR_TEXTURE         { "floor.jpg" };
 const std::string UNWALKABLE_TEXTURE    { "block.png" };
 
 // ======================================================================================

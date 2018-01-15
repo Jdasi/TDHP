@@ -7,7 +7,6 @@
 #include "EnemyType.h"
 #include "EnemyManager.h"
 #include "EnemySpawn.h"
-#include "Constants.h"
 #include "LevelPath.h"
 #include "Scheduler.h"
 #include "DirectorBrain.h"
