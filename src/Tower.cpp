@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Tower.h"

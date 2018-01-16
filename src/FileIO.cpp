@@ -15,7 +15,7 @@ LevelData FileIO::loadLevelData(const std::string& _file_name)
     std::ifstream file("Resources/Levels/" + _file_name);
     if (!file.is_open())
     {
-        std::cout << "Unable to find level file: " << _file_name.c_str() << std::endl;
+        std::cout << "FileIO: Unable to find level file: " << _file_name.c_str() << std::endl;
         return ld;
     }
 

@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "EnemyDirector.h"
@@ -31,13 +33,16 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     // Debug repeating enemy spawn.
     scheduler.invokeRepeating([this]()
     {
-        EnemyType* random_type = enemy_manager.getRandomType();
-        EnemySpawn& spawn = enemy_spawns[rand() % enemy_spawns.size()];
-        
-        if (spawn.enemiesQueued())
+        if (enemy_spawns.empty())
             return;
 
-        spawn.spawnEnemy(random_type);
+        EnemyType* random_type = enemy_manager.getRandomType();
+        EnemySpawn* spawn = enemy_spawns[rand() % enemy_spawns.size()].get();
+        
+        if (spawn->enemiesQueued())
+            return;
+
+        spawn->spawnEnemy(random_type);
     }, 2.0f, 2.0f);
 }
 
@@ -52,7 +57,7 @@ void EnemyDirector::tick(GameData& _gd)
 
     for (auto& spawn : enemy_spawns)
     {
-        spawn.tick();
+        spawn->tick();
     }
 
     enemy_manager.tick();
@@ -63,7 +68,7 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
 {
     for (auto& spawn : enemy_spawns)
     {
-        spawn.draw(_window);
+        spawn->draw(_window);
     }
 
     destination_marker.draw(_window);
@@ -71,19 +76,45 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
 }
 
 
-void EnemyDirector::addEnemySpawn(const int _tile_index)
+bool EnemyDirector::addEnemySpawn(const int _tile_index)
 {
     if (enemy_spawns.size() >= MAX_ENEMY_SPAWNS ||
         !nav_manager.isNodeWalkable(_tile_index))
     {
-        return;
+        return false;
     }
 
-    enemy_spawns.emplace_back(nav_manager, level, _tile_index, enemy_destination, enemy_manager);
-    auto& spawn = enemy_spawns[enemy_spawns.size() - 1];
+    auto spawn = std::make_unique<EnemySpawn>(nav_manager, level, _tile_index,
+        enemy_destination, enemy_manager);
 
     auto* texture = asset_manager.loadTexture(SPAWN_SPRITE);
-    spawn.setMarkerTexture(texture);
+    spawn->setMarkerTexture(texture);
+
+    enemy_spawns.push_back(std::move(spawn));
+
+    return true;
+}
+
+
+bool EnemyDirector::removeEnemySpawn(const int _tile_index)
+{
+    auto object = std::find_if(enemy_spawns.begin(), enemy_spawns.end(),
+            [&](auto& _obj) { return _obj->getTileIndex() == _tile_index; });
+
+    if (object == enemy_spawns.end())
+        return false;
+
+    enemy_spawns.erase(std::remove(enemy_spawns.begin(), enemy_spawns.end(), *object));
+    return true;
+}
+
+
+void EnemyDirector::toggleEnemySpawn(const int _tile_index)
+{
+    if (removeEnemySpawn(_tile_index))
+        return;
+
+    addEnemySpawn(_tile_index);
 }
 
 
@@ -91,7 +122,7 @@ void EnemyDirector::updateAllPurePaths()
 {
     for (auto& spawn : enemy_spawns)
     {
-        spawn.updatePurePath();
+        spawn->updatePurePath();
     }
 }
 
@@ -144,9 +175,12 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
 {
     if (_gd.input.getKeyDown(sf::Keyboard::V))
     {
+        if (enemy_spawns.empty())
+            return;
+
         // Spawn a random enemy.
         EnemyType* random_type = enemy_manager.getRandomType();
-        enemy_spawns[rand() % enemy_spawns.size()].spawnEnemy(random_type);
+        enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
     }
 
     if (_gd.input.getKeyDown(sf::Keyboard::S))
@@ -165,15 +199,15 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
     {
         // Queue N of a random type from a single spawn point.
         EnemyType* random_type = enemy_manager.getRandomType();
-        EnemySpawn& spawn = enemy_spawns[rand() % enemy_spawns.size()];
-        LevelPath path = spawn.getPath();
+        EnemySpawn* spawn = enemy_spawns[rand() % enemy_spawns.size()].get();
+        LevelPath path = spawn->getPath();
 
         float spawn_delay = 2 - (random_type->speed * 0.02f);
         spawn_delay = JMath::clampf(spawn_delay, 0.5f, 2);
 
         for (int i = 0; i < 3; ++i)
         {
-            spawn.queueEnemy(random_type, i * spawn_delay, path);
+            spawn->queueEnemy(random_type, i * spawn_delay, path);
         }
     }
 
@@ -182,7 +216,7 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
         // Clear all spawn queues.
         for (auto& spawn : enemy_spawns)
         {
-            spawn.clearSpawnQueue();
+            spawn->clearSpawnQueue();
         }
     }
 }

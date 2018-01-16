@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <SFML/Window/Mouse.hpp>
 
 #include "TowerManager.h"

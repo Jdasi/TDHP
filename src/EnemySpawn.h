@@ -32,6 +32,7 @@ public:
     void draw(sf::RenderWindow& _window);
 
     void setMarkerTexture(sf::Texture* _texture);
+    int getTileIndex() const;
 
     bool enemiesQueued() const;
     void clearSpawnQueue();

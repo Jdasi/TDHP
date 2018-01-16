@@ -1,5 +1,4 @@
 #include <string>
-#include <iostream>
 
 #include "Game.h"
 #include "GameData.h"
@@ -295,6 +294,15 @@ void Game::processNavContext()
 
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
         enemy_director->setEnemyDestination(index);
+    }
+    else if (gd.input.getMouseButtonDown(sf::Mouse::Middle))
+    {
+        auto mouse_pos = gd.input.getMousePos();
+        if (!JHelper::posInSimulationArea(mouse_pos))
+            return;
+
+        int index = JHelper::posToTileIndex(mouse_pos, current_level);
+        enemy_director->toggleEnemySpawn(index);
     }
 }
 

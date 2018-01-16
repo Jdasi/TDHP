@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <SFML/System/Vector2.hpp>
 
 #include "Enemy.h"
@@ -32,7 +34,9 @@ public:
     void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
-    void addEnemySpawn(const int _tile_index);
+    bool addEnemySpawn(const int _tile_index);
+    bool removeEnemySpawn(const int _tile_index);
+    void toggleEnemySpawn(const int _tile_index);
     void updateAllPurePaths();
 
     Waypoint& getEnemyDestination();
@@ -58,7 +62,7 @@ private:
     Level& level;
 
     EnemyManager enemy_manager;
-    std::vector<EnemySpawn> enemy_spawns;
+    std::vector<std::unique_ptr<EnemySpawn>> enemy_spawns;
 
     Waypoint enemy_destination;
     TDSprite destination_marker;

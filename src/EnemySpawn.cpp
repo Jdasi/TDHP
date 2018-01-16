@@ -51,6 +51,12 @@ void EnemySpawn::setMarkerTexture(sf::Texture* _texture)
 }
 
 
+int EnemySpawn::getTileIndex() const
+{
+    return level_position.tile_index;
+}
+
+
 bool EnemySpawn::enemiesQueued() const
 {
     return enemies_queued > 0;

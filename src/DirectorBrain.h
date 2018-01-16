@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "Scheduler.h"
 #include "WorkingKnowledge.h"
@@ -13,7 +14,7 @@ class DirectorBrain
 {
 public:
     DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
-        std::vector<EnemySpawn>& _enemy_spawns);
+        std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns);
 
     ~DirectorBrain() = default;
 
@@ -26,7 +27,7 @@ private:
 
     HeatmapManager& heatmap_manager;
     EnemyManager& enemy_manager;
-    std::vector<EnemySpawn>& enemy_spawns;
+    std::vector<std::unique_ptr<EnemySpawn>>& enemy_spawns;
 
     Scheduler scheduler;
     WorkingKnowledge knowledge;

@@ -9,7 +9,7 @@
 
 
 DirectorBrain::DirectorBrain(HeatmapManager& _heatmap_manager,
-    EnemyManager& _enemy_manager, std::vector<EnemySpawn>& _enemy_spawns)
+    EnemyManager& _enemy_manager, std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns)
     : heatmap_manager(_heatmap_manager)
     , enemy_manager(_enemy_manager)
     , enemy_spawns(_enemy_spawns)
@@ -51,19 +51,22 @@ void DirectorBrain::updateWorkingKnowledge()
 
     for (auto& spawn : enemy_spawns)
     {
-        if (!knowledge.enemies_queued && spawn.enemiesQueued())
+        if (!knowledge.enemies_queued && spawn->enemiesQueued())
             knowledge.enemies_queued = true;
 
-        knowledge.avg_path_diff += spawn.getPathDifference();
+        knowledge.avg_path_diff += spawn->getPathDifference();
 
-        int path_cost = spawn.getPathCost();
+        int path_cost = spawn->getPathCost();
         if (path_cost > knowledge.cheapest_path)
             continue;
 
         knowledge.cheapest_path = path_cost;
     }
 
-    knowledge.avg_path_diff /= enemy_spawns.size();
+    if (!enemy_spawns.empty())
+    {
+        knowledge.avg_path_diff /= enemy_spawns.size();
+    }
 }
 
 
