@@ -76,6 +76,23 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
 }
 
 
+bool EnemyDirector::spawnExists(const int _tile_index)
+{
+    if (!JHelper::validIndex(_tile_index, level.getProduct()))
+        return false;
+
+    for (auto& spawn : enemy_spawns)
+    {
+        if (spawn->getTileIndex() != _tile_index)
+            continue;
+
+        return true;
+    }
+
+    return false;
+}
+
+
 bool EnemyDirector::addEnemySpawn(const int _tile_index)
 {
     if (enemy_spawns.size() >= MAX_ENEMY_SPAWNS ||

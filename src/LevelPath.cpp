@@ -15,7 +15,7 @@ LevelPath::LevelPath(const Level& _level, const NavPath& _path)
     for (auto& index : _path.indices)
     {
         auto coords = JHelper::calculateCoords(index, _level.getSizeX());
-        auto pos = JHelper::tileIndexToPos(index, _level);
+        auto pos = JHelper::tileIndexToTileCenter(index, _level);
 
         waypoints.push_back({index, coords, pos});
     }

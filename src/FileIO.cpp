@@ -6,6 +6,7 @@
 #include "FileIO.h"
 #include "Constants.h"
 #include "AssetManager.h"
+#include "JHelper.h"
 
 
 LevelData FileIO::loadLevelData(const std::string& _file_name)
@@ -38,6 +39,54 @@ LevelData FileIO::loadLevelData(const std::string& _file_name)
     }
 
     return ld;
+}
+
+
+void FileIO::exportLevel(const Level& _level)
+{
+    std::string file_name("Resources/Levels/level" + std::to_string(rand() % 100000) + ".txt");
+    std::ofstream file(file_name);
+
+    int size_x = _level.getSizeX();
+    int size_y = _level.getSizeY();
+
+    file << size_x << '\n' << size_y << '\n';
+
+    for (int y = 0; y < size_y; ++y)
+    {
+        for (int x = 0; x < size_x; ++x)
+        {
+            int index = JHelper::calculateIndex(x, y, size_x);
+            auto tile_type = _level.getTileType(index);
+
+            switch (tile_type)
+            {
+                case Level::UNWALKABLE:
+                {
+                    file << 'W';
+                } break;
+
+                case Level::ENEMY_SPAWN:
+                {
+                    file << 'S';
+                } break;
+
+                case Level::ENEMY_DESTINATION:
+                {
+                    file << 'D';
+                } break;
+
+                default:
+                {
+                    file << '.';
+                } break;
+            }
+        }
+
+        file << '\n';
+    }
+
+    file.close();
 }
 
 

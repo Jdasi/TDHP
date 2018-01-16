@@ -8,6 +8,7 @@ Level::Level(const std::string& _level_name)
     : level_data(FileIO::loadLevelData(_level_name))
     , grid(*this, WALKABLE_COLOR)
 {
+    init();
 }
 
 
@@ -47,7 +48,7 @@ float Level::getTileHeight() const
 }
 
 
-Level::LevelTileType Level::getLevelTileType(const int _index)
+Level::LevelTileType Level::getTileType(const int _index) const
 {
     LevelTileType type = LevelTileType::INVALID;
 
@@ -66,12 +67,39 @@ Level::LevelTileType Level::getLevelTileType(const int _index)
 }
 
 
-void Level::setTileColor(const int _index, const sf::Color& _color)
+void Level::updateTileType(const int _index, const LevelTileType& _type)
 {
     if (!JHelper::validIndex(_index, getProduct()))
         return;
 
-    grid.setTileColor(_index, _color);
+    auto& c = level_data.raw_data[_index];
+
+    switch (_type)
+    {
+        case WALKABLE:
+        {
+            c = '.';
+            grid.setTileColor(_index, WALKABLE_COLOR);
+        } break;
+
+        case UNWALKABLE:
+        {
+            c = 'W';
+            grid.setTileColor(_index, UNWALKABLE_COLOR);
+        } break;
+
+        case ENEMY_SPAWN:
+        {
+            c = 'S';
+        } break;
+
+        case ENEMY_DESTINATION:
+        {
+            c = 'D';
+        } break;
+
+        default: {}
+    }
 }
 
 
@@ -84,7 +112,16 @@ void Level::setUnwalkableTexture(sf::Texture* _texture)
 Waypoint Level::createWaypoint(const int _tile_index)
 {
     auto coords = JHelper::calculateCoords(_tile_index, getSizeX());
-    auto pos = JHelper::tileIndexToPos(_tile_index, *this);
+    auto pos = JHelper::tileIndexToTileCenter(_tile_index, *this);
 
     return Waypoint(_tile_index, coords, pos);
+}
+
+
+void Level::init()
+{
+    for (int i = 0; i < level_data.product; ++i)
+    {
+        updateTileType(i, getTileType(i));
+    }
 }

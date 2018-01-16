@@ -67,7 +67,7 @@ int JHelper::posToTileIndex(const sf::Vector2f& _pos, const Level& _level)
 }
 
 
-sf::Vector2f JHelper::tileIndexToPos(const int _tile_index, const float _tile_width,
+sf::Vector2f JHelper::tileIndexToTileCenter(const int _tile_index, const float _tile_width,
     const float _tile_height, const int _level_width)
 {
     auto coords = calculateCoords(_tile_index, _level_width);
@@ -82,9 +82,9 @@ sf::Vector2f JHelper::tileIndexToPos(const int _tile_index, const float _tile_wi
 }
 
 
-sf::Vector2f JHelper::tileIndexToPos(const int _tile_index, const Level& _level)
+sf::Vector2f JHelper::tileIndexToTileCenter(const int _tile_index, const Level& _level)
 {
-    return tileIndexToPos(_tile_index, _level.getTileWidth(), _level.getTileHeight(), _level.getSizeX());
+    return tileIndexToTileCenter(_tile_index, _level.getTileWidth(), _level.getTileHeight(), _level.getSizeX());
 }
 
 

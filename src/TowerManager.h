@@ -27,21 +27,19 @@ class TowerManager
 public:
     TowerManager(AssetManager& _asset_manager, NavManager& _nav_manager,
         EnemyDirector& _enemy_director, Level& _current_level);
-
     ~TowerManager() = default;
 
     void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
-    void removeTowerAtPos(const sf::Vector2f& _pos);
-    void toggleTowerAtPos(const sf::Vector2f& _pos, const int _click_type);
+    void removeTower(const int _tile_index);
+    void toggleTower(const int _tile_index, const int _click_type);
 
 private:
     void initTowers();
     void updateTowerTargets();
 
-    void constructTower(const int _tile_index, const sf::Vector2f& _pos,
-        const std::string& _tower_slug);
+    void constructTower(const int _tile_index, const std::string& _tower_slug);
     void deconstructTower(const int _tile_index);
 
     bool towerExists(const int _tile_index) const;

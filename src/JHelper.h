@@ -22,9 +22,9 @@ namespace JHelper
         const float _tile_height, const int _level_size_x);
     int posToTileIndex(const sf::Vector2f& _pos, const Level& _level);
 
-    sf::Vector2f tileIndexToPos(const int _tile_index, const float _tile_width,
+    sf::Vector2f tileIndexToTileCenter(const int _tile_index, const float _tile_width,
         const float _tile_height, const int _level_size_x);
-    sf::Vector2f tileIndexToPos(const int _tile_index, const Level& _level);
+    sf::Vector2f tileIndexToTileCenter(const int _tile_index, const Level& _level);
 
     int manhattanDistance(const sf::Vector2i& _a, const sf::Vector2i& _b);
     int chebyshevDistance(const sf::Vector2i& _a, const sf::Vector2i& _b);

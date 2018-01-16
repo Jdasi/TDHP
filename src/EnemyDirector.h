@@ -34,6 +34,7 @@ public:
     void tick(GameData& _gd);
     void draw(sf::RenderWindow& _window);
 
+    bool spawnExists(const int _tile_index);
     bool addEnemySpawn(const int _tile_index);
     bool removeEnemySpawn(const int _tile_index);
     void toggleEnemySpawn(const int _tile_index);

@@ -24,8 +24,11 @@ Game::Game(GameData& _gd)
 
 void Game::tick()
 {
-    if (gd.input.getKeyDown(sf::Keyboard::Key::P)) // Flip paused status.
+    if (gd.input.getKeyDown(sf::Keyboard::P)) // Flip paused status.
         JTime::setTimeScale(JTime::getTimeScale() == 1.f ? 0.f : 1.f);
+
+    if (gd.input.getKeyDown(sf::Keyboard::F12))
+        FileIO::exportLevel(current_level);
 
     if (JTime::getTimeScale() == 0) // If paused.
         return;
@@ -198,15 +201,13 @@ void Game::parseCurrentLevel()
         for (int col = 0; col < size_x; ++col)
         {
             int index = JHelper::calculateIndex(col, row, size_x);
+            auto tile_type = current_level.getTileType(index);
 
-            switch (current_level.getLevelTileType(index))
+            switch (tile_type)
             {
                 case Level::UNWALKABLE:
                 {
                     nav_manager->toggleNodeWalkable(index);
-
-                    current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
-                        WALKABLE_COLOR : UNWALKABLE_COLOR);
                 } break;
 
                 case Level::ENEMY_SPAWN:
@@ -280,11 +281,12 @@ void Game::processNavContext()
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
         nav_manager->toggleNodeWalkable(index);
 
-        current_level.setTileColor(index, nav_manager->isNodeWalkable(index) ?
-            WALKABLE_COLOR : UNWALKABLE_COLOR);
+        current_level.updateTileType(index, nav_manager->isNodeWalkable(index) ?
+            Level::WALKABLE : Level::UNWALKABLE);
 
+        enemy_director->removeEnemySpawn(index);
         enemy_director->updateAllPurePaths();
-        tower_manager->removeTowerAtPos(mouse_pos);
+        tower_manager->removeTower(index);
     }
     else if (gd.input.getMouseButtonDown(sf::Mouse::Right))
     {
@@ -292,8 +294,16 @@ void Game::processNavContext()
         if (!JHelper::posInSimulationArea(mouse_pos))
             return;
 
+        // Clear prev destination from level data.
+        int prev_index = enemy_director->getEnemyDestination().tile_index;
+        current_level.updateTileType(prev_index, Level::WALKABLE);
+
+        // Set new destination with enemy director and then level data.
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
         enemy_director->setEnemyDestination(index);
+
+        if (nav_manager->isNodeWalkable(index))
+            current_level.updateTileType(index, Level::ENEMY_DESTINATION);
     }
     else if (gd.input.getMouseButtonDown(sf::Mouse::Middle))
     {
@@ -303,6 +313,9 @@ void Game::processNavContext()
 
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
         enemy_director->toggleEnemySpawn(index);
+
+        current_level.updateTileType(index, enemy_director->spawnExists(index) ?
+            Level::ENEMY_SPAWN : Level::WALKABLE);
     }
 }
 
@@ -327,9 +340,7 @@ void Game::processGameContext()
         }
 
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
-        auto pos = JHelper::tileIndexToPos(index, current_level);
-
-        tower_manager->toggleTowerAtPos(pos, click_type);
+        tower_manager->toggleTower(index, click_type);
     }
 }
 

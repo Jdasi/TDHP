@@ -37,14 +37,16 @@ public:
     float getTileWidth() const;
     float getTileHeight() const;
 
-    LevelTileType getLevelTileType(const int _index);
+    LevelTileType getTileType(const int _index) const;
+    void updateTileType(const int _index, const LevelTileType& _type);
 
-    void setTileColor(const int _index, const sf::Color& _color);
     void setUnwalkableTexture(sf::Texture* _texture);
 
     Waypoint createWaypoint(const int _tile_index);
 
 private:
+    void init();
+
     LevelData level_data;
     TileGrid grid;
 

@@ -56,34 +56,32 @@ void TowerManager::draw(sf::RenderWindow& _window)
 }
 
 
-void TowerManager::removeTowerAtPos(const sf::Vector2f& _pos)
+void TowerManager::removeTower(const int _tile_index)
 {
-    int index = JHelper::posToTileIndex(_pos, level);
-    if (!JHelper::validIndex(index, level.getProduct()))
+    if (!JHelper::validIndex(_tile_index, level.getProduct()))
         return;
 
-    if (towerExists(index) && nav_manager.isNodeWalkable(index))
+    if (towerExists(_tile_index) && nav_manager.isNodeWalkable(_tile_index))
     {
-        deconstructTower(index);
+        deconstructTower(_tile_index);
     }
 }
 
 
-void TowerManager::toggleTowerAtPos(const sf::Vector2f& _pos, int _click_type)
+void TowerManager::toggleTower(const int _tile_index, int _click_type)
 {
-    int index = JHelper::posToTileIndex(_pos, level);
-    if (!JHelper::validIndex(index, level.getProduct()))
+    if (!JHelper::validIndex(_tile_index, level.getProduct()))
         return;
 
-    if (towerExists(index))
+    if (towerExists(_tile_index))
     {
-        deconstructTower(index);
+        deconstructTower(_tile_index);
     }
     else
     {
-        if (!nav_manager.isNodeWalkable(index))
+        if (!nav_manager.isNodeWalkable(_tile_index))
         {
-            constructTower(index, _pos, clickTypeToTowerSlug(_click_type));
+            constructTower(_tile_index, clickTypeToTowerSlug(_click_type));
         }
     }
 }
@@ -117,8 +115,7 @@ void TowerManager::updateTowerTargets()
 }
 
 
-void TowerManager::constructTower(const int _tile_index, const sf::Vector2f& _pos,
-    const std::string& _tower_slug)
+void TowerManager::constructTower(const int _tile_index, const std::string& _tower_slug)
 {
     for (auto& tower : towers)
     {
@@ -126,7 +123,7 @@ void TowerManager::constructTower(const int _tile_index, const sf::Vector2f& _po
             continue;
 
         tower.setTileIndex(_tile_index);
-        tower.setPosition(_pos);
+        tower.setPosition(JHelper::tileIndexToTileCenter(_tile_index, level));
         tower.setType(tower_types.at(_tower_slug));
 
         tower.spawn();
