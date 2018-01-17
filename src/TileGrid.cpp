@@ -48,7 +48,8 @@ void TileGrid::setTileAlpha(const int _tile_index, const float _alpha)
     auto& tile = tiles[_tile_index];
     auto& color = tile.getFillColor();
 
-    tile.setFillColor(sf::Color(color.r, color.g, color.b, _alpha));
+    sf::Uint8 alpha = static_cast<sf::Uint8>(_alpha);
+    tile.setFillColor(sf::Color(color.r, color.g, color.b, alpha));
 }
 
 
@@ -60,7 +61,8 @@ void TileGrid::modifyTileAlpha(const int _tile_index, const float _amount)
     auto& tile = tiles[_tile_index];
     auto& color = tile.getFillColor();
 
-    tile.setFillColor(sf::Color(color.r, color.g, color.b, color.a + _amount));
+    sf::Uint8 alpha = color.a + static_cast<sf::Uint8>(_amount);
+    tile.setFillColor(sf::Color(color.r, color.g, color.b, alpha));
 }
 
 

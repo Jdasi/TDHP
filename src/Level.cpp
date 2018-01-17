@@ -91,6 +91,7 @@ void Level::updateTileType(const int _index, const LevelTileType& _type)
         case ENEMY_SPAWN:
         {
             c = 'S';
+            grid.setTileColor(_index, WALKABLE_COLOR);
         } break;
 
         case ENEMY_DESTINATION:

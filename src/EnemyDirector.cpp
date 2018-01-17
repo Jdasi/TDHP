@@ -107,6 +107,7 @@ bool EnemyDirector::addEnemySpawn(const int _tile_index)
     auto* texture = asset_manager.loadTexture(SPAWN_SPRITE);
     spawn->setMarkerTexture(texture);
 
+    spawn->updatePaths();
     enemy_spawns.push_back(std::move(spawn));
 
     return true;
@@ -135,11 +136,11 @@ void EnemyDirector::toggleEnemySpawn(const int _tile_index)
 }
 
 
-void EnemyDirector::updateAllPurePaths()
+void EnemyDirector::updatePaths()
 {
     for (auto& spawn : enemy_spawns)
     {
-        spawn->updatePurePath();
+        spawn->updatePaths();
     }
 }
 
@@ -158,7 +159,7 @@ void EnemyDirector::setEnemyDestination(const int _tile_index)
     enemy_destination = level.createWaypoint(_tile_index);
     destination_marker.setPosition(enemy_destination.pos);
 
-    updateAllPurePaths();
+    updatePaths();
 }
 
 
@@ -199,20 +200,44 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
         EnemyType* random_type = enemy_manager.getRandomType();
         enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
     }
+    else if (_gd.input.getKeyDown(sf::Keyboard::Z))
+    {
+        if (enemy_spawns.empty())
+            return;
 
-    if (_gd.input.getKeyDown(sf::Keyboard::S))
+        // Spawn fastest enemy.
+        EnemyType* random_type = enemy_manager.getFastestType();
+        enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
+    }
+    else if (_gd.input.getKeyDown(sf::Keyboard::X))
+    {
+        if (enemy_spawns.empty())
+            return;
+
+        // Spawn basic enemy.
+        EnemyType* random_type = enemy_manager.getBasicType();
+        enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
+    }
+    else if (_gd.input.getKeyDown(sf::Keyboard::C))
+    {
+        if (enemy_spawns.empty())
+            return;
+
+        // Spawn strongest enemy.
+        EnemyType* random_type = enemy_manager.getStrongestType();
+        enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
+    }
+    else if (_gd.input.getKeyDown(sf::Keyboard::S))
     {
         // Boost all enemy speed.
         enemy_manager.boostEnemySpeed(2, 3);
     }
-
-    if (_gd.input.getKeyDown(sf::Keyboard::H))
+    else if (_gd.input.getKeyDown(sf::Keyboard::H))
     {
         // Boost all enemy health.
         enemy_manager.boostEnemyHealth(2, 3);
     }
-
-    if (_gd.input.getKeyDown(sf::Keyboard::M))
+    else if (_gd.input.getKeyDown(sf::Keyboard::M))
     {
         // Queue N of a random type from a single spawn point.
         EnemyType* random_type = enemy_manager.getRandomType();
@@ -227,8 +252,7 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
             spawn->queueEnemy(random_type, i * spawn_delay, path);
         }
     }
-
-    if (_gd.input.getKeyDown(sf::Keyboard::N))
+    else if (_gd.input.getKeyDown(sf::Keyboard::N))
     {
         // Clear all spawn queues.
         for (auto& spawn : enemy_spawns)

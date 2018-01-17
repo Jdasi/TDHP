@@ -38,7 +38,7 @@ public:
     bool addEnemySpawn(const int _tile_index);
     bool removeEnemySpawn(const int _tile_index);
     void toggleEnemySpawn(const int _tile_index);
-    void updateAllPurePaths();
+    void updatePaths();
 
     Waypoint& getEnemyDestination();
     void setEnemyDestination(const int _tile_index);

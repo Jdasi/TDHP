@@ -84,7 +84,7 @@ void Game::init()
     initObjects();
 
     parseCurrentLevel();
-    enemy_director->updateAllPurePaths();
+    enemy_director->updatePaths();
 }
 
 
@@ -285,7 +285,7 @@ void Game::processNavContext()
             Level::WALKABLE : Level::UNWALKABLE);
 
         enemy_director->removeEnemySpawn(index);
-        enemy_director->updateAllPurePaths();
+        enemy_director->updatePaths();
         tower_manager->removeTower(index);
     }
     else if (gd.input.getMouseButtonDown(sf::Mouse::Right))
@@ -312,6 +312,9 @@ void Game::processNavContext()
             return;
 
         int index = JHelper::posToTileIndex(mouse_pos, current_level);
+        if (!nav_manager->isNodeWalkable(index))
+            nav_manager->toggleNodeWalkable(index);
+
         enemy_director->toggleEnemySpawn(index);
 
         current_level.updateTileType(index, enemy_director->spawnExists(index) ?

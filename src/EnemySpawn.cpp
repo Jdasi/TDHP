@@ -122,12 +122,20 @@ LevelPath EnemySpawn::getPath() const
 }
 
 
+void EnemySpawn::updatePaths()
+{
+    updatePurePath();
+    updateEnemyPath();
+}
+
+
 // Calculate straight path to destination, ignoring heatmap data.
 void EnemySpawn::updatePurePath()
 {
     auto path = nav_manager.findPath(
         level_position.tile_coords,
-        enemy_destination.tile_coords);
+        enemy_destination.tile_coords,
+        HeatmapFlag::NONE);
 
     level_path_pure = LevelPath(level, path);
 }

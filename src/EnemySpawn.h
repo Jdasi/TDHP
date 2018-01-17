@@ -45,9 +45,10 @@ public:
     int getPathDifference() const;
     LevelPath getPath() const;
 
-    void updatePurePath();
+    void updatePaths();
 
 private:
+    void updatePurePath();
     void updateEnemyPath();
 
     NavManager& nav_manager;
