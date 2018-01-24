@@ -27,7 +27,9 @@ public:
 private:
     void init();
 
-    sf::RectangleShape rectangle;
+    sf::RectangleShape bg_rectangle;
+    sf::RectangleShape fg_rectangle;
+
     sf::Vector2f size;
     float y_offset;
 

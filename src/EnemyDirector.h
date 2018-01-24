@@ -12,6 +12,7 @@
 #include "LevelPath.h"
 #include "Scheduler.h"
 #include "DirectorBrain.h"
+#include "ValueBar.h"
 
 namespace sf
 {
@@ -50,7 +51,7 @@ public:
     bool killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_type = nullptr);
 
 private:
-    void initDestinationMarker();
+    void init();
     void handleDebugCommands(GameData& _gd);
 
     // Enemy events.
@@ -70,5 +71,6 @@ private:
 
     Scheduler scheduler;
     DirectorBrain brain;
+    ValueBar energy_bar;
 
 };

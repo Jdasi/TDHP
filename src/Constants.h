@@ -43,6 +43,9 @@ const int MAX_BULLETS                   = 100;
 const float MIN_WEIGHTING               = 0;
 const float MAX_WEIGHTING               = 255;
 
+const float MAX_DIRECTOR_ENERGY           = 100;
+const float DIRECTOR_ENERGY_REGEN       = 1.5f;
+
 const std::string LASER_TOWER_SLUG      { "LaserTower" };
 const std::string BULLET_TOWER_SLUG     { "BulletTower" };
 

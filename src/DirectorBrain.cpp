@@ -29,6 +29,18 @@ DirectorBrain::DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _en
 void DirectorBrain::tick()
 {
     scheduler.update();
+
+    if (knowledge.energy < MAX_DIRECTOR_ENERGY)
+    {
+        knowledge.energy += DIRECTOR_ENERGY_REGEN * JTime::getDeltaTime();
+        JMath::clampf(knowledge.energy, 0, MAX_DIRECTOR_ENERGY);
+    }
+}
+
+
+float DirectorBrain::getEnergyPercentage() const
+{
+    return knowledge.energy / MAX_DIRECTOR_ENERGY;
 }
 
 
@@ -121,20 +133,28 @@ void DirectorBrain::makeDecision()
 {
     std::cout << "Decision: ";
 
-    if (knowledge.hm_bullet_intensity >= knowledge.swarm_threshold)
+    if (knowledge.energy >= 30)
     {
-        auto spawn = enemy_spawns[rand() % enemy_spawns.size()].get();
-        auto enemy_type = enemy_manager.getFastestType();
-
-        float spawn_delay = 2 - (enemy_type->speed * 0.02f);
-        spawn_delay = JMath::clampf(spawn_delay, 0.5f, 2);
-
-        for (int i = 0; i < 3; ++i)
+        if (knowledge.hm_bullet_intensity >= knowledge.swarm_threshold)
         {
-            spawn->queueEnemy(enemy_type, i * spawn_delay);
-        }
+            auto spawn = enemy_spawns[rand() % enemy_spawns.size()].get();
+            auto enemy_type = enemy_manager.getFastestType();
 
-        std::cout << "Sending Fast Enemy Swarm";
+            float spawn_delay = 2 - (enemy_type->speed * 0.02f);
+            spawn_delay = JMath::clampf(spawn_delay, 0.5f, 2);
+
+            for (int i = 0; i < 3; ++i)
+            {
+                spawn->queueEnemy(enemy_type, i * spawn_delay);
+            }
+
+            knowledge.energy -= 35;
+            std::cout << "Sending Fast Enemy Swarm";
+        }
+        else
+        {
+            std::cout << "No Action";
+        }
     }
     else
     {

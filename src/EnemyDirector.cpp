@@ -28,7 +28,7 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     enemy_spawns.reserve(MAX_ENEMY_SPAWNS);
     enemy_manager.addEnemyListener(this);
 
-    initDestinationMarker();
+    init();
 
     // Debug repeating enemy spawn.
     scheduler.invokeRepeating([this]()
@@ -52,6 +52,8 @@ void EnemyDirector::tick(GameData& _gd)
     scheduler.update();
     brain.tick();
 
+    energy_bar.updateValuePercentage(brain.getEnergyPercentage());
+
     if (GDebugFlags::draw_debug_controls)
         handleDebugCommands(_gd);
 
@@ -73,6 +75,8 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
 
     destination_marker.draw(_window);
     enemy_manager.draw(_window);
+
+    energy_bar.draw(_window);
 }
 
 
@@ -182,8 +186,13 @@ bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_
 }
 
 
-void EnemyDirector::initDestinationMarker()
+void EnemyDirector::init()
 {
+    // Energy bar.
+    energy_bar.configure({ PANE_WIDTH, WINDOW_HEIGHT * 0.025f }, 0, sf::Color::Blue);
+    energy_bar.updatePosition({ WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.04f });
+
+    // Destination marker.
     auto* texture = asset_manager.loadTexture(DESTINATION_SPRITE);
     destination_marker.setTexture(texture);
 }

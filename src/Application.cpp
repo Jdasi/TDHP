@@ -87,10 +87,10 @@ void Application::draw()
 {
     window.clear();
 
+    game->draw(window);
+
     if (GDebugFlags::draw_debug_controls)
         window.draw(debug_display);
-
-    game->draw(window);
 
     window.display();
 }

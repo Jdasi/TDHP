@@ -13,7 +13,8 @@ ValueBar::ValueBar()
 
 void ValueBar::draw(sf::RenderWindow& _window)
 {
-    _window.draw(rectangle);
+    _window.draw(bg_rectangle);
+    _window.draw(fg_rectangle);
 }
 
 
@@ -23,8 +24,11 @@ void ValueBar::configure(const sf::Vector2f& _size, const float _y_offset,
     size = _size;
     y_offset = _y_offset;
 
-    rectangle.setSize(_size);
-    JHelper::centerSFOrigin(rectangle);
+    bg_rectangle.setSize(_size);
+    fg_rectangle.setSize(_size);
+
+    JHelper::centerSFOrigin(bg_rectangle);
+    JHelper::centerSFOrigin(fg_rectangle);
 
     setBarColor(_color);
 }
@@ -32,24 +36,26 @@ void ValueBar::configure(const sf::Vector2f& _size, const float _y_offset,
 
 void ValueBar::setBarColor(const sf::Color& _color)
 {
-    rectangle.setFillColor(_color);
+    fg_rectangle.setFillColor(_color);
 }
 
 
 void ValueBar::updatePosition(const sf::Vector2f& _position)
 {
-    rectangle.setPosition({ _position.x, _position.y + y_offset });
+    bg_rectangle.setPosition({ _position.x, _position.y + y_offset });
+    fg_rectangle.setPosition({ _position.x, _position.y + y_offset });
 }
 
 
 void ValueBar::updateValuePercentage(const float _percentage)
 {
-    rectangle.setSize({ size.x * _percentage, size.y });
+    fg_rectangle.setSize({ size.x * _percentage, size.y });
 }
 
 
 void ValueBar::init()
 {
-    rectangle.setOutlineColor(sf::Color::White);
-    rectangle.setOutlineThickness(1);
+    bg_rectangle.setOutlineColor(sf::Color::White);
+    bg_rectangle.setOutlineThickness(1);
+    bg_rectangle.setFillColor(sf::Color::Black);
 }
