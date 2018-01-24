@@ -3,9 +3,9 @@
 struct WorkingKnowledge
 {
     WorkingKnowledge()
-        : hm_total_weight(0)
-        , hm_laser_weight(0)
-        , hm_bullet_weight(0)
+        : hm_laser_intensity(0)
+        , hm_bullet_intensity(0)
+        , swarm_threshold(0)
         , total_enemies(0)
         , fast_enemies(0)
         , strong_enemies(0)
@@ -16,9 +16,11 @@ struct WorkingKnowledge
     {
     }
 
-    int hm_total_weight;
-    int hm_laser_weight;
-    int hm_bullet_weight;
+    int hm_maximum_weight;
+    float hm_laser_intensity;
+    float hm_bullet_intensity;
+
+    float swarm_threshold;
 
     int total_enemies;
     int fast_enemies;
