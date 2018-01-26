@@ -22,6 +22,7 @@ public:
     void tick();
 
     float getEnergyPercentage() const;
+    void grantEnergy(const float _amount);
 
 private:
     void initWorkingKnowledge();

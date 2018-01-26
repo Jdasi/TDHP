@@ -295,4 +295,6 @@ void EnemyDirector::onDeath(const sf::Vector2f& _pos, TowerType* _killer_type)
 void EnemyDirector::onPathComplete(Enemy& _caller)
 {
     _caller.killQuiet();
+
+    brain.grantEnergy(ENERGY_ON_PATH_COMPLETION);
 }

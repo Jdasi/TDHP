@@ -44,6 +44,13 @@ float DirectorBrain::getEnergyPercentage() const
 }
 
 
+void DirectorBrain::grantEnergy(const float _amount)
+{
+    knowledge.energy += _amount;
+    knowledge.energy = JMath::clampf(knowledge.energy, 0, MAX_DIRECTOR_ENERGY);
+}
+
+
 void DirectorBrain::initWorkingKnowledge()
 {
     knowledge.hm_maximum_weight = level.getProduct() * static_cast<int>(MAX_WEIGHTING);
