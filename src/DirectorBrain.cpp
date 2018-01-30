@@ -246,7 +246,7 @@ bool DirectorBrain::fastEnemiesOverThreshold() const
 
 bool DirectorBrain::strongEnemiesOverThreshold() const
 {
-    return static_cast<float>(knowledge.strong_enemies) / MAX_ENEMIES >= 0.08f;
+    return static_cast<float>(knowledge.strong_enemies) / MAX_ENEMIES >= 0.05f;
 }
 
 
@@ -288,13 +288,6 @@ bool DirectorBrain::tierOneActions()
 
         return true;
     }
-    else
-    {
-        sendBasicSwarm();
-        knowledge.energy -= 50;
-
-        return true;
-    }
 
     return false;
 }
@@ -305,6 +298,14 @@ bool DirectorBrain::tierOneActions()
  */
 bool DirectorBrain::tierTwoActions()
 {
+    if (bulletIntensityOverThreshold())
+    {
+        sendFastSwarm();
+        knowledge.energy -= 50;
+
+        return true;
+    }
+
     if (laserIntensityOverThreshold())
     {
         sendStrongSwarm();
@@ -312,21 +313,7 @@ bool DirectorBrain::tierTwoActions()
 
         return true;
     }
-    else if (bulletIntensityOverThreshold())
-    {
-        sendFastSwarm();
-        knowledge.energy -= 50;
 
-        return true;
-    }
-    else if (overallIntensityOverThreshold())
-    {
-        sendBasicSwarm();
-        knowledge.energy -= 50;
-
-        return true;
-    }
-    
     return false;
 }
 
@@ -353,7 +340,8 @@ bool DirectorBrain::tierThreeActions()
             return true;
         }
     }
-    else if (strongEnemiesOverThreshold())
+
+    if (strongEnemiesOverThreshold())
     {
         if (bulletIntensityOverThreshold())
         {
@@ -370,7 +358,8 @@ bool DirectorBrain::tierThreeActions()
             return true;
         }
     }
-    else if (enemyCloseToGoal())
+
+    if (enemyCloseToGoal())
     {
         if (knowledge.hm_bullet_intensity > knowledge.hm_laser_intensity)
         {
@@ -386,6 +375,22 @@ bool DirectorBrain::tierThreeActions()
 
             return true;
         }
+    }
+
+    if (totalEnemiesOverThreshold())
+    {
+        if (highAveragePathDifference())
+        {
+            healthBoostAllEnemies();
+        }
+        else
+        {
+            speedBoostAllEnemies();
+        }
+
+        knowledge.energy -= 25;
+
+        return true;
     }
 
     return false;
@@ -475,7 +480,7 @@ void DirectorBrain::speedBoostFastEnemies()
 void DirectorBrain::speedBoostStrongEnemies()
 {
     auto type = enemy_manager.getStrongestType();
-    enemy_manager.boostEnemySpeed(type, 2, 3);
+    enemy_manager.boostEnemySpeed(type, 1.5f, 3);
 
     std::cout << "Boosting Strong Enemy Speed";
     ++statistics.sb_strong_times;
@@ -484,7 +489,7 @@ void DirectorBrain::speedBoostStrongEnemies()
 
 void DirectorBrain::speedBoostAllEnemies()
 {
-    enemy_manager.boostEnemySpeed(2, 3);
+    enemy_manager.boostEnemySpeed(1.5f, 3);
 
     std::cout << "Boosting All Enemy Speed";
     ++statistics.sb_all_times;
