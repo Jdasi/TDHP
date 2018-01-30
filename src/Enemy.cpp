@@ -35,7 +35,7 @@ void Enemy::tick()
     if (path_index >= path.getNumPoints())
         return;
 
-    // updateTileIndex(); -- INFO UNUSED.
+    updateTileIndex();
 
     auto& waypoint = path.getWaypoint(path_index);
     auto& pos = getPosition();
@@ -68,6 +68,12 @@ void Enemy::setPath(const LevelPath& _path)
 {
     path_index = 0;
     path = _path;
+}
+
+
+const sf::Vector2i& Enemy::getCoords() const
+{
+    return coords;
 }
 
 
@@ -147,7 +153,7 @@ void Enemy::initHealthBar()
     float width = getLevelTileWidth();
     float height = getLevelTileHeight();
 
-    // Base health bar size on TDSprite size (aka tile size).
+    // Base health bar size on TDSprite size (a.k.a. tile size).
     health_bar.configure({ width * 0.9f, height * 0.1f }, -height * 0.5f);
     health_bar.setBarColor(sf::Color::Green);
 }

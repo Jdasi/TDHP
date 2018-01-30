@@ -13,7 +13,7 @@ class AssetManager;
 class EnemyManager : public EnemyListener
 {
 public:
-    EnemyManager(AssetManager& _asset_manager);
+    EnemyManager(AssetManager& _asset_manager, Waypoint& _enemy_destination);
     ~EnemyManager() = default;
 
     void tick();
@@ -24,6 +24,8 @@ public:
 
     int getNumAlive() const;
     int getNumAliveOfType(EnemyType* _type);
+
+    int getProximityToGoal() const;
 
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,
         const float _radius_sqr);
@@ -63,7 +65,10 @@ private:
 
     std::vector<EnemyTypePair> type_entries;
     std::array<Enemy, MAX_ENEMIES> enemies;
+    Waypoint& enemy_destination;
+
     int num_alive;
+    int proximity_to_goal;
 
     EnemyType* fastest_type;
     EnemyType* strongest_type;

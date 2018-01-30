@@ -22,7 +22,7 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     , nav_manager(_nav_manager)
     , heatmap_manager(_heatmap_manager)
     , level(_level)
-    , enemy_manager(_asset_manager)
+    , enemy_manager(_asset_manager, enemy_destination)
     , brain(_heatmap_manager, enemy_manager, enemy_spawns, _level)
 {
     enemy_spawns.reserve(MAX_ENEMY_SPAWNS);

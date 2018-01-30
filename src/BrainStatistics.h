@@ -7,6 +7,7 @@ struct BrainStatistics
     std::string level_name      = "";
     float session_duration      = 0;
 
+    int decision_points         = 0;
     int no_action_times         = 0;
 
     int fast_swarm_times        = 0;

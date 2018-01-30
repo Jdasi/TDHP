@@ -3,8 +3,9 @@
 #include "JMath.h"
 
 
-EnemyManager::EnemyManager(AssetManager& _asset_manager)
-     : num_alive(0)
+EnemyManager::EnemyManager(AssetManager& _asset_manager, Waypoint& _enemy_destination)
+     : enemy_destination(_enemy_destination)
+     , num_alive(0)
      , fastest_type(nullptr)
      , strongest_type(nullptr)
      , basic_type(nullptr)
@@ -16,10 +17,20 @@ EnemyManager::EnemyManager(AssetManager& _asset_manager)
 
 void EnemyManager::tick()
 {
+    proximity_to_goal = JMath::maxInt();
+
     for (auto& enemy : enemies)
     {
         if (!enemy.isAlive())
             continue;
+
+        auto coords = enemy.getCoords();
+        int dist = JHelper::manhattanDistance(coords, enemy_destination.tile_coords);
+
+        if (dist < proximity_to_goal)
+        {
+            proximity_to_goal = dist;
+        }
 
         enemy.tick();
     }
@@ -89,6 +100,12 @@ int EnemyManager::getNumAliveOfType(EnemyType* _type)
     }
 
     return counter;
+}
+
+
+int EnemyManager::getProximityToGoal() const
+{
+    return proximity_to_goal;
 }
 
 

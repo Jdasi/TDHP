@@ -31,6 +31,8 @@ DirectorBrain::DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _en
 
 DirectorBrain::~DirectorBrain()
 {
+    statistics.session_duration = JTime::getTime();
+
     FileIO::exportBrainStatistics(statistics);
 }
 
@@ -38,8 +40,6 @@ DirectorBrain::~DirectorBrain()
 void DirectorBrain::tick()
 {
     scheduler.update();
-
-    statistics.session_duration = JTime::getTime();
 
     if (knowledge.energy < MAX_BRAIN_ENERGY)
     {
@@ -74,6 +74,8 @@ void DirectorBrain::decisionPoint()
     std::cout << "----------------------------------------------------------\n";
     makeDecision();
     std::cout << "----------------------------------------------------------\n";
+
+    ++statistics.decision_points;
 }
 
 
@@ -95,6 +97,8 @@ void DirectorBrain::updateWorkingKnowledge()
     knowledge.fast_enemies = enemy_manager.getNumAliveOfType(enemy_manager.getFastestType());
     knowledge.strong_enemies = enemy_manager.getNumAliveOfType(enemy_manager.getStrongestType());
     knowledge.basic_enemies = enemy_manager.getNumAliveOfType(enemy_manager.getBasicType());
+
+    knowledge.proximity_to_goal = enemy_manager.getProximityToGoal();
     knowledge.enemies_queued = false;
 
     for (auto& spawn : enemy_spawns)
@@ -125,22 +129,24 @@ void DirectorBrain::printDecisionPointLog()
     std::cout
         << std::setprecision(3)
         << "[Brain Decision Point at " << JTime::getTime() << "s with " << knowledge.energy << " energy]\n"
-        << "\n"
+        << '\n'
         << "--HEATMAP INFO:\n"
         << "+ Overall Heatmap Intensity: " << knowledge.hm_overall_intensity << "/100\n"
         << "+   Laser Heatmap Intensity: " << knowledge.hm_laser_intensity   << "/100\n"
         << "+  Bullet Heatmap Intensity: " << knowledge.hm_bullet_intensity  << "/100\n"
-        << "\n"
+        << '\n'
         << "--ENEMY INFO:\n"
-        << "+             Total Enemies: " << knowledge.total_enemies        << "\n"
-        << "+              Fast Enemies: " << knowledge.fast_enemies         << "\n"
-        << "+            Strong Enemies: " << knowledge.strong_enemies       << "\n"
-        << "+             Basic Enemies: " << knowledge.basic_enemies        << "\n"
-        << "+            Enemies Queued: " << enemies_queued_output          << "\n"
-        << "\n"
+        << "+             Total Enemies: " << knowledge.total_enemies        << '\n'
+        << "+              Fast Enemies: " << knowledge.fast_enemies         << '\n'
+        << "+            Strong Enemies: " << knowledge.strong_enemies       << '\n'
+        << "+             Basic Enemies: " << knowledge.basic_enemies        << '\n'
+        << '\n'
+        << "+         Proximity to Goal: " << knowledge.proximity_to_goal    << '\n'
+        << "+            Enemies Queued: " << enemies_queued_output          << '\n'
+        << '\n'
         << "--PATH INFO:\n"
-        << "+        Cheapest Path Cost: " << knowledge.cheapest_path        << "\n"
-        << "+   Average Path Difference: " << knowledge.avg_path_diff        << "\n";
+        << "+        Cheapest Path Cost: " << knowledge.cheapest_path        << '\n'
+        << "+   Average Path Difference: " << knowledge.avg_path_diff        << '\n';
 }
 
 
@@ -250,6 +256,18 @@ bool DirectorBrain::totalEnemiesOverThreshold() const
 }
 
 
+bool DirectorBrain::enemyCloseToGoal() const
+{
+    return knowledge.proximity_to_goal <= 5;
+}
+
+
+bool DirectorBrain::highAveragePathDifference() const
+{
+    return knowledge.avg_path_diff >= level.getProduct() * 0.25f;
+}
+
+
 /* Actions specific to energy range 75-100.
  * Returns true if an action was performed, otherwise returns false.
  */
@@ -320,33 +338,54 @@ bool DirectorBrain::tierThreeActions()
 {
     if (fastEnemiesOverThreshold())
     {
-        if (laserIntensityOverThreshold())
-        {
-            healthBoostFastEnemies();
-        }
-        else
+        if (bulletIntensityOverThreshold())
         {
             speedBoostFastEnemies();
+            knowledge.energy -= 25;
+
+            return true;
         }
+        else if (laserIntensityOverThreshold())
+        {
+            healthBoostFastEnemies();
+            knowledge.energy -= 25;
 
-        knowledge.energy -= 25;
-
-        return true;
+            return true;
+        }
     }
     else if (strongEnemiesOverThreshold())
     {
         if (bulletIntensityOverThreshold())
         {
             speedBoostStrongEnemies();
+            knowledge.energy -= 25;
+
+            return true;
+        }
+        else if (laserIntensityOverThreshold())
+        {
+            healthBoostStrongEnemies();
+            knowledge.energy -= 25;
+
+            return true;
+        }
+    }
+    else if (enemyCloseToGoal())
+    {
+        if (knowledge.hm_bullet_intensity > knowledge.hm_laser_intensity)
+        {
+            speedBoostAllEnemies();
+            knowledge.energy -= 25;
+
+            return true;
         }
         else
         {
-            healthBoostStrongEnemies();
+            healthBoostAllEnemies();
+            knowledge.energy -= 25;
+
+            return true;
         }
-
-        knowledge.energy -= 25;
-
-        return true;
     }
 
     return false;
@@ -419,7 +458,7 @@ void DirectorBrain::healthBoostAllEnemies()
 void DirectorBrain::speedBoostFastEnemies()
 {
     auto type = enemy_manager.getFastestType();
-    enemy_manager.boostEnemySpeed(type, 2, 3);
+    enemy_manager.boostEnemySpeed(type, 1.5f, 3);
 
     std::cout << "Boosting Fast Enemy Speed";
     ++statistics.sb_fast_times;

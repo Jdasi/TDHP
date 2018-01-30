@@ -51,6 +51,9 @@ private:
     bool strongEnemiesOverThreshold() const;
     bool totalEnemiesOverThreshold() const;
 
+    bool enemyCloseToGoal() const;
+    bool highAveragePathDifference() const;
+
     // Action Tiers.
     bool tierOneActions();
     bool tierTwoActions();

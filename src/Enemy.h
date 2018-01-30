@@ -26,6 +26,8 @@ public:
 
     void setPath(const LevelPath& _path);
 
+    const sf::Vector2i& getCoords() const;
+
     void boostHealth(const int _modifier, const float _duration);
     void boostSpeed(const float _modifier, const float _duration);
 

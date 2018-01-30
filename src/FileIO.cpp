@@ -87,6 +87,7 @@ void FileIO::exportBrainStatistics(const BrainStatistics& _statistics)
         << "Level Name:            " << _statistics.level_name          << '\n'
         << "Session Duration:      " << _statistics.session_duration    << '\n'
         << '\n'
+        << "Decision Points:       " << _statistics.decision_points     << '\n'
         << "No Action:             " << _statistics.no_action_times     << '\n'
         << '\n'
         << "Fast Swarm:            " << _statistics.fast_swarm_times    << '\n'

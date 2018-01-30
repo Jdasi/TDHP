@@ -15,6 +15,8 @@ struct WorkingKnowledge
     int fast_enemies            = 0;
     int strong_enemies          = 0;
     int basic_enemies           = 0;
+
+    int proximity_to_goal       = 0;
     bool enemies_queued         = 0;
 
     int avg_path_diff           = 0;
