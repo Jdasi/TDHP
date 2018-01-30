@@ -4,6 +4,7 @@ struct WorkingKnowledge
 {
     WorkingKnowledge()
         : energy(0)
+        , hm_overall_intensity(0)
         , hm_laser_intensity(0)
         , hm_bullet_intensity(0)
         , swarm_threshold(0)
@@ -20,6 +21,7 @@ struct WorkingKnowledge
     float energy;
 
     int hm_maximum_weight;
+    float hm_overall_intensity;
     float hm_laser_intensity;
     float hm_bullet_intensity;
 

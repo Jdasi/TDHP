@@ -88,10 +88,10 @@ int HeatmapManager::getTotalWeight(const HeatmapFlag& _flags)
 
 void HeatmapManager::initHeatmaps()
 {
-    createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color::Blue,    200, 15);
-    createHeatmap(HeatmapFlag::BULLET_DEATHS, sf::Color::Red,     200, 15);
-    createHeatmap(HeatmapFlag::TURRET_SHOTS,  sf::Color::White,   200, 15, WeightingType::NEGATIVE);
-    createHeatmap(HeatmapFlag::DEBUG,         sf::Color::Magenta, 200, 15);
+    createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color::Blue,    200, 5);
+    createHeatmap(HeatmapFlag::BULLET_DEATHS, sf::Color::Red,     200, 5);
+    createHeatmap(HeatmapFlag::TURRET_SHOTS,  sf::Color::White,   200, 5, WeightingType::NEGATIVE);
+    createHeatmap(HeatmapFlag::DEBUG,         sf::Color::Magenta, 200, 5);
 
     // Sort heatmaps by their flag.
     std::sort(heatmap_entries.begin(), heatmap_entries.end(),

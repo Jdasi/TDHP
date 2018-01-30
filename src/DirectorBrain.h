@@ -5,11 +5,13 @@
 
 #include "Scheduler.h"
 #include "WorkingKnowledge.h"
+#include "EnemySpawn.h"
 
 class HeatmapManager;
 class EnemySpawn;
 class EnemyManager;
 class Level;
+struct EnemyType;
 
 class DirectorBrain
 {
@@ -33,6 +35,45 @@ private:
     void makeDecision();
 
     float heatmapWeightToPercentage(const int _intensity);
+
+    // Energy Tiers.
+    void processEnergyTierOne();
+    void processEnergyTierTwo();
+    void processEnergyTierThree();
+    void processEnergyTierFour();
+
+    // Conditionals.
+    bool laserIntensityOverThreshold() const;
+    bool bulletIntensityOverThreshold() const;
+    bool overallIntensityOverThreshold() const;
+
+    bool fastEnemiesOverThreshold() const;
+    bool strongEnemiesOverThreshold() const;
+    bool totalEnemiesOverThreshold() const;
+
+    // Action Tiers.
+    bool tierOneActions();
+    bool tierTwoActions();
+    bool tierThreeActions();
+    bool tierFourActions();
+
+    // Actions.
+    void noAction() const;
+
+    void sendFastSwarm();
+    void sendStrongSwarm();
+    void sendBasicSwarm();
+
+    void healthBoostFastEnemies();
+    void healthBoostStrongEnemies();
+    void healthBoostAllEnemies();
+
+    void speedBoostFastEnemies();
+    void speedBoostStrongEnemies();
+    void speedBoostAllEnemies();
+
+    // Helper.
+    void sendSwarm(EnemyType* _type, const int _count, const EnemySpawn::SpawnPathType& _path);
 
     HeatmapManager& heatmap_manager;
     EnemyManager& enemy_manager;

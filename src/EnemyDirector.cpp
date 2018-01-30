@@ -288,6 +288,8 @@ void EnemyDirector::onDeath(const sf::Vector2f& _pos, TowerType* _killer_type)
             heatmap_manager.splashOnHeatmap(HeatmapFlag::BULLET_DEATHS, tile_index, 3);
         }
     }
+
+    brain.grantEnergy(ENERGY_ON_DEATH);
 }
 
 
