@@ -9,6 +9,7 @@ struct BrainStatistics
 
     int decision_points         = 0;
     int no_action_times         = 0;
+    int waiting_times           = 0;
 
     int fast_swarm_times        = 0;
     int strong_swarm_times      = 0;

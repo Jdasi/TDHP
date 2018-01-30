@@ -61,6 +61,7 @@ private:
 
     // Actions.
     void noAction();
+    void waitingForEnergy();
 
     void sendFastSwarm();
     void sendStrongSwarm();

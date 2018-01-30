@@ -89,6 +89,7 @@ void FileIO::exportBrainStatistics(const BrainStatistics& _statistics)
         << '\n'
         << "Decision Points:       " << _statistics.decision_points     << '\n'
         << "No Action:             " << _statistics.no_action_times     << '\n'
+        << "Waiting for Energy:    " << _statistics.waiting_times       << '\n'
         << '\n'
         << "Fast Swarm:            " << _statistics.fast_swarm_times    << '\n'
         << "Strong Swarm:          " << _statistics.strong_swarm_times  << '\n'

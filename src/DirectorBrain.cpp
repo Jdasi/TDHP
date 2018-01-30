@@ -168,7 +168,7 @@ void DirectorBrain::makeDecision()
     }
     else
     {
-        noAction();
+        waitingForEnergy();
     }
 
     std::cout << std::endl;
@@ -396,6 +396,13 @@ void DirectorBrain::noAction()
 {
     std::cout << "No Action";
     ++statistics.no_action_times;
+}
+
+
+void DirectorBrain::waitingForEnergy()
+{
+    std::cout << "Waiting for Energy";
+    ++statistics.waiting_times;
 }
 
 
