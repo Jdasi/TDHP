@@ -181,6 +181,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
   <ItemGroup>
     <ClInclude Include="..\src\Application.h" />
     <ClInclude Include="..\src\AssetManager.h" />
+    <ClInclude Include="..\src\BrainStatistics.h" />
     <ClInclude Include="..\src\Constants.h" />
     <ClInclude Include="..\src\DirectorBrain.h" />
     <ClInclude Include="..\src\Enemy.h" />

@@ -25,7 +25,7 @@ class HeatmapManager;
 class Level;
 struct GameData;
 
-class EnemyDirector : public EnemyListener
+class EnemyDirector
 {
 public:
     EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_manager,
@@ -53,10 +53,6 @@ public:
 private:
     void init();
     void handleDebugCommands(GameData& _gd);
-
-    // Enemy events.
-    void onDeath(const sf::Vector2f& _pos, TowerType* _killer_type) override;
-    void onPathComplete(Enemy& _enemy) override;
 
     AssetManager& asset_manager;
     NavManager& nav_manager;

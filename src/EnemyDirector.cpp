@@ -26,7 +26,6 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
     , brain(_heatmap_manager, enemy_manager, enemy_spawns, _level)
 {
     enemy_spawns.reserve(MAX_ENEMY_SPAWNS);
-    enemy_manager.addEnemyListener(this);
 
     init();
 
@@ -269,34 +268,4 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
             spawn->clearSpawnQueue();
         }
     }
-}
-
-
-// EnemyListener Event: Called when an enemy is killed.
-void EnemyDirector::onDeath(const sf::Vector2f& _pos, TowerType* _killer_type)
-{
-    int tile_index = JHelper::posToTileIndex(_pos, level);
-
-    if (_killer_type != nullptr)
-    {
-        if (_killer_type->slug == LASER_TOWER_SLUG)
-        {
-            heatmap_manager.splashOnHeatmap(HeatmapFlag::LASER_DEATHS, tile_index, 3);
-        }
-        else if (_killer_type->slug == BULLET_TOWER_SLUG)
-        {
-            heatmap_manager.splashOnHeatmap(HeatmapFlag::BULLET_DEATHS, tile_index, 3);
-        }
-    }
-
-    brain.grantEnergy(ENERGY_ON_DEATH);
-}
-
-
-// EnemyListener Event: Called when an enemy finishes traversing its path.
-void EnemyDirector::onPathComplete(Enemy& _caller)
-{
-    _caller.killQuiet();
-
-    brain.grantEnergy(ENERGY_ON_PATH_COMPLETION);
 }

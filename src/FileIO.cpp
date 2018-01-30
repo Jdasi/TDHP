@@ -7,11 +7,13 @@
 #include "Constants.h"
 #include "AssetManager.h"
 #include "JHelper.h"
+#include "BrainStatistics.h"
 
 
 LevelData FileIO::loadLevelData(const std::string& _file_name)
 {
     LevelData ld;
+    ld.name = _file_name;
 
     std::ifstream file("Resources/Levels/" + _file_name);
     if (!file.is_open())
@@ -61,30 +63,45 @@ void FileIO::exportLevel(const Level& _level)
 
             switch (tile_type)
             {
-                case Level::UNWALKABLE:
-                {
-                    file << 'W';
-                } break;
+                case Level::UNWALKABLE:         file << 'W'; break;
+                case Level::ENEMY_SPAWN:        file << 'S'; break;
+                case Level::ENEMY_DESTINATION:  file << 'D'; break;
 
-                case Level::ENEMY_SPAWN:
-                {
-                    file << 'S';
-                } break;
-
-                case Level::ENEMY_DESTINATION:
-                {
-                    file << 'D';
-                } break;
-
-                default:
-                {
-                    file << '.';
-                } break;
+                default:                        file << '.'; break;
             }
         }
 
         file << '\n';
     }
+
+    file.close();
+}
+
+
+void FileIO::exportBrainStatistics(const BrainStatistics& _statistics)
+{
+    std::string file_name("brain_statistics.txt");
+    std::ofstream file(file_name);
+
+    file
+        << "Level Name:            " << _statistics.level_name          << '\n'
+        << "Session Duration:      " << _statistics.session_duration    << '\n'
+        << '\n'
+        << "No Action:             " << _statistics.no_action_times     << '\n'
+        << '\n'
+        << "Fast Swarm:            " << _statistics.fast_swarm_times    << '\n'
+        << "Strong Swarm:          " << _statistics.strong_swarm_times  << '\n'
+        << "Basic Swarm:           " << _statistics.basic_swarm_times   << '\n'
+        << '\n'
+        << "Health Boost (Fast):   " << _statistics.hb_fast_times       << '\n'
+        << "Health Boost (Strong): " << _statistics.hb_strong_times     << '\n'
+        << "Health Boost (All):    " << _statistics.hb_all_times        << '\n'
+        << '\n'
+        << "Speed Boost (Fast):    " << _statistics.sb_fast_times       << '\n'
+        << "Speed Boost (Strong):  " << _statistics.sb_strong_times     << '\n'
+        << "Speed Boost (All):     " << _statistics.sb_all_times        << '\n'
+        << '\n'
+        << "Completed Paths:       " << _statistics.completed_paths     << '\n';
 
     file.close();
 }

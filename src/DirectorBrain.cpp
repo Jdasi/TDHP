@@ -7,6 +7,7 @@
 #include "JTime.h"
 #include "JMath.h"
 #include "Constants.h"
+#include "FileIO.h"
 
 
 DirectorBrain::DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
@@ -16,6 +17,9 @@ DirectorBrain::DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _en
     , enemy_spawns(_enemy_spawns)
     , level(_level)
 {
+    enemy_manager.addEnemyListener(this);
+    statistics.level_name = level.getName();
+
     initWorkingKnowledge();
 
     scheduler.invokeRepeating([this]()
@@ -25,28 +29,29 @@ DirectorBrain::DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _en
 }
 
 
+DirectorBrain::~DirectorBrain()
+{
+    FileIO::exportBrainStatistics(statistics);
+}
+
+
 void DirectorBrain::tick()
 {
     scheduler.update();
 
-    if (knowledge.energy < MAX_DIRECTOR_ENERGY)
+    statistics.session_duration = JTime::getTime();
+
+    if (knowledge.energy < MAX_BRAIN_ENERGY)
     {
         knowledge.energy += DIRECTOR_ENERGY_REGEN * JTime::getDeltaTime();
-        JMath::clampf(knowledge.energy, 0, MAX_DIRECTOR_ENERGY);
+        JMath::clampf(knowledge.energy, 0, MAX_BRAIN_ENERGY);
     }
 }
 
 
 float DirectorBrain::getEnergyPercentage() const
 {
-    return knowledge.energy / MAX_DIRECTOR_ENERGY;
-}
-
-
-void DirectorBrain::grantEnergy(const float _amount)
-{
-    knowledge.energy += _amount;
-    knowledge.energy = JMath::clampf(knowledge.energy, 0, MAX_DIRECTOR_ENERGY);
+    return knowledge.energy / MAX_BRAIN_ENERGY;
 }
 
 
@@ -143,21 +148,17 @@ void DirectorBrain::makeDecision()
 {
     std::cout << "Decision: ";
 
-    if (knowledge.energy == MAX_DIRECTOR_ENERGY)
+    if (knowledge.energy >= 75)
     {
         processEnergyTierOne();
     }
-    else if (knowledge.energy >= 75)
+    else if (knowledge.energy >= 50)
     {
         processEnergyTierTwo();
     }
-    else if (knowledge.energy >= 50)
-    {
-        processEnergyTierThree();
-    }
     else if (knowledge.energy >= 25)
     {
-        processEnergyTierFour();
+        processEnergyTierThree();
     }
     else
     {
@@ -174,7 +175,7 @@ float DirectorBrain::heatmapWeightToPercentage(const int _weight)
 }
 
 
-// Performs an action choosing from those available to energy level 100.
+// Performs an action choosing from those available to energy level 100 or lower.
 void DirectorBrain::processEnergyTierOne()
 {
     if (tierOneActions())
@@ -186,14 +187,11 @@ void DirectorBrain::processEnergyTierOne()
     if (tierThreeActions())
         return;
 
-    if (tierFourActions())
-        return;
-
     noAction();
 }
 
 
-// Performs an action choosing from those available to energy level 99 or lower.
+// Performs an action choosing from those available to energy level 74 or lower.
 void DirectorBrain::processEnergyTierTwo()
 {
     if (tierTwoActions())
@@ -202,30 +200,14 @@ void DirectorBrain::processEnergyTierTwo()
     if (tierThreeActions())
         return;
 
-    if (tierFourActions())
-        return;
-
-    noAction();
-}
-
-
-// Performs an action choosing from those available to energy level 74 or lower.
-void DirectorBrain::processEnergyTierThree()
-{
-    if (tierThreeActions())
-        return;
-
-    if (tierFourActions())
-        return;
-
     noAction();
 }
 
 
 // Performs an action choosing from those available to energy level 49 or lower.
-void DirectorBrain::processEnergyTierFour()
+void DirectorBrain::processEnergyTierThree()
 {
-    if (tierFourActions())
+    if (tierThreeActions())
         return;
 
     noAction();
@@ -246,19 +228,19 @@ bool DirectorBrain::bulletIntensityOverThreshold() const
 
 bool DirectorBrain::overallIntensityOverThreshold() const
 {
-    return knowledge.hm_overall_intensity >= knowledge.swarm_threshold * 2;
+    return knowledge.hm_overall_intensity >= knowledge.swarm_threshold;
 }
 
 
 bool DirectorBrain::fastEnemiesOverThreshold() const
 {
-    return static_cast<float>(knowledge.fast_enemies) / MAX_ENEMIES >= 0.05f;
+    return static_cast<float>(knowledge.fast_enemies) / MAX_ENEMIES >= 0.03f;
 }
 
 
 bool DirectorBrain::strongEnemiesOverThreshold() const
 {
-    return static_cast<float>(knowledge.strong_enemies) / MAX_ENEMIES >= 0.05f;
+    return static_cast<float>(knowledge.strong_enemies) / MAX_ENEMIES >= 0.08f;
 }
 
 
@@ -268,34 +250,10 @@ bool DirectorBrain::totalEnemiesOverThreshold() const
 }
 
 
-/* Actions specific to energy level 100.
+/* Actions specific to energy range 75-100.
  * Returns true if an action was performed, otherwise returns false.
  */
 bool DirectorBrain::tierOneActions()
-{
-    if (totalEnemiesOverThreshold())
-    {
-        speedBoostAllEnemies();
-        healthBoostAllEnemies();
-
-        knowledge.energy -= 100;
-    }
-    else
-    {
-        sendBasicSwarm();
-        knowledge.energy -= 50;
-
-        return true;
-    }
-
-    return false;
-}
-
-
-/* Actions specific to energy range 75-99.
- * Returns true if an action was performed, otherwise returns false.
- */
-bool DirectorBrain::tierTwoActions()
 {
     if (totalEnemiesOverThreshold())
     {
@@ -312,6 +270,13 @@ bool DirectorBrain::tierTwoActions()
 
         return true;
     }
+    else
+    {
+        sendBasicSwarm();
+        knowledge.energy -= 50;
+
+        return true;
+    }
 
     return false;
 }
@@ -320,7 +285,7 @@ bool DirectorBrain::tierTwoActions()
 /* Actions specific to energy range 50-74.
  * Returns true if an action was performed, otherwise returns false.
  */
-bool DirectorBrain::tierThreeActions()
+bool DirectorBrain::tierTwoActions()
 {
     if (laserIntensityOverThreshold())
     {
@@ -351,7 +316,7 @@ bool DirectorBrain::tierThreeActions()
 /* Actions specific to energy range 0-49.
  * Returns true if an action was performed, otherwise returns false.
  */
-bool DirectorBrain::tierFourActions()
+bool DirectorBrain::tierThreeActions()
 {
     if (fastEnemiesOverThreshold())
     {
@@ -364,7 +329,7 @@ bool DirectorBrain::tierFourActions()
             speedBoostFastEnemies();
         }
 
-        knowledge.energy -= 30;
+        knowledge.energy -= 25;
 
         return true;
     }
@@ -379,7 +344,7 @@ bool DirectorBrain::tierFourActions()
             healthBoostStrongEnemies();
         }
 
-        knowledge.energy -= 30;
+        knowledge.energy -= 25;
 
         return true;
     }
@@ -388,9 +353,10 @@ bool DirectorBrain::tierFourActions()
 }
 
 
-void DirectorBrain::noAction() const
+void DirectorBrain::noAction()
 {
     std::cout << "No Action";
+    ++statistics.no_action_times;
 }
 
 
@@ -399,6 +365,7 @@ void DirectorBrain::sendFastSwarm()
     sendSwarm(enemy_manager.getFastestType(), 3, EnemySpawn::SpawnPathType::INFLUENCED);
 
     std::cout << "Sending Fast Enemy Swarm";
+    ++statistics.fast_swarm_times;
 }
 
 
@@ -407,6 +374,7 @@ void DirectorBrain::sendStrongSwarm()
     sendSwarm(enemy_manager.getStrongestType(), 3, EnemySpawn::SpawnPathType::PURE);
 
     std::cout << "Sending Strong Enemy Swarm";
+    ++statistics.strong_swarm_times;
 }
 
 
@@ -415,6 +383,7 @@ void DirectorBrain::sendBasicSwarm()
     sendSwarm(enemy_manager.getBasicType(), 3, EnemySpawn::SpawnPathType::INFLUENCED);
 
     std::cout << "Sending Basic Enemy Swarm";
+    ++statistics.basic_swarm_times;
 }
 
 
@@ -424,6 +393,7 @@ void DirectorBrain::healthBoostFastEnemies()
     enemy_manager.boostEnemyHealth(type, 2, 5);
 
     std::cout << "Boosting Fast Enemy Health";
+    ++statistics.hb_fast_times;
 }
 
 
@@ -433,6 +403,7 @@ void DirectorBrain::healthBoostStrongEnemies()
     enemy_manager.boostEnemyHealth(type, 2, 5);
 
     std::cout << "Boosting Strong Enemy Health";
+    ++statistics.hb_strong_times;
 }
 
 
@@ -441,6 +412,7 @@ void DirectorBrain::healthBoostAllEnemies()
     enemy_manager.boostEnemyHealth(2, 5);
 
     std::cout << "Boosting All Enemy Health";
+    ++statistics.hb_all_times;
 }
 
 
@@ -450,6 +422,7 @@ void DirectorBrain::speedBoostFastEnemies()
     enemy_manager.boostEnemySpeed(type, 2, 3);
 
     std::cout << "Boosting Fast Enemy Speed";
+    ++statistics.sb_fast_times;
 }
 
 
@@ -459,6 +432,7 @@ void DirectorBrain::speedBoostStrongEnemies()
     enemy_manager.boostEnemySpeed(type, 2, 3);
 
     std::cout << "Boosting Strong Enemy Speed";
+    ++statistics.sb_strong_times;
 }
 
 
@@ -467,6 +441,7 @@ void DirectorBrain::speedBoostAllEnemies()
     enemy_manager.boostEnemySpeed(2, 3);
 
     std::cout << "Boosting All Enemy Speed";
+    ++statistics.sb_all_times;
 }
 
 
@@ -492,4 +467,36 @@ void DirectorBrain::sendSwarm(EnemyType* _type, const int _count, const EnemySpa
     {
         best_spawn->queueEnemy(_type, i * spawn_delay, _path);
     }
+}
+
+
+void DirectorBrain::onDeath(const sf::Vector2f& _pos, TowerType* _killer_type)
+{
+    int tile_index = JHelper::posToTileIndex(_pos, level);
+
+    if (_killer_type != nullptr)
+    {
+        if (_killer_type->slug == LASER_TOWER_SLUG)
+        {
+            heatmap_manager.splashOnHeatmap(HeatmapFlag::LASER_DEATHS, tile_index, 3);
+        }
+        else if (_killer_type->slug == BULLET_TOWER_SLUG)
+        {
+            heatmap_manager.splashOnHeatmap(HeatmapFlag::BULLET_DEATHS, tile_index, 3);
+        }
+    }
+
+    knowledge.energy += ENERGY_ON_DEATH;
+    knowledge.energy = JMath::clampf(knowledge.energy, 0, MAX_BRAIN_ENERGY);
+}
+
+
+void DirectorBrain::onPathComplete(Enemy& _caller)
+{
+    _caller.killQuiet();
+
+    knowledge.energy += ENERGY_ON_PATH_COMPLETION;
+    knowledge.energy = JMath::clampf(knowledge.energy, 0, MAX_BRAIN_ENERGY);
+
+    ++statistics.completed_paths;
 }

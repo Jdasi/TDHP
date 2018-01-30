@@ -6,6 +6,8 @@
 #include "Scheduler.h"
 #include "WorkingKnowledge.h"
 #include "EnemySpawn.h"
+#include "BrainStatistics.h"
+#include "EnemyListener.h"
 
 class HeatmapManager;
 class EnemySpawn;
@@ -13,18 +15,17 @@ class EnemyManager;
 class Level;
 struct EnemyType;
 
-class DirectorBrain
+class DirectorBrain : public EnemyListener
 {
 public:
     DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
         std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns, Level& _level);
 
-    ~DirectorBrain() = default;
+    ~DirectorBrain();
 
     void tick();
 
     float getEnergyPercentage() const;
-    void grantEnergy(const float _amount);
 
 private:
     void initWorkingKnowledge();
@@ -40,7 +41,6 @@ private:
     void processEnergyTierOne();
     void processEnergyTierTwo();
     void processEnergyTierThree();
-    void processEnergyTierFour();
 
     // Conditionals.
     bool laserIntensityOverThreshold() const;
@@ -55,10 +55,9 @@ private:
     bool tierOneActions();
     bool tierTwoActions();
     bool tierThreeActions();
-    bool tierFourActions();
 
     // Actions.
-    void noAction() const;
+    void noAction();
 
     void sendFastSwarm();
     void sendStrongSwarm();
@@ -75,6 +74,10 @@ private:
     // Helper.
     void sendSwarm(EnemyType* _type, const int _count, const EnemySpawn::SpawnPathType& _path);
 
+    // Enemy events.
+    void onDeath(const sf::Vector2f& _pos, TowerType* _killer_type) override;
+    void onPathComplete(Enemy& _caller) override;
+
     HeatmapManager& heatmap_manager;
     EnemyManager& enemy_manager;
     std::vector<std::unique_ptr<EnemySpawn>>& enemy_spawns;
@@ -82,5 +85,6 @@ private:
 
     Scheduler scheduler;
     WorkingKnowledge knowledge;
+    BrainStatistics statistics;
 
 };

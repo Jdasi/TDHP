@@ -18,6 +18,12 @@ void Level::draw(sf::RenderWindow& _window)
 }
 
 
+const std::string& Level::getName() const
+{
+    return level_data.name;
+}
+
+
 int Level::getSizeX() const
 {
     return level_data.size_x;

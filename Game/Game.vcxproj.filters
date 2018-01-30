@@ -303,5 +303,8 @@
     <ClInclude Include="..\src\GDebugFlags.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\BrainStatistics.h">
+      <Filter>Core\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

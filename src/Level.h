@@ -30,6 +30,8 @@ public:
 
     void draw(sf::RenderWindow& _window);
 
+    const std::string& getName() const;
+
     int getSizeX() const;
     int getSizeY() const;
     int getProduct() const;

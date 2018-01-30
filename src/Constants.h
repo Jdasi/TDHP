@@ -43,7 +43,7 @@ const int MAX_BULLETS                   = 100;
 const float MIN_WEIGHTING               = 0;
 const float MAX_WEIGHTING               = 255;
 
-const float MAX_DIRECTOR_ENERGY         = 100;
+const float MAX_BRAIN_ENERGY            = 100;
 const float DIRECTOR_ENERGY_REGEN       = 1.5f;
 const float ENERGY_ON_DEATH             = 1;
 const float ENERGY_ON_PATH_COMPLETION   = 5;

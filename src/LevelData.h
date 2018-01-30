@@ -1,20 +1,17 @@
 #pragma once
 
+#include <string>
+
 struct LevelData
 {
-    LevelData()
-        : size_x(0)
-        , size_y(0)
-        , product(0)
-    {
-    }
+    std::string name    = "";
 
-    int size_x;
-    int size_y;
-    int product;
+    int size_x          = 0;
+    int size_y          = 0;
+    int product         = 0;
 
-    float tile_width;
-    float tile_height;
+    float tile_width    = 0;
+    float tile_height   = 0;
 
     std::vector<char> raw_data;
 };
