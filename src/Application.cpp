@@ -1,14 +1,17 @@
 #include "Application.h"
 #include "Constants.h"
 #include "JTime.h"
+#include "JHelper.h"
 #include "GDebugFlags.h"
+
+#include "StateSelection.h"
+#include "StateGame.h"
 
 
 Application::Application()
     : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close)
     , input_handler(nullptr)
     , asset_manager(nullptr)
-    , game(nullptr)
     , game_data(nullptr)
     , scheduler(Scheduler::TimeUsageType::UNSCALED)
 {
@@ -57,6 +60,7 @@ void Application::initSystems()
     game_data = std::make_unique<GameData>(*input_handler.get(),
         *asset_manager.get());
 
+    // TODO: remove this once StateSelection is complete ..
     game_data->level_name = "level1.txt";
 }
 
@@ -68,7 +72,12 @@ void Application::initObjects()
     debug_display.setFont(*default_font);
     debug_display.setCharacterSize(12);
 
-    game = std::make_unique<Game>(*game_data.get());
+    state_handler = std::make_unique<StateHandler>();
+
+    state_handler->registerState(GameState::SELECTION, std::make_unique<StateSelection>(*game_data.get()));
+    state_handler->registerState(GameState::GAME, std::make_unique<StateGame>(*game_data.get()));
+
+    state_handler->queueState(GameState::GAME);
 }
 
 
@@ -79,7 +88,7 @@ void Application::tick()
     processEvents(window);
     handleCommonCommands();
 
-    game->tick();
+    state_handler->tick();
 }
 
 
@@ -87,7 +96,7 @@ void Application::draw()
 {
     window.clear();
 
-    game->draw(window);
+    state_handler->draw(window);
 
     if (GDebugFlags::draw_debug_controls)
         window.draw(debug_display);
@@ -98,11 +107,6 @@ void Application::draw()
 
 void Application::handleCommonCommands()
 {
-    if (input_handler->getKeyDown(sf::Keyboard::Escape))
-    {
-        game_data->exit = true;
-    }
-
     if (input_handler->getKeyDown(sf::Keyboard::F1))
     {
         GDebugFlags::draw_debug_controls = !GDebugFlags::draw_debug_controls;

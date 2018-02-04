@@ -37,6 +37,9 @@
     <Filter Include="Core\Projectile">
       <UniqueIdentifier>{78646375-bc98-468c-9e67-b1a547b0cc2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\States">
+      <UniqueIdentifier>{4bcf9613-4792-4aa5-ab50-bc2965e18098}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -141,6 +144,18 @@
     </ClCompile>
     <ClCompile Include="..\src\GDebugFlags.cpp">
       <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\State.cpp">
+      <Filter>Core\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\StateHandler.cpp">
+      <Filter>Core\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\StateSelection.cpp">
+      <Filter>Core\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\StateGame.cpp">
+      <Filter>Core\States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +320,18 @@
     </ClInclude>
     <ClInclude Include="..\src\BrainStatistics.h">
       <Filter>Core\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\State.h">
+      <Filter>Core\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\StateHandler.h">
+      <Filter>Core\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\StateSelection.h">
+      <Filter>Core\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\StateGame.h">
+      <Filter>Core\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

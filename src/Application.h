@@ -3,11 +3,14 @@
 #include <memory>
 
 #include <SFML/Window.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 #include "InputHandler.h"
 #include "AssetManager.h"
-#include "Game.h"
 #include "GameData.h"
+#include "StateHandler.h"
+#include "Scheduler.h"
 
 class Application
 {
@@ -34,7 +37,7 @@ private:
     std::unique_ptr<InputHandler> input_handler;
     std::unique_ptr<AssetManager> asset_manager;
 
-    std::unique_ptr<Game> game;
+    std::unique_ptr<StateHandler> state_handler;
     std::unique_ptr<GameData> game_data;
 
     sf::Text debug_display;

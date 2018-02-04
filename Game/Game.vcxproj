@@ -151,6 +151,10 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\EnemyManager.cpp" />
     <ClCompile Include="..\src\FileIO.cpp" />
     <ClCompile Include="..\src\GDebugFlags.cpp" />
+    <ClCompile Include="..\src\State.cpp" />
+    <ClCompile Include="..\src\StateGame.cpp" />
+    <ClCompile Include="..\src\StateHandler.cpp" />
+    <ClCompile Include="..\src\StateSelection.cpp" />
     <ClCompile Include="..\src\ValueBar.cpp" />
     <ClCompile Include="..\src\HeatmapManager.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
@@ -191,6 +195,10 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\EnemyType.h" />
     <ClInclude Include="..\src\EnemyManager.h" />
     <ClInclude Include="..\src\GDebugFlags.h" />
+    <ClInclude Include="..\src\State.h" />
+    <ClInclude Include="..\src\StateGame.h" />
+    <ClInclude Include="..\src\StateHandler.h" />
+    <ClInclude Include="..\src\StateSelection.h" />
     <ClInclude Include="..\src\ValueBar.h" />
     <ClInclude Include="..\src\HeatmapFlag.h" />
     <ClInclude Include="..\src\IProjectileManager.h" />

@@ -15,24 +15,12 @@ Game::Game(GameData& _gd)
     , current_context(ContextType::GAME)
     , painting(false)
 {
-    // DEBUG: start the game paused.
-    JTime::setTimeScale(0);
-
     init();
 }
 
 
 void Game::tick()
 {
-    if (gd.input.getKeyDown(sf::Keyboard::P)) // Flip paused status.
-        JTime::setTimeScale(JTime::getTimeScale() == 1.f ? 0.f : 1.f);
-
-    if (gd.input.getKeyDown(sf::Keyboard::F12))
-        FileIO::exportLevel(current_level);
-
-    if (JTime::getTimeScale() == 0) // If paused.
-        return;
-
     // Systems.
     heatmap_manager->tick();
     enemy_director->tick(gd);
@@ -72,9 +60,12 @@ void Game::draw(sf::RenderWindow& _window)
 
     if (GDebugFlags::draw_debug_controls)
         _window.draw(context_display);
+}
 
-    if (JTime::getTimeScale() == 0) // If paused.
-        _window.draw(pause_display);
+
+void Game::exportCurrentLevel() const
+{
+    FileIO::exportLevel(current_level);
 }
 
 
@@ -113,16 +104,6 @@ void Game::initObjects()
     context_display.setFont(*default_font);
     context_display.setCharacterSize(16);
     context_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 16);
-
-    // Pause display.
-    pause_display.setString("PAUSED");
-    pause_display.setFont(*default_font);
-    pause_display.setCharacterSize(28);
-    pause_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    pause_display.setFillColor(sf::Color::Red);
-    pause_display.setOutlineColor(sf::Color::White);
-    pause_display.setOutlineThickness(2);
-    JHelper::centerSFOrigin(pause_display);
 
     updateContextDisplay();
 

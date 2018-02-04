@@ -21,6 +21,8 @@ public:
     void tick();
     void draw(sf::RenderWindow& _window);
 
+    void exportCurrentLevel() const;
+
 private:
     enum ContextType : int
     {
@@ -68,7 +70,6 @@ private:
     sf::RectangleShape border;
     std::vector<sf::VertexArray> grid_lines;
     sf::Text context_display;
-    sf::Text pause_display;
 
     bool painting;
 
