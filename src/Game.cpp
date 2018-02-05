@@ -23,8 +23,8 @@ void Game::tick()
 {
     // Systems.
     heatmap_manager->tick();
-    enemy_director->tick(gd);
-    tower_manager->tick(gd);
+    enemy_director->tick();
+    tower_manager->tick();
 
     // State.
     painting = gd.input.getMouseButton(sf::Mouse::Left);
@@ -88,10 +88,10 @@ void Game::initSystems()
     nav_manager = std::make_unique<NavManager>(*heatmap_manager.get(),
         current_level);
 
-    enemy_director = std::make_unique<EnemyDirector>(gd.asset_manager,
+    enemy_director = std::make_unique<EnemyDirector>(gd,
         *nav_manager.get(), *heatmap_manager.get(), current_level);
 
-    tower_manager = std::make_unique<TowerManager>(gd.asset_manager,
+    tower_manager = std::make_unique<TowerManager>(gd,
         *nav_manager.get(), *heatmap_manager.get(), *enemy_director.get(),
         current_level);
 }
@@ -99,7 +99,7 @@ void Game::initSystems()
 
 void Game::initObjects()
 {
-    sf::Font* default_font = gd.asset_manager.loadFont(DEFAULT_FONT);
+    sf::Font* default_font = gd.assets.loadFont(DEFAULT_FONT);
 
     // Debug context display.
     context_display.setFont(*default_font);
@@ -115,7 +115,7 @@ void Game::initObjects()
 
 void Game::initBorder()
 {
-    auto* texture = gd.asset_manager.loadTexture(FLOOR_TEXTURE);
+    auto* texture = gd.assets.loadTexture(FLOOR_TEXTURE);
 
     border.setTexture(texture);
     border.setSize(PANE_SIZE);
@@ -172,7 +172,7 @@ void Game::initGridLines()
 
 void Game::parseCurrentLevel()
 {
-    auto* texture = gd.asset_manager.loadTexture(UNWALKABLE_TEXTURE);
+    auto* texture = gd.assets.loadTexture(UNWALKABLE_TEXTURE);
     current_level.setUnwalkableTexture(texture);
 
     int size_x = current_level.getSizeX();

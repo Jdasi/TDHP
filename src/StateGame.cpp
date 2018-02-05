@@ -8,7 +8,7 @@
 StateGame::StateGame(GameData& _game_data)
     : State(_game_data)
 {
-    sf::Font* default_font = gameData().asset_manager.loadFont(DEFAULT_FONT);
+    sf::Font* default_font = gameData().assets.loadFont(DEFAULT_FONT);
 
     // Pause display.
     pause_display.setString("PAUSED");

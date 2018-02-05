@@ -16,14 +16,14 @@
 #include "GDebugFlags.h"
 
 
-EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_manager,
+EnemyDirector::EnemyDirector(GameData& _game_data, NavManager& _nav_manager,
     HeatmapManager& _heatmap_manager, Level& _level)
-    : asset_manager(_asset_manager)
+    : gd(_game_data)
     , nav_manager(_nav_manager)
     , heatmap_manager(_heatmap_manager)
     , level(_level)
-    , enemy_manager(_asset_manager, enemy_destination)
-    , brain(_heatmap_manager, enemy_manager, enemy_spawns, _level)
+    , enemy_manager(_game_data.assets, enemy_destination)
+    , brain(_game_data, _heatmap_manager, enemy_manager, enemy_spawns, _level)
 {
     enemy_spawns.reserve(MAX_ENEMY_SPAWNS);
 
@@ -46,7 +46,7 @@ EnemyDirector::EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_mana
 }
 
 
-void EnemyDirector::tick(GameData& _gd)
+void EnemyDirector::tick()
 {
     scheduler.update();
     brain.tick();
@@ -54,7 +54,7 @@ void EnemyDirector::tick(GameData& _gd)
     energy_bar.updateValuePercentage(brain.getEnergyPercentage());
 
     if (GDebugFlags::draw_debug_controls)
-        handleDebugCommands(_gd);
+        handleDebugCommands();
 
     for (auto& spawn : enemy_spawns)
     {
@@ -107,7 +107,7 @@ bool EnemyDirector::addEnemySpawn(const int _tile_index)
     auto spawn = std::make_unique<EnemySpawn>(nav_manager, level, _tile_index,
         enemy_destination, enemy_manager);
 
-    auto* texture = asset_manager.loadTexture(SPAWN_SPRITE);
+    auto* texture = gd.assets.loadTexture(SPAWN_SPRITE);
     spawn->setMarkerTexture(texture);
 
     spawn->updatePaths();
@@ -192,14 +192,14 @@ void EnemyDirector::init()
     energy_bar.updatePosition({ WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.04f });
 
     // Destination marker.
-    auto* texture = asset_manager.loadTexture(DESTINATION_SPRITE);
+    auto* texture = gd.assets.loadTexture(DESTINATION_SPRITE);
     destination_marker.setTexture(texture);
 }
 
 
-void EnemyDirector::handleDebugCommands(GameData& _gd)
+void EnemyDirector::handleDebugCommands()
 {
-    if (_gd.input.getKeyDown(sf::Keyboard::V))
+    if (gd.input.getKeyDown(sf::Keyboard::V))
     {
         if (enemy_spawns.empty())
             return;
@@ -208,7 +208,7 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
         EnemyType* random_type = enemy_manager.getRandomType();
         enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
     }
-    else if (_gd.input.getKeyDown(sf::Keyboard::Z))
+    else if (gd.input.getKeyDown(sf::Keyboard::Z))
     {
         if (enemy_spawns.empty())
             return;
@@ -217,7 +217,7 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
         EnemyType* random_type = enemy_manager.getFastestType();
         enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
     }
-    else if (_gd.input.getKeyDown(sf::Keyboard::X))
+    else if (gd.input.getKeyDown(sf::Keyboard::X))
     {
         if (enemy_spawns.empty())
             return;
@@ -226,7 +226,7 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
         EnemyType* random_type = enemy_manager.getBasicType();
         enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
     }
-    else if (_gd.input.getKeyDown(sf::Keyboard::C))
+    else if (gd.input.getKeyDown(sf::Keyboard::C))
     {
         if (enemy_spawns.empty())
             return;
@@ -235,17 +235,17 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
         EnemyType* random_type = enemy_manager.getStrongestType();
         enemy_spawns[rand() % enemy_spawns.size()]->spawnEnemy(random_type);
     }
-    else if (_gd.input.getKeyDown(sf::Keyboard::S))
+    else if (gd.input.getKeyDown(sf::Keyboard::S))
     {
         // Boost all enemy speed.
         enemy_manager.boostEnemySpeed(2, 3);
     }
-    else if (_gd.input.getKeyDown(sf::Keyboard::H))
+    else if (gd.input.getKeyDown(sf::Keyboard::H))
     {
         // Boost all enemy health.
         enemy_manager.boostEnemyHealth(2, 3);
     }
-    else if (_gd.input.getKeyDown(sf::Keyboard::M))
+    else if (gd.input.getKeyDown(sf::Keyboard::M))
     {
         // Queue N of a random type from a single spawn point.
         EnemyType* random_type = enemy_manager.getRandomType();
@@ -260,7 +260,7 @@ void EnemyDirector::handleDebugCommands(GameData& _gd)
             spawn->queueEnemy(random_type, i * spawn_delay, path);
         }
     }
-    else if (_gd.input.getKeyDown(sf::Keyboard::N))
+    else if (gd.input.getKeyDown(sf::Keyboard::N))
     {
         // Clear all spawn queues.
         for (auto& spawn : enemy_spawns)

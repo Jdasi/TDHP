@@ -4,19 +4,21 @@
 
 class InputHandler;
 class AssetManager;
-class NavManager;
+class GameAudio;
 
 struct GameData
 {
-    GameData(InputHandler& _input_manager, AssetManager& _asset_manager)
-        : input(_input_manager)
-        , asset_manager(_asset_manager)
+    GameData(InputHandler& _input, AssetManager& _assets, GameAudio& _audio)
+        : input(_input)
+        , assets(_assets)
+        , audio(_audio)
         , exit(false)
     {
     }
 
     InputHandler& input;
-    AssetManager& asset_manager;
+    AssetManager& assets;
+    GameAudio& audio;
 
     std::string level_name;
 

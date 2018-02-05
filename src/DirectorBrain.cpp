@@ -2,17 +2,20 @@
 #include <iomanip>
 
 #include "DirectorBrain.h"
+#include "GameAudio.h"
 #include "HeatmapManager.h"
 #include "EnemyManager.h"
 #include "JTime.h"
 #include "JMath.h"
+#include "GameData.h"
 #include "Constants.h"
 #include "FileIO.h"
 
 
-DirectorBrain::DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
-    std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns, Level& _level)
-    : heatmap_manager(_heatmap_manager)
+DirectorBrain::DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_manager,
+    EnemyManager& _enemy_manager, std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns, Level& _level)
+    : gd(_game_data)
+    , heatmap_manager(_heatmap_manager)
     , enemy_manager(_enemy_manager)
     , enemy_spawns(_enemy_spawns)
     , level(_level)
@@ -439,6 +442,8 @@ void DirectorBrain::healthBoostFastEnemies()
 
     std::cout << "Boosting Fast Enemy Health";
     ++statistics.hb_fast_times;
+
+    gd.audio.playSound(HEALTH_BOOST_SOUND);
 }
 
 
@@ -449,6 +454,8 @@ void DirectorBrain::healthBoostStrongEnemies()
 
     std::cout << "Boosting Strong Enemy Health";
     ++statistics.hb_strong_times;
+
+    gd.audio.playSound(HEALTH_BOOST_SOUND);
 }
 
 
@@ -458,6 +465,8 @@ void DirectorBrain::healthBoostAllEnemies()
 
     std::cout << "Boosting All Enemy Health";
     ++statistics.hb_all_times;
+
+    gd.audio.playSound(HEALTH_BOOST_SOUND);
 }
 
 
@@ -468,6 +477,8 @@ void DirectorBrain::speedBoostFastEnemies()
 
     std::cout << "Boosting Fast Enemy Speed";
     ++statistics.sb_fast_times;
+
+    gd.audio.playSound(SPEED_BOOST_SOUND);
 }
 
 
@@ -478,6 +489,8 @@ void DirectorBrain::speedBoostStrongEnemies()
 
     std::cout << "Boosting Strong Enemy Speed";
     ++statistics.sb_strong_times;
+
+    gd.audio.playSound(SPEED_BOOST_SOUND);
 }
 
 
@@ -487,6 +500,8 @@ void DirectorBrain::speedBoostAllEnemies()
 
     std::cout << "Boosting All Enemy Speed";
     ++statistics.sb_all_times;
+
+    gd.audio.playSound(SPEED_BOOST_SOUND);
 }
 
 
@@ -497,6 +512,8 @@ void DirectorBrain::smokeBomb()
 
     std::cout << "Dropping Smoke Bomb";
     ++statistics.smoke_times;
+
+    gd.audio.playSound(SMOKE_BOMB_SOUND);
 }
 
 
@@ -555,4 +572,6 @@ void DirectorBrain::onPathComplete(Enemy& _caller)
     knowledge.energy = JMath::clampf(knowledge.energy, 0, MAX_BRAIN_ENERGY);
 
     ++statistics.completed_paths;
+
+    gd.audio.playSound(DEST_REACHED_SOUND);
 }

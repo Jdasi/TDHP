@@ -14,11 +14,12 @@ class EnemySpawn;
 class EnemyManager;
 class Level;
 struct EnemyType;
+struct GameData;
 
 class DirectorBrain : public EnemyListener
 {
 public:
-    DirectorBrain(HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
+    DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
         std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns, Level& _level);
 
     ~DirectorBrain();
@@ -84,6 +85,8 @@ private:
     // Enemy events.
     void onDeath(const sf::Vector2f& _pos, TowerType* _killer_type) override;
     void onPathComplete(Enemy& _caller) override;
+
+    GameData& gd;
 
     HeatmapManager& heatmap_manager;
     EnemyManager& enemy_manager;

@@ -2,21 +2,23 @@
 
 #include "TowerManager.h"
 #include "AssetManager.h"
+#include "GameAudio.h"
 #include "NavManager.h"
 #include "EnemyDirector.h"
 #include "JHelper.h"
 #include "Level.h"
 #include "FileIO.h"
+#include "GameData.h"
 
 
-TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manager,
+TowerManager::TowerManager(GameData& _game_data, NavManager& _nav_manager,
     HeatmapManager& _heatmap_manager, EnemyDirector& _enemy_director, Level& _level)
-    : asset_manager(_asset_manager)
+    : gd(_game_data)
     , nav_manager(_nav_manager)
     , heatmap_manager(_heatmap_manager)
     , enemy_director(_enemy_director)
     , level(_level)
-    , projectile_manager(_asset_manager, _heatmap_manager, _enemy_director, _level)
+    , projectile_manager(_game_data, _heatmap_manager, _enemy_director, _level)
     , enemy_destination(enemy_director.getEnemyDestination())
 {
     initTowers();
@@ -28,7 +30,7 @@ TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manage
 }
 
 
-void TowerManager::tick(GameData& _gd)
+void TowerManager::tick()
 {
     projectile_manager.tick();
     scheduler.update();
@@ -90,11 +92,10 @@ void TowerManager::toggleTower(const int _tile_index, int _click_type)
 
 void TowerManager::initTowers()
 {
-    tower_types = FileIO::loadTowerTypes(asset_manager);
+    tower_types = FileIO::loadTowerTypes(gd.assets);
 
     for (auto& tower : towers)
     {
-        //tower.attachListener(this);
         tower.init(projectile_manager, enemy_destination);
     }
 }
@@ -129,6 +130,8 @@ void TowerManager::constructTower(const int _tile_index, const std::string& _tow
 
         tower.spawn();
 
+        gd.audio.playSound(TOWER_PLACE_SOUND);
+
         return;
     }
 }
@@ -143,6 +146,8 @@ void TowerManager::deconstructTower(const int _tile_index)
 
         tower.killQuiet();
         tower.setTileIndex(-1);
+
+        gd.audio.playSound(TOWER_DESTROY_SOUND);
 
         return;
     }

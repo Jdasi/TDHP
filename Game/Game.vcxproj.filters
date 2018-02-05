@@ -157,6 +157,9 @@
     <ClCompile Include="..\src\StateGame.cpp">
       <Filter>Core\States</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\GameAudio.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -332,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="..\src\StateGame.h">
       <Filter>Core\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameAudio.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

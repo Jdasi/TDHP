@@ -1,22 +1,25 @@
 #include "ProjectileManager.h"
 #include "ProjectileStats.h"
 #include "AssetManager.h"
+#include "GameAudio.h"
 #include "HeatmapManager.h"
 #include "EnemyDirector.h"
 #include "Level.h"
 #include "JTime.h"
 #include "JMath.h"
 #include "TowerType.h"
+#include "GameData.h"
 
 
-ProjectileManager::ProjectileManager(AssetManager& _asset_manager, HeatmapManager& _heatmap_manager,
+ProjectileManager::ProjectileManager(GameData& _game_data, HeatmapManager& _heatmap_manager,
     EnemyDirector& _enemy_director, Level& _level)
-    : heatmap_manager(_heatmap_manager)
+    : gd(_game_data)
+    , heatmap_manager(_heatmap_manager)
     , enemy_director(_enemy_director)
     , level(_level)
 {
     initLasers();
-    initBullets(_asset_manager);
+    initBullets();
 }
 
 
@@ -30,11 +33,15 @@ void ProjectileManager::tick()
         bullet.tick();
 
         auto& bullet_pos = bullet.getPosition();
-        if (enemy_director.damageEnemyAtPos(bullet_pos, bullet.getOwningType()) ||
-            !JHelper::posInSimulationArea(bullet_pos))
+        if (!JHelper::posInSimulationArea(bullet_pos))
         {
             bullet.destroy();
-            break;
+        }
+
+        if (enemy_director.damageEnemyAtPos(bullet_pos, bullet.getOwningType()))
+        {
+            gd.audio.playSound(BULLET_HIT_SOUND);
+            bullet.destroy();
         }
     }
 }
@@ -88,9 +95,9 @@ void ProjectileManager::initLasers()
 }
 
 
-void ProjectileManager::initBullets(AssetManager& _asset_manager)
+void ProjectileManager::initBullets()
 {
-    auto* texture = _asset_manager.loadTexture(BULLET_SPRITE);
+    auto* texture = gd.assets.loadTexture(BULLET_SPRITE);
 
     for (auto& bullet : bullets)
     {
@@ -103,6 +110,8 @@ void ProjectileManager::initBullets(AssetManager& _asset_manager)
 
 void ProjectileManager::spawnLaser(const ProjectileRequest& _request)
 {
+    gd.audio.playSound(LASER_SHOOT_SOUND);
+
     sf::Vector2f inaccuracy = calculateSmokeInaccuracy(_request);
     sf::Vector2f target_pos = _request.tower_target->getPosition() + inaccuracy;
 
@@ -130,6 +139,8 @@ void ProjectileManager::spawnLaser(const ProjectileRequest& _request)
 
 void ProjectileManager::spawnBullet(const ProjectileRequest& _request)
 {
+    gd.audio.playSound(BULLET_SHOOT_SOUND);
+
     sf::Vector2f inaccuracy = calculateSmokeInaccuracy(_request);
     sf::Vector2f target_pos = _request.tower_target->getPosition() + inaccuracy;
 

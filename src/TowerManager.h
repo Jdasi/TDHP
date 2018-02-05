@@ -15,7 +15,6 @@ namespace sf
     class RenderWindow;
 }
 
-class AssetManager;
 class NavManager;
 class EnemyDirector;
 class HeatmapManager;
@@ -26,12 +25,12 @@ struct GameData;
 class TowerManager
 {
 public:
-    TowerManager(AssetManager& _asset_manager, NavManager& _nav_manager,
+    TowerManager(GameData& _game_data, NavManager& _nav_manager,
         HeatmapManager& _heatmap_manager, EnemyDirector& _enemy_director,
         Level& _level);
     ~TowerManager() = default;
 
-    void tick(GameData& _gd);
+    void tick();
     void draw(sf::RenderWindow& _window);
 
     void removeTower(const int _tile_index);
@@ -47,7 +46,8 @@ private:
     bool towerExists(const int _tile_index) const;
     std::string clickTypeToTowerSlug(const int _click_type);
 
-    AssetManager& asset_manager;
+    GameData& gd;
+
     NavManager& nav_manager;
     HeatmapManager& heatmap_manager;
     EnemyDirector& enemy_director;

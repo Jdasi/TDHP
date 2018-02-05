@@ -68,6 +68,19 @@ sf::SoundBuffer* AssetManager::loadSoundBuffer(const std::string& _file)
 
 void AssetManager::init()
 {
-    // Preload all assets here.
+    // Preload fonts.
     loadFont(DEFAULT_FONT);
+
+    // Preload sounds.
+    loadSoundBuffer(BULLET_HIT_SOUND);
+    loadSoundBuffer(BULLET_SHOOT_SOUND);
+    loadSoundBuffer(DEST_REACHED_SOUND);
+    loadSoundBuffer(HEALTH_BOOST_SOUND);
+    loadSoundBuffer(SPEED_BOOST_SOUND);
+    loadSoundBuffer(GAME_OVER_SOUND);
+    loadSoundBuffer(LASER_SHOOT_SOUND);
+    loadSoundBuffer(SMOKE_BOMB_SOUND);
+    loadSoundBuffer(TOWER_BOOST_SOUND);
+    loadSoundBuffer(TOWER_PLACE_SOUND);
+    loadSoundBuffer(TOWER_DESTROY_SOUND);
 }

@@ -55,10 +55,11 @@ void Application::initSystems()
 {
     input_handler = std::make_unique<InputHandler>(&window);
     asset_manager = std::make_unique<AssetManager>();
+    game_audio = std::make_unique<GameAudio>(*asset_manager.get());
 
     // Set up game data last as it holds refs to systems.
     game_data = std::make_unique<GameData>(*input_handler.get(),
-        *asset_manager.get());
+        *asset_manager.get(), *game_audio.get());
 
     // TODO: remove this once StateSelection is complete ..
     game_data->level_name = "level1.txt";

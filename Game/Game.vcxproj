@@ -150,6 +150,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\EnemySpawn.cpp" />
     <ClCompile Include="..\src\EnemyManager.cpp" />
     <ClCompile Include="..\src\FileIO.cpp" />
+    <ClCompile Include="..\src\GameAudio.cpp" />
     <ClCompile Include="..\src\GDebugFlags.cpp" />
     <ClCompile Include="..\src\State.cpp" />
     <ClCompile Include="..\src\StateGame.cpp" />
@@ -194,6 +195,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\EnemySpawn.h" />
     <ClInclude Include="..\src\EnemyType.h" />
     <ClInclude Include="..\src\EnemyManager.h" />
+    <ClInclude Include="..\src\GameAudio.h" />
     <ClInclude Include="..\src\GDebugFlags.h" />
     <ClInclude Include="..\src\State.h" />
     <ClInclude Include="..\src\StateGame.h" />

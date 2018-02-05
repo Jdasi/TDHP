@@ -19,7 +19,6 @@ namespace sf
     class RenderWindow;
 }
 
-class AssetManager;
 class NavManager;
 class HeatmapManager;
 class Level;
@@ -28,11 +27,11 @@ struct GameData;
 class EnemyDirector
 {
 public:
-    EnemyDirector(AssetManager& _asset_manager, NavManager& _nav_manager,
+    EnemyDirector(GameData& _game_data, NavManager& _nav_manager,
         HeatmapManager& _heatmap_manager, Level& _level);
     ~EnemyDirector() = default;
 
-    void tick(GameData& _gd);
+    void tick();
     void draw(sf::RenderWindow& _window);
 
     bool spawnExists(const int _tile_index);
@@ -52,9 +51,10 @@ public:
 
 private:
     void init();
-    void handleDebugCommands(GameData& _gd);
+    void handleDebugCommands();
 
-    AssetManager& asset_manager;
+    GameData& gd;
+
     NavManager& nav_manager;
     HeatmapManager& heatmap_manager;
     Level& level;

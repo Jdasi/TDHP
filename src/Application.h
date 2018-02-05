@@ -8,6 +8,7 @@
 
 #include "InputHandler.h"
 #include "AssetManager.h"
+#include "GameAudio.h"
 #include "GameData.h"
 #include "StateHandler.h"
 #include "Scheduler.h"
@@ -36,6 +37,7 @@ private:
 
     std::unique_ptr<InputHandler> input_handler;
     std::unique_ptr<AssetManager> asset_manager;
+    std::unique_ptr<GameAudio> game_audio;
 
     std::unique_ptr<StateHandler> state_handler;
     std::unique_ptr<GameData> game_data;
