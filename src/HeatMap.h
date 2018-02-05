@@ -46,11 +46,14 @@ public:
     void setWeightingType(const WeightingType& _weighting_type);
     WeightingType getWeightingType() const;
 
+    int getHighestWeightIndex() const;
+
 private:
     void paintWithModifier(const int _tile_index, const int _radius,
         const float _modifier = 1);
 
     void decay();
+    void updateHighestWeighting(const float _weighting, const int _index);
 
     HeatmapFlag flag;
     WeightingType weighting_type;
@@ -66,5 +69,8 @@ private:
     std::vector<float> weightings;
     TileGrid grid;
     float total_weight;
+
+    float highest_weight;
+    int highest_weight_index;
 
 };

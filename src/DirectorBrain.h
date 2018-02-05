@@ -75,8 +75,11 @@ private:
     void speedBoostStrongEnemies();
     void speedBoostAllEnemies();
 
+    void smokeBomb();
+
     // Helper.
-    void sendSwarm(EnemyType* _type, const int _count, const EnemySpawn::SpawnPathType& _path);
+    void sendSwarm(EnemyType* _type, const int _count,
+        const EnemySpawn::SpawnPathType& _path_type);
 
     // Enemy events.
     void onDeath(const sf::Vector2f& _pos, TowerType* _killer_type) override;

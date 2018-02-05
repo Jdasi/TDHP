@@ -18,6 +18,7 @@ namespace sf
 class AssetManager;
 class NavManager;
 class EnemyDirector;
+class HeatmapManager;
 class Level;
 struct Waypoint;
 struct GameData;
@@ -26,7 +27,8 @@ class TowerManager
 {
 public:
     TowerManager(AssetManager& _asset_manager, NavManager& _nav_manager,
-        EnemyDirector& _enemy_director, Level& _current_level);
+        HeatmapManager& _heatmap_manager, EnemyDirector& _enemy_director,
+        Level& _level);
     ~TowerManager() = default;
 
     void tick(GameData& _gd);
@@ -47,6 +49,7 @@ private:
 
     AssetManager& asset_manager;
     NavManager& nav_manager;
+    HeatmapManager& heatmap_manager;
     EnemyDirector& enemy_director;
     Level& level;
 

@@ -28,8 +28,10 @@ public:
     void splashOnHeatmap(const HeatmapFlag& _flags, const int _tile_index, const int _radius);
     void splashOnHeatmap(const int _heatmap_index, const int _tile_index, const int _radius);
 
-    int getWeight(const int _tile_index, const HeatmapFlag& _flags = HeatmapFlag::ALL);
-    int getTotalWeight(const HeatmapFlag& _flags = HeatmapFlag::ALL);
+    int getWeight(const int _tile_index, const HeatmapFlag& _flags = HeatmapFlag::ALL, const bool _abs = false) const;
+    int getTotalWeight(const HeatmapFlag& _flags = HeatmapFlag::ALL, const bool _abs = false) const;
+
+    int getHighestWeightIndex(const HeatmapFlag& _flags) const;
 
 private:
     struct HeatmapPair
@@ -43,10 +45,10 @@ private:
         const float _paint_hardness, const float _decay_rate,
         const WeightingType& _weighting_type = WeightingType::POSITIVE);
 
-    bool heatmapExists(const HeatmapFlag& _key);
-    Heatmap* findHeatmap(const HeatmapFlag& _key);
+    bool heatmapExists(const HeatmapFlag& _key) const;
+    Heatmap* findHeatmap(const HeatmapFlag& _key) const;
 
-    int calculateWeight(const HeatmapFlag& _flags, const int _tile_index = -1);
+    int calculateWeight(const HeatmapFlag& _flags, const int _tile_index = -1, const bool _abs = false) const;
 
     std::vector<HeatmapPair> heatmap_entries;
 

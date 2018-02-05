@@ -92,7 +92,8 @@ void Game::initSystems()
         *nav_manager.get(), *heatmap_manager.get(), current_level);
 
     tower_manager = std::make_unique<TowerManager>(gd.asset_manager,
-        *nav_manager.get(), *enemy_director.get(), current_level);
+        *nav_manager.get(), *heatmap_manager.get(), *enemy_director.get(),
+        current_level);
 }
 
 

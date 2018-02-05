@@ -59,7 +59,9 @@ void DirectorBrain::initWorkingKnowledge()
 {
     knowledge.hm_maximum_weight = level.getProduct() * static_cast<int>(MAX_WEIGHTING);
 
-    // Math to scale swarm threshold based on level size.
+    /* Math to scale swarm threshold based on level size.
+     * E.g. a larger map should have a lower swarm threshold.
+     */
     float max_int = static_cast<float>(JMath::maxInt());
     knowledge.swarm_threshold = (max_int / knowledge.hm_maximum_weight) * 0.00025f;
 }
@@ -84,10 +86,10 @@ void DirectorBrain::updateWorkingKnowledge()
     int overall_weight = heatmap_manager.getTotalWeight();
     knowledge.hm_overall_intensity = heatmapWeightToPercentage(overall_weight);
 
-    int laser_weight = heatmap_manager.getTotalWeight(HeatmapFlag::LASER_DEATHS);
+    int laser_weight = heatmap_manager.getTotalWeight(HeatmapFlag::LASER_DEATHS, true);
     knowledge.hm_laser_intensity = heatmapWeightToPercentage(laser_weight);
 
-    int bullet_weight = heatmap_manager.getTotalWeight(HeatmapFlag::BULLET_DEATHS);
+    int bullet_weight = heatmap_manager.getTotalWeight(HeatmapFlag::BULLET_DEATHS, true);
     knowledge.hm_bullet_intensity = heatmapWeightToPercentage(bullet_weight);
 
     knowledge.avg_path_diff = 0;
@@ -234,7 +236,7 @@ bool DirectorBrain::bulletIntensityOverThreshold() const
 
 bool DirectorBrain::overallIntensityOverThreshold() const
 {
-    return knowledge.hm_overall_intensity >= knowledge.swarm_threshold;
+    return knowledge.hm_overall_intensity >= knowledge.swarm_threshold * 2;
 }
 
 
@@ -359,6 +361,14 @@ bool DirectorBrain::tierThreeActions()
         }
     }
 
+    if (overallIntensityOverThreshold())
+    {
+        smokeBomb();
+        knowledge.energy -= 5;
+
+        return true;
+    }
+
     if (enemyCloseToGoal())
     {
         if (knowledge.hm_bullet_intensity > knowledge.hm_laser_intensity)
@@ -375,22 +385,6 @@ bool DirectorBrain::tierThreeActions()
 
             return true;
         }
-    }
-
-    if (totalEnemiesOverThreshold())
-    {
-        if (highAveragePathDifference())
-        {
-            healthBoostAllEnemies();
-        }
-        else
-        {
-            speedBoostAllEnemies();
-        }
-
-        knowledge.energy -= 25;
-
-        return true;
     }
 
     return false;
@@ -496,7 +490,18 @@ void DirectorBrain::speedBoostAllEnemies()
 }
 
 
-void DirectorBrain::sendSwarm(EnemyType* _type, const int _count, const EnemySpawn::SpawnPathType& _path)
+void DirectorBrain::smokeBomb()
+{
+    int index = heatmap_manager.getHighestWeightIndex(HeatmapFlag::DIRECTOR);
+    heatmap_manager.splashOnHeatmap(HeatmapFlag::SMOKE, index, 5);
+
+    std::cout << "Dropping Smoke Bomb";
+    ++statistics.smoke_times;
+}
+
+
+void DirectorBrain::sendSwarm(EnemyType* _type, const int _count,
+    const EnemySpawn::SpawnPathType& _path_type)
 {
     EnemySpawn* best_spawn = nullptr;
     int cheapest_path = JMath::maxInt();
@@ -516,7 +521,7 @@ void DirectorBrain::sendSwarm(EnemyType* _type, const int _count, const EnemySpa
 
     for (int i = 0; i < _count; ++i)
     {
-        best_spawn->queueEnemy(_type, i * spawn_delay, _path);
+        best_spawn->queueEnemy(_type, i * spawn_delay, _path_type);
     }
 }
 

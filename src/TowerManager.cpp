@@ -10,12 +10,13 @@
 
 
 TowerManager::TowerManager(AssetManager& _asset_manager, NavManager& _nav_manager,
-    EnemyDirector& _enemy_director, Level& _current_level)
+    HeatmapManager& _heatmap_manager, EnemyDirector& _enemy_director, Level& _level)
     : asset_manager(_asset_manager)
     , nav_manager(_nav_manager)
+    , heatmap_manager(_heatmap_manager)
     , enemy_director(_enemy_director)
-    , level(_current_level)
-    , projectile_manager(_asset_manager, _enemy_director)
+    , level(_level)
+    , projectile_manager(_asset_manager, _heatmap_manager, _enemy_director, _level)
     , enemy_destination(enemy_director.getEnemyDestination())
 {
     initTowers();

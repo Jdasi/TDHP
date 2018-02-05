@@ -32,7 +32,8 @@ void HeatmapManager::draw(sf::RenderWindow& _window)
 }
 
 
-void HeatmapManager::paintOnHeatmap(const HeatmapFlag& _flags, const int _tile_index, const int _radius)
+void HeatmapManager::paintOnHeatmap(const HeatmapFlag& _flags, const int _tile_index,
+    const int _radius)
 {
     for (auto& entry : heatmap_entries)
     {
@@ -44,7 +45,8 @@ void HeatmapManager::paintOnHeatmap(const HeatmapFlag& _flags, const int _tile_i
 }
 
 
-void HeatmapManager::paintOnHeatmap(const int _heatmap_index, const int _tile_index, const int _radius)
+void HeatmapManager::paintOnHeatmap(const int _heatmap_index, const int _tile_index,
+    const int _radius)
 {
     if (!JHelper::validIndex(_heatmap_index, heatmap_entries.size()))
         return;
@@ -53,7 +55,8 @@ void HeatmapManager::paintOnHeatmap(const int _heatmap_index, const int _tile_in
 }
 
 
-void HeatmapManager::splashOnHeatmap(const HeatmapFlag& _flags, const int _tile_index, const int _radius)
+void HeatmapManager::splashOnHeatmap(const HeatmapFlag& _flags, const int _tile_index,
+    const int _radius)
 {
     for (auto& entry : heatmap_entries)
     {
@@ -65,7 +68,8 @@ void HeatmapManager::splashOnHeatmap(const HeatmapFlag& _flags, const int _tile_
 }
 
 
-void HeatmapManager::splashOnHeatmap(const int _heatmap_index, const int _tile_index, const int _radius)
+void HeatmapManager::splashOnHeatmap(const int _heatmap_index, const int _tile_index,
+    const int _radius)
 {
     if (!JHelper::validIndex(_heatmap_index, heatmap_entries.size()))
         return;
@@ -74,24 +78,49 @@ void HeatmapManager::splashOnHeatmap(const int _heatmap_index, const int _tile_i
 }
 
 
-int HeatmapManager::getWeight(const int _tile_index, const HeatmapFlag& _flags)
+int HeatmapManager::getWeight(const int _tile_index, const HeatmapFlag& _flags,
+    const bool _abs) const
 {
-    return calculateWeight(_flags, _tile_index);
+    return calculateWeight(_flags, _tile_index, _abs);
 }
 
 
-int HeatmapManager::getTotalWeight(const HeatmapFlag& _flags)
+int HeatmapManager::getTotalWeight(const HeatmapFlag& _flags, const bool _abs) const
 {
-    return calculateWeight(_flags);
+    return calculateWeight(_flags, -1, _abs);
+}
+
+
+int HeatmapManager::getHighestWeightIndex(const HeatmapFlag& _flags) const
+{
+    int highest_weight = 0;
+    int highest_index = 0;
+
+    for (auto& entry : heatmap_entries)
+    {
+        if (!entry.heatmap->isActive() || !(entry.heatmap->getFlag() & _flags))
+            continue;
+
+        int index = entry.heatmap->getHighestWeightIndex();
+        int weight = entry.heatmap->getWeight(index);
+
+        if (weight <= highest_weight)
+            continue;
+
+        highest_weight = weight;
+        highest_index = index;
+    }
+
+    return highest_index;
 }
 
 
 void HeatmapManager::initHeatmaps()
 {
-    createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color::Blue,    200, 5);
-    createHeatmap(HeatmapFlag::BULLET_DEATHS, sf::Color::Red,     200, 5);
-    createHeatmap(HeatmapFlag::TURRET_SHOTS,  sf::Color::White,   200, 5, WeightingType::NEGATIVE);
-    createHeatmap(HeatmapFlag::DEBUG,         sf::Color::Magenta, 200, 5);
+    createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color::Blue,    200,   5);
+    createHeatmap(HeatmapFlag::BULLET_DEATHS, sf::Color::Red,     200,   5);
+    createHeatmap(HeatmapFlag::SMOKE,         sf::Color::Black,   1200, 10, WeightingType::NEGATIVE);
+    createHeatmap(HeatmapFlag::DEBUG,         sf::Color::Magenta, 200,   5);
 
     // Sort heatmaps by their flag.
     std::sort(heatmap_entries.begin(), heatmap_entries.end(),
@@ -121,14 +150,14 @@ void HeatmapManager::createHeatmap(const HeatmapFlag& _key, const sf::Color& _co
 }
 
 
-bool HeatmapManager::heatmapExists(const HeatmapFlag& _key)
+bool HeatmapManager::heatmapExists(const HeatmapFlag& _key) const
 {
     auto heatmap = findHeatmap(_key);
     return heatmap != nullptr;
 }
 
 
-Heatmap* HeatmapManager::findHeatmap(const HeatmapFlag& _key)
+Heatmap* HeatmapManager::findHeatmap(const HeatmapFlag& _key) const
 {
     auto entry = std::find_if(heatmap_entries.begin(), heatmap_entries.end(),
         [_key](const auto& _elem)
@@ -147,9 +176,13 @@ Heatmap* HeatmapManager::findHeatmap(const HeatmapFlag& _key)
 
 /* Calculates the weight of any heatmaps that match the passed flags.
  * If _tile_index is >= 0, the weight of a single tile is calculated,
- * otherwise the total weights of each heatmap are calculated.
+ * otherwise the total weight of relevant heatmaps are calculated.
+ *
+ * If _abs is true, NEGATIVE WeightingTypes will be forced to POSITIVE
+ * for this calculation.
  */
-int HeatmapManager::calculateWeight(const HeatmapFlag& _flags, const int _tile_index)
+int HeatmapManager::calculateWeight(const HeatmapFlag& _flags, const int _tile_index,
+    const bool _abs) const
 {
     int weight = 0;
 
@@ -163,7 +196,7 @@ int HeatmapManager::calculateWeight(const HeatmapFlag& _flags, const int _tile_i
             entry.heatmap->getWeight(_tile_index) : entry.heatmap->getTotalWeight();
 
         // Heatmaps can have have an overall positive or negative weight contribution.
-        weight += entry.heatmap->getWeightingType() == WeightingType::POSITIVE ?
+        weight += (entry.heatmap->getWeightingType() == WeightingType::POSITIVE || _abs) ?
             weighting : -weighting;
     }
 

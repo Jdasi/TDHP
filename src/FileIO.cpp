@@ -103,6 +103,8 @@ void FileIO::exportBrainStatistics(const BrainStatistics& _statistics)
         << "Speed Boost (Strong):  " << _statistics.sb_strong_times     << '\n'
         << "Speed Boost (All):     " << _statistics.sb_all_times        << '\n'
         << '\n'
+        << "Smoke Bomb:            " << _statistics.smoke_times         << '\n'
+        << '\n'
         << "Completed Paths:       " << _statistics.completed_paths     << '\n';
 
     file.close();

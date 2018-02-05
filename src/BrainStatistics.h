@@ -23,5 +23,7 @@ struct BrainStatistics
     int sb_strong_times         = 0;
     int sb_all_times            = 0;
 
+    int smoke_times             = 0;
+
     int completed_paths         = 0;
 };

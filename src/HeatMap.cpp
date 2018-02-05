@@ -16,6 +16,8 @@ Heatmap::Heatmap(const Level& _level, const HeatmapFlag& _flag,
     , decay_rate(0)
     , grid(_level, sf::Color::Transparent)
     , total_weight(0)
+    , highest_weight(0)
+    , highest_weight_index(0)
 {
     weightings.assign(_level.getProduct(), 0);
 }
@@ -130,6 +132,12 @@ WeightingType Heatmap::getWeightingType() const
 }
 
 
+int Heatmap::getHighestWeightIndex() const
+{
+    return highest_weight_index;
+}
+
+
 void Heatmap::paintWithModifier(const int _tile_index, const int _radius,
     const float _modifier)
 {
@@ -165,6 +173,8 @@ void Heatmap::paintWithModifier(const int _tile_index, const int _radius,
             weighting += adjustment;
             total_weight += adjustment;
 
+            updateHighestWeighting(weighting, curr);
+
             grid.setTileAlpha(curr, weighting);
         }
     }
@@ -177,6 +187,7 @@ void Heatmap::paintWithModifier(const int _tile_index, const int _radius,
 void Heatmap::decay()
 {
     total_weight = 0;
+    highest_weight = 0;
 
     for (unsigned int i = 0; i < weightings.size(); ++i)
     {
@@ -188,8 +199,20 @@ void Heatmap::decay()
         weighting -= (decay_rate * JTime::getDeltaTime());
         weighting = JMath::clampf(weighting, MIN_WEIGHTING, MAX_WEIGHTING);
 
+        updateHighestWeighting(weighting, i);
+
         total_weight += weighting;
 
         grid.setTileAlpha(i, weighting);
+    }
+}
+
+
+void Heatmap::updateHighestWeighting(const float _weighting, const int _index)
+{
+    if (_weighting > highest_weight)
+    {
+        highest_weight = _weighting;
+        highest_weight_index = _index;
     }
 }
