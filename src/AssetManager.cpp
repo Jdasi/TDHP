@@ -80,6 +80,7 @@ void AssetManager::init()
     loadSoundBuffer(GAME_OVER_SOUND);
     loadSoundBuffer(LASER_SHOOT_SOUND);
     loadSoundBuffer(SMOKE_BOMB_SOUND);
+    loadSoundBuffer(SWARM_SOUND);
     loadSoundBuffer(TOWER_BOOST_SOUND);
     loadSoundBuffer(TOWER_PLACE_SOUND);
     loadSoundBuffer(TOWER_DESTROY_SOUND);

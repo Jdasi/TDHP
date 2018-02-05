@@ -540,6 +540,8 @@ void DirectorBrain::sendSwarm(EnemyType* _type, const int _count,
     {
         best_spawn->queueEnemy(_type, i * spawn_delay, _path_type);
     }
+
+    gd.audio.playSound(SWARM_SOUND);
 }
 
 

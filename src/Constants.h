@@ -103,6 +103,7 @@ const std::string SPEED_BOOST_SOUND     { "enemy_speed_boost.wav" };
 const std::string GAME_OVER_SOUND       { "game_over.wav" };
 const std::string LASER_SHOOT_SOUND     { "laser_shoot.wav" };
 const std::string SMOKE_BOMB_SOUND      { "smoke_bomb.wav" };
+const std::string SWARM_SOUND           { "enemy_swarm.wav" };
 const std::string TOWER_BOOST_SOUND     { "tower_boost.wav" };
 const std::string TOWER_PLACE_SOUND     { "tower_construction.wav" };
 const std::string TOWER_DESTROY_SOUND   { "tower_destruction.wav" };
