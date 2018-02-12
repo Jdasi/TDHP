@@ -241,7 +241,6 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\SimpleTimer.h" />
     <ClInclude Include="..\src\Tower.h" />
     <ClInclude Include="..\src\TowerManager.h" />
-    <ClInclude Include="..\src\Vector2i.h" />
     <ClInclude Include="..\src\Heatmap.h" />
     <ClInclude Include="..\src\WeightedEnemy.h" />
     <ClInclude Include="..\src\WeightingType.h" />

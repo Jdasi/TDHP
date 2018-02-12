@@ -171,9 +171,6 @@
     <ClInclude Include="..\src\AssetManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Vector2i.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\SimpleTimer.h">
       <Filter>Utility</Filter>
     </ClInclude>
