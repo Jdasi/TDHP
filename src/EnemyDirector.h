@@ -40,6 +40,8 @@ public:
     void toggleEnemySpawn(const int _tile_index);
     void updatePaths();
 
+    void addEnemyListener(EnemyListener* _listener);
+
     Waypoint& getEnemyDestination();
     void setEnemyDestination(const int _tile_index);
 

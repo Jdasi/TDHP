@@ -36,12 +36,15 @@ const sf::Color WALKABLE_COLOR          = sf::Color(0, 0, 0, 0);
 const sf::Color UNWALKABLE_COLOR        = sf::Color(255, 255, 255, 255);
 
 const int MAX_TOWERS                    = 3;
-const int MAX_ENEMIES                   = 100;
+const int MAX_ENEMIES                   = 30;
 const int MAX_ENEMY_SPAWNS              = 10;
-const int MAX_BULLETS                   = 100;
+const int MAX_BULLETS                   = 30;
 
 const float MIN_WEIGHTING               = 0;
 const float MAX_WEIGHTING               = 255;
+
+const float MAX_PLAYER_HEALTH           = 100;
+const float DAMAGE_ON_GOAL_REACHED      = 15;
 
 const float MAX_BRAIN_ENERGY            = 100;
 const float DIRECTOR_ENERGY_REGEN       = 1.5f;
@@ -91,13 +94,15 @@ const std::string DESTINATION_SPRITE    { "destination.png" };
 const std::string FLOOR_TEXTURE         { "floor.jpg" };
 const std::string UNWALKABLE_TEXTURE    { "block.png" };
 
+const std::string GAME_OVER_TEXTURE     { "game_over_screen.png" };
+
 // ======================================================================================
 // AUDIO STRINGS
 // ======================================================================================
 
 const std::string BULLET_HIT_SOUND      { "bullet_hit.wav" };
 const std::string BULLET_SHOOT_SOUND    { "bullet_shoot.wav" };
-const std::string DEST_REACHED_SOUND    { "enemy_destination_reached.wav" };
+const std::string PLAYER_DAMAGED_SOUND  { "enemy_destination_reached.wav" };
 const std::string HEALTH_BOOST_SOUND    { "enemy_health_boost.wav" };
 const std::string SPEED_BOOST_SOUND     { "enemy_speed_boost.wav" };
 const std::string GAME_OVER_SOUND       { "game_over.wav" };

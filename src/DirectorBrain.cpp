@@ -19,6 +19,7 @@ DirectorBrain::DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_mana
     , enemy_manager(_enemy_manager)
     , enemy_spawns(_enemy_spawns)
     , level(_level)
+    , start_time(JTime::getTime())
 {
     enemy_manager.addEnemyListener(this);
     statistics.level_name = level.getName();
@@ -34,7 +35,7 @@ DirectorBrain::DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_mana
 
 DirectorBrain::~DirectorBrain()
 {
-    statistics.session_duration = JTime::getTime();
+    statistics.session_duration = JTime::getTime() - start_time;
 
     FileIO::exportBrainStatistics(statistics);
 }
@@ -245,19 +246,19 @@ bool DirectorBrain::overallIntensityOverThreshold() const
 
 bool DirectorBrain::fastEnemiesOverThreshold() const
 {
-    return static_cast<float>(knowledge.fast_enemies) / MAX_ENEMIES >= 0.03f;
+    return static_cast<float>(knowledge.fast_enemies) >= 3;
 }
 
 
 bool DirectorBrain::strongEnemiesOverThreshold() const
 {
-    return static_cast<float>(knowledge.strong_enemies) / MAX_ENEMIES >= 0.05f;
+    return static_cast<float>(knowledge.strong_enemies) >= 5;
 }
 
 
 bool DirectorBrain::totalEnemiesOverThreshold() const
 {
-    return static_cast<float>(knowledge.total_enemies) / MAX_ENEMIES >= 0.1f;
+    return static_cast<float>(knowledge.total_enemies) >= 10;
 }
 
 
@@ -574,6 +575,4 @@ void DirectorBrain::onPathComplete(Enemy& _caller)
     knowledge.energy = JMath::clampf(knowledge.energy, 0, MAX_BRAIN_ENERGY);
 
     ++statistics.completed_paths;
-
-    gd.audio.playSound(DEST_REACHED_SOUND);
 }

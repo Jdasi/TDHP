@@ -148,6 +148,12 @@ void EnemyDirector::updatePaths()
 }
 
 
+void EnemyDirector::addEnemyListener(EnemyListener* _listener)
+{
+    enemy_manager.addEnemyListener(_listener);
+}
+
+
 Waypoint& EnemyDirector::getEnemyDestination()
 {
     return enemy_destination;

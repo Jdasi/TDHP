@@ -9,10 +9,13 @@
 #include "EnemyDirector.h"
 #include "TowerManager.h"
 #include "Level.h"
+#include "GameListener.h"
+#include "ListenerSubject.h"
+#include "PlayerHealth.h"
 
 struct GameData;
 
-class Game
+class Game : public ListenerSubject<GameListener>
 {
 public:
     Game(GameData& _gd);
@@ -62,10 +65,11 @@ private:
     std::unique_ptr<EnemyDirector> enemy_director;
     std::unique_ptr<TowerManager> tower_manager;
 
-    Level current_level;
-
     GameData& gd;
+
+    Level current_level;
     ContextType current_context;
+    PlayerHealth player_health;
 
     sf::RectangleShape border;
     std::vector<sf::VertexArray> grid_lines;

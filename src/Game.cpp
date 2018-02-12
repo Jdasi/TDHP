@@ -7,12 +7,14 @@
 #include "JHelper.h"
 #include "FileIO.h"
 #include "GDebugFlags.h"
+#include "GameAudio.h"
 
 
 Game::Game(GameData& _gd)
     : gd(_gd)
     , current_level(_gd.level_name)
     , current_context(ContextType::GAME)
+    , player_health(_gd)
     , painting(false)
 {
     init();
@@ -33,6 +35,16 @@ void Game::tick()
         handleContextSelection();
 
     processContext();
+
+    if (!player_health.isAlive())
+    {
+        for (auto& listener : listeners)
+        {
+            listener->onGameOver();
+        }
+
+        gd.audio.playSound(GAME_OVER_SOUND);
+    }
 }
 
 
@@ -56,6 +68,8 @@ void Game::draw(sf::RenderWindow& _window)
     {
         enemy_director->draw(_window);
         tower_manager->draw(_window);
+
+        player_health.draw(_window);
     }
 
     if (GDebugFlags::draw_debug_controls)
@@ -103,10 +117,12 @@ void Game::initObjects()
 
     // Debug context display.
     context_display.setFont(*default_font);
-    context_display.setCharacterSize(16);
-    context_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 16);
+    context_display.setCharacterSize(11);
+    context_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 11);
 
     updateContextDisplay();
+
+    enemy_director->addEnemyListener(&player_health);
 
     initBorder();
     initGridLines();

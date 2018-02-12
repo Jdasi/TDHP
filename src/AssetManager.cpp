@@ -74,7 +74,7 @@ void AssetManager::init()
     // Preload sounds.
     loadSoundBuffer(BULLET_HIT_SOUND);
     loadSoundBuffer(BULLET_SHOOT_SOUND);
-    loadSoundBuffer(DEST_REACHED_SOUND);
+    loadSoundBuffer(PLAYER_DAMAGED_SOUND);
     loadSoundBuffer(HEALTH_BOOST_SOUND);
     loadSoundBuffer(SPEED_BOOST_SOUND);
     loadSoundBuffer(GAME_OVER_SOUND);

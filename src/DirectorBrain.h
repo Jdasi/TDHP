@@ -21,7 +21,6 @@ class DirectorBrain : public EnemyListener
 public:
     DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
         std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns, Level& _level);
-
     ~DirectorBrain();
 
     void tick();
@@ -96,5 +95,7 @@ private:
     Scheduler scheduler;
     WorkingKnowledge knowledge;
     BrainStatistics statistics;
+
+    float start_time;
 
 };

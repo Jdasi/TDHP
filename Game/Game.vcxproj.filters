@@ -40,6 +40,9 @@
     <Filter Include="Core\States">
       <UniqueIdentifier>{4bcf9613-4792-4aa5-ab50-bc2965e18098}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Player">
+      <UniqueIdentifier>{fe457d7d-90ae-460f-847a-2011150e04a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -159,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="..\src\GameAudio.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PlayerHealth.cpp">
+      <Filter>Core\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +344,12 @@
     </ClInclude>
     <ClInclude Include="..\src\GameAudio.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameListener.h">
+      <Filter>Listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PlayerHealth.h">
+      <Filter>Core\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

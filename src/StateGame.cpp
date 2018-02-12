@@ -7,24 +7,18 @@
 
 StateGame::StateGame(GameData& _game_data)
     : State(_game_data)
+    , game_over(false)
 {
-    sf::Font* default_font = gameData().assets.loadFont(DEFAULT_FONT);
-
-    // Pause display.
-    pause_display.setString("PAUSED");
-    pause_display.setFont(*default_font);
-    pause_display.setCharacterSize(28);
-    pause_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    pause_display.setFillColor(sf::Color::Red);
-    pause_display.setOutlineColor(sf::Color::White);
-    pause_display.setOutlineThickness(2);
-    JHelper::centerSFOrigin(pause_display);
+    initObjects();
 }
 
 
 void StateGame::onStateEnter()
 {
     game = std::make_unique<Game>(gameData());
+    game->attachListener(this);
+
+    game_over = false;
 }
 
 
@@ -48,7 +42,7 @@ void StateGame::tick()
     if (gameData().input.getKeyDown(sf::Keyboard::Escape))
         getHandler()->queueState(GameState::SELECTION);
 
-    if (JTime::getTimeScale() > 0)
+    if (!game_over && JTime::getTimeScale() > 0)
     {
         game->tick();
     }
@@ -59,6 +53,41 @@ void StateGame::draw(sf::RenderWindow& _window)
 {
     game->draw(_window);
 
-    if (JTime::getTimeScale() == 0) // If paused.
+    if (!game_over && JTime::getTimeScale() == 0) // If paused.
         _window.draw(pause_display);
+
+    if (game_over)
+    {
+        _window.draw(game_over_display);
+
+        // TODO: draw score and session info ..
+    }
+}
+
+
+void StateGame::initObjects()
+{
+    sf::Font* default_font = gameData().assets.loadFont(DEFAULT_FONT);
+
+    // Pause display.
+    pause_display.setString("PAUSED");
+    pause_display.setFont(*default_font);
+    pause_display.setCharacterSize(28);
+    pause_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    pause_display.setFillColor(sf::Color::Red);
+    pause_display.setOutlineColor(sf::Color::White);
+    pause_display.setOutlineThickness(2);
+    JHelper::centerSFOrigin(pause_display);
+
+    // Game Over Display.
+    auto* tex = gameData().assets.loadTexture(GAME_OVER_TEXTURE);
+    game_over_display.setTexture(*tex);
+}
+
+
+void StateGame::onGameOver()
+{
+    game_over = true;
+
+    // TODO: Pull score & session info from game ..
 }
