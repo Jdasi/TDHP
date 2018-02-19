@@ -50,9 +50,9 @@ const float DIRECTOR_ENERGY_REGEN       = 1.5f;
 const float ENERGY_ON_DEATH             = 1.0f;
 const float ENERGY_ON_PATH_COMPLETION   = 5.0f;
 
-const float DIST_SCORE_FACTOR           = 5.0f;
-const float HEALTH_SCORE_FACTOR         = 1.0f;
-const float SPEED_SCORE_FACTOR          = 0.1f;
+const float DIST_SCORE_FACTOR           = 10.0f;
+const float HEALTH_SCORE_FACTOR         = 0.0f;
+const float SPEED_SCORE_FACTOR          = 0.0f;
 
 const std::string LASER_TOWER_SLUG      { "LaserTower" };
 const std::string BULLET_TOWER_SLUG     { "BulletTower" };

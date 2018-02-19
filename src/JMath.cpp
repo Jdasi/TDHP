@@ -40,6 +40,12 @@ float JMath::clampf(const float _original, const float _min, const float _max)
 }
 
 
+int JMath::roundToNearestMultiple(const int _val, const int _multiple)
+{
+    return ((_val + _multiple / 2) / _multiple) * _multiple;
+}
+
+
 float JMath::vector2Distance(const sf::Vector2f& _a, const sf::Vector2f& _b)
 {
     sf::Vector2f diff = _a - _b;

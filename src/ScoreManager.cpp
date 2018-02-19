@@ -6,6 +6,7 @@
 #include "GameData.h"
 #include "AssetManager.h"
 #include "GameAudio.h"
+#include "JMath.h"
 
 
 ScoreManager::ScoreManager(GameData& _gd, Level& _level)
