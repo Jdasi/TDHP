@@ -2,7 +2,6 @@
 
 #include <string>
 
-#include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Color.hpp>
 
 /*! \file Constants.h
@@ -40,16 +39,20 @@ const int MAX_ENEMIES                   = 30;
 const int MAX_ENEMY_SPAWNS              = 10;
 const int MAX_BULLETS                   = 30;
 
-const float MIN_WEIGHTING               = 0;
-const float MAX_WEIGHTING               = 255;
+const float MIN_WEIGHTING               = 0.0f;
+const float MAX_WEIGHTING               = 255.0f;
 
-const float MAX_PLAYER_HEALTH           = 100;
-const float DAMAGE_ON_GOAL_REACHED      = 15;
+const float MAX_PLAYER_HEALTH           = 100.0f;
+const float DAMAGE_ON_GOAL_REACHED      = 15.0f;
 
 const float MAX_BRAIN_ENERGY            = 100;
 const float DIRECTOR_ENERGY_REGEN       = 1.5f;
-const float ENERGY_ON_DEATH             = 1;
-const float ENERGY_ON_PATH_COMPLETION   = 5;
+const float ENERGY_ON_DEATH             = 1.0f;
+const float ENERGY_ON_PATH_COMPLETION   = 5.0f;
+
+const float DIST_SCORE_FACTOR           = 5.0f;
+const float HEALTH_SCORE_FACTOR         = 1.0f;
+const float SPEED_SCORE_FACTOR          = 0.1f;
 
 const std::string LASER_TOWER_SLUG      { "LaserTower" };
 const std::string BULLET_TOWER_SLUG     { "BulletTower" };
@@ -112,3 +115,5 @@ const std::string SWARM_SOUND           { "enemy_swarm.wav" };
 const std::string TOWER_BOOST_SOUND     { "tower_boost.wav" };
 const std::string TOWER_PLACE_SOUND     { "tower_construction.wav" };
 const std::string TOWER_DESTROY_SOUND   { "tower_destruction.wav" };
+const std::string SCORE_BUMP_SOUND      { "score_bump.wav" };
+const std::string TOWER_ERROR_SOUND     { "too_many_towers.wav" };

@@ -82,7 +82,7 @@ private:
         const EnemySpawn::SpawnPathType& _path_type);
 
     // Enemy events.
-    void onDeath(const sf::Vector2f& _pos, TowerType* _killer_type) override;
+    void onDeath(const Enemy& _caller, TowerType* _killer_type) override;
     void onPathComplete(Enemy& _caller) override;
 
     GameData& gd;

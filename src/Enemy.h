@@ -18,7 +18,7 @@ public:
     Enemy();
     ~Enemy() = default;
 
-    EnemyType* getType();
+    EnemyType* getType() const;
     void setType(EnemyType& _type);
 
     void tick() override;
@@ -27,6 +27,7 @@ public:
     void setPath(const LevelPath& _path);
 
     const sf::Vector2i& getCoords() const;
+    int getDistToGoal() const;
 
     void boostHealth(const int _modifier, const float _duration);
     void boostSpeed(const float _modifier, const float _duration);
@@ -61,5 +62,7 @@ private:
 
     float speed_modifier;
     sf::Vector2i coords;
+
+    int mdist_to_goal;
 
 };

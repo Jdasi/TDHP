@@ -22,6 +22,7 @@ public:
 
     int getNumPoints() const;
     const Waypoint& getWaypoint(const int _index) const;
+    const Waypoint& getLastWaypoint() const;
 
 private:
     NavPath raw_path;

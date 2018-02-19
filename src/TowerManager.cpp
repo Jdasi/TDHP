@@ -86,6 +86,11 @@ void TowerManager::toggleTower(const int _tile_index, int _click_type)
         {
             constructTower(_tile_index, clickTypeToTowerSlug(_click_type));
         }
+        else
+        {
+            // Invalid tower placement.
+            gd.audio.playSound(TOWER_ERROR_SOUND);
+        }
     }
 }
 
@@ -134,6 +139,9 @@ void TowerManager::constructTower(const int _tile_index, const std::string& _tow
 
         return;
     }
+
+    // Invalid tower placement.
+    gd.audio.playSound(TOWER_ERROR_SOUND);
 }
 
 

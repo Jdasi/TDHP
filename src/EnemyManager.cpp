@@ -322,7 +322,7 @@ Enemy* EnemyManager::getEnemyAtPos(const sf::Vector2f& _pos)
 }
 
 
-void EnemyManager::onDeath(const sf::Vector2f& _pos, TowerType* _killer_type)
+void EnemyManager::onDeath(const Enemy& _caller, TowerType* _killer_type)
 {
     --num_alive;
 }

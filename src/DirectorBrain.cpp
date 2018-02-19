@@ -546,9 +546,9 @@ void DirectorBrain::sendSwarm(EnemyType* _type, const int _count,
 }
 
 
-void DirectorBrain::onDeath(const sf::Vector2f& _pos, TowerType* _killer_type)
+void DirectorBrain::onDeath(const Enemy& _caller, TowerType* _killer_type)
 {
-    int tile_index = JHelper::posToTileIndex(_pos, level);
+    int tile_index = JHelper::posToTileIndex(_caller.getPosition(), level);
 
     if (_killer_type != nullptr)
     {

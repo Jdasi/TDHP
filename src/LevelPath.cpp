@@ -64,3 +64,9 @@ const Waypoint& LevelPath::getWaypoint(const int _index) const
 {
     return waypoints[_index];
 }
+
+
+const Waypoint& LevelPath::getLastWaypoint() const
+{
+    return waypoints[waypoints.size() - 1];
+}

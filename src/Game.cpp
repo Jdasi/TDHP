@@ -14,7 +14,6 @@ Game::Game(GameData& _gd)
     : gd(_gd)
     , current_level(_gd.level_name)
     , current_context(ContextType::GAME)
-    , player_health(_gd)
     , painting(false)
 {
     init();
@@ -27,6 +26,7 @@ void Game::tick()
     heatmap_manager->tick();
     enemy_director->tick();
     tower_manager->tick();
+    score_manager->tick();
 
     // State.
     painting = gd.input.getMouseButton(sf::Mouse::Left);
@@ -36,7 +36,7 @@ void Game::tick()
 
     processContext();
 
-    if (!player_health.isAlive())
+    if (!player_health->isAlive())
     {
         for (auto& listener : listeners)
         {
@@ -68,8 +68,8 @@ void Game::draw(sf::RenderWindow& _window)
     {
         enemy_director->draw(_window);
         tower_manager->draw(_window);
-
-        player_health.draw(_window);
+        score_manager->draw(_window);
+        player_health->draw(_window);
     }
 
     if (GDebugFlags::draw_debug_controls)
@@ -108,6 +108,12 @@ void Game::initSystems()
     tower_manager = std::make_unique<TowerManager>(gd,
         *nav_manager.get(), *heatmap_manager.get(), *enemy_director.get(),
         current_level);
+
+    score_manager = std::make_unique<ScoreManager>(gd, current_level);
+    enemy_director->addEnemyListener(score_manager.get());
+
+    player_health = std::make_unique<PlayerHealth>(gd);
+    enemy_director->addEnemyListener(player_health.get());
 }
 
 
@@ -121,8 +127,6 @@ void Game::initObjects()
     context_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 11);
 
     updateContextDisplay();
-
-    enemy_director->addEnemyListener(&player_health);
 
     initBorder();
     initGridLines();

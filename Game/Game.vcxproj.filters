@@ -43,6 +43,9 @@
     <Filter Include="Core\Player">
       <UniqueIdentifier>{fe457d7d-90ae-460f-847a-2011150e04a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\UI">
+      <UniqueIdentifier>{0f36378e-02c0-4504-b292-4701e73109f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -142,9 +145,6 @@
     <ClCompile Include="..\src\EnemyManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ValueBar.cpp">
-      <Filter>Core\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\GDebugFlags.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
@@ -165,6 +165,15 @@
     </ClCompile>
     <ClCompile Include="..\src\PlayerHealth.cpp">
       <Filter>Core\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ScoreManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ValueBar.cpp">
+      <Filter>Core\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TextPopup.cpp">
+      <Filter>Core\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -318,9 +327,6 @@
     <ClInclude Include="..\src\EnemyManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ValueBar.h">
-      <Filter>Core\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\GDebugFlags.h">
       <Filter>Utility</Filter>
     </ClInclude>
@@ -347,6 +353,15 @@
     </ClInclude>
     <ClInclude Include="..\src\PlayerHealth.h">
       <Filter>Core\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ScoreManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ValueBar.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TextPopup.h">
+      <Filter>Core\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

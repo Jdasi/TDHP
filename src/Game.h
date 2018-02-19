@@ -8,6 +8,7 @@
 #include "NavManager.h"
 #include "EnemyDirector.h"
 #include "TowerManager.h"
+#include "ScoreManager.h"
 #include "Level.h"
 #include "GameListener.h"
 #include "ListenerSubject.h"
@@ -64,12 +65,13 @@ private:
     std::unique_ptr<NavManager> nav_manager;
     std::unique_ptr<EnemyDirector> enemy_director;
     std::unique_ptr<TowerManager> tower_manager;
+    std::unique_ptr<ScoreManager> score_manager;
+    std::unique_ptr<PlayerHealth> player_health;
 
     GameData& gd;
 
     Level current_level;
     ContextType current_context;
-    PlayerHealth player_health;
 
     sf::RectangleShape border;
     std::vector<sf::VertexArray> grid_lines;

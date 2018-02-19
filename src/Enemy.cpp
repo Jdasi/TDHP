@@ -8,12 +8,13 @@ Enemy::Enemy()
     : path_index(0)
     , type(nullptr)
     , speed_modifier(1)
+    , mdist_to_goal(0)
 {
     initHealthBar();
 }
 
 
-EnemyType* Enemy::getType()
+EnemyType* Enemy::getType() const
 {
     return type;
 }
@@ -36,6 +37,7 @@ void Enemy::tick()
         return;
 
     updateTileIndex();
+    mdist_to_goal = JHelper::manhattanDistance(coords, path.getLastWaypoint().tile_coords);
 
     auto& waypoint = path.getWaypoint(path_index);
     auto& pos = getPosition();
@@ -74,6 +76,13 @@ void Enemy::setPath(const LevelPath& _path)
 const sf::Vector2i& Enemy::getCoords() const
 {
     return coords;
+}
+
+
+// Returns the enemy's remaining manhattan distance to its goal.
+int Enemy::getDistToGoal() const
+{
+    return mdist_to_goal;
 }
 
 
@@ -137,7 +146,7 @@ void Enemy::onDeath(TowerType* _killer_type)
 {
     for (auto& listener : listeners)
     {
-        listener->onDeath(getPosition(), _killer_type);
+        listener->onDeath(*this, _killer_type);
     }
 }
 
