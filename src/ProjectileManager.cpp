@@ -97,7 +97,7 @@ void ProjectileManager::initLasers()
 
 void ProjectileManager::initBullets()
 {
-    auto* texture = gd.assets.loadTexture(BULLET_SPRITE);
+    auto* texture = gd.assets.loadTexture(BULLET_TEXTURE);
 
     for (auto& bullet : bullets)
     {

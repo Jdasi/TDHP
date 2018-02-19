@@ -88,16 +88,19 @@ const std::string DEFAULT_FONT          { "arial.ttf" };
 // ======================================================================================
 // IMAGE STRINGS
 // ======================================================================================
-const std::string LASER_TOWER_SPRITE    { "laser_tower.png" };
-const std::string BULLET_TOWER_SPRITE   { "bullet_tower.png" };
-const std::string BULLET_SPRITE         { "bullet.png" };
-const std::string SPAWN_SPRITE          { "spawn.png" };
-const std::string DESTINATION_SPRITE    { "destination.png" };
+const std::string LASER_TOWER_TEXTURE   { "laser_tower.png" };
+const std::string BULLET_TOWER_TEXTURE  { "bullet_tower.png" };
+const std::string BULLET_TEXTURE        { "bullet.png" };
+const std::string SPAWN_TEXTURE         { "spawn.png" };
+const std::string DESTINATION_TEXTURE   { "destination.png" };
 
 const std::string FLOOR_TEXTURE         { "floor.jpg" };
 const std::string UNWALKABLE_TEXTURE    { "block.png" };
 
 const std::string GAME_OVER_TEXTURE     { "game_over_screen.png" };
+
+const std::string SLOT_EMPTY_TEXTURE    { "tower_slot_empty.png" };
+const std::string SLOT_FILLED_TEXTURE   { "tower_slot_filled.png" };
 
 // ======================================================================================
 // AUDIO STRINGS

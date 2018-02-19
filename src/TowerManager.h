@@ -3,7 +3,7 @@
 #include <array>
 #include <map>
 
-#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 #include "Tower.h"
 #include "Constants.h"
@@ -38,6 +38,7 @@ public:
 
 private:
     void initTowers();
+    void initTowerSlots();
     void updateTowerTargets();
 
     void constructTower(const int _tile_index, const std::string& _tower_slug);
@@ -45,6 +46,9 @@ private:
 
     bool towerExists(const int _tile_index) const;
     std::string clickTypeToTowerSlug(const int _click_type);
+
+    void increaseSlotsUsed();
+    void decreaseSlotsUsed();
 
     GameData& gd;
 
@@ -56,8 +60,12 @@ private:
     ProjectileManager projectile_manager;
     std::map<std::string, TowerType> tower_types;
     std::array<Tower, MAX_TOWERS> towers;
+    std::array<sf::Sprite, MAX_TOWERS> tower_slots;
 
     Waypoint& enemy_destination;
     Scheduler scheduler;
+
+    sf::Text lbl_slots;
+    int slots_used;
 
 };

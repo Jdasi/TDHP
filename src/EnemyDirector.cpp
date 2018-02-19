@@ -108,7 +108,7 @@ bool EnemyDirector::addEnemySpawn(const int _tile_index)
     auto spawn = std::make_unique<EnemySpawn>(nav_manager, level, _tile_index,
         enemy_destination, enemy_manager);
 
-    auto* texture = gd.assets.loadTexture(SPAWN_SPRITE);
+    auto* texture = gd.assets.loadTexture(SPAWN_TEXTURE);
     spawn->setMarkerTexture(texture);
 
     spawn->updatePaths();
@@ -209,7 +209,7 @@ void EnemyDirector::init()
     energy_bar.updatePosition({ WINDOW_WIDTH * 0.56f, WINDOW_HEIGHT * 0.04f });
 
     // Destination marker.
-    auto* texture = gd.assets.loadTexture(DESTINATION_SPRITE);
+    auto* texture = gd.assets.loadTexture(DESTINATION_TEXTURE);
     destination_marker.setTexture(texture);
 }
 

@@ -20,8 +20,10 @@ TowerManager::TowerManager(GameData& _game_data, NavManager& _nav_manager,
     , level(_level)
     , projectile_manager(_game_data, _heatmap_manager, _enemy_director, _level)
     , enemy_destination(enemy_director.getEnemyDestination())
+    , slots_used(0)
 {
     initTowers();
+    initTowerSlots();
 
     scheduler.invokeRepeating([this]()
     {
@@ -56,6 +58,13 @@ void TowerManager::draw(sf::RenderWindow& _window)
 
         tower.draw(_window);
     }
+
+    for (auto& slot : tower_slots)
+    {
+        _window.draw(slot);
+    }
+
+    _window.draw(lbl_slots);
 }
 
 
@@ -106,6 +115,37 @@ void TowerManager::initTowers()
 }
 
 
+void TowerManager::initTowerSlots()
+{
+    // Try to keep the tower slots centered around the height of the window.
+    auto* tex = gd.assets.loadTexture(SLOT_EMPTY_TEXTURE);
+    float start_y = (WINDOW_HEIGHT * 0.5f) - (MAX_TOWERS * (tex->getSize().y / 2));
+
+    for (int i = 0; i < MAX_TOWERS; ++i)
+    {
+        auto& slot = tower_slots[i];
+
+        // Line the slots up beneath each other.
+        slot.setTexture(*tex);
+        slot.setPosition(WINDOW_WIDTH * 0.95f, start_y + (i * slot.getGlobalBounds().height));
+
+        JHelper::centerSFOrigin(slot);
+    }
+
+    // Slots Used Label.
+    lbl_slots.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_slots.setCharacterSize(14);
+    lbl_slots.setStyle(sf::Text::Bold);
+    lbl_slots.setFillColor(sf::Color::White);
+    lbl_slots.setString("Towers\n  Used:");
+
+    auto top_pos = tower_slots[0].getPosition();
+    lbl_slots.setPosition(top_pos - sf::Vector2f(0, static_cast<float>(tex->getSize().y)));
+
+    JHelper::centerSFOrigin(lbl_slots);
+}
+
+
 void TowerManager::updateTowerTargets()
 {
     for (auto& tower : towers)
@@ -134,8 +174,9 @@ void TowerManager::constructTower(const int _tile_index, const std::string& _tow
         tower.setType(tower_types.at(_tower_slug));
 
         tower.spawn();
-
         gd.audio.playSound(TOWER_PLACE_SOUND);
+
+        increaseSlotsUsed();
 
         return;
     }
@@ -156,6 +197,8 @@ void TowerManager::deconstructTower(const int _tile_index)
         tower.setTileIndex(-1);
 
         gd.audio.playSound(TOWER_DESTROY_SOUND);
+
+        decreaseSlotsUsed();
 
         return;
     }
@@ -183,4 +226,22 @@ std::string TowerManager::clickTypeToTowerSlug(const int _click_type)
 
         default: return LASER_TOWER_SLUG;
     }
+}
+
+
+void TowerManager::increaseSlotsUsed()
+{
+    auto* tex = gd.assets.loadTexture(SLOT_FILLED_TEXTURE);
+    tower_slots[slots_used].setTexture(*tex);
+
+    ++slots_used;
+}
+
+
+void TowerManager::decreaseSlotsUsed()
+{
+    auto* tex = gd.assets.loadTexture(SLOT_EMPTY_TEXTURE);
+    tower_slots[slots_used - 1].setTexture(*tex);
+
+    --slots_used;
 }
