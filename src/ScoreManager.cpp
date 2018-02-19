@@ -44,6 +44,12 @@ void ScoreManager::draw(sf::RenderWindow& _window)
 }
 
 
+int ScoreManager::getScore() const
+{
+    return score;
+}
+
+
 void ScoreManager::initLabels()
 {
     lbl_title.setFont(*gd.assets.loadFont(DEFAULT_FONT));

@@ -77,6 +77,12 @@ void Game::draw(sf::RenderWindow& _window)
 }
 
 
+int Game::getScore() const
+{
+    return score_manager->getScore();
+}
+
+
 void Game::exportCurrentLevel() const
 {
     FileIO::exportLevel(current_level);

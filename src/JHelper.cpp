@@ -113,3 +113,20 @@ std::string JHelper::boolToStr(const bool _b)
 {
     return _b ? "TRUE" : "FALSE";
 }
+
+
+std::string JHelper::timeToString(const float _time)
+{
+    int t = static_cast<int>(_time);
+
+    int hours = (t / 60) / 60;
+    int minutes = (t / 60) - (hours * 60);
+    int seconds = t % 60;
+
+    std::string time_str =
+        std::to_string(hours / 10) + std::to_string(hours % 10) + ":" +
+        std::to_string(minutes / 10) + std::to_string(minutes % 10) + ":" +
+        std::to_string(seconds / 10) + std::to_string(seconds % 10);
+
+    return time_str;
+}

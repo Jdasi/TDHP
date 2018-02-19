@@ -25,6 +25,8 @@ public:
     void tick();
     void draw(sf::RenderWindow& _window);
 
+    int getScore() const;
+
 private:
     void initLabels();
 

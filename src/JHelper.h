@@ -32,6 +32,7 @@ namespace JHelper
     float calculateLookAngle(const sf::Vector2f& _from, const sf::Vector2f& _to);
 
     std::string boolToStr(const bool _b);
+    std::string timeToString(const float _time);
 
 
     template <typename T>
