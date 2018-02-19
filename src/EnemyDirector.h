@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 #include "Enemy.h"
 #include "EnemyListener.h"
@@ -70,5 +70,7 @@ private:
     Scheduler scheduler;
     DirectorBrain brain;
     ValueBar energy_bar;
+
+    sf::Text lbl_energy;
 
 };

@@ -13,6 +13,7 @@ ScoreManager::ScoreManager(GameData& _gd, Level& _level)
     , level(_level)
     , score(0)
 {
+    initLabels();
 }
 
 
@@ -37,6 +38,29 @@ void ScoreManager::draw(sf::RenderWindow& _window)
     {
         popup->draw(_window);
     }
+
+    _window.draw(lbl_title);
+    _window.draw(lbl_score);
+}
+
+
+void ScoreManager::initLabels()
+{
+    lbl_title.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_title.setCharacterSize(14);
+    lbl_title.setStyle(sf::Text::Bold);
+    lbl_title.setFillColor(sf::Color::White);
+    lbl_title.setPosition({ WINDOW_WIDTH * 0.8f, WINDOW_HEIGHT * 0.96f });
+    lbl_title.setString("Score:");
+
+    JHelper::centerSFOrigin(lbl_title);
+
+    lbl_score.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_score.setCharacterSize(14);
+    lbl_score.setStyle(sf::Text::Bold);
+    lbl_score.setFillColor(sf::Color::White);
+    lbl_score.setPosition({ lbl_title.getPosition().x + 30, WINDOW_HEIGHT * 0.949f });
+    lbl_score.setString("0");
 }
 
 
@@ -46,6 +70,8 @@ void ScoreManager::onDeath(const Enemy& _caller, TowerType* _killer_type)
     createTextPopup("+" + std::to_string(bump), _caller.getPosition());
 
     score += bump;
+    lbl_score.setString(std::to_string(score));
+
     gd.audio.playSound(SCORE_BUMP_SOUND);
 }
 

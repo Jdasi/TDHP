@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics/Text.hpp>
+
 #include "ValueBar.h"
 #include "EnemyListener.h"
 
@@ -25,6 +27,8 @@ public:
 
 private:
     void initHealthBar();
+    void initLabels();
+
     void updateValueBar();
 
     // Enemy events.
@@ -34,5 +38,7 @@ private:
 
     ValueBar health_bar;
     float health;
+
+    sf::Text lbl_title;
 
 };

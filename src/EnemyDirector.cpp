@@ -76,6 +76,7 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
     enemy_manager.draw(_window);
 
     energy_bar.draw(_window);
+    _window.draw(lbl_energy);
 }
 
 
@@ -193,9 +194,19 @@ bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_
 
 void EnemyDirector::init()
 {
+    // Energy bar label.
+    lbl_energy.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_energy.setCharacterSize(14);
+    lbl_energy.setStyle(sf::Text::Bold);
+    lbl_energy.setFillColor(sf::Color::White);
+    lbl_energy.setPosition({ WINDOW_WIDTH * 0.15f, WINDOW_HEIGHT * 0.04f });
+    lbl_energy.setString("Director Energy:");
+
+    JHelper::centerSFOrigin(lbl_energy);
+
     // Energy bar.
-    energy_bar.configure({ PANE_WIDTH, WINDOW_HEIGHT * 0.025f }, 0, sf::Color::Blue);
-    energy_bar.updatePosition({ WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.04f });
+    energy_bar.configure({ PANE_WIDTH * 0.825f, WINDOW_HEIGHT * 0.025f }, 0, sf::Color::Blue);
+    energy_bar.updatePosition({ WINDOW_WIDTH * 0.56f, WINDOW_HEIGHT * 0.04f });
 
     // Destination marker.
     auto* texture = gd.assets.loadTexture(DESTINATION_SPRITE);

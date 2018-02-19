@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 
+#include <SFML/Graphics/Text.hpp>
+
 #include "EnemyListener.h"
 #include "TextPopup.h"
 #include "Level.h"
@@ -24,6 +26,8 @@ public:
     void draw(sf::RenderWindow& _window);
 
 private:
+    void initLabels();
+
     // Enemy events.
     void onDeath(const Enemy& _caller, TowerType* _killer_type) override;
 
@@ -35,5 +39,8 @@ private:
 
     std::vector<std::unique_ptr<TextPopup>> text_popups;
     int score;
+
+    sf::Text lbl_title;
+    sf::Text lbl_score;
 
 };

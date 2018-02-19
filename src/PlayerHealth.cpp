@@ -1,20 +1,26 @@
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "PlayerHealth.h"
 #include "Constants.h"
 #include "JMath.h"
+#include "JHelper.h"
 #include "GameData.h"
 #include "GameAudio.h"
+#include "AssetManager.h"
 
 
 PlayerHealth::PlayerHealth(GameData& _gd)
     : gd(_gd)
 {
     initHealthBar();
+    initLabels();
 }
 
 
 void PlayerHealth::draw(sf::RenderWindow& _window)
 {
     health_bar.draw(_window);
+    _window.draw(lbl_title);
 }
 
 
@@ -51,10 +57,23 @@ void PlayerHealth::initHealthBar()
 {
     health = MAX_PLAYER_HEALTH;
 
-    health_bar.configure({ PANE_WIDTH, WINDOW_HEIGHT * 0.025f }, 0, sf::Color::Red);
-    health_bar.updatePosition({ WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.96f });
+    health_bar.configure({ PANE_WIDTH * 0.66f, WINDOW_HEIGHT * 0.025f }, 0, sf::Color::Red);
+    health_bar.updatePosition({ WINDOW_WIDTH * 0.48f, WINDOW_HEIGHT * 0.96f });
 
     updateValueBar();
+}
+
+
+void PlayerHealth::initLabels()
+{
+    lbl_title.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_title.setCharacterSize(14);
+    lbl_title.setStyle(sf::Text::Bold);
+    lbl_title.setFillColor(sf::Color::White);
+    lbl_title.setPosition({ WINDOW_WIDTH * 0.15f, WINDOW_HEIGHT * 0.96f });
+    lbl_title.setString("Base Health:");
+
+    JHelper::centerSFOrigin(lbl_title);
 }
 
 

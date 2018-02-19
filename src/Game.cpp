@@ -123,8 +123,9 @@ void Game::initObjects()
 
     // Debug context display.
     context_display.setFont(*default_font);
-    context_display.setCharacterSize(11);
-    context_display.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 11);
+    context_display.setCharacterSize(12);
+    context_display.setFillColor(sf::Color::Red);
+    context_display.setPosition(WINDOW_WIDTH * 0.78f, 0);
 
     updateContextDisplay();
 
@@ -402,6 +403,5 @@ std::string Game::contextToString(const ContextType& _context)
 
 void Game::updateContextDisplay()
 {
-    context_display.setString(contextToString(current_context));
-    JHelper::centerSFOrigin(context_display);
+    context_display.setString("[" + contextToString(current_context) + "]");
 }
