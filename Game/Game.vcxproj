@@ -152,6 +152,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClCompile Include="..\src\FileIO.cpp" />
     <ClCompile Include="..\src\GameAudio.cpp" />
     <ClCompile Include="..\src\GDebugFlags.cpp" />
+    <ClCompile Include="..\src\GUIButton.cpp" />
     <ClCompile Include="..\src\PlayerHealth.cpp" />
     <ClCompile Include="..\src\ScoreManager.cpp" />
     <ClCompile Include="..\src\State.cpp" />
@@ -201,6 +202,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\GameAudio.h" />
     <ClInclude Include="..\src\GameListener.h" />
     <ClInclude Include="..\src\GDebugFlags.h" />
+    <ClInclude Include="..\src\GUIButton.h" />
     <ClInclude Include="..\src\PlayerHealth.h" />
     <ClInclude Include="..\src\ScoreManager.h" />
     <ClInclude Include="..\src\State.h" />

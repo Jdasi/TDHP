@@ -8,6 +8,7 @@
 
 #include "State.h"
 #include "LevelData.h"
+#include "GUIButton.h"
 
 struct GameData;
 
@@ -27,6 +28,10 @@ private:
     void initLevelOptions();
     void initObjects();
     void initText();
+    void initButtons();
+
+    void quitGame();
+    void playGame();
 
     void handleSelection();
     void selectOption(const int _index);
@@ -52,9 +57,9 @@ private:
     sf::Text level_score_display;
 
     // Interactive stuff.
-    // Left arrow ..
-    // Right arrow ..
-    // Play button ..
-    // Quit button ..
+    GUIButton btn_next;
+    GUIButton btn_prev;
+    GUIButton btn_play;
+    GUIButton btn_quit;
 
 };

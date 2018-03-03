@@ -107,6 +107,10 @@ const std::string BACKDROP_TEXTURE      { "backdrop.jpg" };
 const std::string SLOT_EMPTY_TEXTURE    { "tower_slot_empty.png" };
 const std::string SLOT_FILLED_TEXTURE   { "tower_slot_filled.png" };
 
+const std::string BTN_ARROW_TEXTURE     { "btn_arrow.jpg" };
+const std::string BTN_PLAY_TEXTURE      { "btn_play.jpg" };
+const std::string BTN_QUIT_TEXTURE      { "btn_quit.jpg" };
+
 // ======================================================================================
 // AUDIO STRINGS
 // ======================================================================================

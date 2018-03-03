@@ -175,6 +175,9 @@
     <ClCompile Include="..\src\TextPopup.cpp">
       <Filter>Core\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\GUIButton.cpp">
+      <Filter>Core\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -361,6 +364,9 @@
       <Filter>Core\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\src\TextPopup.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GUIButton.h">
       <Filter>Core\UI</Filter>
     </ClInclude>
   </ItemGroup>

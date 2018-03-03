@@ -35,13 +35,19 @@ void StateSelection::onStateLeave()
 void StateSelection::tick()
 {
     if (gameData().input.getKeyDown(sf::Keyboard::Escape))
-        gameData().exit = true;
+    {
+        quitGame();
+    }
 
     if (gameData().input.getKeyDown(sf::Keyboard::Return))
     {
-        gameData().audio.playSound(TOWER_BOOST_SOUND);
-        getHandler()->queueState(GameState::GAME);
+        playGame();
     }
+
+    btn_next.tick(gameData());
+    btn_prev.tick(gameData());
+    btn_play.tick(gameData());
+    btn_quit.tick(gameData());
 
     handleSelection();
 }
@@ -67,7 +73,10 @@ void StateSelection::draw(sf::RenderWindow& _window)
     _window.draw(level_score_display);
 
     // Interactive stuff.
-    // TODO: ..
+    btn_next.draw(_window);
+    btn_prev.draw(_window);
+    btn_play.draw(_window);
+    btn_quit.draw(_window);
 }
 
 
@@ -86,12 +95,13 @@ void StateSelection::initLevelOptions()
 
 void StateSelection::initObjects()
 {
-    initText();
-
     // Level snapshot.
     level_snapshot.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.35f);
     level_snapshot.setScale(0.5f, 0.5f);
     JHelper::centerSFOrigin(level_snapshot);
+
+    initText();
+    initButtons();
 }
 
 
@@ -119,7 +129,7 @@ void StateSelection::initText()
     // Level name display.
     level_name_display.setFont(*font);
     level_name_display.setCharacterSize(32);
-    level_name_display.setFillColor(sf::Color(255, 225, 25, 255));
+    level_name_display.setFillColor(sf::Color(255, 225, 25));
     level_name_display.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.66f);
     level_name_display.setOutlineColor(sf::Color::Black);
     level_name_display.setOutlineThickness(2);
@@ -136,14 +146,14 @@ void StateSelection::initText()
     level_duration_title.setFont(*font);
     level_duration_title.setCharacterSize(28);
     level_duration_title.setString("Longest Survived:");
-    level_duration_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.75f);
+    level_duration_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.74f);
     level_duration_title.setOutlineColor(sf::Color::Black);
     level_duration_title.setOutlineThickness(2);
 
     level_duration_display.setFont(*font);
     level_duration_display.setCharacterSize(28);
     level_duration_display.setString("0");
-    level_duration_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.75f);
+    level_duration_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.74f);
     level_duration_display.setOutlineColor(sf::Color::Black);
     level_duration_display.setOutlineThickness(2);
 
@@ -151,16 +161,58 @@ void StateSelection::initText()
     level_score_title.setFont(*font);
     level_score_title.setCharacterSize(28);
     level_score_title.setString("Highest Score:");
-    level_score_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.8f);
+    level_score_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.79f);
     level_score_title.setOutlineColor(sf::Color::Black);
     level_score_title.setOutlineThickness(2);
 
     level_score_display.setFont(*font);
     level_score_display.setCharacterSize(28);
     level_score_display.setString("0");
-    level_score_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.8f);
+    level_score_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.79f);
     level_score_display.setOutlineColor(sf::Color::Black);
     level_score_display.setOutlineThickness(2);
+}
+
+
+void StateSelection::initButtons()
+{
+    btn_next.setPosition(level_snapshot.getPosition() + sf::Vector2f(285, 0));
+    btn_next.setColors(sf::Color(255, 225, 25, 255), sf::Color(255, 225, 100, 255), sf::Color(255, 225, 25, 150));
+    btn_next.setTexture(gameData().assets.loadTexture(BTN_ARROW_TEXTURE));
+    btn_next.setSize(sf::Vector2f(75, 175));
+    btn_next.setRotation(180);
+    btn_next.addClickEvent([this]() { selectNext(); });
+
+    btn_prev.setPosition(level_snapshot.getPosition() - sf::Vector2f(285, 0));
+    btn_prev.setColors(sf::Color(255, 225, 25, 255), sf::Color(255, 225, 100, 255), sf::Color(255, 225, 25, 150));
+    btn_prev.setTexture(gameData().assets.loadTexture(BTN_ARROW_TEXTURE));
+    btn_prev.setSize(sf::Vector2f(75, 175));
+    btn_prev.addClickEvent([this](){ selectPrev(); });
+
+    btn_play.setPosition(WINDOW_WIDTH * 0.4f, WINDOW_HEIGHT * 0.92f);
+    btn_play.setColors(sf::Color(255, 225, 25, 255), sf::Color(255, 225, 100, 255), sf::Color(255, 225, 25, 150));
+    btn_play.setTexture(gameData().assets.loadTexture(BTN_PLAY_TEXTURE));
+    btn_play.setSize(sf::Vector2f(175, 75));
+    btn_play.addClickEvent([this]() { playGame(); });
+
+    btn_quit.setPosition(WINDOW_WIDTH * 0.6f, WINDOW_HEIGHT * 0.92f);
+    btn_quit.setColors(sf::Color(255, 225, 25, 255), sf::Color(255, 225, 100, 255), sf::Color(255, 225, 25, 150));
+    btn_quit.setTexture(gameData().assets.loadTexture(BTN_QUIT_TEXTURE));
+    btn_quit.setSize(sf::Vector2f(175, 75));
+    btn_quit.addClickEvent([this]() { quitGame(); });
+}
+
+
+void StateSelection::quitGame()
+{
+    gameData().exit = true;
+}
+
+
+void StateSelection::playGame()
+{
+    gameData().audio.playSound(TOWER_BOOST_SOUND);
+    getHandler()->queueState(GameState::GAME);
 }
 
 
@@ -169,10 +221,10 @@ void StateSelection::handleSelection()
     if (level_options.size() == 0)
         return;
 
-    if (gameData().input.getKeyDown(sf::Keyboard::D))
+    if (gameData().input.getKeyDown(sf::Keyboard::Right))
         selectNext();
 
-    if (gameData().input.getKeyDown(sf::Keyboard::A))
+    if (gameData().input.getKeyDown(sf::Keyboard::Left))
         selectPrev();
 }
 

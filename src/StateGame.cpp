@@ -51,7 +51,7 @@ void StateGame::tick()
 
     if (gameData().input.getKeyDown(sf::Keyboard::Escape))
     {
-        gameData().audio.playSound(GAME_OVER_SOUND);
+        gameData().audio.playSound(TOWER_ERROR_SOUND);
         getHandler()->queueState(GameState::SELECTION);
     }
 
