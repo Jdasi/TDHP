@@ -13,6 +13,7 @@ namespace FileIO
 {
     LevelData loadLevelData(const std::string& _file_name);
     void exportLevel(const Level& _level);
+    void exportLevel(const Level& _level, const std::string& _name);
 
     void exportBrainStatistics(const BrainStatistics& _statistics);
 

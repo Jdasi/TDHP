@@ -10,49 +10,79 @@
 #include "BrainStatistics.h"
 
 
-LevelData FileIO::loadLevelData(const std::string& _file_name)
+LevelData FileIO::loadLevelData(const std::string& _name)
 {
-    LevelData ld;
-    ld.name = _file_name;
+    using jsoncons::json;
 
-    std::ifstream file("Resources/Levels/" + _file_name);
+    LevelData ld;
+
+    std::ifstream file("Resources/Levels/" + _name + ".json");
     if (!file.is_open())
     {
-        std::cout << "FileIO: Unable to find level file: " << _file_name.c_str() << std::endl;
+        std::cout << "FileIO: Unable to find level file: " << _name.c_str() << std::endl;
         return ld;
     }
 
-    file >> ld.size_x >> ld.size_y;
+    json file_data;
+    file >> file_data;
+
+    ld.name = file_data["name"].as_string();
+    ld.description = file_data["description"].as_string();
+    ld.size_x = file_data["width"].as_int();
+    ld.size_y = file_data["height"].as_int();
     ld.product = ld.size_x * ld.size_y;
+
+    ld.highest_score = file_data["highest_score"].as_int();
+    ld.session_duration = file_data["session_duration"].as_double();
 
     ld.tile_width = PANE_WIDTH / ld.size_x;
     ld.tile_height = PANE_HEIGHT / ld.size_y;
 
-    ld.raw_data.reserve(ld.product);
-    char elem = 0;
+    // Read tile data.
+    json tile_data = file_data["tile_data"];
+    ld.tile_data.assign(ld.product, 0);
 
-    for (int row = 0; row < ld.size_y; ++row)
+    for (int i = 0; i < ld.product; ++i)
     {
-        for (int col = 0; col < ld.size_x; ++col)
-        {
-            file >> elem;
-            ld.raw_data.push_back(elem);
-        }
+        ld.tile_data[i] = tile_data[i].as_int();
     }
+
+    file.close();
 
     return ld;
 }
 
 
+// Exports the level with a random level name.
 void FileIO::exportLevel(const Level& _level)
 {
-    std::string file_name("Resources/Levels/level" + std::to_string(rand() % 100000) + ".txt");
-    std::ofstream file(file_name);
+    std::string level_name = std::to_string(rand() % 100000);
+    exportLevel(_level, level_name);
+}
+
+
+// Exports (and potentially overwrites) the level with the passed name.
+void FileIO::exportLevel(const Level& _level, const std::string& _name)
+{
+    using jsoncons::json;
+
+    std::string file_name("Resources/Levels/level" + _name + ".json");
 
     int size_x = _level.getSizeX();
     int size_y = _level.getSizeY();
 
-    file << size_x << '\n' << size_y << '\n';
+    // Level object.
+    json level_info;
+
+    level_info["name"] = _name;
+    level_info["description"] = "";
+    level_info["width"] = size_x;
+    level_info["height"] = size_y;
+    level_info["highest_score"] = 0;
+    level_info["session_duration"] = 0;
+
+    // Array of raw tile data.
+    json level_array = json::array();
 
     for (int y = 0; y < size_y; ++y)
     {
@@ -61,18 +91,15 @@ void FileIO::exportLevel(const Level& _level)
             int index = JHelper::calculateIndex(x, y, size_x);
             auto tile_type = _level.getTileType(index);
 
-            switch (tile_type)
-            {
-                case Level::UNWALKABLE:         file << 'W'; break;
-                case Level::ENEMY_SPAWN:        file << 'S'; break;
-                case Level::ENEMY_DESTINATION:  file << 'D'; break;
-
-                default:                        file << '.'; break;
-            }
+            level_array.push_back(static_cast<int>(tile_type));
         }
-
-        file << '\n';
     }
+
+    // Put tile data into level_info.
+    level_info["tile_data"] = std::move(level_array);
+
+    std::ofstream file(file_name);
+    file << level_info;
 
     file.close();
 }

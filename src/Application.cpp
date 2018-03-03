@@ -62,7 +62,7 @@ void Application::initSystems()
         *asset_manager.get(), *game_audio.get());
 
     // TODO: remove this once StateSelection is complete ..
-    game_data->level_name = "level1.txt";
+    game_data->level_name = "level1";
 }
 
 

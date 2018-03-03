@@ -61,15 +61,7 @@ Level::LevelTileType Level::getTileType(const int _index) const
     if (!JHelper::validIndex(_index, getProduct()))
         return type;
 
-    switch (level_data.raw_data[_index])
-    {
-        case '.': return LevelTileType::WALKABLE;
-        case 'W': return LevelTileType::UNWALKABLE;
-        case 'S': return LevelTileType::ENEMY_SPAWN;
-        case 'D': return LevelTileType::ENEMY_DESTINATION;
-
-        default: return LevelTileType::UNDEFINED;
-    }
+    return static_cast<LevelTileType>(level_data.tile_data[_index]);
 }
 
 
@@ -78,32 +70,13 @@ void Level::updateTileType(const int _index, const LevelTileType& _type)
     if (!JHelper::validIndex(_index, getProduct()))
         return;
 
-    auto& c = level_data.raw_data[_index];
+    level_data.tile_data[_index] = _type;
 
     switch (_type)
     {
-        case WALKABLE:
-        {
-            c = '.';
-            grid.setTileColor(_index, WALKABLE_COLOR);
-        } break;
-
-        case UNWALKABLE:
-        {
-            c = 'W';
-            grid.setTileColor(_index, UNWALKABLE_COLOR);
-        } break;
-
-        case ENEMY_SPAWN:
-        {
-            c = 'S';
-            grid.setTileColor(_index, WALKABLE_COLOR);
-        } break;
-
-        case ENEMY_DESTINATION:
-        {
-            c = 'D';
-        } break;
+        case WALKABLE: { grid.setTileColor(_index, WALKABLE_COLOR); } break;
+        case UNWALKABLE: { grid.setTileColor(_index, UNWALKABLE_COLOR); } break;
+        case ENEMY_SPAWN: { grid.setTileColor(_index, WALKABLE_COLOR); } break;
 
         default: {}
     }

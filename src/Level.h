@@ -17,8 +17,8 @@ class Level
 public:
     enum LevelTileType
     {
-        INVALID,
-        UNDEFINED,
+        INVALID = -2,
+        UNDEFINED = -1,
         WALKABLE,
         UNWALKABLE,
         ENEMY_SPAWN,
