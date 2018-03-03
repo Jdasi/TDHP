@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <SFML/Window.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 
@@ -42,6 +43,7 @@ private:
     std::unique_ptr<StateHandler> state_handler;
     std::unique_ptr<GameData> game_data;
 
+    sf::Sprite backdrop;
     sf::Text debug_display;
     Scheduler scheduler;
 

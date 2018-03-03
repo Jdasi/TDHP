@@ -5,6 +5,7 @@
 class InputHandler;
 class AssetManager;
 class GameAudio;
+struct LevelData;
 
 struct GameData
 {
@@ -12,6 +13,7 @@ struct GameData
         : input(_input)
         , assets(_assets)
         , audio(_audio)
+        , selected_level_data(nullptr)
         , exit(false)
     {
     }
@@ -20,7 +22,7 @@ struct GameData
     AssetManager& assets;
     GameAudio& audio;
 
-    std::string level_name;
+    LevelData* selected_level_data;
 
     bool exit;
 };

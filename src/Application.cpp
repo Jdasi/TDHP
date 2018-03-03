@@ -60,15 +60,14 @@ void Application::initSystems()
     // Set up game data last as it holds refs to systems.
     game_data = std::make_unique<GameData>(*input_handler.get(),
         *asset_manager.get(), *game_audio.get());
-
-    // TODO: remove this once StateSelection is complete ..
-    game_data->level_name = "level1";
 }
 
 
 void Application::initObjects()
 {
     sf::Font* default_font = asset_manager->loadFont(DEFAULT_FONT);
+
+    backdrop.setTexture(*asset_manager->loadTexture(BACKDROP_TEXTURE));
 
     debug_display.setFont(*default_font);
     debug_display.setCharacterSize(12);
@@ -78,7 +77,7 @@ void Application::initObjects()
     state_handler->registerState(GameState::SELECTION, std::make_unique<StateSelection>(*game_data.get()));
     state_handler->registerState(GameState::GAME, std::make_unique<StateGame>(*game_data.get()));
 
-    state_handler->queueState(GameState::GAME);
+    state_handler->queueState(GameState::SELECTION);
 }
 
 
@@ -97,6 +96,7 @@ void Application::draw()
 {
     window.clear();
 
+    window.draw(backdrop);
     state_handler->draw(window);
 
     if (GDebugFlags::draw_debug_controls)

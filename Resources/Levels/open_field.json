@@ -1,6 +1,6 @@
 {
-  	"name": "level1",
-	"description": "",
+  	"name": "open_field",
+	"description": "A large open area with lots of room for flanking",
     "width": 25,
     "height": 25,
     "highest_score": 0,

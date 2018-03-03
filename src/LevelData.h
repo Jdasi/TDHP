@@ -12,7 +12,7 @@ struct LevelData
     int product             = 0;
 
     int highest_score       = 0;
-    double session_duration  = 0;
+    double session_duration = 0;
 
     float tile_width        = 0;
     float tile_height       = 0;

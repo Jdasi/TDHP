@@ -1,6 +1,6 @@
 {
-	"name": "level3",
-	"description": "",
+	"name": "city_streets",
+	"description": "Narrow passages with a sneaky shortcut",
 	"width": 25,
 	"height": 25,
 	"highest_score": 0,

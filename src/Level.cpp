@@ -4,8 +4,8 @@
 #include "JHelper.h"
 
 
-Level::Level(const std::string& _level_name)
-    : level_data(FileIO::loadLevelData(_level_name))
+Level::Level(LevelData* _ld)
+    : ld(_ld)
     , grid(*this, WALKABLE_COLOR)
 {
     init();
@@ -20,37 +20,49 @@ void Level::draw(sf::RenderWindow& _window)
 
 const std::string& Level::getName() const
 {
-    return level_data.name;
+    return ld->name;
 }
 
 
 int Level::getSizeX() const
 {
-    return level_data.size_x;
+    return ld->size_x;
 }
 
 
 int Level::getSizeY() const
 {
-    return level_data.size_y;
+    return ld->size_y;
 }
 
 
 int Level::getProduct() const
 {
-    return level_data.product;
+    return ld->product;
+}
+
+
+int Level::getHighestScore() const
+{
+    return ld->highest_score;
+}
+
+
+double Level::getLongestSurvivedTime() const
+{
+    return ld->session_duration;
 }
 
 
 float Level::getTileWidth() const
 {
-    return level_data.tile_width;
+    return ld->tile_width;
 }
 
 
 float Level::getTileHeight() const
 {
-    return level_data.tile_height;
+    return ld->tile_height;
 }
 
 
@@ -61,7 +73,7 @@ Level::LevelTileType Level::getTileType(const int _index) const
     if (!JHelper::validIndex(_index, getProduct()))
         return type;
 
-    return static_cast<LevelTileType>(level_data.tile_data[_index]);
+    return static_cast<LevelTileType>(ld->tile_data[_index]);
 }
 
 
@@ -70,7 +82,7 @@ void Level::updateTileType(const int _index, const LevelTileType& _type)
     if (!JHelper::validIndex(_index, getProduct()))
         return;
 
-    level_data.tile_data[_index] = _type;
+    ld->tile_data[_index] = _type;
 
     switch (_type)
     {
@@ -100,7 +112,7 @@ Waypoint Level::createWaypoint(const int _tile_index)
 
 void Level::init()
 {
-    for (int i = 0; i < level_data.product; ++i)
+    for (int i = 0; i < ld->product; ++i)
     {
         updateTileType(i, getTileType(i));
     }

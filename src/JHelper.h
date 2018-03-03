@@ -32,15 +32,15 @@ namespace JHelper
     float calculateLookAngle(const sf::Vector2f& _from, const sf::Vector2f& _to);
 
     std::string boolToStr(const bool _b);
-    std::string timeToString(const float _time);
+    std::string timeToStr(const double _time);
 
 
     template <typename T>
     void centerSFOrigin(T& _sfml_object)
     {
         auto bounds = _sfml_object.getLocalBounds();
-        _sfml_object.setOrigin(bounds.left + bounds.width / 2.0f,
-            bounds.top + bounds.height / 2.0f);
+        _sfml_object.setOrigin(bounds.left + bounds.width * 0.5f,
+            bounds.top + bounds.height * 0.5f);
     }
 
 

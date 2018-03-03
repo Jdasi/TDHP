@@ -12,7 +12,7 @@
 
 Game::Game(GameData& _gd)
     : gd(_gd)
-    , current_level(_gd.level_name)
+    , current_level(_gd.selected_level_data)
     , current_context(ContextType::GAME)
     , painting(false)
 {
@@ -83,7 +83,13 @@ int Game::getScore() const
 }
 
 
-void Game::exportCurrentLevel() const
+void Game::exportLevel() const
+{
+    FileIO::exportLevel(current_level, current_level.getName());
+}
+
+
+void Game::exportLevelAsNew() const
 {
     FileIO::exportLevel(current_level);
 }
@@ -146,7 +152,7 @@ void Game::initBorder()
 
     border.setTexture(texture);
     border.setSize(PANE_SIZE);
-    border.setFillColor(sf::Color(255, 255, 255, 100));
+    border.setFillColor(sf::Color(100, 100, 100, 255));
     border.setOutlineThickness(5.0f);
     border.setPosition({ static_cast<float>(WINDOW_LEFT_BOUNDARY),
         static_cast<float>(WINDOW_TOP_BOUNDARY) });

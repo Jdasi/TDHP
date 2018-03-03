@@ -1,6 +1,6 @@
 {
-	"name": "level2",
-	"description": "",
+	"name": "castle_defence",
+	"description": "The ruins of an ancient stronghold",
 	"width": 25,
 	"height": 25,
 	"highest_score": 0,

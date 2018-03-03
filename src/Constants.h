@@ -60,6 +60,10 @@ const std::string BULLET_TOWER_SLUG     { "BulletTower" };
 const std::string LASER_PROJ_SLUG       { "laser" };
 const std::string BULLET_PROJ_SLUG      { "bullet" };
 
+const int ONE_STAR_THRESHOLD            = 120;
+const int TWO_STAR_THRESHOLD            = 300;
+const int THREE_STAR_THRESHOLD          = 600;
+
 // ======================================================================================
 // PATHFINDING SETTINGS
 // ======================================================================================
@@ -98,6 +102,7 @@ const std::string FLOOR_TEXTURE         { "floor.jpg" };
 const std::string UNWALKABLE_TEXTURE    { "block.png" };
 
 const std::string GAME_OVER_TEXTURE     { "game_over_screen.png" };
+const std::string BACKDROP_TEXTURE      { "backdrop.jpg" };
 
 const std::string SLOT_EMPTY_TEXTURE    { "tower_slot_empty.png" };
 const std::string SLOT_FILLED_TEXTURE   { "tower_slot_filled.png" };

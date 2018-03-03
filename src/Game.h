@@ -26,7 +26,9 @@ public:
     void draw(sf::RenderWindow& _window);
 
     int getScore() const;
-    void exportCurrentLevel() const;
+
+    void exportLevel() const;
+    void exportLevelAsNew() const;
 
 private:
     enum ContextType : int

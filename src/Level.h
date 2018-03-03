@@ -25,7 +25,7 @@ public:
         ENEMY_DESTINATION
     };
 
-    Level(const std::string& _level_name);
+    Level(LevelData* _ld);
     ~Level() = default;
 
     void draw(sf::RenderWindow& _window);
@@ -35,6 +35,9 @@ public:
     int getSizeX() const;
     int getSizeY() const;
     int getProduct() const;
+
+    int getHighestScore() const;
+    double getLongestSurvivedTime() const;
 
     float getTileWidth() const;
     float getTileHeight() const;
@@ -49,7 +52,7 @@ public:
 private:
     void init();
 
-    LevelData level_data;
+    LevelData* ld;
     TileGrid grid;
 
 };

@@ -115,7 +115,7 @@ std::string JHelper::boolToStr(const bool _b)
 }
 
 
-std::string JHelper::timeToString(const float _time)
+std::string JHelper::timeToStr(const double _time)
 {
     int t = static_cast<int>(_time);
 
