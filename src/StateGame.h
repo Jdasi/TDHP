@@ -4,6 +4,7 @@
 
 #include "State.h"
 #include "Game.h"
+#include "GUIButton.h"
 
 struct GameData;
 
@@ -21,6 +22,7 @@ public:
 
 private:
     void initObjects();
+    void returnToMenu();
 
     // Game events.
     virtual void onGameOver() override;
@@ -40,5 +42,7 @@ private:
 
     sf::Text score_title;
     sf::Text score_display;
+
+    GUIButton btn_menu;
 
 };

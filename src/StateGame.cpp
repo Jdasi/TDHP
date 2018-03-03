@@ -51,14 +51,15 @@ void StateGame::tick()
 
     if (gameData().input.getKeyDown(sf::Keyboard::Escape))
     {
-        gameData().audio.playSound(TOWER_ERROR_SOUND);
-        getHandler()->queueState(GameState::SELECTION);
+        returnToMenu();
     }
 
     if (!game_over && JTime::getTimeScale() > 0)
     {
         game->tick();
     }
+
+    btn_menu.tick(gameData());
 }
 
 
@@ -79,6 +80,8 @@ void StateGame::draw(sf::RenderWindow& _window)
         _window.draw(score_title);
         _window.draw(score_display);
     }
+
+    btn_menu.draw(_window);
 }
 
 
@@ -130,6 +133,20 @@ void StateGame::initObjects()
     score_display.setPosition(WINDOW_WIDTH * 0.6f, WINDOW_HEIGHT * 0.4f);
     score_display.setOutlineColor(sf::Color::Black);
     score_display.setOutlineThickness(2);
+
+    // Button to return to level selection.
+    btn_menu.setPosition(WINDOW_WIDTH - 25, 25);
+    btn_menu.setColors(sf::Color(255, 0, 0, 255), sf::Color(255, 200, 200, 255), sf::Color(100, 0, 0, 255));
+    btn_menu.setTexture(gameData().assets.loadTexture(BTN_QUIT_S_TEXTURE));
+    btn_menu.setSize(sf::Vector2f(50, 50));
+    btn_menu.addClickEvent([this]() { returnToMenu(); });
+}
+
+
+void StateGame::returnToMenu()
+{
+    gameData().audio.playSound(TOWER_ERROR_SOUND);
+    getHandler()->queueState(GameState::SELECTION);
 }
 
 
