@@ -96,7 +96,7 @@ void StateSelection::initLevelOptions()
 void StateSelection::initObjects()
 {
     // Level snapshot.
-    level_snapshot.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.35f);
+    level_snapshot.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.33f);
     level_snapshot.setScale(0.5f, 0.5f);
     JHelper::centerSFOrigin(level_snapshot);
 
@@ -112,8 +112,9 @@ void StateSelection::initText()
     // Level Selection title display.
     title_display.setString("Level Selection");
     title_display.setFont(*font);
-    title_display.setCharacterSize(36);
-    title_display.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.085f);
+    title_display.setCharacterSize(44);
+    title_display.setPosition(level_snapshot.getPosition() - sf::Vector2f(0, 210));
+    title_display.setFillColor(sf::Color(255, 225, 25, 255));
     title_display.setOutlineColor(sf::Color::Black);
     title_display.setOutlineThickness(2);
     JHelper::centerSFOrigin(title_display);
@@ -121,23 +122,23 @@ void StateSelection::initText()
     // Level pages display.
     level_pages_display.setFont(*font);
     level_pages_display.setCharacterSize(18);
-    level_pages_display.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.6f);
+    level_pages_display.setPosition(level_snapshot.getPosition() + sf::Vector2f(0, 190));
     level_pages_display.setOutlineColor(sf::Color::Black);
     level_pages_display.setOutlineThickness(2);
     JHelper::centerSFOrigin(level_pages_display);
 
     // Level name display.
     level_name_display.setFont(*font);
-    level_name_display.setCharacterSize(32);
+    level_name_display.setCharacterSize(36);
     level_name_display.setFillColor(sf::Color(255, 225, 25));
-    level_name_display.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.66f);
+    level_name_display.setPosition(level_pages_display.getPosition() + sf::Vector2f(0, 40));
     level_name_display.setOutlineColor(sf::Color::Black);
     level_name_display.setOutlineThickness(2);
     JHelper::centerSFOrigin(level_name_display);
 
     level_description_display.setFont(*font);
     level_description_display.setCharacterSize(20);
-    level_description_display.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.70f);
+    level_description_display.setPosition(level_name_display.getPosition() + sf::Vector2f(0, 35));
     level_description_display.setOutlineColor(sf::Color::Black);
     level_description_display.setOutlineThickness(2);
     JHelper::centerSFOrigin(level_description_display);
@@ -146,14 +147,14 @@ void StateSelection::initText()
     level_duration_title.setFont(*font);
     level_duration_title.setCharacterSize(28);
     level_duration_title.setString("Longest Survived:");
-    level_duration_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.74f);
+    level_duration_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.72f);
     level_duration_title.setOutlineColor(sf::Color::Black);
     level_duration_title.setOutlineThickness(2);
 
     level_duration_display.setFont(*font);
     level_duration_display.setCharacterSize(28);
     level_duration_display.setString("0");
-    level_duration_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.74f);
+    level_duration_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.72f);
     level_duration_display.setOutlineColor(sf::Color::Black);
     level_duration_display.setOutlineThickness(2);
 
@@ -161,14 +162,14 @@ void StateSelection::initText()
     level_score_title.setFont(*font);
     level_score_title.setCharacterSize(28);
     level_score_title.setString("Highest Score:");
-    level_score_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.79f);
+    level_score_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.77f);
     level_score_title.setOutlineColor(sf::Color::Black);
     level_score_title.setOutlineThickness(2);
 
     level_score_display.setFont(*font);
     level_score_display.setCharacterSize(28);
     level_score_display.setString("0");
-    level_score_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.79f);
+    level_score_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.77f);
     level_score_display.setOutlineColor(sf::Color::Black);
     level_score_display.setOutlineThickness(2);
 }
@@ -189,13 +190,13 @@ void StateSelection::initButtons()
     btn_prev.setSize(sf::Vector2f(75, 175));
     btn_prev.addClickEvent([this](){ selectPrev(); });
 
-    btn_play.setPosition(WINDOW_WIDTH * 0.4f, WINDOW_HEIGHT * 0.92f);
+    btn_play.setPosition(WINDOW_WIDTH * 0.4f, WINDOW_HEIGHT * 0.9f);
     btn_play.setColors(sf::Color(255, 225, 25, 255), sf::Color(255, 225, 100, 255), sf::Color(255, 225, 25, 150));
     btn_play.setTexture(gameData().assets.loadTexture(BTN_PLAY_TEXTURE));
     btn_play.setSize(sf::Vector2f(175, 75));
     btn_play.addClickEvent([this]() { playGame(); });
 
-    btn_quit.setPosition(WINDOW_WIDTH * 0.6f, WINDOW_HEIGHT * 0.92f);
+    btn_quit.setPosition(WINDOW_WIDTH * 0.6f, WINDOW_HEIGHT * 0.9f);
     btn_quit.setColors(sf::Color(255, 225, 25, 255), sf::Color(255, 225, 100, 255), sf::Color(255, 225, 25, 150));
     btn_quit.setTexture(gameData().assets.loadTexture(BTN_QUIT_TEXTURE));
     btn_quit.setSize(sf::Vector2f(175, 75));

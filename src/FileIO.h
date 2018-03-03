@@ -15,7 +15,6 @@ namespace FileIO
 {
     std::vector<std::string> enumerateLevelNames();
     std::unique_ptr<LevelData> loadLevelData(const std::string& _name);
-    void overwriteLevel(LevelData* _ld);
     void exportLevel(const Level& _level);
     void exportLevel(const Level& _level, const std::string& _name);
 

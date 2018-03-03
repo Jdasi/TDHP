@@ -24,6 +24,12 @@ const std::string& Level::getName() const
 }
 
 
+const std::string& Level::getDescription() const
+{
+    return ld->description;
+}
+
+
 int Level::getSizeX() const
 {
     return ld->size_x;

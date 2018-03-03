@@ -69,11 +69,6 @@ std::unique_ptr<LevelData> FileIO::loadLevelData(const std::string& _name)
 }
 
 
-void FileIO::overwriteLevel(LevelData* _ld)
-{
-}
-
-
 // Exports the level with a random level name.
 void FileIO::exportLevel(const Level& _level)
 {
@@ -96,7 +91,7 @@ void FileIO::exportLevel(const Level& _level, const std::string& _name)
     json level_info;
 
     level_info["name"] = _name;
-    level_info["description"] = "";
+    level_info["description"] = _level.getDescription();
     level_info["width"] = size_x;
     level_info["height"] = size_y;
     level_info["highest_score"] = _level.getHighestScore();

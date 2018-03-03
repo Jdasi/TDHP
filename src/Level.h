@@ -31,6 +31,7 @@ public:
     void draw(sf::RenderWindow& _window);
 
     const std::string& getName() const;
+    const std::string& getDescription() const;
 
     int getSizeX() const;
     int getSizeY() const;
