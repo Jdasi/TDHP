@@ -3,6 +3,7 @@
 #include "BrainStateExhausted.h"
 #include "BrainStateHandler.h"
 #include "BrainStateVisualiser.h"
+#include "BrainActionManager.h"
 #include "BrainData.h"
 #include "WorkingKnowledge.h"
 #include "Constants.h"
@@ -47,7 +48,6 @@ void BrainStateExhausted::tick()
 
 void BrainStateExhausted::makeDecision()
 {
-    auto& knowledge = brainData().knowledge;
-
     std::cout << "StateExhausted Decision: ";
+    brainData().action_manager.processActionSet(BRAINSTATE_EXHAUSTED);
 }

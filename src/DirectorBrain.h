@@ -7,6 +7,7 @@
 #include "WorkingKnowledge.h"
 #include "EnemySpawn.h"
 #include "BrainData.h"
+#include "BrainActionManager.h"
 #include "BrainStatistics.h"
 #include "BrainStateHandler.h"
 #include "BrainStateVisualiser.h"
@@ -21,7 +22,7 @@ struct GameData;
 class DirectorBrain : public EnemyListener
 {
 public:
-    DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
+    DirectorBrain(GameData& _gd, HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
         std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns, Level& _level);
     ~DirectorBrain();
 
@@ -42,46 +43,6 @@ private:
 
     float heatmapWeightToPercentage(const int _intensity);
 
-    // Energy Tiers.
-    void processEnergyTierTwo();
-    void processEnergyTierThree();
-
-    // Conditionals.
-    bool laserIntensityOverThreshold() const;
-    bool bulletIntensityOverThreshold() const;
-    bool overallIntensityOverThreshold() const;
-
-    bool fastEnemiesOverThreshold() const;
-    bool strongEnemiesOverThreshold() const;
-    bool totalEnemiesOverThreshold() const;
-    bool enemyCloseToGoal() const;
-
-    // Action Tiers.
-    bool tierTwoActions();
-    bool tierThreeActions();
-
-    // Actions.
-    void noAction();
-    void waitingForEnergy();
-
-    void sendFastSwarm();
-    void sendStrongSwarm();
-    void sendBasicSwarm();
-
-    void healthBoostFastEnemies();
-    void healthBoostStrongEnemies();
-    void healthBoostAllEnemies();
-
-    void speedBoostFastEnemies();
-    void speedBoostStrongEnemies();
-    void speedBoostAllEnemies();
-
-    void smokeBomb();
-
-    // Helper.
-    void sendSwarm(EnemyType* _type, const int _count,
-        const EnemySpawn::SpawnPathType& _path_type);
-
     // Enemy events.
     void onDeath(const Enemy& _caller, TowerType* _killer_type) override;
     void onPathComplete(Enemy& _caller) override;
@@ -95,6 +56,7 @@ private:
 
     Scheduler scheduler;
     WorkingKnowledge knowledge;
+    BrainActionManager action_manager;
     BrainStatistics statistics;
 
     std::unique_ptr<BrainData> brain_data;

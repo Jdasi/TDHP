@@ -3,6 +3,7 @@
 #include "BrainStateNormal.h"
 #include "BrainStateHandler.h"
 #include "BrainStateVisualiser.h"
+#include "BrainActionManager.h"
 #include "BrainData.h"
 #include "WorkingKnowledge.h"
 #include "Constants.h"
@@ -45,7 +46,6 @@ void BrainStateNormal::tick()
 
 void BrainStateNormal::makeDecision()
 {
-    auto& knowledge = brainData().knowledge;
-
     std::cout << "StateNormal Decision: ";
+    brainData().action_manager.processActionSet(BRAINSTATE_NORMAL);
 }

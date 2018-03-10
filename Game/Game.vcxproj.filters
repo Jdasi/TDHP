@@ -190,6 +190,9 @@
     <ClCompile Include="..\src\BrainStateVisualiser.cpp">
       <Filter>Core\DirectorBrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\BrainActionManager.cpp">
+      <Filter>Core\DirectorBrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AssetManager.h">
@@ -412,6 +415,15 @@
       <Filter>Core\DirectorBrain</Filter>
     </ClInclude>
     <ClInclude Include="..\src\BrainStateVisualiser.h">
+      <Filter>Core\DirectorBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainAction.h">
+      <Filter>Core\DirectorBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainActionManager.h">
+      <Filter>Core\DirectorBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainActionTypes.h">
       <Filter>Core\DirectorBrain</Filter>
     </ClInclude>
   </ItemGroup>

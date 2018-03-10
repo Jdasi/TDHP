@@ -2,12 +2,10 @@
 #include <iomanip>
 
 #include "DirectorBrain.h"
-#include "GameAudio.h"
 #include "HeatmapManager.h"
 #include "EnemyManager.h"
 #include "JTime.h"
 #include "JMath.h"
-#include "GameData.h"
 #include "Constants.h"
 #include "FileIO.h"
 
@@ -16,13 +14,14 @@
 #include "BrainStateExhausted.h"
 
 
-DirectorBrain::DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_manager,
+DirectorBrain::DirectorBrain(GameData& _gd, HeatmapManager& _heatmap_manager,
     EnemyManager& _enemy_manager, std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns, Level& _level)
-    : gd(_game_data)
+    : gd(_gd)
     , heatmap_manager(_heatmap_manager)
     , enemy_manager(_enemy_manager)
     , enemy_spawns(_enemy_spawns)
     , level(_level)
+    , action_manager(_gd, knowledge, statistics, _heatmap_manager, _enemy_manager, _enemy_spawns)
     , start_time(JTime::getTime())
 {
     init();
@@ -69,7 +68,7 @@ void DirectorBrain::init()
     }, 5.0f, 5.0f);
 
     state_visualiser = std::make_unique<BrainStateVisualiser>();
-    brain_data = std::make_unique<BrainData>(knowledge, *state_visualiser.get());
+    brain_data = std::make_unique<BrainData>(knowledge, action_manager, *state_visualiser.get());
 
     initWorkingKnowledge();
     initStateSystem();
@@ -108,7 +107,7 @@ void DirectorBrain::decisionPoint()
     printDecisionPointLog();
     std::cout << "----------------------------------------------------------\n";
     makeDecision();
-    std::cout << "----------------------------------------------------------\n";
+    std::cout << "\n----------------------------------------------------------\n";
 
     ++statistics.decision_points;
 }
@@ -187,348 +186,13 @@ void DirectorBrain::printDecisionPointLog()
 
 void DirectorBrain::makeDecision()
 {
-    /*
-    std::cout << "Decision: ";
-
-    if (knowledge.energy >= 75)
-    {
-        processEnergyTierOne();
-    }
-    else if (knowledge.energy >= 50)
-    {
-        processEnergyTierTwo();
-    }
-    else if (knowledge.energy >= 25)
-    {
-        processEnergyTierThree();
-    }
-    else
-    {
-        waitingForEnergy();
-    }
-    */
-
     state_handler->onDecisionPoint();
-
-    std::cout << std::endl;
 }
 
 
 float DirectorBrain::heatmapWeightToPercentage(const int _weight)
 {
     return (static_cast<float>(_weight) / knowledge.hm_maximum_weight) * 100;
-}
-
-
-// Performs an action choosing from those available to energy level 74 or lower.
-void DirectorBrain::processEnergyTierTwo()
-{
-    if (tierTwoActions())
-        return;
-
-    if (tierThreeActions())
-        return;
-
-    noAction();
-}
-
-
-// Performs an action choosing from those available to energy level 49 or lower.
-void DirectorBrain::processEnergyTierThree()
-{
-    if (tierThreeActions())
-        return;
-
-    noAction();
-}
-
-
-bool DirectorBrain::laserIntensityOverThreshold() const
-{
-    return knowledge.hm_laser_intensity >= knowledge.swarm_threshold;
-}
-
-
-bool DirectorBrain::bulletIntensityOverThreshold() const
-{
-    return knowledge.hm_bullet_intensity >= knowledge.swarm_threshold;
-}
-
-
-bool DirectorBrain::overallIntensityOverThreshold() const
-{
-    return knowledge.hm_overall_intensity >= knowledge.swarm_threshold * 2;
-}
-
-
-bool DirectorBrain::fastEnemiesOverThreshold() const
-{
-    return static_cast<float>(knowledge.fast_enemies) >= 3;
-}
-
-
-bool DirectorBrain::strongEnemiesOverThreshold() const
-{
-    return static_cast<float>(knowledge.strong_enemies) >= 5;
-}
-
-
-bool DirectorBrain::totalEnemiesOverThreshold() const
-{
-    return static_cast<float>(knowledge.total_enemies) >= 10;
-}
-
-
-bool DirectorBrain::enemyCloseToGoal() const
-{
-    return knowledge.proximity_to_goal <= 5;
-}
-
-
-/* Actions specific to energy range 50-74.
- * Returns true if an action was performed, otherwise returns false.
- */
-bool DirectorBrain::tierTwoActions()
-{
-    if (bulletIntensityOverThreshold())
-    {
-        sendFastSwarm();
-        knowledge.energy -= 50;
-
-        return true;
-    }
-
-    if (laserIntensityOverThreshold())
-    {
-        sendStrongSwarm();
-        knowledge.energy -= 50;
-
-        return true;
-    }
-
-    return false;
-}
-
-
-/* Actions specific to energy range 0-49.
- * Returns true if an action was performed, otherwise returns false.
- */
-bool DirectorBrain::tierThreeActions()
-{
-    if (fastEnemiesOverThreshold())
-    {
-        if (bulletIntensityOverThreshold())
-        {
-            speedBoostFastEnemies();
-            knowledge.energy -= 25;
-
-            return true;
-        }
-        else if (laserIntensityOverThreshold())
-        {
-            healthBoostFastEnemies();
-            knowledge.energy -= 25;
-
-            return true;
-        }
-    }
-
-    if (strongEnemiesOverThreshold())
-    {
-        if (bulletIntensityOverThreshold())
-        {
-            speedBoostStrongEnemies();
-            knowledge.energy -= 25;
-
-            return true;
-        }
-        else if (laserIntensityOverThreshold())
-        {
-            healthBoostStrongEnemies();
-            knowledge.energy -= 25;
-
-            return true;
-        }
-    }
-
-    if (overallIntensityOverThreshold())
-    {
-        smokeBomb();
-        knowledge.energy -= 5;
-
-        return true;
-    }
-
-    if (enemyCloseToGoal())
-    {
-        if (knowledge.hm_bullet_intensity > knowledge.hm_laser_intensity)
-        {
-            speedBoostAllEnemies();
-            knowledge.energy -= 25;
-
-            return true;
-        }
-        else
-        {
-            healthBoostAllEnemies();
-            knowledge.energy -= 25;
-
-            return true;
-        }
-    }
-
-    return false;
-}
-
-
-void DirectorBrain::noAction()
-{
-    std::cout << "No Action";
-    ++statistics.no_action_times;
-}
-
-
-void DirectorBrain::waitingForEnergy()
-{
-    std::cout << "Waiting for Energy";
-    ++statistics.waiting_times;
-}
-
-
-void DirectorBrain::sendFastSwarm()
-{
-    sendSwarm(enemy_manager.getFastestType(), 3, EnemySpawn::SpawnPathType::INFLUENCED);
-
-    std::cout << "Sending Fast Enemy Swarm";
-    ++statistics.fast_swarm_times;
-}
-
-
-void DirectorBrain::sendStrongSwarm()
-{
-    sendSwarm(enemy_manager.getStrongestType(), 3, EnemySpawn::SpawnPathType::PURE);
-
-    std::cout << "Sending Strong Enemy Swarm";
-    ++statistics.strong_swarm_times;
-}
-
-
-void DirectorBrain::sendBasicSwarm()
-{
-    sendSwarm(enemy_manager.getBasicType(), 3, EnemySpawn::SpawnPathType::INFLUENCED);
-
-    std::cout << "Sending Basic Enemy Swarm";
-    ++statistics.basic_swarm_times;
-}
-
-
-void DirectorBrain::healthBoostFastEnemies()
-{
-    auto type = enemy_manager.getFastestType();
-    enemy_manager.boostEnemyHealth(type, 2, 5);
-
-    std::cout << "Boosting Fast Enemy Health";
-    ++statistics.hb_fast_times;
-
-    gd.audio.playSound(HEALTH_BOOST_SOUND);
-}
-
-
-void DirectorBrain::healthBoostStrongEnemies()
-{
-    auto type = enemy_manager.getStrongestType();
-    enemy_manager.boostEnemyHealth(type, 2, 5);
-
-    std::cout << "Boosting Strong Enemy Health";
-    ++statistics.hb_strong_times;
-
-    gd.audio.playSound(HEALTH_BOOST_SOUND);
-}
-
-
-void DirectorBrain::healthBoostAllEnemies()
-{
-    enemy_manager.boostEnemyHealth(2, 5);
-
-    std::cout << "Boosting All Enemy Health";
-    ++statistics.hb_all_times;
-
-    gd.audio.playSound(HEALTH_BOOST_SOUND);
-}
-
-
-void DirectorBrain::speedBoostFastEnemies()
-{
-    auto type = enemy_manager.getFastestType();
-    enemy_manager.boostEnemySpeed(type, 1.5f, 3);
-
-    std::cout << "Boosting Fast Enemy Speed";
-    ++statistics.sb_fast_times;
-
-    gd.audio.playSound(SPEED_BOOST_SOUND);
-}
-
-
-void DirectorBrain::speedBoostStrongEnemies()
-{
-    auto type = enemy_manager.getStrongestType();
-    enemy_manager.boostEnemySpeed(type, 1.5f, 3);
-
-    std::cout << "Boosting Strong Enemy Speed";
-    ++statistics.sb_strong_times;
-
-    gd.audio.playSound(SPEED_BOOST_SOUND);
-}
-
-
-void DirectorBrain::speedBoostAllEnemies()
-{
-    enemy_manager.boostEnemySpeed(1.5f, 3);
-
-    std::cout << "Boosting All Enemy Speed";
-    ++statistics.sb_all_times;
-
-    gd.audio.playSound(SPEED_BOOST_SOUND);
-}
-
-
-void DirectorBrain::smokeBomb()
-{
-    int index = heatmap_manager.getHighestWeightIndex(HeatmapFlag::DIRECTOR);
-    heatmap_manager.splashOnHeatmap(HeatmapFlag::SMOKE, index, 5);
-
-    std::cout << "Dropping Smoke Bomb";
-    ++statistics.smoke_times;
-
-    gd.audio.playSound(SMOKE_BOMB_SOUND);
-}
-
-
-void DirectorBrain::sendSwarm(EnemyType* _type, const int _count,
-    const EnemySpawn::SpawnPathType& _path_type)
-{
-    EnemySpawn* best_spawn = nullptr;
-    int cheapest_path = JMath::maxInt();
-
-    for (auto& spawn : enemy_spawns)
-    {
-        int path_cost = spawn->getPathCost();
-        if (path_cost >= cheapest_path)
-            continue;
-
-        best_spawn = spawn.get();
-        cheapest_path = path_cost;
-    }
-
-    float spawn_delay = 2 - (_type->speed * 0.02f);
-    spawn_delay = JMath::clampf(spawn_delay, 0.5f, 2);
-
-    for (int i = 0; i < _count; ++i)
-    {
-        best_spawn->queueEnemy(_type, i * spawn_delay, _path_type);
-    }
-
-    gd.audio.playSound(SWARM_SOUND);
 }
 
 

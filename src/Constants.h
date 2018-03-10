@@ -52,12 +52,12 @@ const float ENERGY_ON_DEATH             = 1.0f;
 const float ENERGY_ON_PATH_COMPLETION   = 5.0f;
 
 const float NORMAL_ENERGY_REGEN         = 1.5f;
-const float ANGRY_ENERGY_REGEN          = 5.0f;
-const float EXHAUSTED_ENERGY_REGEN      = -1.0f;
+const float ANGRY_ENERGY_REGEN          = 6.0f;
+const float EXHAUSTED_ENERGY_REGEN      = -0.5f;
 
 const float TIME_BEFORE_ANGRY           = 30.0f;
-const float BRAIN_ANGRY_TIME            = 10.0f;
-const float BRAIN_EXHAUSTED_TIME        = 10.0f;
+const float BRAIN_ANGRY_TIME            = 30.0f;
+const float BRAIN_EXHAUSTED_TIME        = 15.0f;
 
 const float DIST_SCORE_FACTOR           = 10.0f;
 const float HEALTH_SCORE_FACTOR         = 0.0f;
