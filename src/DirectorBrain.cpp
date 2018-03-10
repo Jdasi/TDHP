@@ -35,8 +35,8 @@ DirectorBrain::DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_mana
 
 DirectorBrain::~DirectorBrain()
 {
+    // Output brain session statistics to file.
     statistics.session_duration = JTime::getTime() - start_time;
-
     FileIO::exportBrainStatistics(statistics);
 }
 
