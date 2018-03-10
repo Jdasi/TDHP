@@ -1,46 +1,47 @@
 #pragma once
 
-namespace sf
-{
-    class RenderWindow;
-}
+template <typename T, typename U>
+class StateHandler;
 
-struct GameData;
-
-/* Abstract base class for all States used in the game.
- * The StateHandler communicates with all registered objects that derive from this class.
- * 
- * State has a reference to the GameData package so important game information can be
- * updated and passed between states with ease.
+/* StateHandler uses a self-referring template pattern.
+ * The first templated type indicates which type of state is to be handled,
+ * which in essence then decides the second templated type, which forms
+ * the type of StateHandler the State is expecting to be handled by.
  *
- * State also has a reference to its StateHandler to allow for State transitions from
- * within States.
+ * This allows for the State to stay generic, meaning it can be reused for
+ * both Client and Server states, which will differ in requirements.
  */
+template <typename StateType, typename StateHandlerType>
 class State
 {
+template <typename T, typename U>
 friend class StateHandler;
 
 public:
     virtual ~State() = default;
 
-    State(const State&) = delete;
-    State& operator=(const State&) = delete;
-
     virtual void onStateEnter() = 0;
     virtual void onStateLeave() = 0;
 
     virtual void tick() = 0;
-    virtual void draw(sf::RenderWindow& _window) = 0;
 
 protected:
-    explicit State(GameData& _game_data);
+    State()
+        : handler(nullptr)
+    {
+    }
 
-    StateHandler* getHandler() const;
-    GameData& gameData() const;
+    StateHandler<StateType, StateHandlerType>* getHandler() const
+    {
+        return handler;
+    }
 
 private:
-    void setHandler(StateHandler* _handler);
+    void setHandler(StateHandler<StateType, StateHandlerType>* _handler)
+    {
+        handler = _handler;
+    }
 
-    GameData& game_data;
-    StateHandler* handler;
+    StateHandler<StateType, StateHandlerType>* handler;
+
 };

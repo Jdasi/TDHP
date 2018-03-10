@@ -11,7 +11,8 @@
 #include "AssetManager.h"
 #include "GameAudio.h"
 #include "GameData.h"
-#include "StateHandler.h"
+#include "GameStateHandler.h"
+#include "GameState.h"
 #include "Scheduler.h"
 
 class Application
@@ -40,7 +41,7 @@ private:
     std::unique_ptr<AssetManager> asset_manager;
     std::unique_ptr<GameAudio> game_audio;
 
-    std::unique_ptr<StateHandler> state_handler;
+    std::unique_ptr<GameStateHandler> state_handler;
     std::unique_ptr<GameData> game_data;
 
     sf::Sprite backdrop;

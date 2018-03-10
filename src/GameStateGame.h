@@ -2,17 +2,17 @@
 
 #include <memory>
 
-#include "State.h"
+#include "GameState.h"
 #include "Game.h"
 #include "GUIButton.h"
 
 struct GameData;
 
-class StateGame final : public State, public GameListener
+class GameStateGame final : public GameState, public GameListener
 {
 public:
-    explicit StateGame(GameData& _game_data);
-    virtual ~StateGame() = default;
+    explicit GameStateGame(GameData& _game_data);
+    virtual ~GameStateGame() = default;
 
     void onStateEnter() override;
     void onStateLeave() override;

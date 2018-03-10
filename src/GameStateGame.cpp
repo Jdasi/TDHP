@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "StateGame.h"
+#include "GameStateGame.h"
 #include "GameData.h"
 #include "InputHandler.h"
-#include "StateHandler.h"
+#include "GameStateHandler.h"
 #include "AssetManager.h"
 #include "GameAudio.h"
 
 
-StateGame::StateGame(GameData& _game_data)
-    : State(_game_data)
+GameStateGame::GameStateGame(GameData& _game_data)
+    : GameState(_game_data)
     , game_over(false)
     , session_start(0)
     , session_duration(0)
@@ -19,7 +19,7 @@ StateGame::StateGame(GameData& _game_data)
 }
 
 
-void StateGame::onStateEnter()
+void GameStateGame::onStateEnter()
 {
     game = std::make_unique<Game>(gameData());
     game->attachListener(this);
@@ -31,7 +31,7 @@ void StateGame::onStateEnter()
 }
 
 
-void StateGame::onStateLeave()
+void GameStateGame::onStateLeave()
 {
     game = nullptr;
 
@@ -41,7 +41,7 @@ void StateGame::onStateLeave()
 }
 
 
-void StateGame::tick()
+void GameStateGame::tick()
 {
     if (gameData().input.getKeyDown(sf::Keyboard::P)) // Flip paused status.
         JTime::setTimeScale(JTime::getTimeScale() == 1.f ? 0.f : 1.f);
@@ -63,7 +63,7 @@ void StateGame::tick()
 }
 
 
-void StateGame::draw(sf::RenderWindow& _window)
+void GameStateGame::draw(sf::RenderWindow& _window)
 {
     game->draw(_window);
 
@@ -85,7 +85,7 @@ void StateGame::draw(sf::RenderWindow& _window)
 }
 
 
-void StateGame::initObjects()
+void GameStateGame::initObjects()
 {
     auto* font = gameData().assets.loadFont(DEFAULT_FONT);
 
@@ -143,14 +143,14 @@ void StateGame::initObjects()
 }
 
 
-void StateGame::returnToMenu()
+void GameStateGame::returnToMenu()
 {
     gameData().audio.playSound(TOWER_ERROR_SOUND);
-    getHandler()->queueState(GameState::SELECTION);
+    getHandler()->queueState(GAMESTATE_SELECTION);
 }
 
 
-void StateGame::onGameOver()
+void GameStateGame::onGameOver()
 {
     game_over = true;
 

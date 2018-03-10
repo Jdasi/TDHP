@@ -37,14 +37,17 @@
     <Filter Include="Core\Projectile">
       <UniqueIdentifier>{78646375-bc98-468c-9e67-b1a547b0cc2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\States">
-      <UniqueIdentifier>{4bcf9613-4792-4aa5-ab50-bc2965e18098}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Player">
       <UniqueIdentifier>{fe457d7d-90ae-460f-847a-2011150e04a8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\UI">
       <UniqueIdentifier>{0f36378e-02c0-4504-b292-4701e73109f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\GameStates">
+      <UniqueIdentifier>{4bcf9613-4792-4aa5-ab50-bc2965e18098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\BrainStates">
+      <UniqueIdentifier>{aa1c0b36-2863-4f23-bff1-671ca6d8fa53}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -148,18 +151,6 @@
     <ClCompile Include="..\src\GDebugFlags.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\State.cpp">
-      <Filter>Core\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\StateHandler.cpp">
-      <Filter>Core\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\StateSelection.cpp">
-      <Filter>Core\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\StateGame.cpp">
-      <Filter>Core\States</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\GameAudio.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -177,6 +168,12 @@
     </ClCompile>
     <ClCompile Include="..\src\GUIButton.cpp">
       <Filter>Core\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GameStateGame.cpp">
+      <Filter>Core\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GameStateSelection.cpp">
+      <Filter>Core\GameStates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -336,18 +333,6 @@
     <ClInclude Include="..\src\BrainStatistics.h">
       <Filter>Core\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\State.h">
-      <Filter>Core\States</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\StateHandler.h">
-      <Filter>Core\States</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\StateSelection.h">
-      <Filter>Core\States</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\StateGame.h">
-      <Filter>Core\States</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\GameAudio.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -368,6 +353,39 @@
     </ClInclude>
     <ClInclude Include="..\src\GUIButton.h">
       <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameStateType.h">
+      <Filter>Core\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainStateType.h">
+      <Filter>Core\BrainStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainState.h">
+      <Filter>Core\BrainStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainStateHandler.h">
+      <Filter>Core\BrainStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameState.h">
+      <Filter>Core\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameStateHandler.h">
+      <Filter>Core\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\State.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\StateHandler.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameStateGame.h">
+      <Filter>Core\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameStateSelection.h">
+      <Filter>Core\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainData.h">
+      <Filter>Core\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

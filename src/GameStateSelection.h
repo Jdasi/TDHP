@@ -6,17 +6,17 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-#include "State.h"
+#include "GameState.h"
 #include "LevelData.h"
 #include "GUIButton.h"
 
 struct GameData;
 
-class StateSelection final : public State
+class GameStateSelection final : public GameState
 {
 public:
-    explicit StateSelection(GameData& _game_data);
-    virtual ~StateSelection() = default;
+    explicit GameStateSelection(GameData& _game_data);
+    virtual ~GameStateSelection() = default;
 
     void onStateEnter() override;
     void onStateLeave() override;

@@ -1,19 +1,19 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "StateSelection.h"
+#include "GameStateSelection.h"
 #include "GameData.h"
 #include "Constants.h"
 #include "AssetManager.h"
 #include "InputHandler.h"
-#include "StateHandler.h"
+#include "GameStateHandler.h"
 #include "GameAudio.h"
 #include "JHelper.h"
 #include "JTime.h"
 #include "FileIO.h"
 
 
-StateSelection::StateSelection(GameData& _game_data)
-    : State(_game_data)
+GameStateSelection::GameStateSelection(GameData& _game_data)
+    : GameState(_game_data)
     , selected_index(0)
 {
     initLevelOptions();
@@ -21,18 +21,18 @@ StateSelection::StateSelection(GameData& _game_data)
 }
 
 
-void StateSelection::onStateEnter()
+void GameStateSelection::onStateEnter()
 {
     selectOption(selected_index);
 }
 
 
-void StateSelection::onStateLeave()
+void GameStateSelection::onStateLeave()
 {
 }
 
 
-void StateSelection::tick()
+void GameStateSelection::tick()
 {
     if (gameData().input.getKeyDown(sf::Keyboard::Escape))
     {
@@ -53,7 +53,7 @@ void StateSelection::tick()
 }
 
 
-void StateSelection::draw(sf::RenderWindow& _window)
+void GameStateSelection::draw(sf::RenderWindow& _window)
 {
     _window.draw(title_display);
 
@@ -80,7 +80,7 @@ void StateSelection::draw(sf::RenderWindow& _window)
 }
 
 
-void StateSelection::initLevelOptions()
+void GameStateSelection::initLevelOptions()
 {
     auto option_names = FileIO::enumerateLevelNames();
 
@@ -93,7 +93,7 @@ void StateSelection::initLevelOptions()
 }
 
 
-void StateSelection::initObjects()
+void GameStateSelection::initObjects()
 {
     // Level snapshot.
     level_snapshot.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.33f);
@@ -105,7 +105,7 @@ void StateSelection::initObjects()
 }
 
 
-void StateSelection::initText()
+void GameStateSelection::initText()
 {
     auto* font = gameData().assets.loadFont(DEFAULT_FONT);
 
@@ -175,7 +175,7 @@ void StateSelection::initText()
 }
 
 
-void StateSelection::initButtons()
+void GameStateSelection::initButtons()
 {
     btn_next.setPosition(level_snapshot.getPosition() + sf::Vector2f(285, 0));
     btn_next.setColors(sf::Color(255, 225, 25, 255), sf::Color(255, 225, 100, 255), sf::Color(255, 225, 25, 150));
@@ -204,20 +204,20 @@ void StateSelection::initButtons()
 }
 
 
-void StateSelection::quitGame()
+void GameStateSelection::quitGame()
 {
     gameData().exit = true;
 }
 
 
-void StateSelection::playGame()
+void GameStateSelection::playGame()
 {
     gameData().audio.playSound(TOWER_BOOST_SOUND);
-    getHandler()->queueState(GameState::GAME);
+    getHandler()->queueState(GAMESTATE_GAME);
 }
 
 
-void StateSelection::handleSelection()
+void GameStateSelection::handleSelection()
 {
     if (level_options.size() == 0)
         return;
@@ -230,7 +230,7 @@ void StateSelection::handleSelection()
 }
 
 
-void StateSelection::selectOption(const int _index)
+void GameStateSelection::selectOption(const int _index)
 {
     if (!JHelper::validIndex(_index, level_options.size()))
         return;
@@ -240,7 +240,7 @@ void StateSelection::selectOption(const int _index)
 }
 
 
-void StateSelection::selectNext()
+void GameStateSelection::selectNext()
 {
     ++selected_index;
 
@@ -252,7 +252,7 @@ void StateSelection::selectNext()
 }
 
 
-void StateSelection::selectPrev()
+void GameStateSelection::selectPrev()
 {
     --selected_index;
 
@@ -264,7 +264,7 @@ void StateSelection::selectPrev()
 }
 
 
-void StateSelection::updateSelectionDisplay()
+void GameStateSelection::updateSelectionDisplay()
 {
     std::string selected_index_str = std::to_string(selected_index + 1);
     std::string level_options_size_str = std::to_string(level_options.size());

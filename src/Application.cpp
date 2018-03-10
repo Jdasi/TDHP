@@ -4,8 +4,8 @@
 #include "JHelper.h"
 #include "GDebugFlags.h"
 
-#include "StateSelection.h"
-#include "StateGame.h"
+#include "GameStateSelection.h"
+#include "GameStateGame.h"
 
 
 Application::Application()
@@ -72,12 +72,12 @@ void Application::initObjects()
     debug_display.setFont(*default_font);
     debug_display.setCharacterSize(12);
 
-    state_handler = std::make_unique<StateHandler>();
+    state_handler = std::make_unique<GameStateHandler>();
 
-    state_handler->registerState(GameState::SELECTION, std::make_unique<StateSelection>(*game_data.get()));
-    state_handler->registerState(GameState::GAME, std::make_unique<StateGame>(*game_data.get()));
+    state_handler->registerState(GAMESTATE_SELECTION, std::make_unique<GameStateSelection>(*game_data.get()));
+    state_handler->registerState(GAMESTATE_GAME, std::make_unique<GameStateGame>(*game_data.get()));
 
-    state_handler->queueState(GameState::SELECTION);
+    state_handler->queueState(GAMESTATE_SELECTION);
 }
 
 
