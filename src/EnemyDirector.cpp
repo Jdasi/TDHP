@@ -74,6 +74,7 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
 
     destination_marker.draw(_window);
     enemy_manager.draw(_window);
+    brain.draw(_window);
 
     energy_bar.draw(_window);
     _window.draw(lbl_energy);

@@ -6,11 +6,13 @@
 #include "Scheduler.h"
 #include "WorkingKnowledge.h"
 #include "EnemySpawn.h"
+#include "BrainData.h"
 #include "BrainStatistics.h"
+#include "BrainStateHandler.h"
+#include "BrainStateVisualiser.h"
 #include "EnemyListener.h"
 
 class HeatmapManager;
-class EnemySpawn;
 class EnemyManager;
 class Level;
 struct EnemyType;
@@ -24,11 +26,14 @@ public:
     ~DirectorBrain();
 
     void tick();
+    void draw(sf::RenderWindow& _window);
 
     float getEnergyPercentage() const;
 
 private:
+    void init();
     void initWorkingKnowledge();
+    void initStateSystem();
 
     void decisionPoint();
     void updateWorkingKnowledge();
@@ -38,7 +43,6 @@ private:
     float heatmapWeightToPercentage(const int _intensity);
 
     // Energy Tiers.
-    void processEnergyTierOne();
     void processEnergyTierTwo();
     void processEnergyTierThree();
 
@@ -50,12 +54,9 @@ private:
     bool fastEnemiesOverThreshold() const;
     bool strongEnemiesOverThreshold() const;
     bool totalEnemiesOverThreshold() const;
-
     bool enemyCloseToGoal() const;
-    bool highAveragePathDifference() const;
 
     // Action Tiers.
-    bool tierOneActions();
     bool tierTwoActions();
     bool tierThreeActions();
 
@@ -95,6 +96,10 @@ private:
     Scheduler scheduler;
     WorkingKnowledge knowledge;
     BrainStatistics statistics;
+
+    std::unique_ptr<BrainData> brain_data;
+    std::unique_ptr<BrainStateHandler> state_handler;
+    std::unique_ptr<BrainStateVisualiser> state_visualiser;
 
     float start_time;
 

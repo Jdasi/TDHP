@@ -1,9 +1,9 @@
 #include <iostream>
 
 #include "GameStateGame.h"
+#include "GameStateHandler.h"
 #include "GameData.h"
 #include "InputHandler.h"
-#include "GameStateHandler.h"
 #include "AssetManager.h"
 #include "GameAudio.h"
 

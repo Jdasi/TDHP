@@ -84,6 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)libs\jsoncons\include;$(SolutionDir)libs\SFML\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML\lib</AdditionalLibraryDirectories>
@@ -113,6 +114,7 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)libs\jsoncons\include;$(SolutionDir)libs\SFML\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -144,6 +146,10 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
   <ItemGroup>
     <ClCompile Include="..\src\Application.cpp" />
     <ClCompile Include="..\src\AssetManager.cpp" />
+    <ClCompile Include="..\src\BrainStateAngry.cpp" />
+    <ClCompile Include="..\src\BrainStateExhausted.cpp" />
+    <ClCompile Include="..\src\BrainStateNormal.cpp" />
+    <ClCompile Include="..\src\BrainStateVisualiser.cpp" />
     <ClCompile Include="..\src\DirectorBrain.cpp" />
     <ClCompile Include="..\src\Enemy.cpp" />
     <ClCompile Include="..\src\EnemyDirector.cpp" />
@@ -190,8 +196,12 @@ xcopy /i /e /s /y /f "$(SolutionDir)Resources\*" "$(TargetDir)Resources\"</Comma
     <ClInclude Include="..\src\AssetManager.h" />
     <ClInclude Include="..\src\BrainData.h" />
     <ClInclude Include="..\src\BrainState.h" />
+    <ClInclude Include="..\src\BrainStateAngry.h" />
+    <ClInclude Include="..\src\BrainStateExhausted.h" />
     <ClInclude Include="..\src\BrainStateHandler.h" />
+    <ClInclude Include="..\src\BrainStateNormal.h" />
     <ClInclude Include="..\src\BrainStateType.h" />
+    <ClInclude Include="..\src\BrainStateVisualiser.h" />
     <ClInclude Include="..\src\BrainStatistics.h" />
     <ClInclude Include="..\src\Constants.h" />
     <ClInclude Include="..\src\DirectorBrain.h" />

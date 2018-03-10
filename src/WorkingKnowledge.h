@@ -21,4 +21,6 @@ struct WorkingKnowledge
 
     int avg_path_diff           = 0;
     int cheapest_path           = 0;
+
+    float failed_attack_timer   = 0;
 };

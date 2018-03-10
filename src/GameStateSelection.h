@@ -10,8 +10,6 @@
 #include "LevelData.h"
 #include "GUIButton.h"
 
-struct GameData;
-
 class GameStateSelection final : public GameState
 {
 public:

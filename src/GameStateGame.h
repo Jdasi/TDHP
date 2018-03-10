@@ -6,8 +6,6 @@
 #include "Game.h"
 #include "GUIButton.h"
 
-struct GameData;
-
 class GameStateGame final : public GameState, public GameListener
 {
 public:

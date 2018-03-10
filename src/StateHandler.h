@@ -4,6 +4,8 @@
 #include <memory>
 #include <queue>
 
+#include "JTime.h"
+
 /* StateHandler uses a self-referring template pattern.
  * This allows for the StateHandler to stay generic, meaning it can be reused
  * in different areas of the program.
@@ -16,6 +18,7 @@ using State = std::pair<int, std::unique_ptr<StateType>>;
 public:
     StateHandler()
         : current_state(nullptr)
+        , time_in_state(0)
     {
     }
 
@@ -40,12 +43,18 @@ public:
 
     void tick()
     {
+        time_in_state += JTime::getDeltaTime();
         processStatesQueue();
 
         if (current_state)
         {
             current_state->tick();
         }
+    }
+
+    float timeInState() const
+    {
+        return time_in_state;
     }
 
 protected:
@@ -81,9 +90,13 @@ private:
 
         current_state = result->second.get();
         current_state->onStateEnter();
+
+        time_in_state = 0;
     }
 
     std::vector<State> states;
     std::queue<int> states_queue;
+
+    float time_in_state;
 
 };

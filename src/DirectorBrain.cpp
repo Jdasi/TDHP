@@ -11,6 +11,10 @@
 #include "Constants.h"
 #include "FileIO.h"
 
+#include "BrainStateNormal.h"
+#include "BrainStateAngry.h"
+#include "BrainStateExhausted.h"
+
 
 DirectorBrain::DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_manager,
     EnemyManager& _enemy_manager, std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns, Level& _level)
@@ -21,15 +25,7 @@ DirectorBrain::DirectorBrain(GameData& _game_data, HeatmapManager& _heatmap_mana
     , level(_level)
     , start_time(JTime::getTime())
 {
-    enemy_manager.addEnemyListener(this);
-    statistics.level_name = level.getName();
-
-    initWorkingKnowledge();
-
-    scheduler.invokeRepeating([this]()
-    {
-        decisionPoint();
-    }, 5.0f, 5.0f);
+    init();
 }
 
 
@@ -43,19 +39,40 @@ DirectorBrain::~DirectorBrain()
 
 void DirectorBrain::tick()
 {
-    scheduler.update();
+    knowledge.failed_attack_timer += JTime::getDeltaTime();
 
-    if (knowledge.energy < MAX_BRAIN_ENERGY)
-    {
-        knowledge.energy += DIRECTOR_ENERGY_REGEN * JTime::getDeltaTime();
-        JMath::clampf(knowledge.energy, 0, MAX_BRAIN_ENERGY);
-    }
+    scheduler.update();
+    state_handler->tick();
+}
+
+
+void DirectorBrain::draw(sf::RenderWindow& _window)
+{
+    state_visualiser->draw(_window);
 }
 
 
 float DirectorBrain::getEnergyPercentage() const
 {
     return knowledge.energy / MAX_BRAIN_ENERGY;
+}
+
+
+void DirectorBrain::init()
+{
+    enemy_manager.addEnemyListener(this);
+    statistics.level_name = level.getName();
+
+    scheduler.invokeRepeating([this]()
+    {
+        decisionPoint();
+    }, 5.0f, 5.0f);
+
+    state_visualiser = std::make_unique<BrainStateVisualiser>();
+    brain_data = std::make_unique<BrainData>(knowledge, *state_visualiser.get());
+
+    initWorkingKnowledge();
+    initStateSystem();
 }
 
 
@@ -68,6 +85,18 @@ void DirectorBrain::initWorkingKnowledge()
      */
     float max_int = static_cast<float>(JMath::maxInt());
     knowledge.swarm_threshold = (max_int / knowledge.hm_maximum_weight) * 0.00025f;
+}
+
+
+void DirectorBrain::initStateSystem()
+{
+    state_handler = std::make_unique<BrainStateHandler>();
+
+    state_handler->registerState(BRAINSTATE_NORMAL, std::make_unique<BrainStateNormal>(*brain_data.get()));
+    state_handler->registerState(BRAINSTATE_ANGRY, std::make_unique<BrainStateAngry>(*brain_data.get()));
+    state_handler->registerState(BRAINSTATE_EXHAUSTED, std::make_unique<BrainStateExhausted>(*brain_data.get()));
+
+    state_handler->queueState(BRAINSTATE_NORMAL);
 }
 
 
@@ -158,6 +187,7 @@ void DirectorBrain::printDecisionPointLog()
 
 void DirectorBrain::makeDecision()
 {
+    /*
     std::cout << "Decision: ";
 
     if (knowledge.energy >= 75)
@@ -176,6 +206,9 @@ void DirectorBrain::makeDecision()
     {
         waitingForEnergy();
     }
+    */
+
+    state_handler->onDecisionPoint();
 
     std::cout << std::endl;
 }
@@ -184,22 +217,6 @@ void DirectorBrain::makeDecision()
 float DirectorBrain::heatmapWeightToPercentage(const int _weight)
 {
     return (static_cast<float>(_weight) / knowledge.hm_maximum_weight) * 100;
-}
-
-
-// Performs an action choosing from those available to energy level 100 or lower.
-void DirectorBrain::processEnergyTierOne()
-{
-    if (tierOneActions())
-        return;
-
-    if (tierTwoActions())
-        return;
-
-    if (tierThreeActions())
-        return;
-
-    noAction();
 }
 
 
@@ -265,37 +282,6 @@ bool DirectorBrain::totalEnemiesOverThreshold() const
 bool DirectorBrain::enemyCloseToGoal() const
 {
     return knowledge.proximity_to_goal <= 5;
-}
-
-
-bool DirectorBrain::highAveragePathDifference() const
-{
-    return knowledge.avg_path_diff >= level.getProduct() * 0.25f;
-}
-
-
-/* Actions specific to energy range 75-100.
- * Returns true if an action was performed, otherwise returns false.
- */
-bool DirectorBrain::tierOneActions()
-{
-    if (totalEnemiesOverThreshold())
-    {
-        if (knowledge.hm_bullet_intensity > knowledge.hm_laser_intensity)
-        {
-            speedBoostAllEnemies();
-        }
-        else
-        {
-            healthBoostAllEnemies();
-        }
-
-        knowledge.energy -= 75;
-
-        return true;
-    }
-
-    return false;
 }
 
 
@@ -574,5 +560,6 @@ void DirectorBrain::onPathComplete(Enemy& _caller)
     knowledge.energy += ENERGY_ON_PATH_COMPLETION;
     knowledge.energy = JMath::clampf(knowledge.energy, 0, MAX_BRAIN_ENERGY);
 
+    knowledge.failed_attack_timer = 0;
     ++statistics.completed_paths;
 }

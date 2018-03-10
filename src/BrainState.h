@@ -25,6 +25,8 @@ public:
 
     void tick() override = 0;
 
+    virtual void makeDecision() = 0;
+
 protected:
     BrainData& brainData() const
     {

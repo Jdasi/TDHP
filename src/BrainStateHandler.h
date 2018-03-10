@@ -15,4 +15,9 @@ public:
     BrainStateHandler() = default;
     virtual ~BrainStateHandler() = default;
 
+    void onDecisionPoint()
+    {
+        current_state->makeDecision();
+    }
+
 };

@@ -1,11 +1,11 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "GameStateSelection.h"
+#include "GameStateHandler.h"
 #include "GameData.h"
 #include "Constants.h"
 #include "AssetManager.h"
 #include "InputHandler.h"
-#include "GameStateHandler.h"
 #include "GameAudio.h"
 #include "JHelper.h"
 #include "JTime.h"

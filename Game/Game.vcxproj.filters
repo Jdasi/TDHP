@@ -49,6 +49,9 @@
     <Filter Include="Core\BrainStates">
       <UniqueIdentifier>{aa1c0b36-2863-4f23-bff1-671ca6d8fa53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\DirectorBrain">
+      <UniqueIdentifier>{332a0615-b788-43a0-be10-2b8c4e517f28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -142,9 +145,6 @@
     <ClCompile Include="..\src\TargetingSystem.cpp">
       <Filter>Core\Tower</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\DirectorBrain.cpp">
-      <Filter>Core\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\EnemyManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -174,6 +174,21 @@
     </ClCompile>
     <ClCompile Include="..\src\GameStateSelection.cpp">
       <Filter>Core\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BrainStateAngry.cpp">
+      <Filter>Core\BrainStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BrainStateExhausted.cpp">
+      <Filter>Core\BrainStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BrainStateNormal.cpp">
+      <Filter>Core\BrainStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\DirectorBrain.cpp">
+      <Filter>Core\DirectorBrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BrainStateVisualiser.cpp">
+      <Filter>Core\DirectorBrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -318,9 +333,6 @@
     <ClInclude Include="..\src\WeightedEnemy.h">
       <Filter>Core\Tower</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\DirectorBrain.h">
-      <Filter>Core\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\WorkingKnowledge.h">
       <Filter>Core\Enemy</Filter>
     </ClInclude>
@@ -329,9 +341,6 @@
     </ClInclude>
     <ClInclude Include="..\src\GDebugFlags.h">
       <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\BrainStatistics.h">
-      <Filter>Core\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameAudio.h">
       <Filter>Managers</Filter>
@@ -384,8 +393,26 @@
     <ClInclude Include="..\src\GameStateSelection.h">
       <Filter>Core\GameStates</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\BrainStateAngry.h">
+      <Filter>Core\BrainStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainStateExhausted.h">
+      <Filter>Core\BrainStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainStateNormal.h">
+      <Filter>Core\BrainStates</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\BrainData.h">
-      <Filter>Core\Enemy</Filter>
+      <Filter>Core\DirectorBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainStatistics.h">
+      <Filter>Core\DirectorBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\DirectorBrain.h">
+      <Filter>Core\DirectorBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BrainStateVisualiser.h">
+      <Filter>Core\DirectorBrain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #include <string>
 
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
 
 /*! \file Constants.h
 @brief   Constants that are used throughout the game. 
@@ -18,6 +19,7 @@ const int WINDOW_WIDTH                  = 1024; // Width of the screen.
 const int WINDOW_HEIGHT                 = 768; // Height of the screen.
 const int WINDOW_MARGIN_X               = 100; // Margin from horizontal screen edges.
 const int WINDOW_MARGIN_Y               = 50; // Margin from vertical screen edges.
+const sf::Vector2f WINDOW_SIZE          ({ static_cast<float>(WINDOW_WIDTH), static_cast<float>(WINDOW_HEIGHT) });
 
 const int WINDOW_LEFT_BOUNDARY          = WINDOW_MARGIN_X;
 const int WINDOW_RIGHT_BOUNDARY         = WINDOW_WIDTH - WINDOW_MARGIN_X;
@@ -45,10 +47,17 @@ const float MAX_WEIGHTING               = 255.0f;
 const float MAX_PLAYER_HEALTH           = 100.0f;
 const float DAMAGE_ON_GOAL_REACHED      = 15.0f;
 
-const float MAX_BRAIN_ENERGY            = 100;
-const float DIRECTOR_ENERGY_REGEN       = 1.5f;
+const float MAX_BRAIN_ENERGY            = 100.0f;
 const float ENERGY_ON_DEATH             = 1.0f;
 const float ENERGY_ON_PATH_COMPLETION   = 5.0f;
+
+const float NORMAL_ENERGY_REGEN         = 1.5f;
+const float ANGRY_ENERGY_REGEN          = 5.0f;
+const float EXHAUSTED_ENERGY_REGEN      = -1.0f;
+
+const float TIME_BEFORE_ANGRY           = 30.0f;
+const float BRAIN_ANGRY_TIME            = 10.0f;
+const float BRAIN_EXHAUSTED_TIME        = 10.0f;
 
 const float DIST_SCORE_FACTOR           = 10.0f;
 const float HEALTH_SCORE_FACTOR         = 0.0f;
