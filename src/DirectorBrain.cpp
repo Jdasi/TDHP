@@ -83,7 +83,7 @@ void DirectorBrain::initWorkingKnowledge()
      * E.g. a larger map should have a lower swarm threshold.
      */
     float max_int = static_cast<float>(JMath::maxInt());
-    knowledge.swarm_threshold = (max_int / knowledge.hm_maximum_weight) * 0.00025f;
+    knowledge.swarm_threshold = (max_int / knowledge.hm_maximum_weight) * 0.0002f;
 }
 
 
