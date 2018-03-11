@@ -7,10 +7,12 @@
 Enemy::Enemy()
     : path_index(0)
     , type(nullptr)
+    , shield_visible(false)
     , speed_modifier(1)
     , mdist_to_goal(0)
 {
     initHealthBar();
+    initShieldShape();
 }
 
 
@@ -26,6 +28,11 @@ void Enemy::setType(EnemyType& _type)
 
     setMaxHealth(_type.max_health);
     setTexture(_type.texture);
+
+    float radius = (getLevelTileWidth() + getLevelTileHeight()) / 2.5f;
+    shield_shape.setRadius(radius);
+
+    JHelper::centerSFOrigin(shield_shape);
 }
 
 
@@ -61,6 +68,14 @@ void Enemy::draw(sf::RenderWindow& _window)
 
     if (GDebugFlags::draw_paths)
         path.draw(_window, getPosition(), path_index);
+
+    if (getMaxHealth() > type->max_health)
+    {
+        if (shield_visible)
+            _window.draw(shield_shape);
+
+        shield_visible = !shield_visible;
+    }
 
     health_bar.draw(_window);
 }
@@ -154,6 +169,7 @@ void Enemy::onDeath(TowerType* _killer_type)
 void Enemy::onSetPosition()
 {
     health_bar.updatePosition(getPosition());
+    shield_shape.setPosition(getPosition());
 }
 
 
@@ -165,6 +181,12 @@ void Enemy::initHealthBar()
     // Base health bar size on TDSprite size (a.k.a. tile size).
     health_bar.configure({ width * 0.9f, height * 0.1f }, -height * 0.5f);
     health_bar.setBarColor(sf::Color::Green);
+}
+
+
+void Enemy::initShieldShape()
+{
+    shield_shape.setFillColor(sf::Color(255, 0, 0, 150));
 }
 
 

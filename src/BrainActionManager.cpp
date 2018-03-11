@@ -67,19 +67,25 @@ void BrainActionManager::initPreconditions()
     precondition_bank.emplace
     (
         Brain::PreconditionType::OVERALL_INTENSITY_OVER_THRESHOLD,
-        [](WorkingKnowledge& _wk) { return _wk.hm_overall_intensity > _wk.swarm_threshold * 5; }
+        [](WorkingKnowledge& _wk) { return _wk.hm_overall_intensity > _wk.swarm_threshold * 3; }
     );
 
     precondition_bank.emplace
     (
         Brain::PreconditionType::FAST_ENEMIES_OVER_THRESHOLD,
-        [](WorkingKnowledge& _wk) { return static_cast<float>(_wk.fast_enemies) >= 3; }
+        [](WorkingKnowledge& _wk) { return _wk.fast_enemies >= 3; }
     );
 
     precondition_bank.emplace
     (
         Brain::PreconditionType::STRONG_ENEMIES_OVER_THRESHOLD,
-        [](WorkingKnowledge& _wk) { return static_cast<float>(_wk.strong_enemies) >= 3; }
+        [](WorkingKnowledge& _wk) { return _wk.strong_enemies >= 5; }
+    );
+
+    precondition_bank.emplace
+    (
+        Brain::PreconditionType::BASIC_ENEMIES_OVER_THRESHOLD,
+        [](WorkingKnowledge& _wk) { return _wk.basic_enemies >= 3; }
     );
 
     precondition_bank.emplace
@@ -99,32 +105,66 @@ void BrainActionManager::initPreconditions()
         Brain::PreconditionType::LASER_INTENSITY_GREATER,
         [](WorkingKnowledge& _wk) { return _wk.hm_laser_intensity > _wk.hm_bullet_intensity; }
     );
+
+    precondition_bank.emplace
+    (
+        Brain::PreconditionType::FAST_ENEMIES_GREATER,
+        [](WorkingKnowledge& _wk)
+        {
+            return _wk.fast_enemies > _wk.strong_enemies &&
+                _wk.fast_enemies > _wk.basic_enemies;
+        }
+    );
+
+    precondition_bank.emplace
+    (
+        Brain::PreconditionType::STRONG_ENEMIES_GREATER,
+        [](WorkingKnowledge& _wk)
+        {
+            return _wk.strong_enemies > _wk.fast_enemies &&
+                _wk.strong_enemies > _wk.basic_enemies;
+        }
+    );
+
+    precondition_bank.emplace
+    (
+        Brain::PreconditionType::BASIC_ENEMIES_GREATER,
+        [](WorkingKnowledge& _wk)
+        {
+            return _wk.basic_enemies > _wk.fast_enemies &&
+                _wk.basic_enemies > _wk.strong_enemies;
+        }
+    );
 }
 
 
 void BrainActionManager::initActions()
 {
-    BrainAction* action = nullptr;
-
-    action = addAction(Brain::ActionType::SEND_FAST_SWARM, 50, [this]()
+    addAction(Brain::ActionType::SEND_FAST_SWARM, 50, [this]()
     {
         sendSwarm(enemy_manager.getFastestType(), 3, EnemySpawn::SpawnPathType::INFLUENCED);
 
         std::cout << "Sending Fast Enemy Swarm";
         ++statistics.fast_swarm_times;
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD));
+    },
+        {
+            Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD
+        }
+    );
 
-    action = addAction(Brain::ActionType::SEND_STRONG_SWARM, 50, [this]()
+    addAction(Brain::ActionType::SEND_STRONG_SWARM, 50, [this]()
     {
         sendSwarm(enemy_manager.getStrongestType(), 3, EnemySpawn::SpawnPathType::PURE);
 
         std::cout << "Sending Strong Enemy Swarm";
         ++statistics.strong_swarm_times;
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::LASER_INTENSITY_OVER_THRESHOLD));
+    },
+        {
+            Brain::PreconditionType::LASER_INTENSITY_OVER_THRESHOLD
+        }
+    );
 
-    action = addAction(Brain::ActionType::SPEED_BOOST_ALL_ENEMIES, 30, [this]()
+    addAction(Brain::ActionType::SPEED_BOOST_ALL_ENEMIES, 30, [this]()
     {
         enemy_manager.boostEnemySpeed(1.5f, 3);
 
@@ -132,11 +172,14 @@ void BrainActionManager::initActions()
         ++statistics.sb_all_times;
 
         gd.audio.playSound(SPEED_BOOST_SOUND);
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::BULLET_INTENSITY_GREATER));
+    },
+        {
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL,
+            Brain::PreconditionType::BULLET_INTENSITY_GREATER
+        }
+    );
 
-    action = addAction(Brain::ActionType::HEALTH_BOOST_ALL_ENEMIES, 30, [this]()
+    addAction(Brain::ActionType::HEALTH_BOOST_ALL_ENEMIES, 30, [this]()
     {
         enemy_manager.boostEnemyHealth(2, 5);
 
@@ -144,11 +187,14 @@ void BrainActionManager::initActions()
         ++statistics.hb_all_times;
 
         gd.audio.playSound(HEALTH_BOOST_SOUND);
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::LASER_INTENSITY_GREATER));
+    },
+        {
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL,
+            Brain::PreconditionType::LASER_INTENSITY_GREATER
+        }
+    );
 
-    action = addAction(Brain::ActionType::HEALTH_BOOST_FAST_ENEMIES, 20, [this]()
+    addAction(Brain::ActionType::HEALTH_BOOST_FAST_ENEMIES, 20, [this]()
     {
         auto type = enemy_manager.getFastestType();
         enemy_manager.boostEnemyHealth(type, 2, 5);
@@ -157,12 +203,17 @@ void BrainActionManager::initActions()
         ++statistics.hb_fast_times;
 
         gd.audio.playSound(HEALTH_BOOST_SOUND);
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::FAST_ENEMIES_OVER_THRESHOLD));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::LASER_INTENSITY_OVER_THRESHOLD));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::LASER_INTENSITY_GREATER));
+    },
+        {
+            Brain::PreconditionType::FAST_ENEMIES_OVER_THRESHOLD,
+            Brain::PreconditionType::FAST_ENEMIES_GREATER,
+            Brain::PreconditionType::LASER_INTENSITY_OVER_THRESHOLD,
+            Brain::PreconditionType::LASER_INTENSITY_GREATER,
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL
+        }
+    );
 
-    action = addAction(Brain::ActionType::HEALTH_BOOST_STRONG_ENEMIES, 20, [this]()
+    addAction(Brain::ActionType::HEALTH_BOOST_STRONG_ENEMIES, 20, [this]()
     {
         auto type = enemy_manager.getStrongestType();
         enemy_manager.boostEnemyHealth(type, 2, 5);
@@ -171,12 +222,36 @@ void BrainActionManager::initActions()
         ++statistics.hb_strong_times;
 
         gd.audio.playSound(HEALTH_BOOST_SOUND);
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::STRONG_ENEMIES_OVER_THRESHOLD));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::LASER_INTENSITY_OVER_THRESHOLD));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::LASER_INTENSITY_GREATER));
+    },
+        {
+            Brain::PreconditionType::STRONG_ENEMIES_OVER_THRESHOLD,
+            Brain::PreconditionType::STRONG_ENEMIES_GREATER,
+            Brain::PreconditionType::LASER_INTENSITY_OVER_THRESHOLD,
+            Brain::PreconditionType::LASER_INTENSITY_GREATER,
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL
+        }
+    );
 
-    action = addAction(Brain::ActionType::SPEED_BOOST_FAST_ENEMIES, 20, [this]()
+    addAction(Brain::ActionType::HEALTH_BOOST_BASIC_ENEMIES, 20, [this]()
+    {
+        auto type = enemy_manager.getBasicType();
+        enemy_manager.boostEnemyHealth(type, 2, 5);
+
+        std::cout << "Boosting Basic Enemy Health";
+        ++statistics.hb_basic_times;
+
+        gd.audio.playSound(HEALTH_BOOST_SOUND);
+    },
+        {
+            Brain::PreconditionType::BASIC_ENEMIES_OVER_THRESHOLD,
+            Brain::PreconditionType::BASIC_ENEMIES_GREATER,
+            Brain::PreconditionType::LASER_INTENSITY_OVER_THRESHOLD,
+            Brain::PreconditionType::LASER_INTENSITY_GREATER,
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL
+        }
+    );
+
+    addAction(Brain::ActionType::SPEED_BOOST_FAST_ENEMIES, 20, [this]()
     {
         auto type = enemy_manager.getFastestType();
         enemy_manager.boostEnemySpeed(type, 1.5f, 3);
@@ -185,12 +260,16 @@ void BrainActionManager::initActions()
         ++statistics.sb_fast_times;
 
         gd.audio.playSound(SPEED_BOOST_SOUND);
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::FAST_ENEMIES_OVER_THRESHOLD));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::BULLET_INTENSITY_GREATER));
+    },
+        {
+            Brain::PreconditionType::FAST_ENEMIES_OVER_THRESHOLD,
+            Brain::PreconditionType::FAST_ENEMIES_GREATER,
+            Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD,
+            Brain::PreconditionType::BULLET_INTENSITY_GREATER,
+        }
+    );
 
-    action = addAction(Brain::ActionType::SPEED_BOOST_STRONG_ENEMIES, 20, [this]()
+    addAction(Brain::ActionType::SPEED_BOOST_STRONG_ENEMIES, 20, [this]()
     {
         auto type = enemy_manager.getStrongestType();
         enemy_manager.boostEnemySpeed(type, 1.5f, 3);
@@ -199,12 +278,34 @@ void BrainActionManager::initActions()
         ++statistics.sb_strong_times;
 
         gd.audio.playSound(SPEED_BOOST_SOUND);
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::STRONG_ENEMIES_OVER_THRESHOLD));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD));
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::BULLET_INTENSITY_GREATER));
+    },
+        {
+            Brain::PreconditionType::STRONG_ENEMIES_OVER_THRESHOLD,
+            Brain::PreconditionType::STRONG_ENEMIES_GREATER,
+            Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD,
+            Brain::PreconditionType::BULLET_INTENSITY_GREATER,
+        }
+    );
 
-    action = addAction(Brain::ActionType::SMOKE_BOMB, 5, [this]()
+    addAction(Brain::ActionType::SPEED_BOOST_BASIC_ENEMIES, 20, [this]()
+    {
+        auto type = enemy_manager.getBasicType();
+        enemy_manager.boostEnemySpeed(type, 1.5f, 3);
+
+        std::cout << "Boosting Basic Enemy Speed";
+        ++statistics.sb_basic_times;
+
+        gd.audio.playSound(SPEED_BOOST_SOUND);
+    },
+        {
+            Brain::PreconditionType::BASIC_ENEMIES_OVER_THRESHOLD,
+            Brain::PreconditionType::BASIC_ENEMIES_GREATER,
+            Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD,
+            Brain::PreconditionType::BULLET_INTENSITY_GREATER,
+        }
+    );
+
+    addAction(Brain::ActionType::SMOKE_BOMB, 5, [this]()
     {
         int index = heatmap_manager.getHighestWeightIndex(HeatmapFlag::DIRECTOR);
         heatmap_manager.splashOnHeatmap(HeatmapFlag::SMOKE, index, 5);
@@ -213,14 +314,20 @@ void BrainActionManager::initActions()
         ++statistics.smoke_times;
 
         gd.audio.playSound(SMOKE_BOMB_SOUND);
-    });
-    action->addPrecondition(precondition_bank.at(Brain::PreconditionType::OVERALL_INTENSITY_OVER_THRESHOLD));
+    },
+        {
+            Brain::PreconditionType::OVERALL_INTENSITY_OVER_THRESHOLD,
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL
+        }
+    );
 
-    action = addAction(Brain::ActionType::NO_ACTION, 0, [this]()
+    addAction(Brain::ActionType::NO_ACTION, 0, [this]()
     {
         std::cout << "No Action";
         ++statistics.no_action_times;
-    });
+    },
+        {}
+    );
 }
 
 
@@ -229,6 +336,7 @@ void BrainActionManager::initActionSets()
     action_sets[BRAINSTATE_NORMAL] =
     {
         &action_bank.at(Brain::ActionType::HEALTH_BOOST_ALL_ENEMIES),
+        &action_bank.at(Brain::ActionType::HEALTH_BOOST_BASIC_ENEMIES),
         &action_bank.at(Brain::ActionType::HEALTH_BOOST_FAST_ENEMIES),
         &action_bank.at(Brain::ActionType::HEALTH_BOOST_STRONG_ENEMIES),
         &action_bank.at(Brain::ActionType::NO_ACTION),
@@ -236,6 +344,7 @@ void BrainActionManager::initActionSets()
         &action_bank.at(Brain::ActionType::SEND_STRONG_SWARM),
         &action_bank.at(Brain::ActionType::SMOKE_BOMB),
         &action_bank.at(Brain::ActionType::SPEED_BOOST_ALL_ENEMIES),
+        &action_bank.at(Brain::ActionType::SPEED_BOOST_BASIC_ENEMIES),
         &action_bank.at(Brain::ActionType::SPEED_BOOST_FAST_ENEMIES),
         &action_bank.at(Brain::ActionType::SPEED_BOOST_STRONG_ENEMIES),
     };
@@ -258,14 +367,20 @@ void BrainActionManager::initActionSets()
 }
 
 
-BrainAction* BrainActionManager::addAction(const Brain::ActionType& _type, const int _cost, const std::function<void()>& _action)
+void BrainActionManager::addAction(const Brain::ActionType& _type, const int _cost,
+    const std::function<void()>& _action,
+    const std::vector<Brain::PreconditionType>& _preconditions)
 {
     if (action_bank.find(_type) != action_bank.end())
-        return nullptr;
+        return;
 
     action_bank.emplace(_type, BrainAction(_cost, _action));
+    auto* action = &action_bank.at(_type);
 
-    return &action_bank.at(_type);
+    for (auto& precond : _preconditions)
+    {
+        action->addPrecondition(precondition_bank.at(precond));
+    }
 }
 
 

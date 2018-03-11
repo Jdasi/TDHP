@@ -117,7 +117,7 @@ int HeatmapManager::getHighestWeightIndex(const HeatmapFlag& _flags) const
 
 void HeatmapManager::initHeatmaps()
 {
-    createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color(0, 50, 255),  200,  5);
+    createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color(0, 50, 255),  200,  7);
     createHeatmap(HeatmapFlag::BULLET_DEATHS, sf::Color(255, 50, 0),  200,  5);
     createHeatmap(HeatmapFlag::SMOKE,         sf::Color::Black,      1200, 10, WeightingType::NEGATIVE);
 

@@ -31,7 +31,9 @@ private:
     void initActions();
     void initActionSets();
 
-    BrainAction* addAction(const Brain::ActionType& _type, const int _cost, const std::function<void()>& _action);
+    void addAction(const Brain::ActionType& _type, const int _cost, const std::function<void()>& _action,
+        const std::vector<Brain::PreconditionType>& _preconditions);
+
     void sortActionSet(std::vector<BrainAction*>& _action_set);
 
     void sendSwarm(EnemyType* _type, const int _count,

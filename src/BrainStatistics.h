@@ -16,10 +16,12 @@ struct BrainStatistics
 
     int hb_fast_times           = 0;
     int hb_strong_times         = 0;
+    int hb_basic_times          = 0;
     int hb_all_times            = 0;
 
     int sb_fast_times           = 0;
     int sb_strong_times         = 0;
+    int sb_basic_times          = 0;
     int sb_all_times            = 0;
 
     int smoke_times             = 0;

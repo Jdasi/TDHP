@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
 #include "EnemyListener.h"
 #include "ListenerSubject.h"
@@ -43,6 +44,7 @@ protected:
 
 private:
     void initHealthBar();
+    void initShieldShape();
 
     void updateTileIndex();
     void nextWaypoint();
@@ -59,6 +61,9 @@ private:
 
     ValueBar health_bar;
     Scheduler scheduler;
+
+    sf::CircleShape shield_shape;
+    bool shield_visible;
 
     float speed_modifier;
     sf::Vector2i coords;
