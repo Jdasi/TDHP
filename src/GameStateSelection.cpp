@@ -147,14 +147,14 @@ void GameStateSelection::initText()
     level_duration_title.setFont(*font);
     level_duration_title.setCharacterSize(28);
     level_duration_title.setString("Longest Survived:");
-    level_duration_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.72f);
+    level_duration_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.715f);
     level_duration_title.setOutlineColor(sf::Color::Black);
     level_duration_title.setOutlineThickness(2);
 
     level_duration_display.setFont(*font);
     level_duration_display.setCharacterSize(28);
     level_duration_display.setString("0");
-    level_duration_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.72f);
+    level_duration_display.setPosition(WINDOW_WIDTH * 0.59f, level_duration_title.getPosition().y);
     level_duration_display.setOutlineColor(sf::Color::Black);
     level_duration_display.setOutlineThickness(2);
 
@@ -162,14 +162,14 @@ void GameStateSelection::initText()
     level_score_title.setFont(*font);
     level_score_title.setCharacterSize(28);
     level_score_title.setString("Highest Score:");
-    level_score_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.77f);
+    level_score_title.setPosition(WINDOW_WIDTH * 0.3f, WINDOW_HEIGHT * 0.765f);
     level_score_title.setOutlineColor(sf::Color::Black);
     level_score_title.setOutlineThickness(2);
 
     level_score_display.setFont(*font);
     level_score_display.setCharacterSize(28);
     level_score_display.setString("0");
-    level_score_display.setPosition(WINDOW_WIDTH * 0.59f, WINDOW_HEIGHT * 0.77f);
+    level_score_display.setPosition(WINDOW_WIDTH * 0.59f, level_score_title.getPosition().y);
     level_score_display.setOutlineColor(sf::Color::Black);
     level_score_display.setOutlineThickness(2);
 }
