@@ -8,6 +8,7 @@
 #include "EnemyListener.h"
 #include "TextPopup.h"
 #include "Level.h"
+#include "Scheduler.h"
 
 namespace sf
 {
@@ -25,10 +26,13 @@ public:
     void tick();
     void draw(sf::RenderWindow& _window);
 
+    float getTimeSurvived() const;
     int getScore() const;
 
 private:
     void initLabels();
+
+    void updateTimeDisplay();
 
     // Enemy events.
     void onDeath(const Enemy& _caller, TowerType* _killer_type) override;
@@ -39,10 +43,17 @@ private:
     GameData& gd;
     Level& level;
 
+    Scheduler scheduler;
+
     std::vector<std::unique_ptr<TextPopup>> text_popups;
+
+    float time_survived;
     int score;
 
-    sf::Text lbl_title;
-    sf::Text lbl_score;
+    sf::Text lbl_time_title;
+    sf::Text lbl_time_display;
+
+    sf::Text lbl_score_title;
+    sf::Text lbl_score_display;
 
 };

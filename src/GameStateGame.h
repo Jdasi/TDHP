@@ -28,10 +28,6 @@ private:
     std::unique_ptr<Game> game;
     bool game_over;
 
-    float session_start;
-    float session_duration;
-    int final_score;
-
     sf::Text pause_display;
     sf::Sprite game_over_display;
 

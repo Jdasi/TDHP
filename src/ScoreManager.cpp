@@ -6,20 +6,32 @@
 #include "GameData.h"
 #include "AssetManager.h"
 #include "GameAudio.h"
+#include "JTime.h"
+#include "JHelper.h"
 #include "JMath.h"
 
 
 ScoreManager::ScoreManager(GameData& _gd, Level& _level)
     : gd(_gd)
     , level(_level)
+    , time_survived(0)
     , score(0)
 {
+    scheduler.invokeRepeating([this]()
+    {
+        updateTimeDisplay();
+    }, 0, 1);
+
     initLabels();
 }
 
 
 void ScoreManager::tick()
 {
+    scheduler.update();
+
+    time_survived += JTime::getDeltaTime();
+
     text_popups.erase(std::remove_if(
         text_popups.begin(),
         text_popups.end(),
@@ -40,8 +52,17 @@ void ScoreManager::draw(sf::RenderWindow& _window)
         popup->draw(_window);
     }
 
-    _window.draw(lbl_title);
-    _window.draw(lbl_score);
+    _window.draw(lbl_time_title);
+    _window.draw(lbl_time_display);
+
+    _window.draw(lbl_score_title);
+    _window.draw(lbl_score_display);
+}
+
+
+float ScoreManager::getTimeSurvived() const
+{
+    return time_survived;
 }
 
 
@@ -53,21 +74,41 @@ int ScoreManager::getScore() const
 
 void ScoreManager::initLabels()
 {
-    lbl_title.setFont(*gd.assets.loadFont(DEFAULT_FONT));
-    lbl_title.setCharacterSize(14);
-    lbl_title.setStyle(sf::Text::Bold);
-    lbl_title.setFillColor(sf::Color::White);
-    lbl_title.setPosition({ WINDOW_WIDTH * 0.8f, WINDOW_HEIGHT * 0.96f });
-    lbl_title.setString("Score:");
+    // Time survived display.
+    lbl_time_title.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_time_title.setCharacterSize(14);
+    lbl_time_title.setStyle(sf::Text::Bold);
+    lbl_time_title.setFillColor(sf::Color::White);
+    lbl_time_title.setPosition({ WINDOW_WIDTH * 0.75f, WINDOW_HEIGHT * 0.945f });
+    lbl_time_title.setString("Survived:");
 
-    JHelper::centerSFOrigin(lbl_title);
+    lbl_time_display.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_time_display.setCharacterSize(14);
+    lbl_time_display.setStyle(sf::Text::Bold);
+    lbl_time_display.setFillColor(sf::Color::White);
+    lbl_time_display.setPosition({ lbl_time_title.getPosition().x + 75, WINDOW_HEIGHT * 0.945f });
+    lbl_time_display.setString("00:00:00");
 
-    lbl_score.setFont(*gd.assets.loadFont(DEFAULT_FONT));
-    lbl_score.setCharacterSize(14);
-    lbl_score.setStyle(sf::Text::Bold);
-    lbl_score.setFillColor(sf::Color::White);
-    lbl_score.setPosition({ lbl_title.getPosition().x + 30, WINDOW_HEIGHT * 0.949f });
-    lbl_score.setString("0");
+    // Score display.
+    lbl_score_title.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_score_title.setCharacterSize(14);
+    lbl_score_title.setStyle(sf::Text::Bold);
+    lbl_score_title.setFillColor(sf::Color::White);
+    lbl_score_title.setPosition({ WINDOW_WIDTH * 0.75f, WINDOW_HEIGHT * 0.967f });
+    lbl_score_title.setString("Score:");
+
+    lbl_score_display.setFont(*gd.assets.loadFont(DEFAULT_FONT));
+    lbl_score_display.setCharacterSize(14);
+    lbl_score_display.setStyle(sf::Text::Bold);
+    lbl_score_display.setFillColor(sf::Color::White);
+    lbl_score_display.setPosition({ lbl_score_title.getPosition().x + 75, WINDOW_HEIGHT * 0.967f });
+    lbl_score_display.setString("0");
+}
+
+
+void ScoreManager::updateTimeDisplay()
+{
+    lbl_time_display.setString(JHelper::timeToStr(time_survived));
 }
 
 
@@ -77,7 +118,7 @@ void ScoreManager::onDeath(const Enemy& _caller, TowerType* _killer_type)
     createTextPopup("+" + std::to_string(bump), _caller.getPosition());
 
     score += bump;
-    lbl_score.setString(std::to_string(score));
+    lbl_score_display.setString(std::to_string(score));
 
     gd.audio.playSound(SCORE_BUMP_SOUND);
 }

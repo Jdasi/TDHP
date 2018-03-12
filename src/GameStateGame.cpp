@@ -11,9 +11,6 @@
 GameStateGame::GameStateGame(GameData& _game_data)
     : GameState(_game_data)
     , game_over(false)
-    , session_start(0)
-    , session_duration(0)
-    , final_score(0)
 {
     initObjects();
 }
@@ -25,9 +22,6 @@ void GameStateGame::onStateEnter()
     game->attachListener(this);
 
     game_over = false;
-    session_start = JTime::getTime();
-    session_duration = 0;
-    final_score = 0;
 }
 
 
@@ -154,8 +148,8 @@ void GameStateGame::onGameOver()
 {
     game_over = true;
 
-    session_duration = JTime::getTime() - session_start;
-    final_score = game->getScore();
+    float session_duration = game->getTimeSurvived();
+    int final_score = game->getScore();
 
     duration_display.setString(JHelper::timeToStr(session_duration));
     score_display.setString(std::to_string(final_score));

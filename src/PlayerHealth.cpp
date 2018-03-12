@@ -57,8 +57,8 @@ void PlayerHealth::initHealthBar()
 {
     health = MAX_PLAYER_HEALTH;
 
-    health_bar.configure({ PANE_WIDTH * 0.66f, WINDOW_HEIGHT * 0.025f }, 0, sf::Color::Red);
-    health_bar.updatePosition({ WINDOW_WIDTH * 0.48f, WINDOW_HEIGHT * 0.96f });
+    health_bar.configure({ PANE_WIDTH * 0.65f, WINDOW_HEIGHT * 0.025f }, 0, sf::Color::Red);
+    health_bar.updatePosition({ WINDOW_WIDTH * 0.47f, WINDOW_HEIGHT * 0.96f });
 
     updateValueBar();
 }

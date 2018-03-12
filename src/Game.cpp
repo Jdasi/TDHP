@@ -77,6 +77,12 @@ void Game::draw(sf::RenderWindow& _window)
 }
 
 
+float Game::getTimeSurvived() const
+{
+    return score_manager->getTimeSurvived();
+}
+
+
 int Game::getScore() const
 {
     return score_manager->getScore();

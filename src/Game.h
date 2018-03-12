@@ -25,6 +25,7 @@ public:
     void tick();
     void draw(sf::RenderWindow& _window);
 
+    float getTimeSurvived() const;
     int getScore() const;
 
     void exportLevel() const;
