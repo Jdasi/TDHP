@@ -4,6 +4,7 @@
 #include "BrainStateType.h"
 #include "GameData.h"
 #include "AssetManager.h"
+#include "JHelper.h"
 #include "JTime.h"
 #include "Constants.h"
 
@@ -13,6 +14,7 @@ BrainStateVisualiser::BrainStateVisualiser(GameData& _gd)
     , overlay_x_offset(200)
     , half_overlay_x_offset(overlay_x_offset / 2)
     , overlay_slide_speed(1000)
+    , rot_timer(0)
 {
     init();
 }
@@ -21,6 +23,7 @@ BrainStateVisualiser::BrainStateVisualiser(GameData& _gd)
 void BrainStateVisualiser::tick()
 {
     handleSlide();
+    handleSpriteAnim();
 }
 
 
@@ -28,6 +31,7 @@ void BrainStateVisualiser::draw(sf::RenderWindow& _window)
 {
     _window.draw(angry_overlay);
     _window.draw(exhausted_overlay);
+    _window.draw(sprite);
 }
 
 
@@ -42,6 +46,10 @@ void BrainStateVisualiser::stateChanged(int _state_key)
 
             sliding_in_overlay = nullptr;
             sliding_out_overlay = &exhausted_overlay;
+
+            anim_settings.horizontalSway(0, 0);
+            anim_settings.verticalSway(2.0f, 10.0f);
+            anim_settings.rotation(0, 0);
         } break;
 
         case BRAINSTATE_ANGRY:
@@ -51,6 +59,10 @@ void BrainStateVisualiser::stateChanged(int _state_key)
 
             sliding_in_overlay = &angry_overlay;
             sliding_out_overlay = nullptr;
+
+            anim_settings.horizontalSway(0, 0);
+            anim_settings.verticalSway(15.0f, 5.0f);
+            anim_settings.rotation(0.025f, 3);
         } break;
 
         case BRAINSTATE_EXHAUSTED:
@@ -60,6 +72,10 @@ void BrainStateVisualiser::stateChanged(int _state_key)
 
             sliding_in_overlay = &exhausted_overlay;
             sliding_out_overlay = &angry_overlay;
+
+            anim_settings.horizontalSway(0, 0);
+            anim_settings.verticalSway(1.0f, 10.0f);
+            anim_settings.rotation(0, 0);
         } break;
     }
 }
@@ -88,6 +104,12 @@ void BrainStateVisualiser::initOverlays()
 
 void BrainStateVisualiser::initSprite()
 {
+    sprite_origin = sf::Vector2f(50, 60);
+
+    sprite.setTexture(*gd.assets.loadTexture(E_BASIC_TEXTURE));
+    sprite.setPosition(sprite_origin);
+
+    JHelper::centerSFOrigin(sprite);
 }
 
 
@@ -101,6 +123,26 @@ void BrainStateVisualiser::handleSlide()
     if (sliding_out_overlay != nullptr)
     {
         slideOverlay(sliding_out_overlay, WINDOW_WIDTH + overlay_x_offset);
+    }
+}
+
+
+void BrainStateVisualiser::handleSpriteAnim()
+{
+    float h_sway = sin(JTime::getTime() * anim_settings.h_speed) * anim_settings.h_strength;
+    float v_sway = sin(JTime::getTime() * anim_settings.v_speed) * anim_settings.v_strength;
+
+    sprite.setPosition(sprite_origin + sf::Vector2f(h_sway, v_sway));
+
+    rot_timer += JTime::getDeltaTime();
+    if (rot_timer >= anim_settings.r_delay)
+    {
+        rot_timer = 0;
+
+        float new_rot = sprite.getRotation() == anim_settings.r_strength ?
+            -anim_settings.r_strength : anim_settings.r_strength;
+
+        sprite.setRotation(new_rot);
     }
 }
 

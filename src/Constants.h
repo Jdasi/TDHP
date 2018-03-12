@@ -107,6 +107,10 @@ const std::string BULLET_TEXTURE        { "bullet.png" };
 const std::string SPAWN_TEXTURE         { "spawn.png" };
 const std::string DESTINATION_TEXTURE   { "destination.png" };
 
+const std::string E_BASIC_TEXTURE       { "enemy_medium.png" };
+const std::string E_FAST_TEXTURE        { "enemy_fast.png"};
+const std::string E_HEAVY_TEXTURE       { "enemy_heavy.png" };
+
 const std::string FLOOR_TEXTURE         { "floor.jpg" };
 const std::string UNWALKABLE_TEXTURE    { "block.png" };
 
