@@ -4,6 +4,7 @@
 #include "BrainStateType.h"
 #include "GameData.h"
 #include "AssetManager.h"
+#include "GameAudio.h"
 #include "JHelper.h"
 #include "JTime.h"
 #include "Constants.h"
@@ -13,7 +14,7 @@ BrainStateVisualiser::BrainStateVisualiser(GameData& _gd)
     : gd(_gd)
     , overlay_x_offset(200)
     , half_overlay_x_offset(overlay_x_offset / 2)
-    , overlay_slide_speed(1000)
+    , overlay_slide_speed(1500)
     , rot_timer(0)
 {
     init();
@@ -29,9 +30,9 @@ void BrainStateVisualiser::tick()
 
 void BrainStateVisualiser::draw(sf::RenderWindow& _window)
 {
+    _window.draw(sprite);
     _window.draw(angry_overlay);
     _window.draw(exhausted_overlay);
-    _window.draw(sprite);
 }
 
 
@@ -39,44 +40,9 @@ void BrainStateVisualiser::stateChanged(int _state_key)
 {
     switch (_state_key)
     {
-        case BRAINSTATE_NORMAL:
-        {
-            angry_overlay.setPosition(-WINDOW_WIDTH - overlay_x_offset, 0);
-            exhausted_overlay.setPosition(-overlay_x_offset, 0);
-
-            sliding_in_overlay = nullptr;
-            sliding_out_overlay = &exhausted_overlay;
-
-            anim_settings.horizontalSway(0, 0);
-            anim_settings.verticalSway(2.0f, 10.0f);
-            anim_settings.rotation(0, 0);
-        } break;
-
-        case BRAINSTATE_ANGRY:
-        {
-            angry_overlay.setPosition(-WINDOW_WIDTH - overlay_x_offset, 0);
-            exhausted_overlay.setPosition(-WINDOW_WIDTH - overlay_x_offset, 0);
-
-            sliding_in_overlay = &angry_overlay;
-            sliding_out_overlay = nullptr;
-
-            anim_settings.horizontalSway(0, 0);
-            anim_settings.verticalSway(15.0f, 5.0f);
-            anim_settings.rotation(0.025f, 3);
-        } break;
-
-        case BRAINSTATE_EXHAUSTED:
-        {
-            angry_overlay.setPosition(-half_overlay_x_offset, 0);
-            exhausted_overlay.setPosition(-WINDOW_WIDTH - overlay_x_offset, 0);
-
-            sliding_in_overlay = &exhausted_overlay;
-            sliding_out_overlay = &angry_overlay;
-
-            anim_settings.horizontalSway(0, 0);
-            anim_settings.verticalSway(1.0f, 10.0f);
-            anim_settings.rotation(0, 0);
-        } break;
+        case BRAINSTATE_NORMAL:     onStateNormal();        break;
+        case BRAINSTATE_ANGRY:      onStateAngry();         break;
+        case BRAINSTATE_EXHAUSTED:  onStateExhausted();     break;
     }
 }
 
@@ -110,6 +76,60 @@ void BrainStateVisualiser::initSprite()
     sprite.setPosition(sprite_origin);
 
     JHelper::centerSFOrigin(sprite);
+}
+
+
+void BrainStateVisualiser::onStateNormal()
+{
+    angry_overlay.setPosition(-WINDOW_WIDTH - overlay_x_offset, 0);
+    exhausted_overlay.setPosition(-overlay_x_offset, 0);
+
+    sliding_in_overlay = nullptr;
+    sliding_out_overlay = &exhausted_overlay;
+
+    sprite.setTexture(*gd.assets.loadTexture(BS_NORMAL_TEXTURE));
+
+    anim_settings.horizontalSway(0, 0);
+    anim_settings.verticalSway(2.0f, 10.0f);
+    anim_settings.rotation(0, 0);
+
+    gd.audio.playSound(BS_NORMAL_SOUND);
+}
+
+
+void BrainStateVisualiser::onStateAngry()
+{
+    angry_overlay.setPosition(-WINDOW_WIDTH - overlay_x_offset, 0);
+    exhausted_overlay.setPosition(-WINDOW_WIDTH - overlay_x_offset, 0);
+
+    sliding_in_overlay = &angry_overlay;
+    sliding_out_overlay = nullptr;
+
+    sprite.setTexture(*gd.assets.loadTexture(BS_ANGRY_TEXTURE));
+
+    anim_settings.horizontalSway(0, 0);
+    anim_settings.verticalSway(15.0f, 5.0f);
+    anim_settings.rotation(0.03f, 3);
+
+    gd.audio.playSound(BS_ANGRY_SOUND);
+}
+
+
+void BrainStateVisualiser::onStateExhausted()
+{
+    angry_overlay.setPosition(-half_overlay_x_offset, 0);
+    exhausted_overlay.setPosition(-WINDOW_WIDTH - overlay_x_offset, 0);
+
+    sliding_in_overlay = &exhausted_overlay;
+    sliding_out_overlay = &angry_overlay;
+
+    sprite.setTexture(*gd.assets.loadTexture(BS_EXHAUSTED_TEXTURE));
+
+    anim_settings.horizontalSway(0, 0);
+    anim_settings.verticalSway(1.5f, 10.0f);
+    anim_settings.rotation(0, 0);
+
+    gd.audio.playSound(BS_EXHAUSTED_SOUND);
 }
 
 

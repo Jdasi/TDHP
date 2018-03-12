@@ -86,4 +86,7 @@ void AssetManager::init()
     loadSoundBuffer(TOWER_DESTROY_SOUND);
     loadSoundBuffer(SCORE_BUMP_SOUND);
     loadSoundBuffer(TOWER_ERROR_SOUND);
+    loadSoundBuffer(BS_NORMAL_SOUND);
+    loadSoundBuffer(BS_ANGRY_SOUND);
+    loadSoundBuffer(BS_EXHAUSTED_SOUND);
 }

@@ -57,7 +57,7 @@ const float EXHAUSTED_ENERGY_REGEN      = -1.0f;
 
 const float TIME_BEFORE_ANGRY           = 40.0f;
 const float BRAIN_ANGRY_TIME            = 30.0f;
-const float BRAIN_EXHAUSTED_TIME        = 10.0f;
+const float BRAIN_EXHAUSTED_TIME        = 15.0f;
 
 const float DIST_SCORE_FACTOR           = 10.0f;
 const float HEALTH_SCORE_FACTOR         = 0.0f;
@@ -126,6 +126,9 @@ const std::string BTN_QUIT_TEXTURE      { "btn_quit.jpg" };
 const std::string BTN_QUIT_S_TEXTURE    { "btn_quit_small.jpg" };
 
 const std::string BS_OVERLAY_TEXTURE    { "brainstate_overlay.png" };
+const std::string BS_NORMAL_TEXTURE     { "director_normal.png" };
+const std::string BS_ANGRY_TEXTURE      { "director_angry.png" };
+const std::string BS_EXHAUSTED_TEXTURE  { "director_exhausted.png" };
 
 // ======================================================================================
 // AUDIO STRINGS
@@ -133,15 +136,22 @@ const std::string BS_OVERLAY_TEXTURE    { "brainstate_overlay.png" };
 
 const std::string BULLET_HIT_SOUND      { "bullet_hit.wav" };
 const std::string BULLET_SHOOT_SOUND    { "bullet_shoot.wav" };
+const std::string LASER_SHOOT_SOUND     { "laser_shoot.wav" };
+
 const std::string PLAYER_DAMAGED_SOUND  { "enemy_destination_reached.wav" };
+const std::string SCORE_BUMP_SOUND      { "score_bump.wav" };
+const std::string GAME_OVER_SOUND       { "game_over.wav" };
+
 const std::string HEALTH_BOOST_SOUND    { "enemy_health_boost.wav" };
 const std::string SPEED_BOOST_SOUND     { "enemy_speed_boost.wav" };
-const std::string GAME_OVER_SOUND       { "game_over.wav" };
-const std::string LASER_SHOOT_SOUND     { "laser_shoot.wav" };
-const std::string SMOKE_BOMB_SOUND      { "smoke_bomb.wav" };
 const std::string SWARM_SOUND           { "enemy_swarm.wav" };
+const std::string SMOKE_BOMB_SOUND      { "smoke_bomb.wav" };
+
 const std::string TOWER_BOOST_SOUND     { "tower_boost.wav" };
 const std::string TOWER_PLACE_SOUND     { "tower_construction.wav" };
 const std::string TOWER_DESTROY_SOUND   { "tower_destruction.wav" };
-const std::string SCORE_BUMP_SOUND      { "score_bump.wav" };
 const std::string TOWER_ERROR_SOUND     { "too_many_towers.wav" };
+
+const std::string BS_NORMAL_SOUND       { "director_normal.wav" };
+const std::string BS_ANGRY_SOUND        { "director_angry.wav" };
+const std::string BS_EXHAUSTED_SOUND    { "director_exhausted.wav" };

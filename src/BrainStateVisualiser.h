@@ -56,6 +56,10 @@ private:
     void initOverlays();
     void initSprite();
 
+    void onStateNormal();
+    void onStateAngry();
+    void onStateExhausted();
+
     void handleSlide();
     void handleSpriteAnim();
 
