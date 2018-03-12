@@ -57,7 +57,7 @@ int EnemySpawn::getTileIndex() const
 }
 
 
-bool EnemySpawn::enemiesQueued() const
+bool EnemySpawn::enemiesInQueue() const
 {
     return enemies_queued > 0;
 }

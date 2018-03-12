@@ -38,10 +38,12 @@ DirectorBrain::~DirectorBrain()
 
 void DirectorBrain::tick()
 {
-    knowledge.failed_attack_timer += JTime::getDeltaTime();
-
     scheduler.update();
+
     state_handler->tick();
+    state_visualiser->tick();
+
+    knowledge.failed_attack_timer += JTime::getDeltaTime();
 }
 
 
@@ -67,7 +69,7 @@ void DirectorBrain::init()
         decisionPoint();
     }, 5.0f, 5.0f);
 
-    state_visualiser = std::make_unique<BrainStateVisualiser>();
+    state_visualiser = std::make_unique<BrainStateVisualiser>(gd);
     brain_data = std::make_unique<BrainData>(knowledge, action_manager, *state_visualiser.get());
 
     initWorkingKnowledge();
@@ -137,7 +139,7 @@ void DirectorBrain::updateWorkingKnowledge()
 
     for (auto& spawn : enemy_spawns)
     {
-        if (!knowledge.enemies_queued && spawn->enemiesQueued())
+        if (spawn->enemiesInQueue())
             knowledge.enemies_queued = true;
 
         knowledge.avg_path_diff += spawn->getPathDifference();

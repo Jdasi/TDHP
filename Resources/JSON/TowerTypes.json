@@ -14,7 +14,7 @@
             "max_health_factor": -10.0,
             "speed_factor": 20.0,
             "self_distance_factor": 0,
-            "base_distance_factor": -10.0
+            "base_distance_factor": -20.0
         }
 	},
     
@@ -32,8 +32,8 @@
         "targeting_prefs":
         {
             "max_health_factor": 10.0,
-            "speed_factor": -10.0,
-            "self_distance_factor": -5.0,
+            "speed_factor": -20.0,
+            "self_distance_factor": -10.0,
             "base_distance_factor": 0
         }
 	}

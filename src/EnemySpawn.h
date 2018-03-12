@@ -34,7 +34,7 @@ public:
     void setMarkerTexture(sf::Texture* _texture);
     int getTileIndex() const;
 
-    bool enemiesQueued() const;
+    bool enemiesInQueue() const;
     void clearSpawnQueue();
 
     void spawnEnemy(EnemyType* _type, const SpawnPathType& _path_type = INFLUENCED) const;

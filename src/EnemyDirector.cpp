@@ -38,7 +38,7 @@ EnemyDirector::EnemyDirector(GameData& _game_data, NavManager& _nav_manager,
         EnemyType* random_type = enemy_manager.getRandomType();
         EnemySpawn* spawn = enemy_spawns[rand() % enemy_spawns.size()].get();
         
-        if (spawn->enemiesQueued())
+        if (spawn->enemiesInQueue())
             return;
 
         spawn->spawnEnemy(random_type);
@@ -72,9 +72,10 @@ void EnemyDirector::draw(sf::RenderWindow& _window)
         spawn->draw(_window);
     }
 
+    brain.draw(_window);
+
     destination_marker.draw(_window);
     enemy_manager.draw(_window);
-    brain.draw(_window);
 
     energy_bar.draw(_window);
     _window.draw(lbl_energy);
