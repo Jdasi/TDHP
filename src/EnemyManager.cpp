@@ -6,6 +6,8 @@
 EnemyManager::EnemyManager(AssetManager& _asset_manager, Waypoint& _enemy_destination)
      : enemy_destination(_enemy_destination)
      , num_alive(0)
+     , proximity_to_goal(0)
+     , closest_type_to_goal(nullptr)
      , fastest_type(nullptr)
      , strongest_type(nullptr)
      , basic_type(nullptr)
@@ -29,6 +31,7 @@ void EnemyManager::tick()
 
         if (dist < proximity_to_goal)
         {
+            closest_type_to_goal = enemy.getType();
             proximity_to_goal = dist;
         }
 
@@ -100,6 +103,12 @@ int EnemyManager::getNumAliveOfType(EnemyType* _type)
     }
 
     return counter;
+}
+
+
+EnemyType* EnemyManager::getClosestTypeToGoal()
+{
+    return closest_type_to_goal;
 }
 
 

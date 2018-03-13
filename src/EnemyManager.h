@@ -25,6 +25,7 @@ public:
     int getNumAlive() const;
     int getNumAliveOfType(EnemyType* _type);
 
+    EnemyType* getClosestTypeToGoal();
     int getProximityToGoal() const;
 
     std::vector<Enemy*> getEnemiesNearPosSqr(const sf::Vector2f& _pos,
@@ -68,6 +69,7 @@ private:
     Waypoint& enemy_destination;
 
     int num_alive;
+    EnemyType* closest_type_to_goal;
     int proximity_to_goal;
 
     EnemyType* fastest_type;
