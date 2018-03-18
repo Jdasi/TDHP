@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <memory>
-#include <queue>
 
 #include "JTime.h"
 
@@ -18,6 +17,7 @@ using State = std::pair<int, std::unique_ptr<StateType>>;
 public:
     StateHandler()
         : current_state(nullptr)
+        , queued_state(nullptr)
         , time_in_state(0)
     {
     }
@@ -38,13 +38,22 @@ public:
 
     void queueState(int _key)
     {
-        states_queue.push(_key);
+        auto result = std::find_if(states.begin(), states.end(),
+            [_key](const State& _elem)
+        {
+            return _elem.first == _key;
+        });
+
+        if (result == states.end())
+            return;
+
+        queued_state = result->second.get();
     }
 
     void tick()
     {
         time_in_state += JTime::getDeltaTime();
-        processStatesQueue();
+        processQueuedState();
 
         if (current_state)
         {
@@ -61,41 +70,30 @@ protected:
     StateType* current_state;
 
 private:
-    void processStatesQueue()
+    void processQueuedState()
     {
-        if (!states_queue.empty())
+        if (queued_state)
         {
-            triggerState(states_queue.front());
-            states_queue.pop();
+            triggerQueuedState();
         }
     }
 
-    void triggerState(int _key)
+    void triggerQueuedState()
     {
-        auto result = std::find_if(states.begin(), states.end(),
-            [_key](const State& _elem)
-            {
-                return _elem.first == _key;
-            });
-
-        if (result == states.end())
-        {
-            throw std::runtime_error("Unknown state.");
-        }
-
         if (current_state)
         {
             current_state->onStateLeave();
         }
 
-        current_state = result->second.get();
-        current_state->onStateEnter();
+        current_state = queued_state;
+        queued_state = nullptr;
 
+        current_state->onStateEnter();
         time_in_state = 0;
     }
 
     std::vector<State> states;
-    std::queue<int> states_queue;
+    StateType* queued_state;
 
     float time_in_state;
 
