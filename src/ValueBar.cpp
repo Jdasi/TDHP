@@ -18,6 +18,7 @@ void ValueBar::draw(sf::RenderWindow& _window)
 }
 
 
+// Sets the bar's settings. Automatically centers the bar's origin.
 void ValueBar::configure(const sf::Vector2f& _size, const float _y_offset,
     const sf::Color& _color)
 {
@@ -40,6 +41,7 @@ void ValueBar::setBarColor(const sf::Color& _color)
 }
 
 
+// Moves the bar to a new position. Automatically factors in its offset.
 void ValueBar::updatePosition(const sf::Vector2f& _position)
 {
     bg_rectangle.setPosition({ _position.x, _position.y + y_offset });
@@ -47,6 +49,7 @@ void ValueBar::updatePosition(const sf::Vector2f& _position)
 }
 
 
+// Updates the foreground fill of the bar. Value should be between 0-1.
 void ValueBar::updateValuePercentage(const float _percentage)
 {
     fg_rectangle.setSize({ size.x * _percentage, size.y });

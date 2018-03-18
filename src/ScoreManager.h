@@ -43,6 +43,7 @@ private:
     void initLabels();
 
     void updateTimeDisplay();
+    void cleanUpExpiredText();
 
     // Enemy events.
     void onDeath(const Enemy& _caller, TowerType* _killer_type) override;

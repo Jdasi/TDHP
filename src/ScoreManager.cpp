@@ -29,14 +29,9 @@ ScoreManager::ScoreManager(GameData& _gd, Level& _level)
 void ScoreManager::tick()
 {
     scheduler.update();
+    cleanUpExpiredText();
 
     time_survived += JTime::getDeltaTime();
-
-    text_popups.erase(std::remove_if(
-        text_popups.begin(),
-        text_popups.end(),
-        [](const auto& _popup) { return _popup->expired(); }),
-        text_popups.end());
 
     for (auto& popup : text_popups)
     {
@@ -109,6 +104,16 @@ void ScoreManager::initLabels()
 void ScoreManager::updateTimeDisplay()
 {
     lbl_time_display.setString(JHelper::timeToStr(time_survived));
+}
+
+
+void ScoreManager::cleanUpExpiredText()
+{
+    text_popups.erase(std::remove_if(
+        text_popups.begin(),
+        text_popups.end(),
+        [](const auto& _popup) { return _popup->expired(); }),
+        text_popups.end());
 }
 
 

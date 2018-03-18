@@ -78,6 +78,7 @@ void HeatmapManager::splashOnHeatmap(const int _heatmap_index, const int _tile_i
 }
 
 
+// Get the weight of a specific tile in a heatmap.
 int HeatmapManager::getWeight(const int _tile_index, const HeatmapFlag& _flags,
     const bool _abs) const
 {
@@ -85,8 +86,10 @@ int HeatmapManager::getWeight(const int _tile_index, const HeatmapFlag& _flags,
 }
 
 
+// Get the weight of the heatmap as a whole.
 int HeatmapManager::getTotalWeight(const HeatmapFlag& _flags, const bool _abs) const
 {
+    // -1 parameter = ALL TILES.
     return calculateWeight(_flags, -1, _abs);
 }
 
@@ -115,6 +118,7 @@ int HeatmapManager::getHighestWeightIndex(const HeatmapFlag& _flags) const
 }
 
 
+// Registers all heatmaps to be used by the game.
 void HeatmapManager::initHeatmaps()
 {
     createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color(0, 50, 255),  200,  7);
@@ -173,13 +177,14 @@ Heatmap* HeatmapManager::findHeatmap(const HeatmapFlag& _key) const
 }
 
 
-/* Calculates the weight of any heatmaps that match the passed flags.
- * If _tile_index is >= 0, the weight of a single tile is calculated,
- * otherwise the total weight of relevant heatmaps are calculated.
- *
- * If _abs is true, NEGATIVE WeightingTypes will be forced to POSITIVE
- * for this calculation.
- */
+/*
+Calculates the weight of any heatmaps that match the passed flags.
+If _tile_index is >= 0, the weight of a single tile is calculated,
+otherwise the total weight of relevant heatmaps are calculated.
+
+If _abs is true, NEGATIVE WeightingTypes will be forced to POSITIVE
+for this calculation.
+*/
 int HeatmapManager::calculateWeight(const HeatmapFlag& _flags, const int _tile_index,
     const bool _abs) const
 {
@@ -191,7 +196,7 @@ int HeatmapManager::calculateWeight(const HeatmapFlag& _flags, const int _tile_i
             continue;
 
         // Get either the weight of a single tile or the whole heatmap's weight.
-        int weighting = _tile_index >= 0 ?
+        int weighting = JHelper::validIndex(_tile_index, level.getProduct()) ?
             entry.heatmap->getWeight(_tile_index) : entry.heatmap->getTotalWeight();
 
         // Heatmaps can have have an overall positive or negative weight contribution.

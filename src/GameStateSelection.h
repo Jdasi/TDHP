@@ -32,6 +32,7 @@ public:
 private:
     void initLevelOptions();
     void initObjects();
+    void initLevelSnapshot();
     void initText();
     void initButtons();
 

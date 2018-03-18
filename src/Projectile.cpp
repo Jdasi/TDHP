@@ -34,6 +34,7 @@ void Projectile::setOwningType(TowerType* _owning_type)
 }
 
 
+// Refreshes the projectile visualisation and informs the derived class.
 void Projectile::refresh(const sf::Vector2f& _from, const sf::Vector2f& _to)
 {
     if (owning_type == nullptr)
@@ -54,7 +55,8 @@ bool Projectile::isActive() const
 }
 
 
-void Projectile::destroy()
+// Forces the visualisation to expire.
+void Projectile::expire()
 {
     draw_until_time = 0;
 }

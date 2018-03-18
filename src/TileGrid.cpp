@@ -84,9 +84,10 @@ void TileGrid::setTileTexture(sf::Texture* _texture)
 }
 
 
-/* Tiles are squished to fit inside the PANE, and are set to have their origins
- * in the center, so that other centered sprites can be easily layered on top.
- */
+/*
+Tiles are squished to fit inside the PANE, and are set to have their origins
+in the center, so that other centered sprites can be easily layered on top.
+*/
 void TileGrid::init(const sf::Color& _initial_color)
 {
     tiles.assign(size_x * size_y, Tile());

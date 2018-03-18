@@ -156,8 +156,8 @@ void GUIButton::handleColor()
 
 void GUIButton::onClick()
 {
-    for (auto& ev : click_events)
+    for (auto& function : click_events)
     {
-        ev();
+        function();
     }
 }

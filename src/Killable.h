@@ -25,14 +25,9 @@ public:
     float getHealthPercentage() const;
 
     void spawn();
-
-    // Damage and inform listeners.
     void damage(TowerType* _attacker_type = nullptr);
 
-    // Kill and inform listeners.
     void kill(TowerType* _killer_type = nullptr);
-
-    // Kill without informing listeners.
     void killQuiet();
 
 protected:

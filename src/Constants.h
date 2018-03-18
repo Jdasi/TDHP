@@ -51,6 +51,9 @@ const float MAX_WEIGHTING               = 255.0f;
 const float MAX_PLAYER_HEALTH           = 100.0f;
 const float DAMAGE_ON_GOAL_REACHED      = 15.0f;
 
+const float DIRECTOR_SPAWN_DELAY        = 2.0f;
+const float DIRECTOR_DECISION_DELAY     = 5.0f;
+
 const float MAX_BRAIN_ENERGY            = 100.0f;
 const float ENERGY_ON_DEATH             = 1.0f;
 const float ENERGY_ON_PATH_COMPLETION   = 5.0f;

@@ -26,8 +26,8 @@ struct GameData;
 :: Author: Joe da Silva
 :: Date: 18/03/2018
 
-Encapsulates all the data and logic related to the defensive structures
-which the player can build as part of the Tower Defence game.
+Encapsulates all the logic and visualisations related to the defensive
+structures which the player can build as part of the Tower Defence game.
 
 ---------------------------------------------------------*/
 class TowerManager final

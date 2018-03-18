@@ -95,8 +95,6 @@ void Level::updateTileType(const int _index, const LevelTileType& _type)
         case WALKABLE: { grid.setTileColor(_index, WALKABLE_COLOR); } break;
         case UNWALKABLE: { grid.setTileColor(_index, UNWALKABLE_COLOR); } break;
         case ENEMY_SPAWN: { grid.setTileColor(_index, WALKABLE_COLOR); } break;
-
-        default: {}
     }
 }
 
@@ -107,6 +105,7 @@ void Level::setUnwalkableTexture(sf::Texture* _texture)
 }
 
 
+// Converts a tile index into a position in the level.
 Waypoint Level::createWaypoint(const int _tile_index)
 {
     auto coords = JHelper::calculateCoords(_tile_index, getSizeX());
@@ -118,6 +117,7 @@ Waypoint Level::createWaypoint(const int _tile_index)
 
 void Level::init()
 {
+    // Initialise the level visualisation with the raw level data.
     for (int i = 0; i < ld->product; ++i)
     {
         updateTileType(i, getTileType(i));

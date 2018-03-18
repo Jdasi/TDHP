@@ -22,6 +22,7 @@ EnemyType* Enemy::getType() const
 }
 
 
+// Configures the enemy and automatically updates its sprite.
 void Enemy::setType(EnemyType& _type)
 {
     type = &_type;
@@ -44,21 +45,7 @@ void Enemy::tick()
         return;
 
     updateTileIndex();
-    mdist_to_goal = JHelper::manhattanDistance(coords, path.getLastWaypoint().tile_coords);
-
-    auto& waypoint = path.getWaypoint(path_index);
-    auto& pos = getPosition();
-
-    float remaining_dist_sqr = JMath::vector2DistanceSqr(pos, waypoint.pos);
-
-    if (pos == waypoint.pos || remaining_dist_sqr <= 1)
-    {
-        nextWaypoint();
-    }
-    else
-    {
-        moveToWaypoint(waypoint, pos, remaining_dist_sqr);
-    }
+    handleMovement();
 }
 
 
@@ -71,6 +58,7 @@ void Enemy::draw(sf::RenderWindow& _window)
 
     if (getMaxHealth() > type->max_health)
     {
+        // Flicker the shield visualisation.
         if (shield_visible)
             _window.draw(shield_shape);
 
@@ -147,6 +135,8 @@ void Enemy::onSpawn()
     resetSpeed();
 
     health_bar.updateValuePercentage(getHealthPercentage());
+
+    // Prevent inheriting buffs from ancestors.
     scheduler.cancelInvokes();
 }
 
@@ -201,6 +191,27 @@ void Enemy::updateTileIndex()
     setTileIndex(tile_index);
 
     coords = JHelper::calculateCoords(tile_index, size_x);
+
+    // Track progress to goal.
+    mdist_to_goal = JHelper::manhattanDistance(coords, path.getLastWaypoint().tile_coords);
+}
+
+
+void Enemy::handleMovement()
+{
+    auto& waypoint = path.getWaypoint(path_index);
+    auto& pos = getPosition();
+
+    float remaining_dist_sqr = JMath::vector2DistanceSqr(pos, waypoint.pos);
+
+    if (pos == waypoint.pos || remaining_dist_sqr <= 1)
+    {
+        nextWaypoint();
+    }
+    else
+    {
+        moveToWaypoint(waypoint, pos, remaining_dist_sqr);
+    }
 }
 
 
@@ -223,9 +234,9 @@ void Enemy::moveToWaypoint(const Waypoint& _waypoint, const sf::Vector2f& _pos,
     sf::Vector2f dir = JMath::vector2Normalized(_waypoint.pos - _pos);
     dir *= type->speed * speed_modifier * JTime::getDeltaTime();
 
-    // Prevent enemy from overshooting the waypoint.
     if (JMath::vector2MagnitudeSqr(dir) >= _remaining_dist_sqr)
     {
+        // Prevent enemy from overshooting the waypoint.
         setPosition(_waypoint.pos);
     }
     else

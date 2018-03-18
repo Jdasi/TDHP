@@ -395,7 +395,8 @@ void BrainActionManager::sortActionSet(std::vector<BrainAction*>& _action_set)
 }
 
 
-void BrainActionManager::sendSwarm(EnemyType* _type, const int _count, const EnemySpawn::SpawnPathType& _path_type)
+void BrainActionManager::sendSwarm(EnemyType* _type, const int _count,
+    const EnemySpawn::SpawnPathType& _path_type)
 {
     EnemySpawn* best_spawn = nullptr;
     int cheapest_path = JMath::maxInt();

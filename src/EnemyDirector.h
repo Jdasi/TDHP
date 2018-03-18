@@ -63,6 +63,9 @@ public:
 
 private:
     void init();
+    void initVisualisations();
+    void initRegularSpawning();
+
     void handleDebugCommands();
 
     GameData& gd;

@@ -43,6 +43,7 @@ void DirectorBrain::tick()
     state_handler->tick();
     state_visualiser->tick();
 
+    // Always assume the director is failing to attack the player's base.
     knowledge.failed_attack_timer += JTime::getDeltaTime();
 }
 
@@ -67,7 +68,7 @@ void DirectorBrain::init()
     scheduler.invokeRepeating([this]()
     {
         decisionPoint();
-    }, 5.0f, 5.0f);
+    }, DIRECTOR_DECISION_DELAY, DIRECTOR_DECISION_DELAY);
 
     state_visualiser = std::make_unique<BrainStateVisualiser>(gd);
     brain_data = std::make_unique<BrainData>(knowledge, action_manager, *state_visualiser.get());
@@ -81,9 +82,10 @@ void DirectorBrain::initWorkingKnowledge()
 {
     knowledge.hm_maximum_weight = level.getProduct() * static_cast<int>(MAX_WEIGHTING);
 
-    /* Math to scale swarm threshold based on level size.
-     * E.g. a larger map should have a lower swarm threshold.
-     */
+    /*
+    Math to scale swarm threshold based on level size.
+    E.g. a larger map should have a lower swarm threshold.
+    */
     float max_int = static_cast<float>(JMath::maxInt());
     knowledge.swarm_threshold = (max_int / knowledge.hm_maximum_weight) * 0.0002f;
 }
@@ -101,6 +103,7 @@ void DirectorBrain::initStateSystem()
 }
 
 
+// Marks the point in time where the brain needs to make a decision.
 void DirectorBrain::decisionPoint()
 {
     updateWorkingKnowledge();
@@ -115,6 +118,7 @@ void DirectorBrain::decisionPoint()
 }
 
 
+// Refreshes the brain's working knowledge with up to date info about the world.
 void DirectorBrain::updateWorkingKnowledge()
 {
     int overall_weight = heatmap_manager.getTotalWeight();
@@ -158,6 +162,7 @@ void DirectorBrain::updateWorkingKnowledge()
 }
 
 
+// Debug log of the brain's working knowledge.
 void DirectorBrain::printDecisionPointLog()
 {
     std::string enemies_queued_output(JHelper::boolToStr(knowledge.enemies_queued));
@@ -186,6 +191,7 @@ void DirectorBrain::printDecisionPointLog()
 }
 
 
+// Filter decision through to the current brain state.
 void DirectorBrain::makeDecision()
 {
     state_handler->onDecisionPoint();
@@ -198,6 +204,7 @@ float DirectorBrain::heatmapWeightToPercentage(const int _weight)
 }
 
 
+// Record death information on the heatmap to inform future decisions.
 void DirectorBrain::onDeath(const Enemy& _caller, TowerType* _killer_type)
 {
     int tile_index = JHelper::posToTileIndex(_caller.getPosition(), level);
@@ -219,6 +226,7 @@ void DirectorBrain::onDeath(const Enemy& _caller, TowerType* _killer_type)
 }
 
 
+// Regain some energy for a successful attack.
 void DirectorBrain::onPathComplete(Enemy& _caller)
 {
     _caller.killQuiet();

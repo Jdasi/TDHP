@@ -9,9 +9,10 @@ GameAudio::GameAudio(AssetManager& _asset_manager)
 }
 
 
-/* Plays a sound from Resources/Audio. Example usage: playSound("sound.wav")
- * A sound is constructed and then played if it is not already in the list.
- */
+/*
+Plays a sound from Resources/Audio. Example usage: playSound("sound.wav")
+A sound is constructed and then played the first time it is requested.
+*/
 void GameAudio::playSound(const std::string& _file)
 {
     auto entry = JHelper::findInVectorPair(sounds, _file);

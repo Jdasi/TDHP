@@ -35,13 +35,13 @@ void ProjectileManager::tick()
         auto& bullet_pos = bullet.getPosition();
         if (!JHelper::posInSimulationArea(bullet_pos))
         {
-            bullet.destroy();
+            bullet.expire();
         }
 
         if (enemy_director.damageEnemyAtPos(bullet_pos, bullet.getOwningType()))
         {
             gd.audio.playSound(BULLET_HIT_SOUND);
-            bullet.destroy();
+            bullet.expire();
         }
     }
 }
@@ -128,6 +128,7 @@ void ProjectileManager::spawnLaser(const ProjectileRequest& _request)
 
     if (target_pos == _request.tower_target->getPosition())
     {
+        // Bypass unnecessary collision checks with accurate shots.
         _request.tower_target->damage(_request.tower_type);
     }
     else
@@ -157,9 +158,10 @@ void ProjectileManager::spawnBullet(const ProjectileRequest& _request)
 }
 
 
-/* Calculates inaccuracy from smoke based on the position of the request's target.
- * The inaccuracy is also determined by the level's tile size.
- */
+/*
+Calculates inaccuracy from smoke based on the position of the request's target.
+The inaccuracy is also determined by the level's tile size.
+*/
 sf::Vector2f ProjectileManager::calculateSmokeInaccuracy(const ProjectileRequest& _request)
 {
     int tile_index = _request.tower_target->getTileIndex();

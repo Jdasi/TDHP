@@ -39,6 +39,7 @@ void TDSprite::setTileIndex(const int _tile_index)
 }
 
 
+// Sets the sprite's texture and automatically centers its origin.
 void TDSprite::setTexture(sf::Texture* _texture)
 {
     auto texture_size = _texture->getSize();
@@ -82,6 +83,7 @@ bool TDSprite::collisionCheck(const sf::Vector2f& _point)
 }
 
 
+// Informs all TDSprites of the level to reference for sizing.
 void TDSprite::init(Level& _level)
 {
     current_level = &_level;

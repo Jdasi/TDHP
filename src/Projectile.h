@@ -39,7 +39,7 @@ public:
     void refresh(const sf::Vector2f& _from, const sf::Vector2f& _to);
     bool isActive() const;
 
-    void destroy();
+    void expire();
 
 protected:
     virtual void onRefresh(const sf::Vector2f& _from, const sf::Vector2f& _to) = 0;

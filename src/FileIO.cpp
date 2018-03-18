@@ -26,6 +26,10 @@ std::vector<std::string> FileIO::enumerateLevelNames()
 }
 
 
+/*
+Returns an object containing the raw level data associated with the passed name.
+The caller is responsible for taking ownership of this object.
+*/
 std::unique_ptr<LevelData> FileIO::loadLevelData(const std::string& _name)
 {
     using jsoncons::json;
@@ -87,7 +91,7 @@ void FileIO::exportLevel(const Level& _level, const std::string& _name)
     int size_x = _level.getSizeX();
     int size_y = _level.getSizeY();
 
-    // Level object.
+    // JSON level object to export.
     json level_info;
 
     level_info["name"] = _name;
@@ -120,6 +124,10 @@ void FileIO::exportLevel(const Level& _level, const std::string& _name)
 }
 
 
+/*
+Exports the passed BrainStatistics to a "brain_statistics.txt" file
+in the build configuration's folder.
+*/
 void FileIO::exportBrainStatistics(const BrainStatistics& _statistics)
 {
     std::string file_name("brain_statistics.txt");

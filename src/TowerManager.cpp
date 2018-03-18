@@ -97,7 +97,7 @@ void TowerManager::toggleTower(const int _tile_index, int _click_type)
         }
         else
         {
-            // Invalid tower placement.
+            // Invalid tile picked for construction.
             gd.audio.playSound(TOWER_ERROR_SOUND);
         }
     }
@@ -181,7 +181,7 @@ void TowerManager::constructTower(const int _tile_index, const std::string& _tow
         return;
     }
 
-    // Invalid tower placement.
+    // All tower slots used.
     gd.audio.playSound(TOWER_ERROR_SOUND);
 }
 

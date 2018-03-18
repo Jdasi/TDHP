@@ -55,8 +55,6 @@ void GameStateSelection::tick()
 
 void GameStateSelection::draw(sf::RenderWindow& _window)
 {
-    _window.draw(title_display);
-
     // Level selection stuff.
     _window.draw(title_display);
 
@@ -95,13 +93,17 @@ void GameStateSelection::initLevelOptions()
 
 void GameStateSelection::initObjects()
 {
-    // Level snapshot.
+    initLevelSnapshot();
+    initText();
+    initButtons();
+}
+
+
+void GameStateSelection::initLevelSnapshot()
+{
     level_snapshot.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.33f);
     level_snapshot.setScale(0.5f, 0.5f);
     JHelper::centerSFOrigin(level_snapshot);
-
-    initText();
-    initButtons();
 }
 
 
@@ -217,6 +219,7 @@ void GameStateSelection::playGame()
 }
 
 
+// Handles keyboard level selection.
 void GameStateSelection::handleSelection()
 {
     if (level_options.size() == 0)
@@ -230,6 +233,7 @@ void GameStateSelection::handleSelection()
 }
 
 
+// Updates the current level selection.
 void GameStateSelection::selectOption(const int _index)
 {
     if (!JHelper::validIndex(_index, level_options.size()))
@@ -240,6 +244,7 @@ void GameStateSelection::selectOption(const int _index)
 }
 
 
+// Selects the next level option.
 void GameStateSelection::selectNext()
 {
     ++selected_index;
@@ -252,6 +257,7 @@ void GameStateSelection::selectNext()
 }
 
 
+// Selects the previous level option.
 void GameStateSelection::selectPrev()
 {
     --selected_index;
@@ -264,6 +270,7 @@ void GameStateSelection::selectPrev()
 }
 
 
+// Updates the readout that displays below the level snapshot.
 void GameStateSelection::updateSelectionDisplay()
 {
     std::string selected_index_str = std::to_string(selected_index + 1);

@@ -28,21 +28,6 @@ EnemyDirector::EnemyDirector(GameData& _game_data, NavManager& _nav_manager,
     enemy_spawns.reserve(MAX_ENEMY_SPAWNS);
 
     init();
-
-    // Debug repeating enemy spawn.
-    scheduler.invokeRepeating([this]()
-    {
-        if (enemy_spawns.empty())
-            return;
-
-        EnemyType* random_type = enemy_manager.getRandomType();
-        EnemySpawn* spawn = enemy_spawns[rand() % enemy_spawns.size()].get();
-        
-        if (spawn->enemiesInQueue())
-            return;
-
-        spawn->spawnEnemy(random_type);
-    }, 2.0f, 2.0f);
 }
 
 
@@ -129,6 +114,7 @@ bool EnemyDirector::removeEnemySpawn(const int _tile_index)
         return false;
 
     enemy_spawns.erase(std::remove(enemy_spawns.begin(), enemy_spawns.end(), *object));
+
     return true;
 }
 
@@ -196,6 +182,13 @@ bool EnemyDirector::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_
 
 void EnemyDirector::init()
 {
+    initVisualisations();
+    initRegularSpawning();
+}
+
+
+void EnemyDirector::initVisualisations()
+{
     // Energy bar label.
     lbl_energy.setFont(*gd.assets.loadFont(DEFAULT_FONT));
     lbl_energy.setCharacterSize(14);
@@ -216,6 +209,25 @@ void EnemyDirector::init()
 }
 
 
+void EnemyDirector::initRegularSpawning()
+{
+    scheduler.invokeRepeating([this]()
+    {
+        if (enemy_spawns.empty())
+            return;
+
+        EnemyType* random_type = enemy_manager.getRandomType();
+        EnemySpawn* spawn = enemy_spawns[rand() % enemy_spawns.size()].get();
+
+        if (spawn->enemiesInQueue())
+            return;
+
+        spawn->spawnEnemy(random_type);
+    }, DIRECTOR_SPAWN_DELAY, DIRECTOR_SPAWN_DELAY);
+}
+
+
+// Commands that an only be triggered by the user in debug mode.
 void EnemyDirector::handleDebugCommands()
 {
     if (gd.input.getKeyDown(sf::Keyboard::V))

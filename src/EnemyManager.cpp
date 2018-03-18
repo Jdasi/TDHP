@@ -26,6 +26,7 @@ void EnemyManager::tick()
         if (!enemy.isAlive())
             continue;
 
+        // Track all enemy progress towards the destination.
         auto coords = enemy.getCoords();
         int dist = JHelper::manhattanDistance(coords, enemy_destination.tile_coords);
 
@@ -168,12 +169,14 @@ bool EnemyManager::killEnemyAtPos(const sf::Vector2f& _pos, TowerType* _killer_t
 }
 
 
+// Boosts the health of all living enemies.
 void EnemyManager::boostEnemyHealth(const int _modifier, const float _duration)
 {
     boostEnemyHealth(nullptr, _modifier, _duration);
 }
 
 
+// Boosts the health of all living enemies of the passed type.
 void EnemyManager::boostEnemyHealth(EnemyType* _type, const int _modifier, const float _duration)
 {
     bool any_type = _type == nullptr;
@@ -188,12 +191,14 @@ void EnemyManager::boostEnemyHealth(EnemyType* _type, const int _modifier, const
 }
 
 
+// Boosts the speed of all living enemies.
 void EnemyManager::boostEnemySpeed(const float _modifier, const float _duration)
 {
     boostEnemySpeed(nullptr, _modifier, _duration);
 }
 
 
+// Boosts the speed of all living enemies of the passed type.
 void EnemyManager::boostEnemySpeed(EnemyType* _type, const float _modifier, const float _duration)
 {
     bool any_type = _type == nullptr;

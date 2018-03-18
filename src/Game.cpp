@@ -89,12 +89,14 @@ int Game::getScore() const
 }
 
 
+// Exports the game's current loaded level with the same name.
 void Game::exportLevel() const
 {
     FileIO::exportLevel(current_level, current_level.getName());
 }
 
 
+// Exports the game's current loaded level with a random name.
 void Game::exportLevelAsNew() const
 {
     FileIO::exportLevel(current_level);
@@ -113,6 +115,7 @@ void Game::init()
 
 void Game::initSystems()
 {
+    // Inform base TDSprite class of the loaded level for sizing.
     TDSprite::init(current_level);
 
     heatmap_manager = std::make_unique<HeatmapManager>(current_level);
@@ -260,9 +263,10 @@ void Game::evaluateContextChange(const sf::Keyboard::Key& _key)
     if (!gd.input.getKeyDown(_key))
         return;
 
-    /* Match selection to the arrangement of number keys on the keyboard.
-     * (i.e. shift all numbers one place to the left and make 0 the last selection)
-     */
+    /*
+    Match selection to the arrangement of number keys on the keyboard.
+    (i.e. shift all numbers one place to the left and make 0 the last selection)
+    */
     int selection = static_cast<int>(_key) - static_cast<int>(sf::Keyboard::Num1);
 
     if (selection == -1)
@@ -273,6 +277,11 @@ void Game::evaluateContextChange(const sf::Keyboard::Key& _key)
 }
 
 
+/*
+Processes the current game context. Most of the time this will be
+set to Game, but this can be changed to allow for interactions with
+the level and heatmaps in the debug environment.
+*/
 void Game::processContext()
 {
     switch (current_context)
@@ -285,12 +294,11 @@ void Game::processContext()
         {
             processHeatmapContext();
         } break;
-
-        default: {}
     }
 }
 
 
+// Process debug interactions with the level and navigation system.
 void Game::processNavContext()
 {
     if (gd.input.getMouseButtonDown(sf::Mouse::Left))
@@ -344,6 +352,7 @@ void Game::processNavContext()
 }
 
 
+// Process interactions with gameplay systems.
 void Game::processGameContext()
 {
     const int NO_CLICK = -1;
@@ -369,6 +378,7 @@ void Game::processGameContext()
 }
 
 
+// Process debug interactions with the heatmap system.
 void Game::processHeatmapContext()
 {
     if (painting)
@@ -388,6 +398,7 @@ void Game::processHeatmapContext()
 }
 
 
+// Provides a string representation of a context for outputting to screen.
 std::string Game::contextToString(const ContextType& _context)
 {
     std::string str = "Context: ";

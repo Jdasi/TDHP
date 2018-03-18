@@ -26,6 +26,7 @@ void Tower::init(IProjectileManager& _iprojectile_manager, Waypoint& _enemy_dest
 }
 
 
+// Configures the tower and automatically updates its sprite.
 void Tower::setType(TowerType& _type)
 {
     type = &_type;
@@ -61,6 +62,7 @@ bool Tower::canShoot() const
 }
 
 
+// Informs the tower of its nearby enemies.
 void Tower::updateNearbyEnemies(const std::vector<Enemy*>& _enemies)
 {
     nearby_enemies = _enemies;
@@ -120,7 +122,7 @@ void Tower::engage(Enemy* _enemy)
     if (_enemy == nullptr)
         return;
 
-    // Look at the enemy.
+    // Rotate tower sprite to look at the enemy.
     setRotation(JHelper::calculateLookAngle(getPosition(), _enemy->getPosition()));
 
     if (!canShoot())

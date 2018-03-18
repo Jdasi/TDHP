@@ -72,7 +72,7 @@ NavPath NavManager::findPath(const sf::Vector2i& _start, const sf::Vector2i& _go
         return path;
     }
 
-    resetGraph(); // This may not be needed ..
+    resetGraph();
 
     NavNode* start_node = &nav_nodes[start_index];
     NavNode* goal_node = &nav_nodes[goal_index];
@@ -225,6 +225,7 @@ NavPath NavManager::retracePath(NavNode* _start_node, NavNode* _goal_node)
             curr_is_corner = (next_coords.x != last_coords.x && next_coords.y != last_coords.y);
         }
 
+        // Minimise the amount of straight-line nodes.
         if (curr == _goal_node || curr_is_corner)
         {
             path.indices.push_back(curr->getIndex());
@@ -234,6 +235,7 @@ NavPath NavManager::retracePath(NavNode* _start_node, NavNode* _goal_node)
         curr = curr->getParent();
     }
 
+    // Path must be flipped as it was traced from goal to start.
     path.total_cost = _goal_node->getGCost();
     std::reverse(path.indices.begin(), path.indices.end());
 

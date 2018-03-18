@@ -37,6 +37,7 @@ float Killable::getHealthPercentage() const
 }
 
 
+// Marks the entity as alive and informs the derived class.
 void Killable::spawn()
 {
     if (isAlive())
@@ -47,6 +48,7 @@ void Killable::spawn()
 }
 
 
+// Damages the entity and informs the derived class.
 void Killable::damage(TowerType* _attacker_type)
 {
     if (!isAlive())
@@ -65,6 +67,7 @@ void Killable::damage(TowerType* _attacker_type)
 }
 
 
+// Kills the entity and informs the derived class.
 void Killable::kill(TowerType* _killer_type)
 {
     killQuiet();
@@ -72,6 +75,7 @@ void Killable::kill(TowerType* _killer_type)
 }
 
 
+// Kills the entity without informing the derived class.
 void Killable::killQuiet()
 {
     if (!isAlive())

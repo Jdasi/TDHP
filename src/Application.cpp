@@ -106,6 +106,7 @@ void Application::draw()
 }
 
 
+// Debug user commands available throughout the program.
 void Application::handleCommonCommands()
 {
     if (input_handler->getKeyDown(sf::Keyboard::F1))

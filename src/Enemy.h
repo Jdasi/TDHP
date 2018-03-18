@@ -54,6 +54,7 @@ private:
     void initShieldShape();
 
     void updateTileIndex();
+    void handleMovement();
     void nextWaypoint();
     void moveToWaypoint(const Waypoint& _waypoint, const sf::Vector2f& _pos,
         float _remaining_dist_sqr);

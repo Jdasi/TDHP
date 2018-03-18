@@ -71,11 +71,12 @@ void Heatmap::splash(const int _tile_index, const int _radius)
 }
 
 
+// Sets the heatmap's color and resets all weightings.
 void Heatmap::setColor(const sf::Color& _color)
 {
     color = _color;
 
-    // Reset weightings.
+    // Reset all weightings.
     for (unsigned int i = 0; i < weightings.size(); ++i)
     {
         grid.setTileColor(i, _color);
@@ -181,9 +182,10 @@ void Heatmap::paintWithModifier(const int _tile_index, const int _radius,
 }
 
 
-/* Decays the entire heatmap based on its decay rate.
- * Also updates the heatmap's total_weight.
- */
+/*
+Decays the entire heatmap based on its decay rate.
+Also updates the heatmap's total_weight.
+*/
 void Heatmap::decay()
 {
     total_weight = 0;

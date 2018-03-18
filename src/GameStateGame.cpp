@@ -148,12 +148,14 @@ void GameStateGame::onGameOver()
 {
     game_over = true;
 
+    // Show game results.
     float session_duration = game->getTimeSurvived();
     int final_score = game->getScore();
 
     duration_display.setString(JHelper::timeToStr(session_duration));
     score_display.setString(std::to_string(final_score));
 
+    // Re-export level if new high score.
     auto* ld = gameData().selected_level_data;
     if (final_score > ld->highest_score)
     {

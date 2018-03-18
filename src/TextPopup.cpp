@@ -46,6 +46,7 @@ void TextPopup::tick()
 
 void TextPopup::draw(sf::RenderWindow& _window)
 {
+    // Flicker the text.
     if (visible)
     {
         _window.draw(text);
