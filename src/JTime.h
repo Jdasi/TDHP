@@ -2,9 +2,23 @@
 
 #include "SimpleTimer.h"
 
-class JTime
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Static class for easy access to information related to program time.
+
+- Scaled time relates to simulated game time.
+- Unscaled time relates to real world time.
+
+JTime's tick function should be called only once during a game loop iteration.
+
+---------------------------------------------------------*/
+class JTime final
 {
 public:
+    JTime() = delete;
+
     static float getUnscaledDeltaTime();
     static float getUnscaledTime();
     

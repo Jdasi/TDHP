@@ -10,6 +10,13 @@
 #include "LevelData.h"
 #include "GUIButton.h"
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+The state of the program that oversees level selection.
+
+---------------------------------------------------------*/
 class GameStateSelection final : public GameState
 {
 public:

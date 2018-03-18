@@ -10,7 +10,15 @@ namespace sf
 
 struct GameData;
 
-class BrainStateVisualiser
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which visualises the DirectorBrain's states and the transitions
+between them.
+
+---------------------------------------------------------*/
+class BrainStateVisualiser final
 {
 public:
     BrainStateVisualiser(GameData& _gd);
@@ -19,7 +27,7 @@ public:
     void tick();
     void draw(sf::RenderWindow& _window);
 
-    void stateChanged(int _state_key);
+    void stateChanged(const int _state_key);
 
 private:
     struct AnimSettings

@@ -57,10 +57,11 @@ void Scheduler::cancelInvokes()
 }
 
 
-/* Iterates through the list of scheduled tasks and executes them if their
- * scheduled time is exceeded. An executed task is then removed from the list,
- * but the iterator keeps going to the end of the list.
- */
+/*
+Iterates through the list of scheduled tasks and executes them if their
+scheduled time is exceeded. An executed task is then removed from the list,
+but the iterator keeps going to the end of the list.
+*/
 void Scheduler::executeScheduledTasks()
 {
     auto itr = scheduled_tasks.begin();

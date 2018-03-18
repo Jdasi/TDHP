@@ -9,7 +9,25 @@
 class HeatmapManager;
 class Level;
 
-class NavManager
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+A* Pathfinding class.
+
+Does not store a reference to the level, instead only uses it
+to acquire the level's dimensions.
+
+Two HeuristicTypes provide different constraints and resulting mechanics:
+    - MANHATTAN considers only 4 neighbours.
+    - CHEBYSHEV considers all 8 neighbours and allows
+      for diagonal movement (experimental).
+
+The resulting NavPath from findPath must be converted to a
+LevelPath for use with the visualised game level.
+
+---------------------------------------------------------*/
+class NavManager final
 {
 public:
     enum HeuristicType

@@ -9,6 +9,16 @@
 
 class Enemy;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which handles the enemy targeting logic of a Tower.
+
+A Tower can also supply its targeting preferences to have the system
+be more biased in its selection of units.
+
+---------------------------------------------------------*/
 class TargetingSystem
 {
 public:

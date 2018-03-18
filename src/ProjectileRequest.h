@@ -5,6 +5,14 @@
 struct TowerType;
 class Enemy;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Struct containing information about a request for a Projectile
+from a Tower.
+
+---------------------------------------------------------*/
 struct ProjectileRequest
 {
     ProjectileRequest()

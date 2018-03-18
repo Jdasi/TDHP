@@ -2,6 +2,14 @@
 
 #include "BrainState.h"
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+The state that represents the DirectorBrain's capabilities
+when it is exhausted.
+
+---------------------------------------------------------*/
 class BrainStateExhausted final : public BrainState
 {
 public:

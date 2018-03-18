@@ -3,6 +3,13 @@
 #include "TDSprite.h"
 #include "Projectile.h"
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+A Projectile that travels at a fixed speed along the screen.
+
+---------------------------------------------------------*/
 class TowerBullet final : public Projectile
 {
 public:

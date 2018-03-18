@@ -12,6 +12,16 @@ namespace sf
     class Color;
 }
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Base class for all Projectiles that a Tower can fire.
+Derived classes must supply a visualisation.
+
+The class automatically hides its visualisation when it has expired.
+
+---------------------------------------------------------*/
 class Projectile
 {
 public:

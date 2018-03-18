@@ -6,6 +6,15 @@
 #include "Game.h"
 #include "GUIButton.h"
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+The state of the program that oversees the Tower Defence game.
+
+Observes the Game to determine when to show the results screen.
+
+---------------------------------------------------------*/
 class GameStateGame final : public GameState, public GameListener
 {
 public:

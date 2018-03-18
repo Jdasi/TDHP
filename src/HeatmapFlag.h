@@ -1,5 +1,12 @@
 #pragma once
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Bitflags to help distinguish different heatmaps.
+
+---------------------------------------------------------*/
 enum HeatmapFlag
 {
     // A heatmap should never be assigned the NONE flag.

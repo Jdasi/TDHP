@@ -5,10 +5,21 @@
 
 #include "JTime.h"
 
-/* StateHandler uses a self-referring template pattern.
- * This allows for the StateHandler to stay generic, meaning it can be reused
- * in different areas of the program.
- */
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+A self-referring templated state system.
+
+The first type represents the type of State to be handled.
+The second type represents the type of StateHandler that this class is.
+
+States must be registered with this class before they can used.
+Thereafter, registered states can be queued for activation.
+
+The queued state will be activated during the next tick cycle.
+
+---------------------------------------------------------*/
 template <typename StateType, typename StateHandlerType>
 class StateHandler
 {
@@ -24,7 +35,7 @@ public:
 
     virtual ~StateHandler() = default;
 
-    void registerState(int _key, std::unique_ptr<StateType> _state)
+    void registerState(const int _key, std::unique_ptr<StateType> _state)
     {
         _state->setHandler(this);
         states.emplace_back(_key, std::move(_state));
@@ -36,7 +47,7 @@ public:
         });
     }
 
-    void queueState(int _key)
+    void queueState(const int _key)
     {
         auto result = std::find_if(states.begin(), states.end(),
             [_key](const State& _elem)

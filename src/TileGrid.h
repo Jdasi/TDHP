@@ -15,7 +15,14 @@ namespace sf
 
 class Level;
 
-class TileGrid
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class to visualise a 2D grid of square tiles.
+
+---------------------------------------------------------*/
+class TileGrid final
 {
 public:
     TileGrid(const Level& _level, const sf::Color& _initial_color);

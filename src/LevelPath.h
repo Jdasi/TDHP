@@ -8,7 +8,16 @@
 #include "Level.h"
 #include "JHelper.h"
 
-class LevelPath
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which represents a navigation path that corresponds with
+the positions of a level's tiles, allowing for other visualisations
+to appear correctly within the level.
+
+---------------------------------------------------------*/
+class LevelPath final
 {
 public:
     LevelPath();

@@ -2,6 +2,13 @@
 
 #include <SFML/System/Vector2.hpp>
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Functions related to 2D mathematics.
+
+---------------------------------------------------------*/
 namespace JMath
 {
     const float PI = 3.14159265f;

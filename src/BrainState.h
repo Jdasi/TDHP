@@ -10,6 +10,14 @@ namespace sf
 struct BrainData;
 class BrainStateHandler;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Specialised version of the State class, for use with splitting
+up the different states of the DirectorBrain.
+
+---------------------------------------------------------*/
 class BrainState : public State<BrainState, BrainStateHandler>
 {
 public:

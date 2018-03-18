@@ -8,10 +8,17 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 
-/* Class which maintains lists of all the assets used by the game.
- * Assets are created when first requested, thereafter a pointer to
- * the asset is returned, to avoid unecessary re-loading.
- */
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which maintains a list of all font, texture and sound assets
+used by the game.
+
+Assets are created when first requested. Thereafter, a pointer to the asset
+is returned to avoid unecessary re-loading.
+
+---------------------------------------------------------*/
 class AssetManager final
 {
     using Font = std::pair<std::string, std::unique_ptr<sf::Font>>;

@@ -9,6 +9,22 @@ namespace sf
 
 class Level;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Tower Defence sprite class. A base class for all entities
+to use that require a size-appropriate visualisation
+for the current loaded level.
+
+The static init() function should be called once during
+game initialisation to allow for all TDSprites to correctly
+size themselves.
+
+The enclosed virtual functions act as events for derived classes,
+which hides base behaviour and allows it to be extended.
+
+---------------------------------------------------------*/
 class TDSprite
 {
 public:

@@ -24,11 +24,21 @@ class HeatmapManager;
 class Level;
 struct GameData;
 
-class EnemyDirector
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Encapsulates all the data and logic related to the adversarial
+AI force which is trying to reach the player base as part of
+the Tower Defence game.
+
+---------------------------------------------------------*/
+class EnemyDirector final
 {
 public:
     EnemyDirector(GameData& _game_data, NavManager& _nav_manager,
         HeatmapManager& _heatmap_manager, Level& _level);
+
     ~EnemyDirector() = default;
 
     void tick();

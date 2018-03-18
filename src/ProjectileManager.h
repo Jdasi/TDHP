@@ -20,11 +20,23 @@ class EnemyDirector;
 class Level;
 struct GameData;
 
-class ProjectileManager : public IProjectileManager
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class concerned with the Projectiles that the TowerManager and its
+member systems can use to shoot at enemy units.
+
+Derives the IProjectileManager interface to expose limited
+usage information to Towers.
+
+---------------------------------------------------------*/
+class ProjectileManager final : public IProjectileManager
 {
 public:
     ProjectileManager(GameData& _game_data, HeatmapManager& _heatmap_manager,
         EnemyDirector& _enemy_director, Level& _level);
+
     ~ProjectileManager() = default;
 
     void tick();

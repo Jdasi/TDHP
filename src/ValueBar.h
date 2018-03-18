@@ -8,7 +8,15 @@ namespace sf
     class RenderWindow;
 }
 
-class ValueBar
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class to represent a UI horizontal sliding bar element.
+The bar visualisation is automatically center aligned.
+
+---------------------------------------------------------*/
+class ValueBar final
 {
 public:
     ValueBar();

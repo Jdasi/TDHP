@@ -9,6 +9,13 @@ namespace sf
     class RenderWindow;
 }
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+A Projectile that visualises a line between a start and end point.
+
+---------------------------------------------------------*/
 class TowerLaser final : public Projectile
 {
 public:

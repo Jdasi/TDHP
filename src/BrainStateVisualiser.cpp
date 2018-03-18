@@ -36,7 +36,7 @@ void BrainStateVisualiser::draw(sf::RenderWindow& _window)
 }
 
 
-void BrainStateVisualiser::stateChanged(int _state_key)
+void BrainStateVisualiser::stateChanged(const int _state_key)
 {
     switch (_state_key)
     {

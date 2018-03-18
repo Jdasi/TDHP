@@ -2,7 +2,15 @@
 
 #include <string>
 
-struct ProjectileStats
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Struct which contains information about the type of projectile
+that a Tower fires.
+
+---------------------------------------------------------*/
+struct ProjectileStats final
 {
     ProjectileStats()
         : slug()

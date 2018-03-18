@@ -10,6 +10,14 @@ namespace sf
 struct GameData;
 class GameStateHandler;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Specialised version of the State class, for use with splitting
+up the main parts of the game.
+
+---------------------------------------------------------*/
 class GameState : public State<GameState, GameStateHandler>
 {
 public:

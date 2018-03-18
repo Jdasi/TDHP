@@ -2,6 +2,17 @@
 
 struct TowerType;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Base class for any entity that can be spawned,
+damaged, killed, and respawned.
+
+The enclosed virtual functions act as events for derived classes,
+which hides base behaviour and allows it to be extended.
+
+---------------------------------------------------------*/
 class Killable
 {
 public:

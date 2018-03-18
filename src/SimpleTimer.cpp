@@ -13,6 +13,7 @@ void SimpleTimer::reset()
 }
 
 
+// Returns the difference in time since the last reset. Does not reset the timer.
 float SimpleTimer::getTimeDifference() const
 {
     auto now = std::chrono::system_clock::now();

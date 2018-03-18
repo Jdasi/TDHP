@@ -22,12 +22,21 @@ class Level;
 struct Waypoint;
 struct GameData;
 
-class TowerManager
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Encapsulates all the data and logic related to the defensive structures
+which the player can build as part of the Tower Defence game.
+
+---------------------------------------------------------*/
+class TowerManager final
 {
 public:
     TowerManager(GameData& _game_data, NavManager& _nav_manager,
         HeatmapManager& _heatmap_manager, EnemyDirector& _enemy_director,
         Level& _level);
+
     ~TowerManager() = default;
 
     void tick();

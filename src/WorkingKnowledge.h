@@ -1,5 +1,12 @@
 #pragma once
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Struct which represents information about the current state of the world.
+
+---------------------------------------------------------*/
 struct WorkingKnowledge
 {
     float energy                = 0;

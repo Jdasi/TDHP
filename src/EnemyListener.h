@@ -3,6 +3,16 @@
 class Enemy;
 struct TowerType;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Interface to be extended by classes that wish to observe
+Enemy events.
+
+Subjects must extend: ListenerSubject<EnemyListener>
+
+---------------------------------------------------------*/
 class EnemyListener
 {
 public:

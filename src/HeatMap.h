@@ -15,7 +15,15 @@ namespace sf
 
 class Level;
 
-class Heatmap
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which stores and visualises information in a 2D grid.
+The heatmap values can be set to automatically degrade over time.
+
+---------------------------------------------------------*/
+class Heatmap final
 {
 public:
     Heatmap(const Level& _level, const HeatmapFlag& _flag,

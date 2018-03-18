@@ -11,6 +11,13 @@
 class AssetManager;
 struct BrainStatistics;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Functions related to file input / output streams.
+
+---------------------------------------------------------*/
 namespace FileIO
 {
     std::vector<std::string> enumerateLevelNames();

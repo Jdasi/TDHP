@@ -14,6 +14,14 @@
 class Enemy;
 struct Waypoint;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which represents a buildable defensive structure capable
+of engaging nearby enemy units.
+
+---------------------------------------------------------*/
 class Tower final : public TDSprite, public Killable
 {
 public:

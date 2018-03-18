@@ -13,7 +13,14 @@ namespace sf
 
 class Level;
 
-class HeatmapManager
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which oversees the creation and interaction of heatmaps.
+
+---------------------------------------------------------*/
+class HeatmapManager final
 {
 public:
     HeatmapManager(Level& _level);

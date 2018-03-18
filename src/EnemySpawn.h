@@ -15,17 +15,29 @@ class NavManager;
 class EnemyManager;
 struct EnemyType;
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which contains information about the location of a spawn position
+within a level, and the systems to allow for enemy spawning.
+
+An EnemySpawn automatically refreshes its navigation path
+to the enemy destination at a regular interval.
+
+---------------------------------------------------------*/
 class EnemySpawn
 {
 public:
     enum SpawnPathType
     {
-        INFLUENCED,
-        PURE
+        INFLUENCED, // Considers heatmap data.
+        PURE        // Ignores heatmap data.
     };
 
     EnemySpawn(NavManager& _nav_manager, Level& _level, const int _tile_index,
         Waypoint& _enemy_destination, EnemyManager& _enemy_manager);
+
     ~EnemySpawn() = default;
 
     void tick();

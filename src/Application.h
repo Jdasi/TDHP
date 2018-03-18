@@ -15,7 +15,20 @@
 #include "GameState.h"
 #include "Scheduler.h"
 
-class Application
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Main point of entry into the program.
+
+Uses a state system to control the flow of the program
+between different game states.
+
+Core game systems are loaded into a GameData struct for use in
+different areas of the program.
+
+---------------------------------------------------------*/
+class Application final
 {
 public:
     Application();

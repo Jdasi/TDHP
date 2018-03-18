@@ -10,7 +10,14 @@ namespace sf
     class Texture;
 }
 
-struct TowerType
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Struct which contains information about the configuration of a Tower.
+
+---------------------------------------------------------*/
+struct TowerType final
 {
     TowerType()
         : slug()

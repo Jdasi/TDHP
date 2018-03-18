@@ -16,7 +16,18 @@
 
 struct GameData;
 
-class Game : public ListenerSubject<GameListener>
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class containing all gameplay systems which create the
+Tower Defence game.
+
+Additional debug functionality has been implemented to allow for
+runtime level editing and heatmap interaction.
+
+---------------------------------------------------------*/
+class Game final : public ListenerSubject<GameListener>
 {
 public:
     Game(GameData& _gd);
@@ -32,7 +43,7 @@ public:
     void exportLevelAsNew() const;
 
 private:
-    enum ContextType : int
+    enum ContextType
     {
         NAV,
         GAME,

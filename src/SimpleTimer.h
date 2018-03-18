@@ -2,10 +2,15 @@
 
 #include <chrono>
 
-/* Basic "stopwatch" class to compare the time difference in seconds between when
- * the Timer was reset and when getTimeDifference was called.
- */
-class SimpleTimer
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Basic "stopwatch" class to compare the time difference in seconds between
+when the Timer was reset and when getTimeDifference() was called.
+
+---------------------------------------------------------*/
+class SimpleTimer final
 {
 public:
     SimpleTimer();

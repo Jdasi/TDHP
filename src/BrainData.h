@@ -4,7 +4,15 @@ struct WorkingKnowledge;
 class BrainActionManager;
 class BrainStateVisualiser;
 
-struct BrainData
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Struct to hold references to core DirectorBrain systems used in 
+the different brain states.
+
+---------------------------------------------------------*/
+struct BrainData final
 {
     BrainData(WorkingKnowledge& _knowledge, BrainActionManager& _action_manager,
         BrainStateVisualiser& _visualiser)

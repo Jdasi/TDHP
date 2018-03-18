@@ -12,6 +12,13 @@
 #include "ValueBar.h"
 #include "Scheduler.h"
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which represents a mobile unit that can navigate a level.
+
+---------------------------------------------------------*/
 class Enemy final : public TDSprite, public Killable,
     public ListenerSubject<EnemyListener>
 {

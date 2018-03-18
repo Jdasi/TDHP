@@ -2,6 +2,18 @@
 
 #include <functional>
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Struct containing information related to a task to be scheduled
+and later executed by a Scheduler.
+
+Providing a name for the task is optional, but doing so allows
+for the task to be cancelled by name if it becomes obsolete
+(E.g. if a repeating task is no longer needed).
+
+---------------------------------------------------------*/
 struct ScheduledTask
 {
     ScheduledTask(const std::function<void()>& _method,

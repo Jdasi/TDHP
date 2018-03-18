@@ -9,6 +9,14 @@ namespace sf
     class RenderWindow;
 }
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Specialised version of the StateHandler class, for use with splitting
+up the main parts of the game.
+
+---------------------------------------------------------*/
 class GameStateHandler final : public StateHandler<GameState, GameStateHandler>
 {
 public:

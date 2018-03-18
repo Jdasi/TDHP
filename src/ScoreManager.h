@@ -17,7 +17,17 @@ namespace sf
 
 struct GameData;
 
-class ScoreManager : public EnemyListener
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class for storing and visualising the player's progress during
+the tower defence game.
+
+Observes Enemies to record player score and generate text popups.
+
+---------------------------------------------------------*/
+class ScoreManager final : public EnemyListener
 {
 public:
     ScoreManager(GameData& _gd, Level& _level);

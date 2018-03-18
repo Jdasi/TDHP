@@ -4,13 +4,25 @@
 #include "ScheduledTask.h"
 #include "SimpleTimer.h"
 
-/* Class for scheduling tasks that should take place after a specified
- * amount of time.
- *
- * The Scheduler's update method must be called in order to ensure
- * prompt activation of scheduled tasks.
- */
-class Scheduler
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class for queueing tasks to be executed at a later time.
+
+The Scheduler's update method must be called to ensure the
+scheduled tasks are executed.
+
+This class uses the JTime static class to determine the activation
+timing of scheduled tasks.
+    - TimeUsageType::SCALED represents simulated game time.
+    - TimeUsageType::UNSCALED represents real world time.
+
+Scheduled tasks can be given names, allowing them to be cancelled
+individually as they become obsolete.
+
+---------------------------------------------------------*/
+class Scheduler final
 {
 public:
     enum TimeUsageType

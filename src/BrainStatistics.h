@@ -2,7 +2,14 @@
 
 #include <string>
 
-struct BrainStatistics
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Struct to record statistics about BrainAction usage.
+
+---------------------------------------------------------*/
+struct BrainStatistics final
 {
     std::string level_name      = "";
     float session_duration      = 0;

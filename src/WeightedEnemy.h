@@ -2,7 +2,17 @@
 
 class Enemy;
 
-struct WeightedEnemy
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Struct which contains a pointer to an Enemy and a float for
+weighting the attractiveness of that Enemy.
+
+Provides a sorting operator for containers.
+
+---------------------------------------------------------*/
+struct WeightedEnemy final
 {
     WeightedEnemy(Enemy* _enemy)
         : enemy(_enemy)

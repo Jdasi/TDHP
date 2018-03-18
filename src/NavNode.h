@@ -4,11 +4,13 @@
 
 #include <SFML/System/Vector2.hpp>
 
-struct CompareFCost
-{
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
 
-};
 
+
+---------------------------------------------------------*/
 class NavNode
 {
 public:

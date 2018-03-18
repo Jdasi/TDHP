@@ -1,5 +1,13 @@
 #pragma once
 
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Enum identifiers of all the available action types, and precondition
+types that actions can use to focus their application.
+
+---------------------------------------------------------*/
 namespace Brain
 {
 

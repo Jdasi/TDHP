@@ -10,7 +10,17 @@
 
 class AssetManager;
 
-class EnemyManager : public EnemyListener
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class concerned with the enemy units that the EnemyDirector
+and its member systems can command.
+
+Observes Enemies to record the correct number of living units.
+
+---------------------------------------------------------*/
+class EnemyManager final : public EnemyListener
 {
 public:
     EnemyManager(AssetManager& _asset_manager, Waypoint& _enemy_destination);

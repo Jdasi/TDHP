@@ -19,7 +19,23 @@ class Level;
 struct EnemyType;
 struct GameData;
 
-class DirectorBrain : public EnemyListener
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which represents the decision making system of the EnemyDirector.
+
+Houses a state system which offers different capabilities of the
+DirectorBrain, based on its knowledge of the game world.
+
+Action usage statistics are automatically exported when this class
+falls out of scope.
+    - See the "brain_statistics.txt" file in the appropriate build folder.
+
+Observes Enemies to record heatmap data and regenerate energy.
+
+---------------------------------------------------------*/
+class DirectorBrain final : public EnemyListener
 {
 public:
     DirectorBrain(GameData& _gd, HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,

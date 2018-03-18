@@ -9,7 +9,25 @@ namespace sf
     class Event;
 }
 
-class InputHandler
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Processes SFML events to record differences in key and mouse
+states during the core game loop.
+
+Typical usage:
+
+if (input.getKeyDown(sf::Keyboard::Key::A))
+{
+    // Do something.
+}
+
+The lateTick() function should be called at the end of
+the game loop to correctly store previous input states.
+
+---------------------------------------------------------*/
+class InputHandler final
 {
 public:
     InputHandler(sf::RenderWindow* _window);

@@ -15,12 +15,24 @@ struct BrainStatistics;
 class EnemyManager;
 class HeatmapManager;
 
-class BrainActionManager
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which registers all of the actions available to the DirectorBrain,
+as well as the Preconditions to test against.
+
+The DirectorBrain states can then utilise this class to process their own
+sets of actions, which provide different capabilities.
+
+---------------------------------------------------------*/
+class BrainActionManager final
 {
 public:
     BrainActionManager(GameData& _gd, WorkingKnowledge& _knowledge, BrainStatistics& _statistics,
         HeatmapManager& _heatmap_manager, EnemyManager& _enemy_manager,
         std::vector<std::unique_ptr<EnemySpawn>>& _enemy_spawns);
+
     ~BrainActionManager() = default;
 
     void processActionSet(const int _state_key);

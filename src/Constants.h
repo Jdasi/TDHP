@@ -5,10 +5,14 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 
-/*! \file Constants.h
-@brief   Constants that are used throughout the game. 
-@details Add any new constants to this file. 
-*/
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Constants that are used throughout the game.
+Add any new constants to this file.
+
+---------------------------------------------------------*/
 
 // ======================================================================================
 // WINDOW SETTINGS

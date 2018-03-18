@@ -12,7 +12,17 @@ namespace sf
 
 struct GameData;
 
-class PlayerHealth : public EnemyListener
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which contains logic and a visualisation for the health of
+the player's base.
+
+Observes Enemies to determine when the base should take damage.
+
+---------------------------------------------------------*/
+class PlayerHealth final : public EnemyListener
 {
 public:
     PlayerHealth(GameData& _gd);

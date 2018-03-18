@@ -12,7 +12,17 @@ namespace sf
 
 struct GameData;
 
-class GUIButton
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class to represent an interactive UI button element.
+Mouse detection is handled internally via the tick() function.
+
+The button graphic is automatically center aligned.
+
+---------------------------------------------------------*/
+class GUIButton final
 {
 public:
     GUIButton();

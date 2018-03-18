@@ -12,7 +12,15 @@ namespace sf
     class Texture;
 }
 
-class Level
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class which contains information about the configuration of a
+game level, and the systems to visualise it on screen.
+
+---------------------------------------------------------*/
+class Level final
 {
 public:
     enum LevelTileType

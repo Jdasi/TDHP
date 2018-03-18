@@ -7,7 +7,18 @@ namespace sf
     class RenderWindow;
 }
 
-class TextPopup
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class to represent a flickering text visualisation.
+Owners of this class are responsible for cleanup when an
+instance has expired.
+
+The text visualisation is automatically center aligned.
+
+---------------------------------------------------------*/
+class TextPopup final
 {
 public:
     TextPopup();

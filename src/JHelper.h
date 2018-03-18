@@ -7,9 +7,14 @@
 
 class Level;
 
-/* Various functions that don't belong in one specific place and are useful
- * in many areas.
- */
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Functions that don't belong in one specific place and are useful
+for many aspects of the program.
+
+---------------------------------------------------------*/
 namespace JHelper
 {
     int calculateIndex(const unsigned int _x, const unsigned int _y, const unsigned int _size_x);

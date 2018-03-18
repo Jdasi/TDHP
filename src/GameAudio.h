@@ -14,9 +14,14 @@ namespace sf
 
 class AssetManager;
 
-/* Class for playing game sounds.
- * GameAudio uses AssetManager to populate its list of Sounds.
- */
+/*-------------------------------------------------------
+:: Author: Joe da Silva
+:: Date: 18/03/2018
+
+Class for playing game sounds.
+GameAudio uses AssetManager to populate its list of sounds.
+
+---------------------------------------------------------*/
 class GameAudio final
 {
 using Sound = std::pair<std::string, std::unique_ptr<sf::Sound>>;
