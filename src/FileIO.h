@@ -17,6 +17,9 @@ struct BrainStatistics;
 
 Functions related to file input / output streams.
 
+The external jsoncons library is used in some functions to convert
+data to and from the JSON file format.
+
 ---------------------------------------------------------*/
 namespace FileIO
 {
