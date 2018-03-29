@@ -5,7 +5,6 @@
 #include "JHelper.h"
 #include "JMath.h"
 #include "Level.h"
-#include "Constants.h"
 
 
 NavManager::NavManager(HeatmapManager& _heatmap_manager, const Level& _level)
@@ -146,8 +145,7 @@ int NavManager::calculateHeuristic(const sf::Vector2i& _a, const sf::Vector2i& _
         case CHEBYSHEV: heuristic = JHelper::chebyshevDistance(_a, _b); break;
     }
 
-    // Modifier makes distance heuristic competitive against heatmap values (0-255).
-    return heuristic * HEURISTIC_MODIFIER;
+    return heuristic;
 }
 
 
@@ -186,9 +184,9 @@ void NavManager::processOpenList(const sf::Vector2i& _goal, const HeatmapFlag& _
             if ((!neighbour->isWalkable() || closed_contains_neighbour) && neighbour != goal_node)
                 continue;
 
-            // Consider distance from start AND heatmap weights.
+            // Consider neighbour distance AND heatmap weights.
             int heuristic = calculateHeuristic(curr->getCoords(), neighbour->getCoords());
-            int heatmap_weight = heatmap_manager.getWeight(curr->getIndex(), _heatmap_flags);
+            int heatmap_weight = heatmap_manager.getWeight(neighbour->getIndex(), _heatmap_flags);
 
             int tentative_g = curr->getGCost() + heuristic + heatmap_weight;
 
