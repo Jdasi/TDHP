@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 
 #include "GameState.h"
@@ -51,7 +51,7 @@ private:
     sf::Text title_display;
 
     // Level selection stuff.
-    sf::Sprite level_snapshot;
+    sf::RectangleShape level_snapshot;
     sf::Text level_pages_display;
     sf::Text level_name_display;
     sf::Text level_description_display;

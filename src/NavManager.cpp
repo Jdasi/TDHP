@@ -186,7 +186,7 @@ void NavManager::processOpenList(const sf::Vector2i& _goal, const HeatmapFlag& _
             if ((!neighbour->isWalkable() || closed_contains_neighbour) && neighbour != goal_node)
                 continue;
 
-            // Calculate G cost of the neighbour.
+            // Consider distance from start AND heatmap weights.
             int heuristic = calculateHeuristic(curr->getCoords(), neighbour->getCoords());
             int heatmap_weight = heatmap_manager.getWeight(curr->getIndex(), _heatmap_flags);
 

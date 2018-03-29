@@ -102,7 +102,8 @@ void GameStateSelection::initObjects()
 void GameStateSelection::initLevelSnapshot()
 {
     level_snapshot.setPosition(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.33f);
-    level_snapshot.setScale(0.5f, 0.5f);
+    level_snapshot.setSize(PANE_SIZE * 0.5f);
+    level_snapshot.setOutlineThickness(3);
     JHelper::centerSFOrigin(level_snapshot);
 }
 
@@ -280,9 +281,9 @@ void GameStateSelection::updateSelectionDisplay()
     JHelper::centerSFOrigin(level_pages_display);
 
     auto* option = level_options[selected_index].get();
-    auto* tex = gameData().assets.loadTexture("Levels/" + option->name + ".png");
+    auto* tex = gameData().assets.loadTexture("Levels/" + option->name + ".jpg");
 
-    level_snapshot.setTexture(*tex);
+    level_snapshot.setTexture(tex);
 
     level_name_display.setString(option->name);
     JHelper::centerSFOrigin(level_name_display);
