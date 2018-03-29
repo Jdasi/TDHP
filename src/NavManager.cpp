@@ -223,20 +223,27 @@ NavPath NavManager::retracePath(NavNode* _start_node, NavNode* _goal_node)
 
     while (curr != _start_node)
     {
-        NavNode* next = curr->getParent();
-        bool curr_is_corner = false;
-
-        if (next != nullptr)
+        if (heuristic_type == HeuristicType::MANHATTAN)
         {
-            sf::Vector2i next_coords = next->getCoords();
-            curr_is_corner = (next_coords.x != last_coords.x && next_coords.y != last_coords.y);
-        }
+            NavNode* next = curr->getParent();
+            bool curr_is_corner = false;
 
-        // Minimise the amount of straight-line nodes.
-        if (curr == _goal_node || curr_is_corner)
+            if (next != nullptr)
+            {
+                sf::Vector2i next_coords = next->getCoords();
+                curr_is_corner = (next_coords.x != last_coords.x && next_coords.y != last_coords.y);
+            }
+
+            // Minimise the amount of straight-line nodes.
+            if (curr == _goal_node || curr_is_corner)
+            {
+                path.indices.push_back(curr->getIndex());
+                last_coords = curr->getCoords();
+            }
+        }
+        else
         {
             path.indices.push_back(curr->getIndex());
-            last_coords = curr->getCoords();
         }
 
         curr = curr->getParent();
