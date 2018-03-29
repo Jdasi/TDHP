@@ -23,7 +23,7 @@ Two HeuristicTypes provide different constraints and resulting mechanics:
     - CHEBYSHEV considers all 8 neighbours and allows
       for diagonal movement (experimental).
 
-The resulting NavPath from findPath must be converted to a
+The resulting NavPath from findPath() must be converted to a
 LevelPath for use with the visualised game level.
 
 ---------------------------------------------------------*/
@@ -55,6 +55,7 @@ private:
         NavPath& path, NavNode* start_node, NavNode* goal_node,
         std::vector<NavNode*>& open_list, std::vector<NavNode*>& closed_list);
 
+    bool listContainsNode(std::vector<NavNode*>& _list, NavNode* _node) const;
     NavPath retracePath(NavNode* _start_node, NavNode* _goal_node);
 
     std::vector<NavNode> nav_nodes;

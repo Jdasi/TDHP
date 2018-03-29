@@ -146,6 +146,7 @@ int NavManager::calculateHeuristic(const sf::Vector2i& _a, const sf::Vector2i& _
         case CHEBYSHEV: heuristic = JHelper::chebyshevDistance(_a, _b); break;
     }
 
+    // Modifier makes distance heuristic competitive against heatmap values (0-255).
     return heuristic * HEURISTIC_MODIFIER;
 }
 
@@ -181,17 +182,17 @@ void NavManager::processOpenList(const sf::Vector2i& _goal, const HeatmapFlag& _
         auto& neighbours = curr->getNeighbours();
         for (auto* neighbour : neighbours)
         {
-            if (!neighbour->isWalkable() && neighbour != goal_node)
+            bool closed_contains_neighbour = listContainsNode(closed_list, neighbour);
+            if ((!neighbour->isWalkable() || closed_contains_neighbour) && neighbour != goal_node)
                 continue;
 
-            int tentative_g = curr->getGCost() + calculateHeuristic(curr->getCoords(), neighbour->getCoords());
-            tentative_g += heatmap_manager.getWeight(curr->getIndex(), _heatmap_flags);
+            // Calculate G cost of the neighbour.
+            int heuristic = calculateHeuristic(curr->getCoords(), neighbour->getCoords());
+            int heatmap_weight = heatmap_manager.getWeight(curr->getIndex(), _heatmap_flags);
 
-            bool closed_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
-            if (closed_contains_neighbour && tentative_g >= neighbour->getGCost())
-                continue;
+            int tentative_g = curr->getGCost() + heuristic + heatmap_weight;
 
-            bool open_contains_neighbour = std::find(closed_list.begin(), closed_list.end(), neighbour) != closed_list.end();
+            bool open_contains_neighbour = listContainsNode(open_list, neighbour);
             if (!open_contains_neighbour || tentative_g < neighbour->getGCost())
             {
                 neighbour->setGCost(tentative_g);
@@ -199,10 +200,18 @@ void NavManager::processOpenList(const sf::Vector2i& _goal, const HeatmapFlag& _
                 neighbour->setParent(curr);
 
                 if (!open_contains_neighbour)
+                {
                     open_list.push_back(neighbour);
+                }
             }
         }
     }
+}
+
+
+bool NavManager::listContainsNode(std::vector<NavNode*>& _list, NavNode* _node) const
+{
+    return std::find(_list.begin(), _list.end(), _node) != _list.end();
 }
 
 
