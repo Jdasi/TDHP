@@ -8,6 +8,9 @@
 #include "JMath.h"
 #include "Constants.h"
 #include "FileIO.h"
+#include "GameData.h"
+#include "InputHandler.h"
+#include "GDebugFlags.h"
 
 #include "BrainStateNormal.h"
 #include "BrainStateAngry.h"
@@ -45,6 +48,12 @@ void DirectorBrain::tick()
 
     // Always assume the director is failing to attack the player's base.
     knowledge.failed_attack_timer += JTime::getDeltaTime();
+
+    // Debug angry state activation.
+    if (GDebugFlags::draw_debug_controls && gd.input.getKeyDown(sf::Keyboard::D))
+    {
+        knowledge.failed_attack_timer = TIME_BEFORE_ANGRY;
+    }
 }
 
 
