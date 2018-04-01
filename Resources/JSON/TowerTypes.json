@@ -2,12 +2,12 @@
 	"LaserTower": 
 	{
 		"sprite": "laser_tower.png",
-        "engage_radius": 3.5,
-        "shot_delay": 1,
+        "engage_radius": 3.2,
+        "shot_delay": 0.75,
         "projectile_stats":
         {
             "slug": "laser",
-            "damage": 4
+            "damage": 3
         },
         "targeting_prefs":
         {
@@ -21,13 +21,13 @@
     "BulletTower": 
 	{
 		"sprite": "bullet_tower.png",
-        "engage_radius": 5,
-        "shot_delay": 0.75,
+        "engage_radius": 6,
+        "shot_delay": 1,
         "projectile_stats":
         {
             "slug": "bullet",
-            "damage": 6,
-            "speed": 150
+            "damage": 8,
+            "speed": 160
         },
         "targeting_prefs":
         {

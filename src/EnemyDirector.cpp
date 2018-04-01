@@ -216,13 +216,13 @@ void EnemyDirector::initRegularSpawning()
         if (enemy_spawns.empty())
             return;
 
-        EnemyType* random_type = enemy_manager.getRandomType();
+        EnemyType* regular_type = enemy_manager.getBasicType();
         EnemySpawn* spawn = enemy_spawns[rand() % enemy_spawns.size()].get();
 
         if (spawn->enemiesInQueue())
             return;
 
-        spawn->spawnEnemy(random_type);
+        spawn->spawnEnemy(regular_type);
     }, DIRECTOR_SPAWN_DELAY, DIRECTOR_SPAWN_DELAY);
 }
 

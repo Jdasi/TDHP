@@ -85,13 +85,13 @@ void BrainActionManager::initPreconditions()
     precondition_bank.emplace
     (
         Brain::PreconditionType::BASIC_ENEMIES_OVER_THRESHOLD,
-        [](WorkingKnowledge& _wk) { return _wk.basic_enemies >= 3; }
+        [](WorkingKnowledge& _wk) { return _wk.basic_enemies >= 5; }
     );
 
     precondition_bank.emplace
     (
         Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL,
-        [](WorkingKnowledge& _wk) { return _wk.proximity_to_goal <= 7; }
+        [](WorkingKnowledge& _wk) { return _wk.proximity_to_goal <= 9; }
     );
 
     precondition_bank.emplace
@@ -247,7 +247,7 @@ void BrainActionManager::initActions()
             Brain::PreconditionType::BASIC_ENEMIES_GREATER,
             Brain::PreconditionType::LASER_INTENSITY_OVER_THRESHOLD,
             Brain::PreconditionType::LASER_INTENSITY_GREATER,
-            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL,
         }
     );
 
@@ -266,6 +266,7 @@ void BrainActionManager::initActions()
             Brain::PreconditionType::FAST_ENEMIES_GREATER,
             Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD,
             Brain::PreconditionType::BULLET_INTENSITY_GREATER,
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL,
         }
     );
 
@@ -284,6 +285,7 @@ void BrainActionManager::initActions()
             Brain::PreconditionType::STRONG_ENEMIES_GREATER,
             Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD,
             Brain::PreconditionType::BULLET_INTENSITY_GREATER,
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL,
         }
     );
 
@@ -302,6 +304,7 @@ void BrainActionManager::initActions()
             Brain::PreconditionType::BASIC_ENEMIES_GREATER,
             Brain::PreconditionType::BULLET_INTENSITY_OVER_THRESHOLD,
             Brain::PreconditionType::BULLET_INTENSITY_GREATER,
+            Brain::PreconditionType::ENEMY_CLOSE_TO_GOAL,
         }
     );
 

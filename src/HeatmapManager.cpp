@@ -3,6 +3,7 @@
 #include "HeatmapManager.h"
 #include "JHelper.h"
 #include "Level.h"
+#include "Constants.h"
 
 
 HeatmapManager::HeatmapManager(Level& _level)
@@ -121,9 +122,9 @@ int HeatmapManager::getHighestWeightIndex(const HeatmapFlag& _flags) const
 // Registers all heatmaps to be used by the game.
 void HeatmapManager::initHeatmaps()
 {
-    createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color(0, 50, 255),  200,  7);
-    createHeatmap(HeatmapFlag::BULLET_DEATHS, sf::Color(255, 50, 0),  200,  5);
-    createHeatmap(HeatmapFlag::SMOKE,         sf::Color::Black,      1200, 10, WeightingType::NEGATIVE);
+    createHeatmap(HeatmapFlag::LASER_DEATHS,  sf::Color(0, 50, 255),  200, LASER_DECAY_RATE);
+    createHeatmap(HeatmapFlag::BULLET_DEATHS, sf::Color(255, 50, 0),  200, BULLET_DECAY_RATE);
+    createHeatmap(HeatmapFlag::SMOKE,         sf::Color::Black,      1200, SMOKE_DECAY_RATE, WeightingType::NEGATIVE);
 
     // Sort heatmaps by their flag.
     std::sort(heatmap_entries.begin(), heatmap_entries.end(),

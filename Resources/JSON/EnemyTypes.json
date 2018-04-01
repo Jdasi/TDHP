@@ -2,7 +2,7 @@
 	"Fast":
 	{
 		"sprite": "enemy_light.png",
-        "speed": 100,
+        "speed": 120,
         "max_health": 3
 	},
     
@@ -10,7 +10,7 @@
 	{
 		"sprite": "enemy_medium.png",
         "speed": 50,
-        "max_health": 7
+        "max_health": 9
 	},
     
     "Strong":
