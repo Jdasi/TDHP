@@ -153,7 +153,10 @@ void Application::processEvents(sf::Window& _window)
     {
         // Close window = exit program.
         if (sf_event.type == sf::Event::Closed)
+        {
             game_data->exit = true;
+            return;
+        }
 
         input_handler->processEvent(sf_event);
     }

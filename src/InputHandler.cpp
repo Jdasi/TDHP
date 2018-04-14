@@ -15,11 +15,17 @@ void InputHandler::processEvent(sf::Event& _event)
     {
         case sf::Event::KeyPressed:
         {
+            if (_event.key.code == sf::Keyboard::Unknown)
+                return;
+
             keys[_event.key.code] = true;
         } break;
 
         case sf::Event::KeyReleased:
         {
+            if (_event.key.code == sf::Keyboard::Unknown)
+                return;
+
             keys[_event.key.code] = false;
         } break;
 
